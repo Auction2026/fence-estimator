@@ -727,7 +727,7 @@ const DEFAULT_COSTS = {
 };
 
 // ─── HELPERS ─────────────────────────────────────────────────────────
-function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#x27;");}
 function lsGet(key,def){try{const v=localStorage.getItem(key);if(!v)return def;const parsed=JSON.parse(v);if(parsed===null||typeof parsed!=="object")return def;if(Array.isArray(def)!==Array.isArray(parsed))return def;return parsed;}catch(e){return def;}}
 function lsSet(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){console.warn("localStorage error",e);}}
 function getCosts(){return lsGet("fd_costs",JSON.parse(JSON.stringify(DEFAULT_COSTS)));}
@@ -1010,9 +1010,10 @@ function generateEstimate(){
   const tensionBars=legs.length*2;
   const tensionBands=numPosts*3;
 
-  // Look up prices (combine cost arrays once for efficient lookups)
+  // Look up prices — build a Map for O(1) access
   const allCostItems=[...costs.materials,...costs.labour,...costs.equipment,...costs.services];
-  function cp(id){const f=allCostItems.find(x=>x.id===id);return f?f.price:0;}
+  const costMap=new Map(allCostItems.map(x=>[x.id,x.price]));
+  function cp(id){return costMap.get(id)||0;}
 
   // Material costs
   let matCost=0;
@@ -1234,8 +1235,9 @@ function renderDrawing(){
     if(numPostsLeg===1){
       drawPost(ctx,x,midY,postH,true);
     } else {
+      const divisor=Math.max(1,numPostsLeg-1);
       for(let p=0;p<numPostsLeg;p++){
-        const px=x+p*(leg.length/(numPostsLeg-1))*scale;
+        const px=x+p*(leg.length/divisor)*scale;
         drawPost(ctx,px,midY,postH,p===0||p===numPostsLeg-1);
       }
     }
