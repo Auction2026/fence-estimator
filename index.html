@@ -1,1131 +1,1458 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fence Depot Estimator - Professional System</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1400px;
-        }
-
-        /* LOGIN SCREEN */
-        .login-screen {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 60px 40px;
-            text-align: center;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .login-screen h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-
-        .login-screen p {
-            color: #666;
-            margin-bottom: 40px;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        .btn-secondary:hover {
-            background: #e0e0e0;
-        }
-
-        /* DASHBOARD SCREEN */
-        .dashboard-screen {
-            display: none;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .dashboard-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .dashboard-title h1 {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-
-        .dashboard-title p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .nav-bar {
-            background: #f8f9fa;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .nav-item {
-            flex: 1;
-            padding: 15px;
-            border-right: 1px solid #e0e0e0;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            min-width: 150px;
-        }
-
-        .nav-item:hover {
-            background: white;
-            color: #667eea;
-        }
-
-        .nav-item.active {
-            background: white;
-            color: #667eea;
-            border-bottom: 3px solid #667eea;
-        }
-
-        .dashboard-content {
-            padding: 30px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-card.blue {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .stat-card.green {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
-        }
-
-        .stat-card.orange {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            opacity: 0.9;
-            margin-bottom: 8px;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .stat-change {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            background: #f8f9fa;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            color: #333;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        tr:hover {
-            background: #f8f9fa;
-        }
-
-        .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status-draft {
-            background: #e2e3e5;
-            color: #383d41;
-        }
-
-        .action-btn {
-            padding: 6px 12px;
-            margin-right: 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .action-edit {
-            background: #667eea;
-            color: white;
-        }
-
-        .action-view {
-            background: #11998e;
-            color: white;
-        }
-
-        .action-delete {
-            background: #f5576c;
-            color: white;
-        }
-
-        /* ESTIMATE WIZARD */
-        .estimate-screen {
-            display: none;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .wizard-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-        }
-
-        .wizard-title {
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: white;
-            border-radius: 10px;
-            width: 20%;
-            transition: width 0.3s;
-        }
-
-        .wizard-content {
-            padding: 40px;
-        }
-
-        .form-section {
-            display: none;
-        }
-
-        .form-section.active {
-            display: block;
-        }
-
-        .form-section h2 {
-            font-size: 22px;
-            margin-bottom: 30px;
-            color: #333;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .form-group-full {
-            grid-column: 1 / -1;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group select {
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .select-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .option-btn {
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-
-        .option-btn:hover {
-            border-color: #667eea;
-            color: #667eea;
-        }
-
-        .option-btn.selected {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: #667eea;
-        }
-
-        .wizard-footer {
-            display: flex;
-            justify-content: space-between;
-            padding: 30px 40px;
-            border-top: 1px solid #e0e0e0;
-            background: #f8f9fa;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        /* ESTIMATE SUMMARY */
-        .summary-card {
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .summary-row.total {
-            border-top: 2px solid #e0e0e0;
-            padding-top: 10px;
-            font-weight: bold;
-            font-size: 16px;
-            color: #667eea;
-        }
-
-        /* PROFIT CARD */
-        .profit-card {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-top: 20px;
-        }
-
-        .profit-value {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .profit-label {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .dashboard-header {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .nav-item {
-                min-width: 100px;
-                font-size: 12px;
-            }
-
-            .wizard-content {
-                padding: 20px;
-            }
-
-            .select-options {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .error {
-            color: #f5576c;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Fence Depot Estimator</title>
+<style>
+:root{--primary:#1a365d;--accent:#e67e22;--success:#27ae60;--danger:#e74c3c;--bg:#f0f4f8;--card:#fff;--border:#dde2ea;--text:#2d3748;--muted:#718096;--radius:8px;--shadow:0 2px 8px rgba(0,0,0,.1);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+
+/* ===LOGIN=== */
+#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a365d 0%,#2c5282 50%,#2b6cb0 100%);}
+.login-box{background:var(--card);border-radius:16px;padding:48px 40px;width:420px;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center;}
+.login-logo{font-size:48px;margin-bottom:8px;}
+.login-box h1{color:var(--primary);font-size:28px;font-weight:700;margin-bottom:4px;}
+.login-box p{color:var(--muted);margin-bottom:32px;}
+.form-group{text-align:left;margin-bottom:16px;}
+.form-group label{display:block;font-weight:600;margin-bottom:6px;color:var(--text);}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;border:2px solid var(--border);border-radius:var(--radius);font-size:14px;transition:border-color .2s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--primary);}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;transition:.2s;}
+.btn-primary{background:var(--primary);color:#fff;width:100%;justify-content:center;padding:13px;}
+.btn-primary:hover{background:#2c5282;}
+.btn-accent{background:var(--accent);color:#fff;}
+.btn-accent:hover{background:#d35400;}
+.btn-success{background:var(--success);color:#fff;}
+.btn-success:hover{background:#229954;}
+.btn-danger{background:var(--danger);color:#fff;}
+.btn-danger:hover{background:#c0392b;}
+.btn-outline{background:#fff;color:var(--primary);border:2px solid var(--primary);}
+.btn-outline:hover{background:var(--primary);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:13px;}
+.btn-link{background:none;color:var(--primary);text-decoration:underline;padding:4px;}
+.demo-btn{margin-top:12px;background:none;border:2px solid rgba(255,255,255,.3);color:rgba(26,54,93,.8);border-radius:var(--radius);padding:10px;width:100%;font-size:13px;cursor:pointer;transition:.2s;}
+.demo-btn:hover{background:rgba(255,255,255,.2);}
+
+/* ===APP LAYOUT=== */
+#appScreen{display:none;min-height:100vh;flex-direction:column;}
+.app-header{background:var(--primary);color:#fff;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.app-header .brand{display:flex;align-items:center;gap:12px;}
+.app-header .brand img{height:36px;}
+.app-header .brand-text h1{font-size:18px;font-weight:700;line-height:1.1;}
+.app-header .brand-text small{font-size:11px;opacity:.7;}
+.header-actions{display:flex;align-items:center;gap:12px;}
+.header-actions span{font-size:12px;opacity:.7;}
+
+/* ===TAB NAV=== */
+.tab-nav{background:var(--card);border-bottom:2px solid var(--border);display:flex;overflow-x:auto;padding:0 16px;}
+.tab-nav button{padding:14px 16px;border:none;background:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:.2s;}
+.tab-nav button:hover{color:var(--primary);}
+.tab-nav button.active{color:var(--primary);border-bottom-color:var(--accent);}
+
+/* ===TAB PANELS=== */
+.tab-panel{display:none;padding:24px;}
+.tab-panel.active{display:block;}
+
+/* ===CARDS=== */
+.card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--border);}
+.card-header h2{font-size:16px;font-weight:700;color:var(--primary);}
+.card-header h3{font-size:15px;font-weight:600;color:var(--primary);}
+
+/* ===GRID=== */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+
+/* ===STAT CARDS=== */
+.stat-card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border-left:4px solid var(--accent);}
+.stat-card h3{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+.stat-card .value{font-size:28px;font-weight:700;color:var(--primary);}
+.stat-card .sub{font-size:12px;color:var(--success);}
+
+/* ===TABLES=== */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);}
+th{background:#f7f9fc;font-weight:600;font-size:12px;text-transform:uppercase;color:var(--muted);}
+tr:hover td{background:#f7f9fc;}
+
+/* ===FORMS=== */
+.form-row{display:grid;gap:16px;margin-bottom:16px;}
+.form-row.cols-2{grid-template-columns:1fr 1fr;}
+.form-row.cols-3{grid-template-columns:1fr 1fr 1fr;}
+.form-row.cols-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+label{display:block;font-weight:600;font-size:13px;margin-bottom:4px;color:var(--text);}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=number],select,textarea{width:100%;padding:9px 12px;border:2px solid var(--border);border-radius:var(--radius);font-size:14px;background:#fff;transition:border-color .2s;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);}
+input[readonly]{background:#f7f9fc;color:var(--muted);}
+.field-hint{font-size:11px;color:var(--muted);margin-top:3px;}
+
+/* ===SECTION HEADERS=== */
+.section-title{background:linear-gradient(90deg,var(--primary),#2c5282);color:#fff;padding:10px 16px;border-radius:var(--radius);font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+
+/* ===LEG BUILDER=== */
+.leg-item{background:#f7f9fc;border:2px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;position:relative;}
+.leg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.leg-title{font-weight:700;color:var(--primary);font-size:14px;}
+.leg-layout{display:flex;align-items:center;gap:8px;margin-top:12px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:10px;font-size:12px;overflow-x:auto;}
+.leg-layout .node{background:var(--primary);color:#fff;padding:3px 8px;border-radius:4px;white-space:nowrap;}
+.leg-layout .span{color:var(--accent);font-weight:600;}
+.leg-layout .arrow{color:var(--muted);}
+
+/* ===BADGES=== */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge-success{background:#d4edda;color:#155724;}
+.badge-warning{background:#fff3cd;color:#856404;}
+.badge-danger{background:#f8d7da;color:#721c24;}
+.badge-info{background:#cce5ff;color:#004085;}
+
+/* ===COST MANAGEMENT=== */
+.cost-category{margin-bottom:24px;}
+.cost-category-header{background:var(--primary);color:#fff;padding:10px 14px;border-radius:var(--radius) var(--radius) 0 0;font-weight:700;font-size:14px;}
+.cost-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--card);}
+.cost-row:last-child{border-bottom:none;border-radius:0 0 var(--radius) var(--radius);}
+.cost-row input{padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-size:13px;}
+
+/* ===ESTIMATE TOTAL=== */
+.estimate-total{background:linear-gradient(135deg,#1a365d,#2c5282);color:#fff;border-radius:var(--radius);padding:24px;}
+.estimate-total h2{font-size:14px;opacity:.8;margin-bottom:8px;}
+.estimate-total .total-amount{font-size:40px;font-weight:700;margin-bottom:4px;}
+.estimate-total .subtotals{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;border-top:1px solid rgba(255,255,255,.2);padding-top:16px;}
+.estimate-total .subtotal-item{text-align:center;}
+.estimate-total .subtotal-item .label{font-size:11px;opacity:.7;}
+.estimate-total .subtotal-item .val{font-size:18px;font-weight:700;}
+
+/* ===CANVAS=== */
+#drawingCanvas{background:#fff;border:2px solid var(--border);border-radius:var(--radius);display:block;width:100%;}
+
+/* ===PRINT=== */
+@media print{
+  .tab-nav,.app-header,.no-print{display:none!important;}
+  .tab-panel{display:block!important;padding:8px;}
+  #appScreen{display:block!important;}
+  body{background:#fff;}
+}
+
+/* ===RESPONSIVE=== */
+@media(max-width:768px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
+  .form-row.cols-2,.form-row.cols-3,.form-row.cols-4{grid-template-columns:1fr;}
+  .tab-nav{padding:0 8px;}
+  .tab-nav button{padding:10px 10px;font-size:12px;}
+  .tab-panel{padding:12px;}
+}
+
+/* ===ALERTS=== */
+.alert{padding:12px 16px;border-radius:var(--radius);margin-bottom:16px;font-size:13px;}
+.alert-success{background:#d4edda;color:#155724;border:1px solid #c3e6cb;}
+.alert-info{background:#cce5ff;color:#004085;border:1px solid #b8daff;}
+.alert-warning{background:#fff3cd;color:#856404;border:1px solid #ffeeba;}
+
+/* ===OVERRIDE PANEL=== */
+.override-panel{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-top:8px;font-size:13px;}
+
+/* ===PERMIT/LOCATE CARDS=== */
+.record-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;}
+.record-card .record-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.record-card h3{font-size:14px;font-weight:700;color:var(--primary);}
+
+/* ===TOGGLE=== */
+.toggle-group{display:flex;gap:8px;flex-wrap:wrap;}
+.toggle-btn{padding:7px 14px;border:2px solid var(--border);border-radius:20px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;transition:.2s;}
+.toggle-btn:hover{border-color:var(--primary);}
+.toggle-btn.selected{background:var(--primary);color:#fff;border-color:var(--primary);}
+
+/* ===SUMMARY TABLE=== */
+.summary-section{margin-bottom:20px;}
+.summary-section h3{font-size:14px;font-weight:700;color:var(--primary);margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--border);}
+.summary-line{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:13px;}
+.summary-line.total{font-weight:700;font-size:15px;border-top:2px solid var(--primary);border-bottom:none;padding-top:10px;}
+</style>
 </head>
 <body>
-    <!-- LOGIN SCREEN -->
-    <div class="login-screen" id="loginScreen">
-        <h1>🏗️ Fence Depot</h1>
-        <p>Professional Estimating System</p>
-        
-        <div class="form-group">
-            <label>Email:</label>
-            <input type="email" id="email" placeholder="your@email.com" value="john@fencedepot.com">
+
+<!-- ==================== LOGIN SCREEN ==================== -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">🏗️</div>
+    <h1>Fence Depot</h1>
+    <p>Professional Estimating System</p>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="loginEmail" placeholder="fencedepot@hotmail.com" value="fencedepot@hotmail.com">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter password" value="fence2024">
+    </div>
+    <button class="btn btn-primary" onclick="loginUser()">Sign In →</button>
+    <button class="demo-btn" onclick="demoMode()">🎯 Demo Mode (No Login Required)</button>
+  </div>
+</div>
+
+<!-- ==================== APP SCREEN ==================== -->
+<div id="appScreen" style="display:flex;flex-direction:column;min-height:100vh;">
+
+  <!-- Header -->
+  <div class="app-header">
+    <div class="brand">
+      <div style="width:40px;height:40px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;">🏗️</div>
+      <div class="brand-text">
+        <h1>Fence Depot</h1>
+        <small>3045 Pitt St, Cornwall, ON · 613-932-0717</small>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span id="headerDate"></span>
+      <button class="btn btn-sm btn-outline" style="color:#fff;border-color:rgba(255,255,255,.4);" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- Tab Navigation -->
+  <nav class="tab-nav" id="mainTabNav">
+    <button onclick="switchTab('dashboard')" class="active">📊 Dashboard</button>
+    <button onclick="switchTab('costs')">💰 Cost Management</button>
+    <button onclick="switchTab('estimator')">📋 Fence Estimator</button>
+    <button onclick="switchTab('drawings')">📐 Shop Drawings</button>
+    <button onclick="switchTab('permits')">📄 Building Permits</button>
+    <button onclick="switchTab('locates')">🔍 Underground Locates</button>
+    <button onclick="switchTab('settings')">⚙️ Settings</button>
+  </nav>
+
+  <!-- ======== DASHBOARD TAB ======== -->
+  <div id="tab-dashboard" class="tab-panel active">
+    <div class="grid-4" style="margin-bottom:20px;">
+      <div class="stat-card"><h3>Total Estimates</h3><div class="value" id="statEstimates">0</div><div class="sub">All time</div></div>
+      <div class="stat-card" style="border-color:var(--success);"><h3>Active Permits</h3><div class="value" id="statPermits">0</div><div class="sub">Pending / Active</div></div>
+      <div class="stat-card" style="border-color:#9b59b6;"><h3>Open Locates</h3><div class="value" id="statLocates">0</div><div class="sub">Awaiting clearance</div></div>
+      <div class="stat-card" style="border-color:var(--danger);"><h3>This Month</h3><div class="value" id="statMonth">$0</div><div class="sub">Estimated revenue</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><h2>🕐 Recent Estimates</h2><button class="btn btn-sm btn-accent" onclick="switchTab('estimator')">+ New</button></div>
+        <div id="recentEstimatesList"><p style="color:var(--muted);text-align:center;padding:20px;">No estimates yet. <a href="#" onclick="switchTab('estimator')">Create your first estimate →</a></p></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h2>⚡ Quick Actions</h2></div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="btn btn-primary" onclick="switchTab('estimator');newEstimate()">📋 New Fence Estimate</button>
+          <button class="btn btn-outline" onclick="switchTab('permits')">📄 Add Building Permit</button>
+          <button class="btn btn-outline" onclick="switchTab('locates')">🔍 Log Underground Locate</button>
+          <button class="btn btn-outline" onclick="switchTab('costs')">💰 Update Pricing</button>
+          <button class="btn btn-outline" onclick="switchTab('settings')">⚙️ Company Settings</button>
         </div>
-        
-        <div class="form-group">
-            <label>Password:</label>
-            <input type="password" id="password" placeholder="••••••••" value="password">
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><h2>📋 Compliance Overview</h2></div>
+      <div class="grid-2">
+        <div>
+          <div class="section-title">📄 Recent Permits</div>
+          <div id="dashPermits"><p style="color:var(--muted);">No permits recorded.</p></div>
         </div>
-        
-        <button class="btn btn-primary" onclick="loginUser()">LOGIN</button>
-        <button class="btn btn-secondary" onclick="demoMode()">DEMO MODE (No Password Needed)</button>
+        <div>
+          <div class="section-title">🔍 Recent Locates</div>
+          <div id="dashLocates"><p style="color:var(--muted);">No locates recorded.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== COST MANAGEMENT TAB ======== -->
+  <div id="tab-costs" class="tab-panel">
+    <div class="card no-print">
+      <div class="card-header">
+        <h2>💰 Cost Management — Admin Backend</h2>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-sm btn-success" onclick="saveCosts()">💾 Save All Costs</button>
+          <button class="btn btn-sm btn-outline" onclick="resetCosts()">↺ Reset Defaults</button>
+        </div>
+      </div>
+      <p style="color:var(--muted);margin-bottom:20px;font-size:13px;">Edit any cost below and click Save. Changes are used in all new estimates immediately.</p>
+      <div id="costsEditor"></div>
+    </div>
+  </div>
+
+  <!-- ======== FENCE ESTIMATOR TAB ======== -->
+  <div id="tab-estimator" class="tab-panel">
+
+    <!-- SECTION 1: Company Header -->
+    <div class="card">
+      <div class="section-title">📋 Section 1 — Company Header</div>
+      <div class="grid-2">
+        <div>
+          <div class="form-row cols-2">
+            <div class="form-group"><label>Company Name</label><input type="text" id="e_company" value="Fence Depot" readonly></div>
+            <div class="form-group"><label>Phone</label><input type="text" id="e_phone" value="613-932-0717" readonly></div>
+          </div>
+          <div class="form-row cols-2">
+            <div class="form-group"><label>Address</label><input type="text" id="e_address" value="3045 Pitt Street, Cornwall, Ontario, K6K 1A9" readonly></div>
+            <div class="form-group"><label>Email</label><input type="text" id="e_email" value="fencedepot@hotmail.com" readonly></div>
+          </div>
+        </div>
+        <div>
+          <div class="form-row cols-2">
+            <div class="form-group"><label>Estimate #</label><input type="text" id="e_estNum" readonly></div>
+            <div class="form-group"><label>Date</label><input type="date" id="e_date"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Notes / Job Description</label><textarea id="e_notes" rows="2" placeholder="Brief description of the job..."></textarea></div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- DASHBOARD SCREEN -->
-    <div class="dashboard-screen" id="dashboardScreen">
-        <div class="dashboard-header">
-            <div class="dashboard-title">
-                <h1>Fence Depot Estimator</h1>
-                <p>Professional Fencing & Gates</p>
+    <!-- SECTION 2: Customer & Compliance -->
+    <div class="card">
+      <div class="section-title">👤 Section 2 — Customer &amp; Compliance Information</div>
+      <div class="form-row cols-2">
+        <div class="form-group"><label>Customer Name</label><input type="text" id="e_custName" placeholder="Full name"></div>
+        <div class="form-group"><label>Project Address</label><input type="text" id="e_projAddr" placeholder="Installation address"></div>
+      </div>
+      <div class="form-row cols-2">
+        <div class="form-group"><label>Phone Number</label><input type="tel" id="e_custPhone" placeholder="613-xxx-xxxx"></div>
+        <div class="form-group"><label>Email Address</label><input type="email" id="e_custEmail" placeholder="customer@email.com"></div>
+      </div>
+      <div class="grid-2" style="margin-top:8px;">
+        <div>
+          <div class="section-title" style="font-size:13px;">📄 Building Permit</div>
+          <div class="form-row cols-2">
+            <div class="form-group">
+              <label>Permit Required?</label>
+              <select id="e_permitReq" onchange="updateComplianceSummary()">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
             </div>
-            <div class="user-info">
-                <div>👤 John (Estimator)</div>
-                <div class="avatar">JD</div>
-                <button class="btn btn-secondary" onclick="logout()" style="width: auto;">Logout</button>
+            <div class="form-group">
+              <label>Permit Status</label>
+              <select id="e_permitStatus">
+                <option value="na">Not Applicable</option>
+                <option value="applied">Applied</option>
+                <option value="approved">Approved</option>
+              </select>
             </div>
+          </div>
+          <div class="form-group"><label>Permit Number</label><input type="text" id="e_permitNum" placeholder="Optional"></div>
         </div>
-
-        <div class="nav-bar">
-            <div class="nav-item active" onclick="switchTab('dashboard')">📊 Dashboard</div>
-            <div class="nav-item" onclick="switchTab('new-estimate')">📝 New Estimate</div>
-            <div class="nav-item" onclick="switchTab('projects')">📋 Projects</div>
-            <div class="nav-item" onclick="switchTab('analytics')">📈 Analytics</div>
-            <div class="nav-item" onclick="switchTab('settings')">⚙️ Settings</div>
+        <div>
+          <div class="section-title" style="font-size:13px;">🔍 Ontario One Call (Locates)</div>
+          <div class="form-row cols-2">
+            <div class="form-group">
+              <label>Locates Requested?</label>
+              <select id="e_locatesReq" onchange="updateComplianceSummary()">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Ticket Number</label>
+              <input type="text" id="e_locatesTicket" placeholder="Ticket #">
+            </div>
+          </div>
+          <div class="form-group"><label>Clearance Date</label><input type="date" id="e_locatesClear"></div>
         </div>
-
-        <div class="dashboard-content">
-            <!-- DASHBOARD TAB -->
-            <div id="dashboard-tab">
-                <h2 class="section-title">Quick Stats</h2>
-                
-                <div class="stats-grid">
-                    <div class="stat-card blue">
-                        <div class="stat-label">This Month</div>
-                        <div class="stat-value">23</div>
-                        <div class="stat-change">Estimates Created</div>
-                    </div>
-
-                    <div class="stat-card green">
-                        <div class="stat-label">Revenue</div>
-                        <div class="stat-value">$47.4K</div>
-                        <div class="stat-change">+12% vs last month</div>
-                    </div>
-
-                    <div class="stat-card orange">
-                        <div class="stat-label">Close Rate</div>
-                        <div class="stat-value">65%</div>
-                        <div class="stat-change">15 Contracts</div>
-                    </div>
-                </div>
-
-                <h2 class="section-title">Recent Estimates</h2>
-
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Customer</th>
-                                <th>Type</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>001</td>
-                                <td>John Smith</td>
-                                <td>100' Res Chain Link</td>
-                                <td>$4,092.28</td>
-                                <td><span class="status-badge status-active">✓ Contract</span></td>
-                                <td>
-                                    <button class="action-btn action-view" onclick="viewEstimate()">View</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>002</td>
-                                <td>Mary Johnson</td>
-                                <td>150' Commercial</td>
-                                <td>$8,250.00</td>
-                                <td><span class="status-badge status-pending">⏳ Pending</span></td>
-                                <td>
-                                    <button class="action-btn action-view" onclick="viewEstimate()">View</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>003</td>
-                                <td>Bob Wilson</td>
-                                <td>200' Mixed</td>
-                                <td>$12,450.00</td>
-                                <td><span class="status-badge status-active">✓ Contract</span></td>
-                                <td>
-                                    <button class="action-btn action-view" onclick="viewEstimate()">View</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- NEW ESTIMATE TAB -->
-            <div id="new-estimate-tab" style="display: none;">
-                <div class="estimate-screen" style="display: block;">
-                    <div class="wizard-header">
-                        <div class="wizard-title">📝 CREATE NEW ESTIMATE</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progressFill"></div>
-                        </div>
-                    </div>
-
-                    <div class="wizard-content">
-                        <!-- STEP 1 -->
-                        <div class="form-section active" id="step1">
-                            <h2>Step 1 of 5: Customer Information</h2>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>First Name *</label>
-                                    <input type="text" id="firstName" placeholder="John" value="John">
-                                </div>
-                                <div class="form-group">
-                                    <label>Last Name *</label>
-                                    <input type="text" id="lastName" placeholder="Smith" value="Smith">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Email *</label>
-                                    <input type="email" id="custEmail" placeholder="john@email.com" value="john@email.com">
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone *</label>
-                                    <input type="tel" id="custPhone" placeholder="(555) 123-4567" value="(555) 123-4567">
-                                </div>
-                            </div>
-
-                            <div class="form-row form-group-full">
-                                <div class="form-group">
-                                    <label>Street Address *</label>
-                                    <input type="text" id="address" placeholder="123 Main Street" value="123 Main St">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>City *</label>
-                                    <input type="text" id="city" placeholder="Cornwall" value="Cornwall">
-                                </div>
-                                <div class="form-group">
-                                    <label>Province *</label>
-                                    <input type="text" id="province" placeholder="ON" value="ON">
-                                </div>
-                                <div class="form-group">
-                                    <label>Postal Code *</label>
-                                    <input type="text" id="postal" placeholder="K6H 1A1" value="K6H 1A1">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- STEP 2 -->
-                        <div class="form-section" id="step2">
-                            <h2>Step 2 of 5: Fence Specifications</h2>
-
-                            <label style="display: block; margin: 20px 0; font-weight: 600;">Fence Type:</label>
-                            <div class="select-options">
-                                <button class="option-btn selected" onclick="selectOption(this, 'fenceType', 'residential')">Residential</button>
-                                <button class="option-btn" onclick="selectOption(this, 'fenceType', 'commercial')">Commercial</button>
-                            </div>
-
-                            <label style="display: block; margin: 20px 0; font-weight: 600;">Fence Style:</label>
-                            <div class="select-options">
-                                <button class="option-btn selected" onclick="selectOption(this, 'fenceStyle', 'chainlink')">Chain Link</button>
-                                <button class="option-btn" onclick="selectOption(this, 'fenceStyle', 'wood')">Wood</button>
-                                <button class="option-btn" onclick="selectOption(this, 'fenceStyle', 'vinyl')">Vinyl</button>
-                            </div>
-
-                            <label style="display: block; margin: 20px 0; font-weight: 600;">Height:</label>
-                            <div class="select-options">
-                                <button class="option-btn" onclick="selectOption(this, 'height', '3')">3'</button>
-                                <button class="option-btn" onclick="selectOption(this, 'height', '4')">4'</button>
-                                <button class="option-btn selected" onclick="selectOption(this, 'height', '5')">5'</button>
-                                <button class="option-btn" onclick="selectOption(this, 'height', '6')">6'</button>
-                            </div>
-
-                            <label style="display: block; margin: 20px 0; font-weight: 600;">Color:</label>
-                            <div class="select-options">
-                                <button class="option-btn selected" onclick="selectOption(this, 'color', 'black')">⬛ Black</button>
-                                <button class="option-btn" onclick="selectOption(this, 'color', 'brown')">🟤 Brown</button>
-                                <button class="option-btn" onclick="selectOption(this, 'color', 'galv')">⚫ Galv</button>
-                                <button class="option-btn" onclick="selectOption(this, 'color', 'green')">🟢 Green</button>
-                            </div>
-
-                            <div class="form-row" style="margin-top: 20px;">
-                                <div class="form-group">
-                                    <label>Include Professional Installation?</label>
-                                    <input type="checkbox" id="installation" checked style="margin-top: 10px; width: 20px; height: 20px;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- STEP 3 -->
-                        <div class="form-section" id="step3">
-                            <h2>Step 3 of 5: Measurements</h2>
-
-                            <div class="form-row form-group-full">
-                                <div class="form-group">
-                                    <label>Total Linear Footage *</label>
-                                    <input type="number" id="footage" placeholder="100" value="100">
-                                </div>
-                            </div>
-
-                            <div class="form-row form-group-full">
-                                <div class="form-group">
-                                    <label>Post Spacing (feet):</label>
-                                    <select id="postSpacing" style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px;">
-                                        <option>6 feet</option>
-                                        <option>8 feet</option>
-                                        <option>10 feet</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="summary-card">
-                                <div class="summary-row">
-                                    <span>Posts Needed:</span>
-                                    <span id="postsNeeded">17</span>
-                                </div>
-                                <div class="summary-row">
-                                    <span>Sections:</span>
-                                    <span id="sections">10</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- STEP 4 -->
-                        <div class="form-section" id="step4">
-                            <h2>Step 4 of 5: Materials Review</h2>
-
-                            <div class="summary-card">
-                                <div class="summary-row">
-                                    <span>Chain Link 5' Black (PLU 387):</span>
-                                    <span>100 FT @ $5.03 = <strong>$503.00</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span>Top Rail 1.25" Black (PLU 956):</span>
-                                    <span>10 EA @ $21.07 = <strong>$210.70</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span>Tension Bar 5' Black (PLU 927):</span>
-                                    <span>10 EA @ $5.65 = <strong>$56.50</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span>Tension Band 1.875" Black (PLU 900):</span>
-                                    <span>100 EA @ $1.58 = <strong>$158.00</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span>Posts 1.875" Black (PLU 1009):</span>
-                                    <span>127 FT @ $2.81 = <strong>$356.87</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span>Sonotube 12" (18 units):</span>
-                                    <span>18 EA @ $8.00 = <strong>$144.00</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span>Concrete 50lb Bags (50 bags):</span>
-                                    <span>50 EA @ $8.50 = <strong>$425.00</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span>Labour (51 hours):</span>
-                                    <span>51 HRS @ $30 = <strong>$1,530.00</strong></span>
-                                </div>
-                                <div class="summary-row total">
-                                    <span>SUBTOTAL:</span>
-                                    <span>$3,621.49</span>
-                                </div>
-                                <div class="summary-row total">
-                                    <span>TAX (13%):</span>
-                                    <span>$470.79</span>
-                                </div>
-                                <div class="summary-row total" style="color: #11998e; font-size: 20px;">
-                                    <span>TOTAL:</span>
-                                    <span id="totalPrice">$4,092.28</span>
-                                </div>
-                            </div>
-
-                            <div class="profit-card">
-                                <div class="profit-label">YOUR PROFIT:</div>
-                                <div class="profit-value">$1,437.49</div>
-                                <div class="profit-label">Margin: 35% | Per Hour: $251 | Per Ft: $20.11</div>
-                            </div>
-                        </div>
-
-                        <!-- STEP 5 -->
-                        <div class="form-section" id="step5">
-                            <h2>Step 5 of 5: Final Review & Generate</h2>
-
-                            <div class="summary-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
-                                <div class="summary-row" style="color: white;">
-                                    <span>Estimate #:</span>
-                                    <span>001-2026</span>
-                                </div>
-                                <div class="summary-row" style="color: white;">
-                                    <span>Valid Until:</span>
-                                    <span>August 14, 2026</span>
-                                </div>
-                                <div class="summary-row" style="color: white;">
-                                    <span>Price Lock:</span>
-                                    <span>✓ 30 Days Guaranteed</span>
-                                </div>
-                            </div>
-
-                            <h3 style="margin: 25px 0 15px; color: #333;">Customer Summary:</h3>
-                            <div class="summary-card">
-                                <div class="summary-row">
-                                    <span><strong>John Smith</strong></span>
-                                    <span>(555) 123-4567</span>
-                                </div>
-                                <div class="summary-row">
-                                    <span>123 Main St, Cornwall ON</span>
-                                </div>
-                                <div class="summary-row">
-                                    <span>100 Linear Feet Chain Link</span>
-                                </div>
-                                <div class="summary-row total">
-                                    <span>TOTAL ESTIMATE:</span>
-                                    <span style="color: #667eea; font-size: 18px;">$4,092.28</span>
-                                </div>
-                            </div>
-
-                            <button class="btn btn-primary" onclick="generatePDF()" style="width: 100%; margin-top: 20px; padding: 15px; font-size: 16px;">
-                                📄 Generate & Email PDF
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="wizard-footer">
-                        <button class="btn btn-secondary" onclick="previousStep()" id="btnBack">← Back</button>
-                        <span id="stepCounter" style="font-weight: bold; color: #333;">Step 1 of 5</span>
-                        <button class="btn btn-primary" onclick="nextStep()" id="btnNext" style="width: auto;">Next →</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PROJECTS TAB -->
-            <div id="projects-tab" style="display: none;">
-                <h2 class="section-title">All Projects & Contracts</h2>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Customer</th>
-                                <th>Project Type</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>001</td>
-                                <td>John Smith</td>
-                                <td>100' Res Chain Link</td>
-                                <td>$4,092.28</td>
-                                <td><span class="status-badge status-active">✓ Contract</span></td>
-                                <td><button class="action-btn action-view" onclick="viewEstimate()">View</button></td>
-                            </tr>
-                            <tr>
-                                <td>002</td>
-                                <td>Mary Johnson</td>
-                                <td>150' Comm Gate</td>
-                                <td>$8,250.00</td>
-                                <td><span class="status-badge status-pending">⏳ Pending</span></td>
-                                <td><button class="action-btn action-view" onclick="viewEstimate()">View</button></td>
-                            </tr>
-                            <tr>
-                                <td>003</td>
-                                <td>Bob Wilson</td>
-                                <td>200' Mixed</td>
-                                <td>$12,450.00</td>
-                                <td><span class="status-badge status-active">✓ Contract</span></td>
-                                <td><button class="action-btn action-view" onclick="viewEstimate()">View</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- ANALYTICS TAB -->
-            <div id="analytics-tab" style="display: none;">
-                <h2 class="section-title">Analytics & Reports - July 2026</h2>
-                
-                <div class="stats-grid">
-                    <div class="stat-card blue">
-                        <div class="stat-label">Total Revenue</div>
-                        <div class="stat-value">$47.4K</div>
-                        <div class="stat-change">15 Contracts Closed</div>
-                    </div>
-
-                    <div class="stat-card green">
-                        <div class="stat-label">Close Rate</div>
-                        <div class="stat-value">65%</div>
-                        <div class="stat-change">23 Estimates Created</div>
-                    </div>
-
-                    <div class="stat-card orange">
-                        <div class="stat-label">Avg Profit</div>
-                        <div class="stat-value">$2,008</div>
-                        <div class="stat-change">Per Project</div>
-                    </div>
-                </div>
-
-                <div class="summary-card">
-                    <h3 style="margin-bottom: 15px; color: #333;">Revenue by Type:</h3>
-                    <div class="summary-row">
-                        <span>Chain Link:</span>
-                        <span>████████░░ 45% ($13,556)</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Vinyl:</span>
-                        <span>██████░░░░ 28% ($8,435)</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Wood:</span>
-                        <span>█████░░░░░ 18% ($5,422)</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Commercial:</span>
-                        <span>██░░░░░░░░ 9% ($2,711)</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SETTINGS TAB -->
-            <div id="settings-tab" style="display: none;">
-                <h2 class="section-title">System Settings</h2>
-                
-                <div class="summary-card">
-                    <h3 style="margin-bottom: 15px; color: #333;">Labour Rates:</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Standard Rate:</label>
-                            <input type="text" value="$30.00 / hour">
-                        </div>
-                        <div class="form-group">
-                            <label>Labour Markup:</label>
-                            <input type="text" value="50%">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="summary-card">
-                    <h3 style="margin-bottom: 15px; color: #333;">Pricing Settings:</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Tax Rate:</label>
-                            <input type="text" value="13% (HST)">
-                        </div>
-                        <div class="form-group">
-                            <label>Estimate Valid Days:</label>
-                            <input type="text" value="30 days">
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary" style="margin-top: 20px;">💾 Save Settings</button>
-            </div>
-        </div>
+      </div>
     </div>
 
-    <script>
-        let currentStep = 1;
-        const totalSteps = 5;
+    <!-- SECTION 3: Core Specifications -->
+    <div class="card">
+      <div class="section-title">🔧 Section 3 — Core Project Specifications</div>
+      <div class="form-row cols-3">
+        <div class="form-group">
+          <label>Fence Purpose</label>
+          <select id="e_purpose" onchange="applySpecDefaults()">
+            <option value="residential">Residential</option>
+            <option value="commercial">Commercial</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Material Type</label>
+          <select id="e_material" onchange="applySpecDefaults()">
+            <option value="chainlink">Chain Link</option>
+            <option value="wood">Wood</option>
+            <option value="wroughtiron">Wrought Iron</option>
+            <option value="pvc">PVC</option>
+            <option value="farmfence">Farm Fence</option>
+            <option value="composite">Composite</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fence Height</label>
+          <select id="e_height" onchange="calcPostLength()">
+            <option value="3">3 ft</option>
+            <option value="4">4 ft</option>
+            <option value="5" selected>5 ft</option>
+            <option value="6">6 ft</option>
+          </select>
+        </div>
+      </div>
+      <div id="chainlinkSpecs" style="display:none;">
+        <div class="form-row cols-4">
+          <div class="form-group">
+            <label>Color</label>
+            <select id="e_color">
+              <option value="black">Black</option>
+              <option value="galv">Galvanized</option>
+              <option value="green">Green</option>
+              <option value="white">White</option>
+              <option value="brown">Brown</option>
+              <option value="taupe">Taupe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Fabric Gauge</label>
+            <select id="e_gauge">
+              <option value="9">9 Gauge</option>
+              <option value="11">11 Gauge</option>
+              <option value="6">6 Gauge</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Mesh / Hole Size</label>
+            <select id="e_mesh">
+              <option value="2">2"</option>
+              <option value="1.5">1-1/2"</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Post Diameter</label>
+            <select id="e_postDia">
+              <option value="1.875">1-7/8" dia</option>
+              <option value="2.375">2-3/8" dia</option>
+              <option value="2.875">2-7/8" dia</option>
+              <option value="4">4" dia</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row cols-3">
+          <div class="form-group">
+            <label>Post Spacing</label>
+            <select id="e_spacing">
+              <option value="10">10 ft</option>
+              <option value="8">8 ft</option>
+              <option value="6" selected>6 ft (standard)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Post Length (Auto-Calculated)</label>
+            <input type="text" id="e_postLength" readonly>
+            <div class="field-hint">Selected Height + 2'6"</div>
+          </div>
+          <div class="form-group">
+            <label>Top Rail</label>
+            <select id="e_topRail">
+              <option value="yes">Yes (Standard)</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div id="otherMaterialSpecs" style="display:none;">
+        <div class="form-row cols-3">
+          <div class="form-group">
+            <label>Post Spacing (ft)</label>
+            <input type="number" id="e_postSpacingOther" value="8" min="4" max="12">
+          </div>
+          <div class="form-group">
+            <label>Style / Profile</label>
+            <input type="text" id="e_materialStyle" placeholder="e.g. Dog-ear, French Gothic...">
+          </div>
+          <div class="form-group">
+            <label>Color / Finish</label>
+            <input type="text" id="e_materialColor" placeholder="e.g. Cedar, Black...">
+          </div>
+        </div>
+      </div>
+    </div>
 
-        function loginUser() {
-            const email = document.getElementById('email').value;
-            if (email) {
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('dashboardScreen').style.display = 'block';
-            }
-        }
+    <!-- SECTION 4: Linear Fence Layout Builder -->
+    <div class="card">
+      <div class="card-header">
+        <h2>📐 Section 4 — Linear Fence Layout Builder</h2>
+        <button class="btn btn-accent" onclick="addLeg()">+ Add Leg</button>
+      </div>
+      <div id="legsContainer"></div>
+      <div id="layoutPreview" style="display:none;margin-top:16px;">
+        <div class="section-title" style="margin-bottom:8px;">🗺️ Live Layout Preview</div>
+        <div id="layoutString" class="leg-layout"></div>
+        <div style="margin-top:12px;display:flex;gap:16px;font-size:13px;">
+          <span>📏 <strong>Total Linear Feet:</strong> <span id="totalLF">0</span> LF</span>
+          <span>🪝 <strong>Total Posts:</strong> <span id="totalPosts">0</span></span>
+          <span>⚙️ <strong>Top Rail Sections:</strong> <span id="totalRail">0</span></span>
+        </div>
+      </div>
+    </div>
 
-        function demoMode() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('dashboardScreen').style.display = 'block';
-        }
+    <!-- SECTION 5: Gate Configuration -->
+    <div class="card">
+      <div class="section-title">🚪 Section 5 — Gate Configuration &amp; Pricing</div>
+      <div id="gateContainer"><p style="color:var(--muted);font-size:13px;">Add fence legs first, then configure gates here.</p></div>
+    </div>
 
-        function logout() {
-            document.getElementById('dashboardScreen').style.display = 'none';
-            document.getElementById('loginScreen').style.display = 'block';
-            document.getElementById('email').value = '';
-            document.getElementById('password').value = '';
-        }
+    <!-- ESTIMATE RESULTS -->
+    <div class="card" id="estimateResultCard" style="display:none;">
+      <div class="card-header">
+        <h2>💵 Estimate Summary</h2>
+        <div style="display:flex;gap:8px;" class="no-print">
+          <button class="btn btn-sm btn-success" onclick="saveEstimate()">💾 Save Estimate</button>
+          <button class="btn btn-sm btn-outline" onclick="printEstimate()">🖨️ Print</button>
+        </div>
+      </div>
+      <div id="estimateSummaryContent"></div>
+    </div>
 
-        function switchTab(tab) {
-            // Hide all tabs
-            document.getElementById('dashboard-tab').style.display = 'none';
-            document.getElementById('new-estimate-tab').style.display = 'none';
-            document.getElementById('projects-tab').style.display = 'none';
-            document.getElementById('analytics-tab').style.display = 'none';
-            document.getElementById('settings-tab').style.display = 'none';
+    <!-- Generate Button -->
+    <div class="no-print" style="text-align:center;margin:20px 0;">
+      <button class="btn btn-primary" style="padding:14px 40px;font-size:16px;" onclick="generateEstimate()">⚡ Generate Estimate</button>
+    </div>
+  </div>
 
-            // Show selected tab
-            document.getElementById(tab + '-tab').style.display = 'block';
+  <!-- ======== SHOP DRAWINGS TAB ======== -->
+  <div id="tab-drawings" class="tab-panel">
+    <div class="card">
+      <div class="card-header">
+        <h2>📐 Shop Drawings — Fence Layout Diagram</h2>
+        <div style="display:flex;gap:8px;" class="no-print">
+          <button class="btn btn-sm btn-accent" onclick="renderDrawing()">🔄 Refresh Drawing</button>
+          <button class="btn btn-sm btn-outline" onclick="printEstimate()">🖨️ Print Drawing</button>
+        </div>
+      </div>
+      <div id="drawingInfo" style="margin-bottom:12px;font-size:13px;color:var(--muted);"></div>
+      <canvas id="drawingCanvas" height="500"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-header"><h2>📋 Drawing Notes &amp; Specifications</h2></div>
+      <div id="drawingSpecs"></div>
+    </div>
+  </div>
 
-            // Update nav items
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.target.classList.add('active');
+  <!-- ======== BUILDING PERMITS TAB ======== -->
+  <div id="tab-permits" class="tab-panel">
+    <div class="grid-2">
+      <div class="card no-print">
+        <div class="card-header"><h2>📄 Add / Edit Permit Record</h2></div>
+        <div class="form-group"><label>Project Address</label><input type="text" id="p_addr" placeholder="Project address"></div>
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label>Permit Required?</label>
+            <select id="p_req"><option value="yes">Yes</option><option value="no">No</option></select>
+          </div>
+          <div class="form-group">
+            <label>Permit Status</label>
+            <select id="p_status">
+              <option value="notapplicable">Not Applicable</option>
+              <option value="applied">Applied</option>
+              <option value="approved">Approved</option>
+              <option value="expired">Expired</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row cols-2">
+          <div class="form-group"><label>Permit Number</label><input type="text" id="p_num" placeholder="Permit #"></div>
+          <div class="form-group"><label>Issuing Authority</label><input type="text" id="p_authority" placeholder="City / Municipality"></div>
+        </div>
+        <div class="form-row cols-2">
+          <div class="form-group"><label>Date Applied</label><input type="date" id="p_dateApplied"></div>
+          <div class="form-group"><label>Expected Approval Date</label><input type="date" id="p_dateExpected"></div>
+        </div>
+        <div class="form-group"><label>Approval Date (if approved)</label><input type="date" id="p_dateApproved"></div>
+        <div class="form-group"><label>Notes</label><textarea id="p_notes" rows="2" placeholder="Additional notes..."></textarea></div>
+        <button class="btn btn-primary" onclick="savePermit()" style="width:100%;margin-top:8px;">💾 Save Permit Record</button>
+      </div>
+      <div class="card">
+        <div class="card-header"><h2>📋 Permit Records</h2></div>
+        <div id="permitsList"><p style="color:var(--muted);text-align:center;padding:20px;">No permit records yet.</p></div>
+      </div>
+    </div>
+  </div>
 
-            // Reset estimate steps if switching to new estimate
-            if (tab === 'new-estimate') {
-                currentStep = 1;
-                showStep(1);
-            }
-        }
+  <!-- ======== UNDERGROUND LOCATES TAB ======== -->
+  <div id="tab-locates" class="tab-panel">
+    <div class="grid-2">
+      <div class="card no-print">
+        <div class="card-header"><h2>🔍 Log Ontario One Call (Locates)</h2></div>
+        <div class="form-group"><label>Project Address</label><input type="text" id="l_addr" placeholder="Dig site address"></div>
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label>Locates Requested?</label>
+            <select id="l_req"><option value="yes">Yes</option><option value="no">No</option></select>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select id="l_status">
+              <option value="pending">Pending</option>
+              <option value="cleared">Cleared — Safe to Dig</option>
+              <option value="conflict">Conflict — Do Not Dig</option>
+              <option value="expired">Expired</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row cols-2">
+          <div class="form-group"><label>Ticket Number</label><input type="text" id="l_ticket" placeholder="Ontario One Call ticket #"></div>
+          <div class="form-group"><label>Request Date</label><input type="date" id="l_dateReq"></div>
+        </div>
+        <div class="form-group"><label>Clearance Date</label><input type="date" id="l_dateClear"></div>
+        <div class="form-group"><label>Utilities Identified</label><input type="text" id="l_utilities" placeholder="e.g. Gas, Hydro, Telecom..."></div>
+        <div class="form-group"><label>Notes</label><textarea id="l_notes" rows="2" placeholder="Additional notes..."></textarea></div>
+        <button class="btn btn-primary" onclick="saveLocate()" style="width:100%;margin-top:8px;">💾 Save Locate Record</button>
+      </div>
+      <div class="card">
+        <div class="card-header"><h2>📋 Locate Records</h2></div>
+        <div id="locatesList"><p style="color:var(--muted);text-align:center;padding:20px;">No locate records yet.</p></div>
+      </div>
+    </div>
+  </div>
 
-        function selectOption(btn, type, value) {
-            const parent = btn.parentElement;
-            parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-        }
+  <!-- ======== SETTINGS TAB ======== -->
+  <div id="tab-settings" class="tab-panel">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><h2>🏢 Company Information</h2></div>
+        <div class="form-group"><label>Company Name</label><input type="text" id="s_company" value="Fence Depot"></div>
+        <div class="form-group"><label>Address</label><input type="text" id="s_address" value="3045 Pitt Street, Cornwall, Ontario, K6K 1A9"></div>
+        <div class="form-row cols-2">
+          <div class="form-group"><label>Phone</label><input type="tel" id="s_phone" value="613-932-0717"></div>
+          <div class="form-group"><label>Email</label><input type="email" id="s_email" value="fencedepot@hotmail.com"></div>
+        </div>
+        <div class="form-group"><label>Website</label><input type="text" id="s_website" placeholder="https://..."></div>
+        <div class="form-group"><label>License / Registration #</label><input type="text" id="s_license" placeholder="Business license number"></div>
+        <div class="form-group"><label>HST Registration #</label><input type="text" id="s_hst" placeholder="HST #"></div>
+        <button class="btn btn-primary" onclick="saveSettings()" style="margin-top:8px;">💾 Save Company Info</button>
+      </div>
+      <div class="card">
+        <div class="card-header"><h2>⚙️ Default Specifications</h2></div>
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label>Default Fence Type</label>
+            <select id="s_defType"><option value="residential">Residential</option><option value="commercial">Commercial</option></select>
+          </div>
+          <div class="form-group">
+            <label>Default Material</label>
+            <select id="s_defMaterial"><option value="chainlink">Chain Link</option><option value="wood">Wood</option><option value="pvc">PVC</option></select>
+          </div>
+        </div>
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label>Default Height</label>
+            <select id="s_defHeight"><option value="4">4 ft</option><option value="5" selected>5 ft</option><option value="6">6 ft</option></select>
+          </div>
+          <div class="form-group">
+            <label>Tax Rate (%)</label>
+            <input type="number" id="s_taxRate" value="13" min="0" max="20" step="0.5">
+            <div class="field-hint">Ontario HST = 13%</div>
+          </div>
+        </div>
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label>Default Post Spacing (ft)</label>
+            <input type="number" id="s_defSpacing" value="6" min="4" max="12">
+          </div>
+          <div class="form-group">
+            <label>Markup (%)</label>
+            <input type="number" id="s_markup" value="20" min="0" max="100">
+            <div class="field-hint">Applied to material costs</div>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="saveSettings()" style="margin-top:8px;">💾 Save Defaults</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><h2>🔌 POS Integration (Future)</h2></div>
+      <div class="alert alert-info">POS integration is planned for a future release. Configure your POS connection settings below for when it becomes available.</div>
+      <div class="form-row cols-3">
+        <div class="form-group"><label>POS System</label><select id="s_pos"><option value="">-- Select POS --</option><option value="lightspeed">Lightspeed</option><option value="square">Square</option><option value="shopify">Shopify POS</option><option value="other">Other</option></select></div>
+        <div class="form-group"><label>API Endpoint</label><input type="text" id="s_posUrl" placeholder="https://api.your-pos.com"></div>
+        <div class="form-group"><label>API Key (stored locally)</label><input type="password" id="s_posKey" placeholder="Your API key"></div>
+      </div>
+      <button class="btn btn-outline" onclick="saveSettings()">💾 Save POS Settings</button>
+    </div>
+  </div>
 
-        function nextStep() {
-            if (currentStep < totalSteps) {
-                currentStep++;
-                showStep(currentStep);
-            }
-        }
+</div><!-- /appScreen -->
 
-        function previousStep() {
-            if (currentStep > 1) {
-                currentStep--;
-                showStep(currentStep);
-            }
-        }
+<script>
+// =====================================================================
+//  FENCE DEPOT ESTIMATING SYSTEM
+//  localStorage keys: fd_costs, fd_estimates, fd_permits, fd_locates,
+//                     fd_settings, fd_current_estimate
+// =====================================================================
 
-        function showStep(step) {
-            // Hide all steps
-            for (let i = 1; i <= totalSteps; i++) {
-                document.getElementById('step' + i).classList.remove('active');
-            }
+// ─── STATE ───────────────────────────────────────────────────────────
+let legs = [];
+let legCount = 0;
+let currentEstimateId = null;
 
-            // Show current step
-            document.getElementById('step' + step).classList.add('active');
+// ─── DEFAULT COSTS ───────────────────────────────────────────────────
+const DEFAULT_COSTS = {
+  materials: [
+    {id:"fabric_5_black", name:"Chain Link Fabric 5' Black 9GA", unit:"LF",  price:5.03},
+    {id:"fabric_6_galv",  name:"Chain Link Fabric 6' Galv 9GA",  unit:"LF",  price:4.85},
+    {id:"fabric_4_black", name:"Chain Link Fabric 4' Black 9GA", unit:"LF",  price:4.20},
+    {id:"toprail_125",    name:"Top Rail 1-1/4\" Black 21' sect",   unit:"EA",  price:21.07},
+    {id:"toprail_galv",   name:"Top Rail 1-5/8\" Galv 21' sect",   unit:"EA",  price:18.50},
+    {id:"tensbar_5",      name:"Tension Bar 5' Black",           unit:"EA",  price:5.65},
+    {id:"tensband",       name:"Tension Band 1-7/8\" Black",     unit:"EA",  price:1.58},
+    {id:"post_187",       name:"Line Post 1-7/8\" Black",        unit:"LF",  price:2.81},
+    {id:"post_238",       name:"Line Post 2-3/8\" Black",        unit:"LF",  price:3.45},
+    {id:"post_galv_238",  name:"Line Post 2-3/8\" Galv",         unit:"LF",  price:3.10},
+    {id:"sonotube",       name:"Sonotube 12\"",                   unit:"EA",  price:8.00},
+    {id:"concrete_50",    name:"Concrete 50lb Bag",               unit:"BAG", price:8.50},
+    {id:"caps",           name:"Post Cap",                        unit:"EA",  price:1.25},
+    {id:"ties",           name:"Wire Ties (box of 100)",          unit:"BOX", price:12.00},
+  ],
+  labour: [
+    {id:"labour_install", name:"Installation Labour",  unit:"HR", price:30.00},
+    {id:"labour_post",    name:"Post Setting Labour",  unit:"HR", price:35.00},
+    {id:"labour_equip",   name:"Equipment Operator",   unit:"HR", price:45.00},
+  ],
+  equipment: [
+    {id:"auger",          name:"Auger Rental",         unit:"DAY", price:150.00},
+    {id:"delivery",       name:"Material Delivery",    unit:"TRIP",price:75.00},
+    {id:"bobcat",         name:"Bobcat / Skid Steer",  unit:"DAY", price:325.00},
+  ],
+  services: [
+    {id:"landfill",       name:"Landfill / Disposal",  unit:"LOAD",price:200.00},
+    {id:"tree_removal",   name:"Tree Removal",         unit:"EA",  price:350.00},
+    {id:"old_fence",      name:"Old Fence Removal",    unit:"LF",  price:4.50},
+    {id:"permit_fee",     name:"Permit Application Fee",unit:"EA", price:150.00},
+    {id:"locate_fee",     name:"Locate Service Fee",   unit:"EA",  price:0.00},
+    {id:"gate_single",    name:"Gate (Single Residential 42\")",unit:"EA",price:185.00},
+    {id:"gate_double",    name:"Gate (Double Driveway)",unit:"EA", price:425.00},
+    {id:"gate_comm",      name:"Gate (Commercial Heavy Duty)",unit:"EA",price:650.00},
+  ]
+};
 
-            // Update progress
-            const progress = (step / totalSteps) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
+// ─── HELPERS ─────────────────────────────────────────────────────────
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#x27;");}
+function lsGet(key,def){try{const v=localStorage.getItem(key);if(!v)return def;const parsed=JSON.parse(v);if(parsed===null||typeof parsed!=="object")return def;if(Array.isArray(def)!==Array.isArray(parsed))return def;return parsed;}catch(e){return def;}}
+function lsSet(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){console.warn("localStorage error",e);}}
+function getCosts(){return lsGet("fd_costs",JSON.parse(JSON.stringify(DEFAULT_COSTS)));}
+function getSettings(){return lsGet("fd_settings",{company:"Fence Depot",address:"3045 Pitt Street, Cornwall, Ontario, K6K 1A9",phone:"613-932-0717",email:"fencedepot@hotmail.com",taxRate:13,markup:20,defSpacing:6});}
+function fmt(n){return "$"+Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,",");}
+function today(){return new Date().toISOString().split("T")[0];}
+function genId(){return "EST-"+Date.now().toString(36).toUpperCase();}
 
-            // Update step counter
-            document.getElementById('stepCounter').textContent = 'Step ' + step + ' of ' + totalSteps;
+// ─── AUTH ─────────────────────────────────────────────────────────────
+function loginUser(){
+  document.getElementById("loginScreen").style.display="none";
+  document.getElementById("appScreen").style.display="flex";
+  initApp();
+}
+function demoMode(){loginUser();}
+function logout(){document.getElementById("appScreen").style.display="none";document.getElementById("loginScreen").style.display="flex";}
 
-            // Update buttons
-            document.getElementById('btnBack').style.display = step === 1 ? 'none' : 'block';
-            document.getElementById('btnNext').textContent = step === totalSteps ? '✓ Complete' : 'Next →';
+// ─── TAB SWITCHING ────────────────────────────────────────────────────
+function switchTab(name){
+  document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll("#mainTabNav button").forEach(b=>b.classList.remove("active"));
+  const panel=document.getElementById("tab-"+name);
+  if(panel)panel.classList.add("active");
+  const btns=document.querySelectorAll("#mainTabNav button");
+  const map={dashboard:0,costs:1,estimator:2,drawings:3,permits:4,locates:5,settings:6};
+  if(map[name]!==undefined && btns[map[name]])btns[map[name]].classList.add("active");
+  if(name==="drawings")renderDrawing();
+  if(name==="dashboard")refreshDashboard();
+}
 
-            // Scroll to top
-            document.querySelector('.wizard-content').scrollTop = 0;
-        }
+// ─── INIT ─────────────────────────────────────────────────────────────
+function initApp(){
+  document.getElementById("headerDate").textContent=new Date().toLocaleDateString("en-CA",{weekday:"short",year:"numeric",month:"short",day:"numeric"});
+  document.getElementById("e_date").value=today();
+  document.getElementById("e_estNum").value=genId();
+  renderCostEditor();
+  loadSettings();
+  renderPermits();
+  renderLocates();
+  refreshDashboard();
+  applySpecDefaults();
+  if(legs.length===0)addLeg();
+}
 
-        function generatePDF() {
-            alert('✓ Estimate #001-2026 has been generated!\n\nPDF sent to: john@email.com\n\nEstimate is locked for 30 days.');
-            
-            // Reset form
-            currentStep = 1;
-            showStep(1);
-            switchTab('dashboard');
-        }
+// ─── COST MANAGEMENT ─────────────────────────────────────────────────
+function renderCostEditor(){
+  const costs=getCosts();
+  const cats=[
+    {key:"materials",label:"📦 Materials Costs",cols:["Item","Unit","Price / Unit"]},
+    {key:"labour",  label:"👷 Labour Rates",   cols:["Role","Unit","Rate / Unit"]},
+    {key:"equipment",label:"🚜 Equipment Fees",cols:["Equipment","Unit","Fee / Unit"]},
+    {key:"services",label:"🛠️ Special Services",cols:["Service","Unit","Cost / Unit"]},
+  ];
+  let html="";
+  cats.forEach(cat=>{
+    html+=`<div class="cost-category">
+      <div class="cost-category-header">${cat.label}</div>
+      <div style="border:1px solid var(--border);border-radius:0 0 8px 8px;">
+        <div class="cost-row" style="background:#f7f9fc;font-weight:700;font-size:12px;text-transform:uppercase;color:var(--muted);">
+          <span>${cat.cols[0]}</span><span>${cat.cols[1]}</span><span>${cat.cols[2]}</span><span></span>
+        </div>`;
+    costs[cat.key].forEach((item,i)=>{
+      html+=`<div class="cost-row">
+        <span style="font-weight:600;">${item.name}</span>
+        <span style="color:var(--muted);">${item.unit}</span>
+        <input type="number" step="0.01" min="0" value="${item.price}" data-cat="${cat.key}" data-idx="${i}" onchange="updateCostField(this)" style="max-width:120px;">
+        <span style="color:var(--success);font-weight:700;">${fmt(item.price)}</span>
+      </div>`;
+    });
+    html+="</div></div>";
+  });
+  document.getElementById("costsEditor").innerHTML=html;
+}
+function updateCostField(el){
+  const costs=getCosts();
+  costs[el.dataset.cat][parseInt(el.dataset.idx)].price=parseFloat(el.value)||0;
+  lsSet("fd_costs",costs);
+  renderCostEditor();
+}
+function saveCosts(){
+  alert("✅ All costs saved to local storage!");
+  renderCostEditor();
+}
+function resetCosts(){
+  if(confirm("Reset all costs to factory defaults?")){
+    lsSet("fd_costs",JSON.parse(JSON.stringify(DEFAULT_COSTS)));
+    renderCostEditor();
+    alert("Costs reset to defaults.");
+  }
+}
 
-        function viewEstimate() {
-            alert('📄 Viewing Estimate #001\n\n100\' Residential Chain Link, 5\' Black\n\nCustomer: John Smith\nTotal: $4,092.28\nProfit: $1,437.49');
-        }
+// ─── SPEC LOGIC ───────────────────────────────────────────────────────
+function applySpecDefaults(){
+  const purpose=document.getElementById("e_purpose").value;
+  const material=document.getElementById("e_material").value;
+  const heightSel=document.getElementById("e_height");
+  const colorSel=document.getElementById("e_color");
+  const gaugeSel=document.getElementById("e_gauge");
+  const meshSel=document.getElementById("e_mesh");
+  const postDiaSel=document.getElementById("e_postDia");
 
-        // Initialize
-        showStep(1);
-    </script>
+  if(material==="chainlink"){
+    document.getElementById("chainlinkSpecs").style.display="block";
+    document.getElementById("otherMaterialSpecs").style.display="none";
+    // Clear height options
+    if(purpose==="residential"){
+      setOptions(heightSel,[["3","3 ft"],["4","4 ft"],["5","5 ft"],["6","6 ft"]],"5");
+      setOptions(colorSel,[["black","Black"],["galv","Galvanized"],["green","Green"],["white","White"],["brown","Brown"],["taupe","Taupe"]],"black");
+      setOptions(gaugeSel,[["9","9 Gauge"],["11","11 Gauge"]],"9");
+      setOptions(meshSel,[["2","2\""],["1.5","1-1/2\""]],"2");
+      setOptions(postDiaSel,[["1.875","1-7/8\" dia"],["2.375","2-3/8\" dia"]],"1.875");
+    } else {
+      setOptions(heightSel,[["3","3 ft"],["4","4 ft"],["5","5 ft"],["6","6 ft"],["7","7 ft"],["8","8 ft"],["10","10 ft"],["12","12 ft"]],"6");
+      setOptions(colorSel,[["galv","Galvanized"],["black","Black"]],"galv");
+      setOptions(gaugeSel,[["9","9 Gauge"],["11","11 Gauge"],["6","6 Gauge"]],"9");
+      setOptions(meshSel,[["2","2\""]],"2");
+      meshSel.disabled=true;
+      setOptions(postDiaSel,[["2.375","2-3/8\" dia"],["2.875","2-7/8\" dia"],["4","4\" dia"]],"2.375");
+    }
+    meshSel.disabled=(purpose==="commercial");
+  } else {
+    document.getElementById("chainlinkSpecs").style.display="none";
+    document.getElementById("otherMaterialSpecs").style.display="block";
+    setOptions(heightSel,[["3","3 ft"],["4","4 ft"],["5","5 ft"],["6","6 ft"]],"5");
+  }
+  calcPostLength();
+}
+function setOptions(sel,opts,def){
+  sel.innerHTML=opts.map(([v,l])=>`<option value="${esc(v)}">${esc(l)}</option>`).join("");
+  sel.value=def;
+}
+function calcPostLength(){
+  const h=parseFloat(document.getElementById("e_height").value)||5;
+  const totalIn=(h*12)+(2*12+6);
+  const ft=Math.floor(totalIn/12);
+  const inches=totalIn%12;
+  document.getElementById("e_postLength").value=ft+"'"+inches+"\"";
+}
+
+// ─── LEG BUILDER ─────────────────────────────────────────────────────
+const NODE_TYPES=["End Post","Corner Post","Gate Post","3-Way Corner","Blank","Set of Fittings (Existing)"];
+function addLeg(){
+  legCount++;
+  const id=legCount;
+  legs.push({id,startNode:"End Post",length:0,endNode:"End Post",startOverride:false,endOverride:false,overrideDia:"",overrideLen:"",overrideColor:"",gate:false,gateSize:42,gateAdj:"standard"});
+  renderLegs();
+}
+function removeLeg(id){
+  legs=legs.filter(l=>l.id!==id);
+  renderLegs();
+}
+function renderLegs(){
+  const c=document.getElementById("legsContainer");
+  if(legs.length===0){c.innerHTML="<p style=\"color:var(--muted);\">No legs added. Click <strong>+ Add Leg</strong> to begin.</p>";updateLayoutPreview();return;}
+  c.innerHTML=legs.map((leg,i)=>renderLegHTML(leg,i)).join("");
+  updateLayoutPreview();
+  renderGates();
+}
+function renderLegHTML(leg,i){
+  const nodeOpts=NODE_TYPES.map(t=>`<option value="${t}" ${leg.startNode===t?"selected":""}>${t}</option>`).join("");
+  const nodeOptsEnd=NODE_TYPES.map(t=>`<option value="${t}" ${leg.endNode===t?"selected":""}>${t}</option>`).join("");
+  return `<div class="leg-item" id="leg-${leg.id}">
+    <div class="leg-header">
+      <span class="leg-title">Leg ${i+1}</span>
+      <button class="btn btn-sm btn-danger" onclick="removeLeg(${leg.id})">✕ Remove</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 120px 1fr;gap:12px;align-items:start;">
+      <div>
+        <label>Starting Node</label>
+        <select onchange="updateLeg(${leg.id},'startNode',this.value)">${nodeOpts}</select>
+        <label style="margin-top:6px;display:flex;align-items:center;gap:6px;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" ${leg.startOverride?"checked":""} onchange="updateLeg(${leg.id},'startOverride',this.checked)"> Override Specs
+        </label>
+        ${leg.startOverride?`<div class="override-panel">
+          <label>Custom Dia.</label><input type="text" value="${leg.overrideDia}" placeholder="e.g. 2-3/8\"" onchange="updateLeg(${leg.id},'overrideDia',this.value)">
+          <label style="margin-top:6px;">Custom Length</label><input type="text" value="${leg.overrideLen}" placeholder="e.g. 9'" onchange="updateLeg(${leg.id},'overrideLen',this.value)">
+          <label style="margin-top:6px;">Custom Color</label><input type="text" value="${leg.overrideColor}" placeholder="e.g. Green" onchange="updateLeg(${leg.id},'overrideColor',this.value)">
+        </div>`:""}
+      </div>
+      <div style="text-align:center;">
+        <label>Length (LF)</label>
+        <input type="number" min="0" step="0.5" value="${leg.length}" onchange="updateLeg(${leg.id},'length',parseFloat(this.value)||0)" style="text-align:center;">
+        <div class="field-hint" style="text-align:center;">Linear Feet</div>
+      </div>
+      <div>
+        <label>Ending Node</label>
+        <select onchange="updateLeg(${leg.id},'endNode',this.value)">${nodeOptsEnd}</select>
+        <label style="margin-top:6px;display:flex;align-items:center;gap:6px;font-weight:normal;cursor:pointer;">
+          <input type="checkbox" ${leg.endOverride?"checked":""} onchange="updateLeg(${leg.id},'endOverride',this.checked)"> Override Specs
+        </label>
+        ${leg.endOverride?`<div class="override-panel">
+          <label>Custom Dia.</label><input type="text" value="${leg.overrideDia}" placeholder="e.g. 2-3/8\"" onchange="updateLeg(${leg.id},'overrideDia',this.value)">
+          <label style="margin-top:6px;">Custom Length</label><input type="text" value="${leg.overrideLen}" placeholder="e.g. 9'" onchange="updateLeg(${leg.id},'overrideLen',this.value)">
+          <label style="margin-top:6px;">Custom Color</label><input type="text" value="${leg.overrideColor}" placeholder="e.g. Green" onchange="updateLeg(${leg.id},'overrideColor',this.value)">
+        </div>`:""}
+      </div>
+    </div>
+  </div>`;
+}
+function updateLeg(id,field,value){
+  const leg=legs.find(l=>l.id===id);
+  if(leg){leg[field]=value;renderLegs();}
+}
+function updateLayoutPreview(){
+  const preview=document.getElementById("layoutPreview");
+  const str=document.getElementById("layoutString");
+  if(legs.length===0){preview.style.display="none";return;}
+  preview.style.display="block";
+  let parts=[];
+  let totalLF=0;
+  legs.forEach((leg,i)=>{
+    if(i===0)parts.push(`<span class="node">${leg.startNode}</span>`);
+    parts.push(`<span class="arrow">→</span>`);
+    parts.push(`<span class="span">${leg.length} LF</span>`);
+    parts.push(`<span class="arrow">→</span>`);
+    parts.push(`<span class="node">${leg.endNode}</span>`);
+    totalLF+=leg.length;
+  });
+  str.innerHTML=parts.join(" ");
+  const spacing=parseFloat(document.getElementById("e_spacing")?document.getElementById("e_spacing").value:6)||6;
+  const totalPosts=Math.floor(totalLF/spacing)+1+legs.filter(l=>l.gate).length;
+  const railSects=Math.ceil(totalLF/21);
+  document.getElementById("totalLF").textContent=totalLF.toFixed(1);
+  document.getElementById("totalPosts").textContent=totalPosts;
+  document.getElementById("totalRail").textContent=railSects;
+}
+
+// ─── GATES ────────────────────────────────────────────────────────────
+function renderGates(){
+  const c=document.getElementById("gateContainer");
+  if(legs.length===0){c.innerHTML="<p style=\"color:var(--muted);font-size:13px;\">Add fence legs first.</p>";return;}
+  c.innerHTML=legs.map((leg,i)=>`
+    <div style="background:#f7f9fc;border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <label style="display:flex;align-items:center;gap:6px;font-weight:700;cursor:pointer;min-width:120px;">
+          <input type="checkbox" ${leg.gate?"checked":""} onchange="updateLeg(${leg.id},'gate',this.checked)">
+          🚪 Gate on Leg ${i+1}
+        </label>
+        ${leg.gate?`
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+          <div><label style="font-size:12px;">Opening Size (inches)</label>
+            <input type="number" value="${leg.gateSize}" min="24" max="240" style="width:80px;" onchange="updateLeg(${leg.id},'gateSize',parseInt(this.value)||42)">
+          </div>
+          <div><label style="font-size:12px;">Adjustment</label>
+            <select onchange="updateLeg(${leg.id},'gateAdj',this.value)">
+              <option value="standard" ${leg.gateAdj==="standard"?"selected":""}>Standard (42\")</option>
+              <option value="increase" ${leg.gateAdj==="increase"?"selected":""}>Increase Size</option>
+              <option value="decrease" ${leg.gateAdj==="decrease"?"selected":""}>Decrease Size</option>
+            </select>
+          </div>
+          <div style="background:#fff;padding:4px 10px;border-radius:4px;border:1px solid var(--border);font-size:12px;">
+            ${leg.gateAdj==="standard"?"Base cost applied":leg.gateAdj==="increase"?"⬆️ Upsell pricing applied":"⬇️ Reduced pricing"}
+          </div>
+        </div>`:""}
+      </div>
+    </div>
+  `).join("");
+}
+
+// ─── ESTIMATE GENERATION ─────────────────────────────────────────────
+function generateEstimate(){
+  const costs=getCosts();
+  const settings=getSettings();
+  const material=document.getElementById("e_material").value;
+  const purpose=document.getElementById("e_purpose").value;
+  const height=parseFloat(document.getElementById("e_height").value)||5;
+  const spacing=parseFloat(document.getElementById("e_spacing")?document.getElementById("e_spacing").value:6)||6;
+  const taxRate=(settings.taxRate||13)/100;
+  const markup=(settings.markup||20)/100;
+
+  // Totals
+  let totalLF=legs.reduce((s,l)=>s+l.length,0);
+  if(totalLF===0){alert("Please add fence legs with lengths first.");return;}
+
+  const numPosts=Math.floor(totalLF/spacing)+1;
+  const postLengthFt=height+2.5;
+  const concreteBagsPerHole=3;
+  const totalConcrete=numPosts*concreteBagsPerHole;
+  const railSects=Math.ceil(totalLF/21);
+  const tensionBars=legs.length*2;
+  const tensionBands=numPosts*3;
+
+  // Look up prices — build a Map for O(1) access
+  const allCostItems=[...costs.materials,...costs.labour,...costs.equipment,...costs.services];
+  const costMap=new Map(allCostItems.map(x=>[x.id,x.price]));
+  function cp(id){return costMap.get(id)||0;}
+
+  // Material costs
+  let matCost=0;
+  let matLines=[];
+  if(material==="chainlink"){
+    const fabricPrice=cp(purpose==="residential"?"fabric_5_black":"fabric_6_galv");
+    const fabricTotal=totalLF*fabricPrice;
+    matCost+=fabricTotal;
+    matLines.push({item:"Chain Link Fabric ("+height+"')",qty:totalLF+" LF",unit:fmt(fabricPrice),total:fmt(fabricTotal)});
+
+    const postPrice=cp(purpose==="residential"?"post_187":"post_galv_238");
+    const postTotal=numPosts*postLengthFt*postPrice;
+    matCost+=postTotal;
+    matLines.push({item:"Line Posts ("+postLengthFt.toFixed(1)+"'  × "+numPosts+")",qty:numPosts+" posts",unit:fmt(postPrice)+"/LF",total:fmt(postTotal)});
+
+    if(document.getElementById("e_topRail")&&document.getElementById("e_topRail").value==="yes"){
+      const railPrice=cp(purpose==="residential"?"toprail_125":"toprail_galv");
+      const railTotal=railSects*railPrice;
+      matCost+=railTotal;
+      matLines.push({item:"Top Rail (21' sections)",qty:railSects+" EA",unit:fmt(railPrice),total:fmt(railTotal)});
+    }
+
+    const tensBarTotal=tensionBars*cp("tensbar_5");
+    matCost+=tensBarTotal;
+    matLines.push({item:"Tension Bars",qty:tensionBars+" EA",unit:fmt(cp("tensbar_5")),total:fmt(tensBarTotal)});
+
+    const tensBandTotal=tensionBands*cp("tensband");
+    matCost+=tensBandTotal;
+    matLines.push({item:"Tension Bands",qty:tensionBands+" EA",unit:fmt(cp("tensband")),total:fmt(tensBandTotal)});
+  } else {
+    // Generic material estimate
+    const estPerLF=8.00;
+    const genericTotal=totalLF*estPerLF;
+    matCost+=genericTotal;
+    matLines.push({item:material+" materials (est.)",qty:totalLF+" LF",unit:fmt(estPerLF),total:fmt(genericTotal)});
+  }
+
+  // Concrete
+  const concreteTotal=totalConcrete*cp("concrete_50");
+  matCost+=concreteTotal;
+  matLines.push({item:"Concrete (50lb bags, "+concreteBagsPerHole+" per hole)",qty:totalConcrete+" bags",unit:fmt(cp("concrete_50")),total:fmt(concreteTotal)});
+
+  const sonoTotal=numPosts*cp("sonotube");
+  matCost+=sonoTotal;
+  matLines.push({item:"Sonotubes 12\"",qty:numPosts+" EA",unit:fmt(cp("sonotube")),total:fmt(sonoTotal)});
+
+  // Gates
+  let gateCost=0;
+  let gateLines=[];
+  legs.forEach((leg,i)=>{
+    if(leg.gate){
+      let gatePrice=leg.gateSize<=42?cp("gate_single"):cp("gate_double");
+      if(leg.gateAdj==="increase")gatePrice*=1.15;
+      if(leg.gateAdj==="decrease")gatePrice*=0.9;
+      gateCost+=gatePrice;
+      gateLines.push({item:"Gate — Leg "+(i+1)+" ("+leg.gateSize+"\", "+leg.gateAdj+")",qty:"1 EA",unit:fmt(gatePrice),total:fmt(gatePrice)});
+    }
+  });
+
+  // Labour
+  const labourHrs=numPosts*1.5+(totalLF/4);
+  const labourCost=labourHrs*cp("labour_install");
+  const labourLines=[{item:"Installation Labour",qty:labourHrs.toFixed(1)+" hrs",unit:fmt(cp("labour_install")),total:fmt(labourCost)}];
+
+  // Apply markup
+  const matWithMarkup=matCost*(1+markup);
+  const subtotal=matWithMarkup+gateCost+labourCost;
+  const tax=subtotal*taxRate;
+  const grandTotal=subtotal+tax;
+
+  // Render
+  const card=document.getElementById("estimateResultCard");
+  const content=document.getElementById("estimateSummaryContent");
+  card.style.display="block";
+
+  const tableHtml=(rows)=>rows.map(r=>`<div class="summary-line"><span>${r.item} <span style="color:var(--muted);font-size:12px;">(${r.qty} @ ${r.unit})</span></span><strong>${r.total}</strong></div>`).join("");
+
+  content.innerHTML=`
+    <div class="estimate-total">
+      <h2>TOTAL ESTIMATE — ${document.getElementById("e_custName").value||"Customer"}</h2>
+      <div class="total-amount">${fmt(grandTotal)}</div>
+      <div style="font-size:13px;opacity:.8;">${document.getElementById("e_projAddr").value||"Project Address"} · ${totalLF} LF · ${numPosts} Posts</div>
+      <div class="subtotals">
+        <div class="subtotal-item"><div class="label">Materials (+ ${Math.round(markup*100)}% markup)</div><div class="val">${fmt(matWithMarkup)}</div></div>
+        <div class="subtotal-item"><div class="label">Labour</div><div class="val">${fmt(labourCost)}</div></div>
+        <div class="subtotal-item"><div class="label">HST (${Math.round(taxRate*100)}%)</div><div class="val">${fmt(tax)}</div></div>
+      </div>
+    </div>
+    <div style="margin-top:20px;">
+      <div class="summary-section">
+        <h3>📦 Materials</h3>
+        ${tableHtml(matLines)}
+      </div>
+      ${gateLines.length?`<div class="summary-section"><h3>🚪 Gates</h3>${tableHtml(gateLines)}</div>`:""}
+      <div class="summary-section">
+        <h3>👷 Labour</h3>
+        ${tableHtml(labourLines)}
+      </div>
+      <div class="summary-section">
+        <div class="summary-line total"><span>Subtotal (before tax)</span><strong>${fmt(subtotal)}</strong></div>
+        <div class="summary-line"><span>HST ${Math.round(taxRate*100)}%</span><strong>${fmt(tax)}</strong></div>
+        <div class="summary-line total"><span>GRAND TOTAL</span><strong>${fmt(grandTotal)}</strong></div>
+      </div>
+    </div>`;
+
+  // Store for save
+  window._lastEstimate={
+    id:document.getElementById("e_estNum").value,
+    date:document.getElementById("e_date").value,
+    customer:document.getElementById("e_custName").value,
+    address:document.getElementById("e_projAddr").value,
+    phone:document.getElementById("e_custPhone").value,
+    email:document.getElementById("e_custEmail").value,
+    material,purpose,height,totalLF,numPosts,
+    matCost,gateCost,labourCost,subtotal,tax,grandTotal,
+    legs:JSON.parse(JSON.stringify(legs))
+  };
+
+  card.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function saveEstimate(){
+  if(!window._lastEstimate){alert("Generate estimate first.");return;}
+  const estimates=lsGet("fd_estimates",[]);
+  const existing=estimates.findIndex(e=>e.id===window._lastEstimate.id);
+  if(existing>=0)estimates[existing]=window._lastEstimate;
+  else estimates.unshift(window._lastEstimate);
+  lsSet("fd_estimates",estimates);
+  alert("✅ Estimate saved!");
+  refreshDashboard();
+}
+function newEstimate(){
+  document.getElementById("e_estNum").value=genId();
+  document.getElementById("e_date").value=today();
+  document.getElementById("e_custName").value="";
+  document.getElementById("e_projAddr").value="";
+  document.getElementById("e_custPhone").value="";
+  document.getElementById("e_custEmail").value="";
+  legs=[];legCount=0;
+  addLeg();
+  document.getElementById("estimateResultCard").style.display="none";
+}
+function printEstimate(){window.print();}
+
+// ─── SHOP DRAWINGS ────────────────────────────────────────────────────
+function getCanvasWidth(canvas){
+  const rect=canvas.getBoundingClientRect();
+  return (rect.width>0?rect.width:canvas.offsetWidth)||800;
+}
+function drawPost(ctx,px,midY,postH,isEndPost){
+  ctx.fillStyle=isEndPost?"#1a365d":"#2c5282";
+  ctx.fillRect(px-4,midY-postH,8,postH+30);
+  ctx.fillStyle="#e67e22";
+  ctx.fillRect(px-5,midY-postH-4,10,6);
+}
+function renderDrawing(){
+  const canvas=document.getElementById("drawingCanvas");
+  const ctx=canvas.getContext("2d");
+  const W=getCanvasWidth(canvas);
+  canvas.width=W;canvas.height=500;
+  ctx.clearRect(0,0,W,500);
+
+  if(legs.length===0||legs.every(l=>l.length===0)){
+    ctx.fillStyle="#718096";
+    ctx.font="16px sans-serif";
+    ctx.textAlign="center";
+    ctx.fillText("No fence layout defined. Add legs in the Fence Estimator tab.",W/2,250);
+    document.getElementById("drawingSpecs").innerHTML="<p style=\"color:var(--muted);\">No specs to display.</p>";
+    return;
+  }
+
+  const totalLF=legs.reduce((s,l)=>s+l.length,0);
+  const pad=60;
+  const drawW=W-pad*2;
+  const scale=drawW/totalLF;
+  const midY=250;
+
+  // Ground line
+  ctx.strokeStyle="#8B7355";ctx.lineWidth=3;
+  ctx.setLineDash([]);
+  ctx.beginPath();ctx.moveTo(pad,midY+30);ctx.lineTo(W-pad,midY+30);ctx.stroke();
+  ctx.fillStyle="#D4C5A9";ctx.fillRect(pad,midY+30,drawW,20);
+
+  // Draw fence
+  ctx.strokeStyle="#2d3748";ctx.lineWidth=2;ctx.setLineDash([4,3]);
+  ctx.beginPath();
+  let x=pad;
+  legs.forEach(leg=>{
+    const legW=leg.length*scale;
+    ctx.moveTo(x,midY-10);ctx.lineTo(x+legW,midY-10);
+    x+=legW;
+  });
+  ctx.stroke();ctx.setLineDash([]);
+
+  // Draw posts and gates
+  x=pad;
+  const spacing=parseFloat(document.getElementById("e_spacing")?document.getElementById("e_spacing").value:6)||6;
+  const height=parseFloat(document.getElementById("e_height").value)||5;
+  const postH=height*8;
+
+  legs.forEach((leg,li)=>{
+    const legW=leg.length*scale;
+    const gateW=leg.gate?(leg.gateSize/12)*scale:0;
+    const gateX=leg.gate?x+(legW-gateW)/2:0;
+
+    // Gate opening
+    if(leg.gate){
+      ctx.fillStyle="rgba(231,76,60,.1)";
+      ctx.fillRect(gateX,midY-postH-10,gateW,postH+10);
+      ctx.strokeStyle="#e74c3c";ctx.lineWidth=1;
+      ctx.strokeRect(gateX,midY-postH-10,gateW,postH+10);
+      ctx.fillStyle="#e74c3c";ctx.font="bold 11px sans-serif";ctx.textAlign="center";
+      ctx.fillText("🚪 GATE",gateX+gateW/2,midY-postH-15);
+      ctx.fillText((leg.gateSize)+"\"",gateX+gateW/2,midY+45);
+    }
+
+    // Posts for this leg
+    const numPostsLeg=Math.floor(leg.length/spacing)+1;
+    if(numPostsLeg===1){
+      drawPost(ctx,x,midY,postH,true);
+    } else {
+      const divisor=Math.max(1,numPostsLeg-1);
+      for(let p=0;p<numPostsLeg;p++){
+        const px=x+p*(leg.length/divisor)*scale;
+        drawPost(ctx,px,midY,postH,p===0||p===numPostsLeg-1);
+      }
+    }
+
+    // Leg label
+    ctx.fillStyle="#2d3748";ctx.font="12px sans-serif";ctx.textAlign="center";
+    ctx.fillText("Leg "+(li+1)+": "+leg.length+" LF",x+legW/2,midY+60);
+
+    // Start node label
+    ctx.fillStyle="#1a365d";ctx.font="10px sans-serif";ctx.textAlign="center";
+    ctx.fillText(leg.startNode,x,midY-postH-20);
+    if(li===legs.length-1){
+      ctx.fillText(leg.endNode,x+legW,midY-postH-20);
+    }
+
+    x+=legW;
+  });
+
+  // Title
+  ctx.fillStyle="#1a365d";ctx.font="bold 14px sans-serif";ctx.textAlign="left";
+  ctx.fillText("FENCE DEPOT — SHOP DRAWING",pad,30);
+  ctx.fillStyle="#718096";ctx.font="11px sans-serif";
+  const custName=document.getElementById("e_custName").value||"—";
+  const addr=document.getElementById("e_projAddr").value||"—";
+  ctx.fillText("Customer: "+custName+"  |  Address: "+addr+"  |  Total: "+totalLF+" LF",pad,48);
+  ctx.textAlign="right";
+  ctx.fillText("Scale: 1px = "+Math.round(1/scale*10)/10+" ft  |  Date: "+today(),W-pad,48);
+
+  // Dimension line
+  ctx.strokeStyle="#718096";ctx.lineWidth=1;ctx.setLineDash([2,2]);
+  ctx.beginPath();ctx.moveTo(pad,midY+80);ctx.lineTo(W-pad,midY+80);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle="#718096";ctx.font="11px sans-serif";ctx.textAlign="center";
+  ctx.fillText("◀── TOTAL: "+totalLF+" LINEAR FEET ──▶",W/2,midY+95);
+
+  // Specs panel
+  const material=document.getElementById("e_material").value;
+  const purpose=document.getElementById("e_purpose").value;
+  let specsHtml=`<div class="grid-3">
+    <div><strong>Material:</strong> ${material.charAt(0).toUpperCase()+material.slice(1)}</div>
+    <div><strong>Purpose:</strong> ${purpose.charAt(0).toUpperCase()+purpose.slice(1)}</div>
+    <div><strong>Height:</strong> ${height}' ft</div>
+    <div><strong>Total LF:</strong> ${totalLF} ft</div>
+    <div><strong>Post Spacing:</strong> ${spacing}' ft</div>
+    <div><strong>Total Posts:</strong> ${Math.floor(totalLF/spacing)+1}</div>
+  </div><div style="margin-top:12px;"><strong>Legs:</strong><ul style="margin-top:6px;padding-left:20px;">`;
+  legs.forEach((l,i)=>{
+    specsHtml+=`<li>Leg ${i+1}: ${l.startNode} → ${l.length} LF → ${l.endNode}${l.gate?" | 🚪 Gate ("+l.gateSize+"\")":" | No gate"}</li>`;
+  });
+  specsHtml+="</ul></div>";
+  document.getElementById("drawingSpecs").innerHTML=specsHtml;
+  document.getElementById("drawingInfo").textContent="Drawing generated from current estimator data. Switch to Fence Estimator tab to modify.";
+}
+
+// ─── PERMITS ─────────────────────────────────────────────────────────
+function savePermit(){
+  const permits=lsGet("fd_permits",[]);
+  permits.unshift({
+    id:"PRM-"+Date.now(),
+    addr:document.getElementById("p_addr").value,
+    req:document.getElementById("p_req").value,
+    status:document.getElementById("p_status").value,
+    num:document.getElementById("p_num").value,
+    authority:document.getElementById("p_authority").value,
+    dateApplied:document.getElementById("p_dateApplied").value,
+    dateExpected:document.getElementById("p_dateExpected").value,
+    dateApproved:document.getElementById("p_dateApproved").value,
+    notes:document.getElementById("p_notes").value,
+    created:today()
+  });
+  lsSet("fd_permits",permits);
+  renderPermits();
+  refreshDashboard();
+  alert("✅ Permit record saved!");
+}
+function deletePermit(id){
+  if(!confirm("Delete this permit record?"))return;
+  lsSet("fd_permits",lsGet("fd_permits",[]).filter(p=>p.id!==id));
+  renderPermits();refreshDashboard();
+}
+function renderPermits(){
+  const permits=lsGet("fd_permits",[]);
+  const el=document.getElementById("permitsList");
+  if(!el)return;
+  if(!permits.length){el.innerHTML="<p style=\"color:var(--muted);text-align:center;padding:20px;\">No permit records yet.</p>";return;}
+  const statusBadge={notapplicable:"badge-info",applied:"badge-warning",approved:"badge-success",expired:"badge-danger"};
+  el.innerHTML=permits.map(p=>`<div class="record-card">
+    <div class="record-header">
+      <h3>📍 ${p.addr||"No address"}</h3>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <span class="badge ${statusBadge[p.status]||"badge-info"}">${p.status}</span>
+        <button class="btn btn-sm btn-danger" onclick="deletePermit('${p.id}')">✕</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:13px;">
+      <div><span style="color:var(--muted);">Permit #:</span> <strong>${p.num||"—"}</strong></div>
+      <div><span style="color:var(--muted);">Authority:</span> ${p.authority||"—"}</div>
+      <div><span style="color:var(--muted);">Applied:</span> ${p.dateApplied||"—"}</div>
+      <div><span style="color:var(--muted);">Expected:</span> ${p.dateExpected||"—"}</div>
+      <div><span style="color:var(--muted);">Approved:</span> ${p.dateApproved||"—"}</div>
+      <div><span style="color:var(--muted);">Required:</span> ${p.req}</div>
+    </div>
+    ${p.notes?`<p style="margin-top:8px;font-size:12px;color:var(--muted);">${p.notes}</p>`:""}
+  </div>`).join("");
+}
+
+// ─── LOCATES ─────────────────────────────────────────────────────────
+function saveLocate(){
+  const locates=lsGet("fd_locates",[]);
+  locates.unshift({
+    id:"LOC-"+Date.now(),
+    addr:document.getElementById("l_addr").value,
+    req:document.getElementById("l_req").value,
+    status:document.getElementById("l_status").value,
+    ticket:document.getElementById("l_ticket").value,
+    dateReq:document.getElementById("l_dateReq").value,
+    dateClear:document.getElementById("l_dateClear").value,
+    utilities:document.getElementById("l_utilities").value,
+    notes:document.getElementById("l_notes").value,
+    created:today()
+  });
+  lsSet("fd_locates",locates);
+  renderLocates();
+  refreshDashboard();
+  alert("✅ Locate record saved!");
+}
+function deleteLocate(id){
+  if(!confirm("Delete this locate record?"))return;
+  lsSet("fd_locates",lsGet("fd_locates",[]).filter(l=>l.id!==id));
+  renderLocates();refreshDashboard();
+}
+function renderLocates(){
+  const locates=lsGet("fd_locates",[]);
+  const el=document.getElementById("locatesList");
+  if(!el)return;
+  if(!locates.length){el.innerHTML="<p style=\"color:var(--muted);text-align:center;padding:20px;\">No locate records yet.</p>";return;}
+  const sb={pending:"badge-warning",cleared:"badge-success",conflict:"badge-danger",expired:"badge-info"};
+  el.innerHTML=locates.map(l=>`<div class="record-card">
+    <div class="record-header">
+      <h3>📍 ${l.addr||"No address"}</h3>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <span class="badge ${sb[l.status]||"badge-info"}">${l.status}</span>
+        <button class="btn btn-sm btn-danger" onclick="deleteLocate('${l.id}')">✕</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:13px;">
+      <div><span style="color:var(--muted);">Ticket #:</span> <strong>${l.ticket||"—"}</strong></div>
+      <div><span style="color:var(--muted);">Requested:</span> ${l.dateReq||"—"}</div>
+      <div><span style="color:var(--muted);">Clearance:</span> ${l.dateClear||"—"}</div>
+      <div><span style="color:var(--muted);">Utilities:</span> ${l.utilities||"—"}</div>
+      <div><span style="color:var(--muted);">Required:</span> ${l.req}</div>
+    </div>
+    ${l.notes?`<p style="margin-top:8px;font-size:12px;color:var(--muted);">${l.notes}</p>`:""}
+  </div>`).join("");
+}
+
+// ─── SETTINGS ─────────────────────────────────────────────────────────
+const SETTINGS_FIELDS={s_company:"company",s_address:"address",s_phone:"phone",s_email:"email",s_website:"website",s_license:"license",s_hst:"hst",s_taxRate:"taxRate",s_markup:"markup",s_defSpacing:"defSpacing"};
+function loadSettings(){
+  const s=getSettings();
+  Object.entries(SETTINGS_FIELDS).forEach(([id,key])=>{const el=document.getElementById(id);if(el&&s[key]!==undefined)el.value=s[key];});
+}
+function saveSettings(){
+  const s=getSettings();
+  const saveFields=Object.assign({s_pos:"pos",s_posUrl:"posUrl"},SETTINGS_FIELDS);
+  Object.entries(saveFields).forEach(([id,key])=>{const el=document.getElementById(id);if(el)s[key]=el.value;});
+  lsSet("fd_settings",s);
+  // Update header
+  document.querySelector(".app-header .brand-text small").textContent=s.address+" · "+s.phone;
+  alert("✅ Settings saved!");
+}
+
+// ─── DASHBOARD REFRESH ────────────────────────────────────────────────
+function refreshDashboard(){
+  const estimates=lsGet("fd_estimates",[]);
+  const permits=lsGet("fd_permits",[]);
+  const locates=lsGet("fd_locates",[]);
+
+  // Stats
+  document.getElementById("statEstimates").textContent=estimates.length;
+  document.getElementById("statPermits").textContent=permits.filter(p=>p.status==="applied").length;
+  document.getElementById("statLocates").textContent=locates.filter(l=>l.status==="pending").length;
+
+  const now=new Date();
+  const curMonth=now.getMonth();
+  const curYear=now.getFullYear();
+  const thisMonth=estimates.filter(e=>{const d=new Date(e.date);return e.date&&!isNaN(d.getTime())&&d.getMonth()===curMonth&&d.getFullYear()===curYear;});
+  const revenue=thisMonth.reduce((s,e)=>s+(e.grandTotal||0),0);
+  document.getElementById("statMonth").textContent=fmt(revenue);
+
+  // Recent estimates
+  const rEl=document.getElementById("recentEstimatesList");
+  if(estimates.length===0){rEl.innerHTML="<p style=\"color:var(--muted);text-align:center;padding:20px;\">No estimates yet.</p>";}
+  else{
+    rEl.innerHTML="<table><thead><tr><th>ID</th><th>Customer</th><th>Date</th><th>Total</th></tr></thead><tbody>"+
+    estimates.slice(0,8).map(e=>`<tr><td><code>${e.id}</code></td><td>${e.customer||"—"}</td><td>${e.date||"—"}</td><td><strong>${fmt(e.grandTotal||0)}</strong></td></tr>`).join("")+
+    "</tbody></table>";
+  }
+
+  // Dashboard permit/locate lists
+  const dp=document.getElementById("dashPermits");
+  if(dp){dp.innerHTML=permits.length?permits.slice(0,3).map(p=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;"><strong>${p.addr||"—"}</strong> <span class="badge ${p.status==="approved"?"badge-success":"badge-warning"}">${p.status}</span></div>`).join(""):"<p style=\"color:var(--muted);\">No permits.</p>";}
+  const dl=document.getElementById("dashLocates");
+  if(dl){dl.innerHTML=locates.length?locates.slice(0,3).map(l=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;"><strong>${l.addr||"—"}</strong> <span class="badge ${l.status==="cleared"?"badge-success":"badge-warning"}">${l.status}</span></div>`).join(""):"<p style=\"color:var(--muted);\">No locates.</p>";}
+}
+
+function updateComplianceSummary(){}
+
+// ─── BOOT ────────────────────────────────────────────────────────────
+// Auto-init if already "logged in" via demo
+window.onload=function(){
+  // Pre-fill date
+  const dateEl=document.getElementById("e_date");
+  if(dateEl)dateEl.value=today();
+};
+</script>
 </body>
 </html>
