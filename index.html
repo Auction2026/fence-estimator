@@ -727,7 +727,8 @@ const DEFAULT_COSTS = {
 };
 
 // ─── HELPERS ─────────────────────────────────────────────────────────
-function lsGet(key,def){try{const v=localStorage.getItem(key);return v?JSON.parse(v):def;}catch(e){return def;}}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function lsGet(key,def){try{const v=localStorage.getItem(key);if(!v)return def;const parsed=JSON.parse(v);if(parsed===null||typeof parsed!=="object")return def;if(Array.isArray(def)!==Array.isArray(parsed))return def;return parsed;}catch(e){return def;}}
 function lsSet(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){console.warn("localStorage error",e);}}
 function getCosts(){return lsGet("fd_costs",JSON.parse(JSON.stringify(DEFAULT_COSTS)));}
 function getSettings(){return lsGet("fd_settings",{company:"Fence Depot",address:"3045 Pitt Street, Cornwall, Ontario, K6K 1A9",phone:"613-932-0717",email:"fencedepot@hotmail.com",taxRate:13,markup:20,defSpacing:6});}
@@ -846,7 +847,7 @@ function applySpecDefaults(){
       meshSel.disabled=true;
       setOptions(postDiaSel,[["2.375","2-3/8\" dia"],["2.875","2-7/8\" dia"],["4","4\" dia"]],"2.375");
     }
-    if(material==="chainlink")meshSel.disabled=(purpose==="commercial");
+    meshSel.disabled=(purpose==="commercial");
   } else {
     document.getElementById("chainlinkSpecs").style.display="none";
     document.getElementById("otherMaterialSpecs").style.display="block";
@@ -855,7 +856,7 @@ function applySpecDefaults(){
   calcPostLength();
 }
 function setOptions(sel,opts,def){
-  sel.innerHTML=opts.map(([v,l])=>`<option value="${v}">${l}</option>`).join("");
+  sel.innerHTML=opts.map(([v,l])=>`<option value="${esc(v)}">${esc(l)}</option>`).join("");
   sel.value=def;
 }
 function calcPostLength(){
@@ -1009,8 +1010,9 @@ function generateEstimate(){
   const tensionBars=legs.length*2;
   const tensionBands=numPosts*3;
 
-  // Look up prices
-  function cp(id){const all=[...costs.materials,...costs.labour,...costs.equipment,...costs.services];const f=all.find(x=>x.id===id);return f?f.price:0;}
+  // Look up prices (combine cost arrays once for efficient lookups)
+  const allCostItems=[...costs.materials,...costs.labour,...costs.equipment,...costs.services];
+  function cp(id){const f=allCostItems.find(x=>x.id===id);return f?f.price:0;}
 
   // Material costs
   let matCost=0;
@@ -1156,10 +1158,20 @@ function newEstimate(){
 function printEstimate(){window.print();}
 
 // ─── SHOP DRAWINGS ────────────────────────────────────────────────────
+function getCanvasWidth(canvas){
+  const rect=canvas.getBoundingClientRect();
+  return (rect.width>0?rect.width:canvas.offsetWidth)||800;
+}
+function drawPost(ctx,px,midY,postH,isEndPost){
+  ctx.fillStyle=isEndPost?"#1a365d":"#2c5282";
+  ctx.fillRect(px-4,midY-postH,8,postH+30);
+  ctx.fillStyle="#e67e22";
+  ctx.fillRect(px-5,midY-postH-4,10,6);
+}
 function renderDrawing(){
   const canvas=document.getElementById("drawingCanvas");
   const ctx=canvas.getContext("2d");
-  const W=canvas.offsetWidth||800;
+  const W=getCanvasWidth(canvas);
   canvas.width=W;canvas.height=500;
   ctx.clearRect(0,0,W,500);
 
@@ -1219,12 +1231,13 @@ function renderDrawing(){
 
     // Posts for this leg
     const numPostsLeg=Math.floor(leg.length/spacing)+1;
-    for(let p=0;p<numPostsLeg;p++){
-      const px=x+p*(leg.length/(numPostsLeg-1||1))*scale;
-      ctx.fillStyle=(p===0||p===numPostsLeg-1)?"#1a365d":"#2c5282";
-      ctx.fillRect(px-4,midY-postH,8,postH+30);
-      ctx.fillStyle="#e67e22";
-      ctx.fillRect(px-5,midY-postH-4,10,6);
+    if(numPostsLeg===1){
+      drawPost(ctx,x,midY,postH,true);
+    } else {
+      for(let p=0;p<numPostsLeg;p++){
+        const px=x+p*(leg.length/(numPostsLeg-1))*scale;
+        drawPost(ctx,px,midY,postH,p===0||p===numPostsLeg-1);
+      }
     }
 
     // Leg label
@@ -1380,15 +1393,15 @@ function renderLocates(){
 }
 
 // ─── SETTINGS ─────────────────────────────────────────────────────────
+const SETTINGS_FIELDS={s_company:"company",s_address:"address",s_phone:"phone",s_email:"email",s_website:"website",s_license:"license",s_hst:"hst",s_taxRate:"taxRate",s_markup:"markup",s_defSpacing:"defSpacing"};
 function loadSettings(){
   const s=getSettings();
-  const fields={s_company:"company",s_address:"address",s_phone:"phone",s_email:"email",s_website:"website",s_license:"license",s_hst:"hst",s_taxRate:"taxRate",s_markup:"markup",s_defSpacing:"defSpacing"};
-  Object.entries(fields).forEach(([id,key])=>{const el=document.getElementById(id);if(el&&s[key]!==undefined)el.value=s[key];});
+  Object.entries(SETTINGS_FIELDS).forEach(([id,key])=>{const el=document.getElementById(id);if(el&&s[key]!==undefined)el.value=s[key];});
 }
 function saveSettings(){
   const s=getSettings();
-  const fields={s_company:"company",s_address:"address",s_phone:"phone",s_email:"email",s_website:"website",s_license:"license",s_hst:"hst",s_taxRate:"taxRate",s_markup:"markup",s_defSpacing:"defSpacing",s_pos:"pos",s_posUrl:"posUrl"};
-  Object.entries(fields).forEach(([id,key])=>{const el=document.getElementById(id);if(el)s[key]=el.value;});
+  const saveFields=Object.assign({s_pos:"pos",s_posUrl:"posUrl"},SETTINGS_FIELDS);
+  Object.entries(saveFields).forEach(([id,key])=>{const el=document.getElementById(id);if(el)s[key]=el.value;});
   lsSet("fd_settings",s);
   // Update header
   document.querySelector(".app-header .brand-text small").textContent=s.address+" · "+s.phone;
@@ -1407,7 +1420,9 @@ function refreshDashboard(){
   document.getElementById("statLocates").textContent=locates.filter(l=>l.status==="pending").length;
 
   const now=new Date();
-  const thisMonth=estimates.filter(e=>{const d=new Date(e.date);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();});
+  const curMonth=now.getMonth();
+  const curYear=now.getFullYear();
+  const thisMonth=estimates.filter(e=>{const d=new Date(e.date);return e.date&&!isNaN(d.getTime())&&d.getMonth()===curMonth&&d.getFullYear()===curYear;});
   const revenue=thisMonth.reduce((s,e)=>s+(e.grandTotal||0),0);
   document.getElementById("statMonth").textContent=fmt(revenue);
 
