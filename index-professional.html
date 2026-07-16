@@ -325,6 +325,18 @@
             min-height: 100px;
         }
 
+        .field-counter {
+            margin-top: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+
+        .field-counter.near-limit {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
         /* ===== GRIDS ===== */
         .grid-2 {
             display: grid;
@@ -2242,6 +2254,29 @@
             alert(message);
         }
 
+        const SAFE_TEXTAREA_REQUEST_LIMIT = 500; // Keep note saves small enough for API/Sheets-style submissions.
+
+        function initializeTextareaCounters() {
+            document.querySelectorAll('textarea[maxlength]:not([readonly])').forEach(textarea => {
+                if (textarea.maxLength !== SAFE_TEXTAREA_REQUEST_LIMIT) {
+                    textarea.maxLength = SAFE_TEXTAREA_REQUEST_LIMIT;
+                }
+
+                const counter = document.createElement('div');
+                counter.className = 'field-counter';
+
+                const updateCounter = () => {
+                    const remaining = textarea.maxLength - textarea.value.length;
+                    counter.textContent = `${textarea.value.length}/${textarea.maxLength} characters`;
+                    counter.classList.toggle('near-limit', remaining <= 50);
+                };
+
+                textarea.insertAdjacentElement('afterend', counter);
+                textarea.addEventListener('input', updateCounter);
+                updateCounter();
+            });
+        }
+
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date().toISOString().split('T')[0];
@@ -2255,6 +2290,7 @@
             // Example: Calculate hours worked
             document.getElementById('startTime').addEventListener('change', calculateHours);
             document.getElementById('endTime').addEventListener('change', calculateHours);
+            initializeTextareaCounters();
         });
 
         function calculateHours() {
