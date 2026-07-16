@@ -325,6 +325,16 @@
             min-height: 100px;
         }
 
+        .char-counter {
+            display: block;
+            text-align: right;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .char-counter.near-limit { color: #E67E22; font-weight: 600; }
+        .char-counter.at-limit   { color: var(--danger); font-weight: 600; }
+
         /* ===== GRIDS ===== */
         .grid-2 {
             display: grid;
@@ -1041,7 +1051,7 @@
 
                     <div class="form-group">
                         <label>Special Installation Requirements</label>
-                        <textarea id="installNotes" placeholder="E.g., slopes, obstacles, access restrictions, utility lines nearby, underground sprinkler systems, flower gardens, neighbor dogs, etc."></textarea>
+                        <textarea id="installNotes" placeholder="E.g., slopes, obstacles, access restrictions, utility lines nearby, underground sprinkler systems, flower gardens, neighbor dogs, etc." maxlength="2000"></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1120,7 +1130,7 @@
 
                     <div class="form-group">
                         <label>Permit Notes/Requirements</label>
-                        <textarea id="permitNotes" placeholder="Special permit conditions, setbacks, height restrictions, building code compliance notes, etc."></textarea>
+                        <textarea id="permitNotes" placeholder="Special permit conditions, setbacks, height restrictions, building code compliance notes, etc." maxlength="2000"></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1219,7 +1229,7 @@
 
                     <div class="form-group">
                         <label>Locate Notes/Hazards</label>
-                        <textarea id="locateNotes" placeholder="Any hazards, clearances, depth information, or special notes..."></textarea>
+                        <textarea id="locateNotes" placeholder="Any hazards, clearances, depth information, or special notes..." maxlength="2000"></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1302,7 +1312,7 @@
                     <div class="section-title mt-20">Special Notes & Extra Work</div>
                     <div class="form-group">
                         <label>Additional Work/Materials Beyond Standard Installation</label>
-                        <textarea id="specialNotes" placeholder="E.g., gate automation, custom painting, site cleanup, permits, inspections, etc."></textarea>
+                        <textarea id="specialNotes" placeholder="E.g., gate automation, custom painting, site cleanup, permits, inspections, etc." maxlength="2000"></textarea>
                     </div>
 
                     <div class="grid-2">
@@ -1420,7 +1430,7 @@
 
                     <div class="form-group">
                         <label>Payment Terms & Conditions</label>
-                        <textarea id="contractNotes" placeholder="Payment schedule, cancellation policy, warranties, liability, dispute resolution, etc."></textarea>
+                        <textarea id="contractNotes" placeholder="Payment schedule, cancellation policy, warranties, liability, dispute resolution, etc." maxlength="2000"></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1458,7 +1468,7 @@
 
                     <div class="form-group">
                         <label>Site Layout Description</label>
-                        <textarea id="siteLayout" placeholder="Describe the site layout: property boundaries, existing structures, trees, slopes, utilities, gate locations, etc."></textarea>
+                        <textarea id="siteLayout" placeholder="Describe the site layout: property boundaries, existing structures, trees, slopes, utilities, gate locations, etc." maxlength="2000"></textarea>
                     </div>
 
                     <div class="section-title mt-20">Fence Line Details</div>
@@ -1479,7 +1489,7 @@
 
                     <div class="form-group">
                         <label>Shop Drawing Notes</label>
-                        <textarea id="shopDrawingNotes" placeholder="Specific installation notes, measurements, special details, etc."></textarea>
+                        <textarea id="shopDrawingNotes" placeholder="Specific installation notes, measurements, special details, etc." maxlength="2000"></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1529,7 +1539,7 @@
                     <div class="section-title mt-20">Site Layout & Installation Plan</div>
                     <div class="form-group">
                         <label>Site Layout Sketch/Notes</label>
-                        <textarea id="installerSiteLayout" placeholder="Draw or describe the site layout: fence line, gate locations, obstacles, utility locations, etc."></textarea>
+                        <textarea id="installerSiteLayout" placeholder="Draw or describe the site layout: fence line, gate locations, obstacles, utility locations, etc." maxlength="2000"></textarea>
                     </div>
 
                     <div class="grid-3">
@@ -1627,7 +1637,7 @@
 
                     <div class="form-group">
                         <label>Daily Progress Summary</label>
-                        <textarea id="dailyProgress" placeholder="What was completed today? Posts dug? Rails installed? Gates hung? Any delays or issues?"></textarea>
+                        <textarea id="dailyProgress" placeholder="What was completed today? Posts dug? Rails installed? Gates hung? Any delays or issues?" maxlength="2000"></textarea>
                     </div>
 
                     <div class="form-group">
@@ -1699,14 +1709,14 @@
 
                     <div class="form-group">
                         <label>Detailed Notes on Issues/Changes</label>
-                        <textarea id="dailyIssues" placeholder="Any problems, delays, changes, concerns, customer requests, etc."></textarea>
+                        <textarea id="dailyIssues" placeholder="Any problems, delays, changes, concerns, customer requests, etc." maxlength="2000"></textarea>
                     </div>
 
                     <!-- SPECIAL NOTES FROM ESTIMATE -->
                     <div class="section-title mt-20">Special Notes (From Estimate)</div>
                     <div class="form-group">
                         <label>Special Installation Notes & Warnings</label>
-                        <textarea id="installerSpecialNotes" placeholder="E.g., Do NOT cut flowers, watch for underground sprinkler system, neighbor dog is mean, existing structures nearby, etc." readonly></textarea>
+                        <textarea id="installerSpecialNotes" placeholder="E.g., Do NOT cut flowers, watch for underground sprinkler system, neighbor dog is mean, existing structures nearby, etc." maxlength="2000" readonly></textarea>
                     </div>
 
                     <!-- UNDERGROUND LOCATES -->
@@ -1728,14 +1738,14 @@
 
                     <div class="form-group">
                         <label>Utilities Found</label>
-                        <textarea id="installerUtilitiesFound" placeholder="Document any utilities encountered: type, location, depth, etc."></textarea>
+                        <textarea id="installerUtilitiesFound" placeholder="Document any utilities encountered: type, location, depth, etc." maxlength="2000"></textarea>
                     </div>
 
                     <!-- CHANGE ORDER -->
                     <div class="section-title mt-20">Change Order (If Applicable)</div>
                     <div class="form-group">
                         <label>Customer Approval for Changes</label>
-                        <textarea id="changeOrder" placeholder="Describe any changes from original contract, additional work requested, modifications, etc. Get customer signature on separate form."></textarea>
+                        <textarea id="changeOrder" placeholder="Describe any changes from original contract, additional work requested, modifications, etc. Get customer signature on separate form." maxlength="2000"></textarea>
                     </div>
 
                     <div class="form-group">
@@ -1790,7 +1800,7 @@
 
                     <div class="form-group">
                         <label>Customer Comments/Feedback</label>
-                        <textarea id="customerFeedback" placeholder="Any customer feedback, concerns, or compliments"></textarea>
+                        <textarea id="customerFeedback" placeholder="Any customer feedback, concerns, or compliments" maxlength="2000"></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1859,7 +1869,7 @@
 
                     <div class="form-group">
                         <label>Customer Notes</label>
-                        <textarea id="customerNotes" placeholder="Special instructions, preferences, access information, etc."></textarea>
+                        <textarea id="customerNotes" placeholder="Special instructions, preferences, access information, etc." maxlength="2000"></textarea>
                     </div>
 
                     <div class="button-group">
@@ -2267,6 +2277,31 @@
                 document.getElementById('hoursWorked').value = hours.toFixed(2);
             }
         }
+
+        // ===== TEXTAREA CHARACTER LIMITS =====
+        // Prevents "Request Denied" (413/400) errors caused by oversized payloads.
+        const TEXTAREA_MAX  = 2000;  // hard cap (maxlength attribute)
+        const TEXTAREA_WARN = 1800;  // counter turns orange above this
+
+        function initCharCounters() {
+            document.querySelectorAll('textarea[maxlength]').forEach(function(ta) {
+                const max = parseInt(ta.getAttribute('maxlength'), 10);
+                const counter = document.createElement('span');
+                counter.className = 'char-counter';
+                counter.textContent = `0 / ${max}`;
+                ta.parentNode.insertBefore(counter, ta.nextSibling);
+
+                ta.addEventListener('input', function() {
+                    const len = ta.value.length;
+                    counter.textContent = `${len} / ${max}`;
+                    counter.className = 'char-counter' +
+                        (len >= max        ? ' at-limit'   :
+                         len >= TEXTAREA_WARN ? ' near-limit' : '');
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initCharCounters);
     </script>
 </body>
 </html>
