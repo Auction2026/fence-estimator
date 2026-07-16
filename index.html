@@ -2825,7 +2825,7 @@
       rail_2x4_8ft: 8.50,
       picket_dog_ear_6ft: 2.80,
       picket_cedar_6ft: 4.20,
-      picket_pt_6ft: 3.40,
+      picket_pressure_treated_6ft: 3.40,
       concrete_bag_80lb: 8.50,
       screws_per_lf: 0.45,
       post_cap_each: 3.50,
@@ -3251,7 +3251,7 @@ function buildMaterialItems(estimate, materialResult) {
     if (picketItem) {
       const isCedar = estimate.finish === 'cedar' || !['pressure-treated', 'natural'].includes(estimate.finish);
       picketItem.name = estimate.finish === 'pressure-treated' ? 'Pressure Treated Pickets' : isCedar ? 'Cedar Pickets' : 'Natural Wood Pickets';
-      const defaultRate = estimate.finish === 'pressure-treated' ? MATERIAL_RATES.wood.picket_pt_6ft : isCedar ? MATERIAL_RATES.wood.picket_cedar_6ft : MATERIAL_RATES.wood.picket_dog_ear_6ft;
+      const defaultRate = estimate.finish === 'pressure-treated' ? MATERIAL_RATES.wood.picket_pressure_treated_6ft : isCedar ? MATERIAL_RATES.wood.picket_cedar_6ft : MATERIAL_RATES.wood.picket_dog_ear_6ft;
       picketItem.rate = estimate.materialOverrides[picketItem.key]?.rate ?? defaultRate;
       picketItem.defaultRate = defaultRate;
       picketItem.total = picketItem.qty * picketItem.rate;
