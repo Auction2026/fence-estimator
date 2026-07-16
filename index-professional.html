@@ -2361,11 +2361,12 @@
         });
 
         function calculateHours() {
+            const BASELINE_DATE = '2000-01-01T'; // fixed reference date for time-only arithmetic
             const start = document.getElementById('startTime').value;
             const end   = document.getElementById('endTime').value;
             if (start && end) {
-                const startDate = new Date(`2000-01-01T${start}`);
-                let   endDate   = new Date(`2000-01-01T${end}`);
+                const startDate = new Date(BASELINE_DATE + start);
+                let   endDate   = new Date(BASELINE_DATE + end);
                 // Handle overnight shifts (end time strictly before start time)
                 if (endDate < startDate) endDate.setDate(endDate.getDate() + 1);
                 const hours = (endDate - startDate) / (1000 * 60 * 60);

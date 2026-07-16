@@ -1604,6 +1604,7 @@
         // Named constants for material quantity factors
         const BOARDS_PER_LF_WITH_WASTE = 2.1;  // 1×6 boards per LF of wood fence + 5% waste
         const PICKETS_PER_LF           = 3;    // ornamental pickets per LF of wrought iron fence
+        const ESTIMATE_VALIDITY_DAYS   = 30;   // number of days a price-locked estimate remains valid
 
         // Shared customer field IDs (used for localStorage persistence)
         const CUSTOMER_FIELDS = ['inputFirstName','inputLastName','inputEmail','inputPhone',
@@ -1928,9 +1929,19 @@
 
             const today     = new Date();
             const validDate = new Date(today);
-            validDate.setDate(validDate.getDate() + 30);
+            validDate.setDate(validDate.getDate() + ESTIMATE_VALIDITY_DAYS);
 
-            document.getElementById('step5-est-num').textContent = '001-' + today.getFullYear();
+            // Auto-increment estimate number per year, persisted in localStorage
+            let estSeq = 1;
+            try {
+                const stored = JSON.parse(localStorage.getItem('fd_est_seq') || '{}');
+                const year = today.getFullYear();
+                estSeq = (stored.year === year ? (stored.seq || 0) + 1 : 1);
+                localStorage.setItem('fd_est_seq', JSON.stringify({ year, seq: estSeq }));
+            } catch(e) {}
+            const estNum = String(estSeq).padStart(3, '0') + '-' + today.getFullYear();
+
+            document.getElementById('step5-est-num').textContent = estNum;
             document.getElementById('step5-valid').textContent   = fmtDate(validDate);
 
             document.getElementById('step5-summary').innerHTML =
