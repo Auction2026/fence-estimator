@@ -325,6 +325,18 @@
             min-height: 100px;
         }
 
+        .field-counter {
+            margin-top: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+
+        .field-counter.near-limit {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
         /* ===== GRIDS ===== */
         .grid-2 {
             display: grid;
@@ -1041,7 +1053,7 @@
 
                     <div class="form-group">
                         <label>Special Installation Requirements</label>
-                        <textarea id="installNotes" placeholder="E.g., slopes, obstacles, access restrictions, utility lines nearby, underground sprinkler systems, flower gardens, neighbor dogs, etc."></textarea>
+                        <textarea id="installNotes" maxlength="500" placeholder="E.g., slopes, obstacles, access restrictions, utility lines nearby, underground sprinkler systems, flower gardens, neighbor dogs, etc."></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1120,7 +1132,7 @@
 
                     <div class="form-group">
                         <label>Permit Notes/Requirements</label>
-                        <textarea id="permitNotes" placeholder="Special permit conditions, setbacks, height restrictions, building code compliance notes, etc."></textarea>
+                        <textarea id="permitNotes" maxlength="500" placeholder="Special permit conditions, setbacks, height restrictions, building code compliance notes, etc."></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1219,7 +1231,7 @@
 
                     <div class="form-group">
                         <label>Locate Notes/Hazards</label>
-                        <textarea id="locateNotes" placeholder="Any hazards, clearances, depth information, or special notes..."></textarea>
+                        <textarea id="locateNotes" maxlength="500" placeholder="Any hazards, clearances, depth information, or special notes..."></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1302,7 +1314,7 @@
                     <div class="section-title mt-20">Special Notes & Extra Work</div>
                     <div class="form-group">
                         <label>Additional Work/Materials Beyond Standard Installation</label>
-                        <textarea id="specialNotes" placeholder="E.g., gate automation, custom painting, site cleanup, permits, inspections, etc."></textarea>
+                        <textarea id="specialNotes" maxlength="500" placeholder="E.g., gate automation, custom painting, site cleanup, permits, inspections, etc."></textarea>
                     </div>
 
                     <div class="grid-2">
@@ -1373,8 +1385,12 @@
                                 <td><strong>PROFIT</strong></td>
                                 <td style="text-align: right;"><strong><span id="sumProfit">$0.00</span></strong></td>
                             </tr>
+                            <tr style="background-color: var(--gray-50);">
+                                <td>HST (13%)</td>
+                                <td style="text-align: right;"><span id="sumTax">$0.00</span></td>
+                            </tr>
                             <tr style="background-color: var(--primary); color: white; font-size: 16px; font-weight: 700;">
-                                <td>TOTAL ESTIMATE</td>
+                                <td>TOTAL ESTIMATE (incl. HST)</td>
                                 <td style="text-align: right;"><span id="sumTotal">$0.00</span></td>
                             </tr>
                         </tbody>
@@ -1420,7 +1436,7 @@
 
                     <div class="form-group">
                         <label>Payment Terms & Conditions</label>
-                        <textarea id="contractNotes" placeholder="Payment schedule, cancellation policy, warranties, liability, dispute resolution, etc."></textarea>
+                        <textarea id="contractNotes" maxlength="500" placeholder="Payment schedule, cancellation policy, warranties, liability, dispute resolution, etc."></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1458,7 +1474,7 @@
 
                     <div class="form-group">
                         <label>Site Layout Description</label>
-                        <textarea id="siteLayout" placeholder="Describe the site layout: property boundaries, existing structures, trees, slopes, utilities, gate locations, etc."></textarea>
+                        <textarea id="siteLayout" maxlength="500" placeholder="Describe the site layout: property boundaries, existing structures, trees, slopes, utilities, gate locations, etc."></textarea>
                     </div>
 
                     <div class="section-title mt-20">Fence Line Details</div>
@@ -1479,7 +1495,7 @@
 
                     <div class="form-group">
                         <label>Shop Drawing Notes</label>
-                        <textarea id="shopDrawingNotes" placeholder="Specific installation notes, measurements, special details, etc."></textarea>
+                        <textarea id="shopDrawingNotes" maxlength="500" placeholder="Specific installation notes, measurements, special details, etc."></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1529,7 +1545,7 @@
                     <div class="section-title mt-20">Site Layout & Installation Plan</div>
                     <div class="form-group">
                         <label>Site Layout Sketch/Notes</label>
-                        <textarea id="installerSiteLayout" placeholder="Draw or describe the site layout: fence line, gate locations, obstacles, utility locations, etc."></textarea>
+                        <textarea id="installerSiteLayout" maxlength="500" placeholder="Draw or describe the site layout: fence line, gate locations, obstacles, utility locations, etc."></textarea>
                     </div>
 
                     <div class="grid-3">
@@ -1627,7 +1643,7 @@
 
                     <div class="form-group">
                         <label>Daily Progress Summary</label>
-                        <textarea id="dailyProgress" placeholder="What was completed today? Posts dug? Rails installed? Gates hung? Any delays or issues?"></textarea>
+                        <textarea id="dailyProgress" maxlength="500" placeholder="What was completed today? Posts dug? Rails installed? Gates hung? Any delays or issues?"></textarea>
                     </div>
 
                     <div class="form-group">
@@ -1699,7 +1715,7 @@
 
                     <div class="form-group">
                         <label>Detailed Notes on Issues/Changes</label>
-                        <textarea id="dailyIssues" placeholder="Any problems, delays, changes, concerns, customer requests, etc."></textarea>
+                        <textarea id="dailyIssues" maxlength="500" placeholder="Any problems, delays, changes, concerns, customer requests, etc."></textarea>
                     </div>
 
                     <!-- SPECIAL NOTES FROM ESTIMATE -->
@@ -1728,14 +1744,14 @@
 
                     <div class="form-group">
                         <label>Utilities Found</label>
-                        <textarea id="installerUtilitiesFound" placeholder="Document any utilities encountered: type, location, depth, etc."></textarea>
+                        <textarea id="installerUtilitiesFound" maxlength="500" placeholder="Document any utilities encountered: type, location, depth, etc."></textarea>
                     </div>
 
                     <!-- CHANGE ORDER -->
                     <div class="section-title mt-20">Change Order (If Applicable)</div>
                     <div class="form-group">
                         <label>Customer Approval for Changes</label>
-                        <textarea id="changeOrder" placeholder="Describe any changes from original contract, additional work requested, modifications, etc. Get customer signature on separate form."></textarea>
+                        <textarea id="changeOrder" maxlength="500" placeholder="Describe any changes from original contract, additional work requested, modifications, etc. Get customer signature on separate form."></textarea>
                     </div>
 
                     <div class="form-group">
@@ -1790,7 +1806,7 @@
 
                     <div class="form-group">
                         <label>Customer Comments/Feedback</label>
-                        <textarea id="customerFeedback" placeholder="Any customer feedback, concerns, or compliments"></textarea>
+                        <textarea id="customerFeedback" maxlength="500" placeholder="Any customer feedback, concerns, or compliments"></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1859,7 +1875,7 @@
 
                     <div class="form-group">
                         <label>Customer Notes</label>
-                        <textarea id="customerNotes" placeholder="Special instructions, preferences, access information, etc."></textarea>
+                        <textarea id="customerNotes" maxlength="500" placeholder="Special instructions, preferences, access information, etc."></textarea>
                     </div>
 
                     <div class="button-group">
@@ -2071,9 +2087,9 @@
         }
 
         function saveFenceStyle() {
-            const fenceType = document.getElementById('fenceType').value;
+            const fenceType   = document.getElementById('fenceType').value;
             const fenceHeight = document.getElementById('fenceHeight').value;
-            const gatesCount = document.getElementById('gatesCount').value;
+            const gatesCount  = document.getElementById('gatesCount').value;
             const postSpacing = document.getElementById('postSpacing').value;
 
             if (!fenceType || !fenceHeight) {
@@ -2082,18 +2098,23 @@
             }
 
             showAlert('Fence Style saved successfully!', 'success');
-            document.getElementById('summaryType').textContent = fenceType;
-            document.getElementById('summaryHeight').textContent = fenceHeight + ' ft';
-            document.getElementById('summaryGates').textContent = gatesCount;
+            document.getElementById('summaryType').textContent    = fenceType;
+            document.getElementById('summaryHeight').textContent  = fenceHeight + ' ft';
+            document.getElementById('summaryGates').textContent   = gatesCount;
             document.getElementById('summarySpacing').textContent = postSpacing + ' ft';
+
+            // Persist to localStorage
+            localStorage.setItem('fd_fenceStyle', JSON.stringify({ fenceType, fenceHeight, gatesCount, postSpacing }));
         }
 
         function clearFenceForm() {
-            document.getElementById('fenceType').value = '';
-            document.getElementById('fenceHeight').value = '';
-            document.getElementById('gatesCount').value = '0';
-            document.getElementById('summaryType').textContent = '--';
-            document.getElementById('summaryHeight').textContent = '--';
+            document.getElementById('fenceType').value    = '';
+            document.getElementById('fenceHeight').value  = '';
+            document.getElementById('gatesCount').value   = '0';
+            document.getElementById('summaryType').textContent    = '--';
+            document.getElementById('summaryHeight').textContent  = '--';
+            document.getElementById('summaryGates').textContent   = '--';
+            document.getElementById('summarySpacing').textContent = '--';
         }
 
         // ===== INSTALLATION TAB =====
@@ -2113,39 +2134,52 @@
 
         // ===== ESTIMATE TAB =====
         function calculateEstimate() {
-            const linearFootage = parseFloat(document.getElementById('linearFootage').value) || 0;
-            const materialsCost = parseFloat(document.getElementById('materialsCost').value) || 0;
-            const hardwareCost = parseFloat(document.getElementById('hardwareCost').value) || 0;
-            const concreteCost = parseFloat(document.getElementById('concreteCost').value) || 0;
-            const extraCost = parseFloat(document.getElementById('extraCost').value) || 0;
-            const labourRate = parseFloat(document.getElementById('labourRate').value) || 0;
-            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 25;
-            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 35;
+            const linearFootage  = parseFloat(document.getElementById('linearFootage').value);
+            const materialsCost  = parseFloat(document.getElementById('materialsCost').value)  || 0;
+            const hardwareCost   = parseFloat(document.getElementById('hardwareCost').value)   || 0;
+            const concreteCost   = parseFloat(document.getElementById('concreteCost').value)   || 0;
+            const extraCost      = parseFloat(document.getElementById('extraCost').value)      || 0;
+            const labourRate     = parseFloat(document.getElementById('labourRate').value)     || 0;
+
+            // Read percentage fields — do NOT fall back to defaults when user intentionally enters 0
+            const overheadPercentRaw = document.getElementById('overheadPercent').value;
+            const profitPercentRaw   = document.getElementById('profitPercent').value;
+            const overheadPercent    = overheadPercentRaw === '' ? 25 : parseFloat(overheadPercentRaw);
+            const profitPercent      = profitPercentRaw   === '' ? 35 : parseFloat(profitPercentRaw);
+
+            // Validate linear footage
+            if (!linearFootage || linearFootage <= 0) {
+                showAlert('Please enter a valid linear footage greater than 0.', 'danger');
+                return;
+            }
 
             // Calculate labour hours
-            const baseLabour = 14; // per 100 LF
+            const baseLabour     = 14; // per 100 LF
             const adjustedLabour = (linearFootage / 100) * baseLabour;
-            document.getElementById('baseLabour').value = baseLabour;
+            document.getElementById('baseLabour').value     = baseLabour;
             document.getElementById('adjustedLabour').value = adjustedLabour.toFixed(2);
 
             // Calculate costs
             const totalLabourCost = adjustedLabour * labourRate;
-            const subtotal = materialsCost + hardwareCost + concreteCost;
-            const overhead = subtotal * (overheadPercent / 100);
-            const profit = (subtotal + totalLabourCost + extraCost) * (profitPercent / 100);
-            const total = subtotal + totalLabourCost + overhead + profit + extraCost;
+            const subtotal        = materialsCost + hardwareCost + concreteCost;
+            const overhead        = subtotal * (overheadPercent / 100);
+            const profit          = (subtotal + totalLabourCost + extraCost) * (profitPercent / 100);
+            const preTax          = subtotal + totalLabourCost + overhead + profit + extraCost;
+            const tax             = preTax * 0.13;
+            const total           = preTax + tax;
 
             // Update display
-            document.getElementById('totalLabourCost').value = '$' + totalLabourCost.toFixed(2);
+            document.getElementById('totalLabourCost').value  = '$' + totalLabourCost.toFixed(2);
             document.getElementById('sumMaterials').textContent = '$' + materialsCost.toFixed(2);
-            document.getElementById('sumHardware').textContent = '$' + hardwareCost.toFixed(2);
-            document.getElementById('sumConcrete').textContent = '$' + concreteCost.toFixed(2);
-            document.getElementById('sumSubtotal').textContent = '$' + subtotal.toFixed(2);
-            document.getElementById('sumLabour').textContent = '$' + totalLabourCost.toFixed(2);
-            document.getElementById('sumExtra').textContent = '$' + extraCost.toFixed(2);
-            document.getElementById('sumOverhead').textContent = '$' + overhead.toFixed(2);
-            document.getElementById('sumProfit').textContent = '$' + profit.toFixed(2);
-            document.getElementById('sumTotal').textContent = '$' + total.toFixed(2);
+            document.getElementById('sumHardware').textContent  = '$' + hardwareCost.toFixed(2);
+            document.getElementById('sumConcrete').textContent  = '$' + concreteCost.toFixed(2);
+            document.getElementById('sumSubtotal').textContent  = '$' + subtotal.toFixed(2);
+            document.getElementById('sumLabour').textContent    = '$' + totalLabourCost.toFixed(2);
+            document.getElementById('sumExtra').textContent     = '$' + extraCost.toFixed(2);
+            document.getElementById('sumOverhead').textContent  = '$' + overhead.toFixed(2);
+            document.getElementById('sumProfit').textContent    = '$' + profit.toFixed(2);
+            document.getElementById('sumTax').textContent       = '$' + tax.toFixed(2);
+            document.getElementById('sumTotal').textContent     = '$' + total.toFixed(2);
 
             showAlert('Estimate calculated successfully!', 'success');
         }
@@ -2194,6 +2228,14 @@
                 showAlert('Please enter customer name', 'danger');
                 return;
             }
+            // Persist key customer fields to localStorage
+            const customerData = {
+                name:    customerName,
+                email:   (document.getElementById('customerEmail')   || {}).value || '',
+                phone:   (document.getElementById('customerPhone')   || {}).value || '',
+                address: (document.getElementById('customerAddress') || {}).value || ''
+            };
+            localStorage.setItem('fd_customer', JSON.stringify(customerData));
             showAlert('Customer information saved successfully!', 'success');
         }
 
@@ -2231,38 +2273,102 @@
         }
 
         function showAlert(message, type) {
-            // Simple alert for now - could be replaced with toast notification
-            const alertMap = {
-                success: '✓',
-                danger: '✕',
-                warning: '⚠',
-                info: 'ⓘ'
-            };
-            console.log(`[${type.toUpperCase()}] ${message}`);
-            alert(message);
+            const existing = document.getElementById('_proToast');
+            if (existing) existing.remove();
+
+            const colors = { success: '#27AE60', danger: '#E74C3C', warning: '#F39C12', info: '#3498DB' };
+            const icons  = { success: '✓', danger: '✕', warning: '⚠', info: 'ⓘ' };
+            const t = document.createElement('div');
+            t.id = '_proToast';
+            t.style.cssText =
+                'position:fixed;top:20px;right:20px;z-index:9999;' +
+                'background:' + (colors[type] || colors.success) + ';color:#fff;' +
+                'padding:14px 20px;border-radius:8px;font-weight:600;font-size:14px;' +
+                'box-shadow:0 4px 12px rgba(0,0,0,.25);max-width:360px;' +
+                'display:flex;align-items:center;gap:8px;';
+            t.innerHTML = '<span>' + (icons[type] || '✓') + '</span><span>' + message + '</span>';
+            document.body.appendChild(t);
+            setTimeout(function() { if (t.parentNode) t.remove(); }, 3500);
+
+            // Also log to console for debugging
+            console.log('[' + (type || 'success').toUpperCase() + '] ' + message);
+        }
+
+        function initializeTextareaCounters() {
+            // Editable note fields share maxlength="500" in HTML to keep save payloads small for API/Sheets-style submissions.
+            const NEAR_LIMIT_THRESHOLD = 50;
+            document.querySelectorAll('textarea[maxlength]:not([readonly])').forEach(textarea => {
+                const counter = document.createElement('div');
+                counter.className = 'field-counter';
+
+                const updateCounter = () => {
+                    const remaining = textarea.maxLength - textarea.value.length;
+                    counter.textContent = `${textarea.value.length}/${textarea.maxLength} characters`;
+                    counter.classList.toggle('near-limit', remaining <= NEAR_LIMIT_THRESHOLD);
+                };
+
+                textarea.insertAdjacentElement('afterend', counter);
+                textarea.addEventListener('input', updateCounter);
+                updateCounter();
+            });
         }
 
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('installStart').value = today;
-            document.getElementById('permitDate').value = today;
-            document.getElementById('locateRequestDate').value = today;
-            document.getElementById('contractDate').value = today;
-            document.getElementById('workDate').value = today;
-            document.getElementById('signOffDate').value = today;
+            document.getElementById('installStart').value       = today;
+            document.getElementById('permitDate').value         = today;
+            document.getElementById('locateRequestDate').value  = today;
+            document.getElementById('contractDate').value       = today;
+            document.getElementById('workDate').value           = today;
+            document.getElementById('signOffDate').value        = today;
 
-            // Example: Calculate hours worked
             document.getElementById('startTime').addEventListener('change', calculateHours);
             document.getElementById('endTime').addEventListener('change', calculateHours);
+            initializeTextareaCounters();
+
+            // Restore saved fence style
+            try {
+                const savedStyle = localStorage.getItem('fd_fenceStyle');
+                if (savedStyle) {
+                    const s = JSON.parse(savedStyle);
+                    document.getElementById('fenceType').value    = s.fenceType    || '';
+                    document.getElementById('fenceHeight').value  = s.fenceHeight  || '';
+                    document.getElementById('gatesCount').value   = s.gatesCount   || '0';
+                    document.getElementById('postSpacing').value  = s.postSpacing  || '6';
+                    document.getElementById('summaryType').textContent    = s.fenceType    || '--';
+                    document.getElementById('summaryHeight').textContent  = s.fenceHeight ? s.fenceHeight + ' ft' : '--';
+                    document.getElementById('summaryGates').textContent   = s.gatesCount   || '--';
+                    document.getElementById('summarySpacing').textContent = s.postSpacing ? s.postSpacing + ' ft' : '--';
+                }
+            } catch(e) { /* ignore corrupt localStorage */ }
+
+            // Restore saved customer
+            try {
+                const savedCustomer = localStorage.getItem('fd_customer');
+                if (savedCustomer) {
+                    const c = JSON.parse(savedCustomer);
+                    const nameEl    = document.getElementById('customerName');
+                    const emailEl   = document.getElementById('customerEmail');
+                    const phoneEl   = document.getElementById('customerPhone');
+                    const addrEl    = document.getElementById('customerAddress');
+                    if (nameEl    && c.name)    nameEl.value    = c.name;
+                    if (emailEl   && c.email)   emailEl.value   = c.email;
+                    if (phoneEl   && c.phone)   phoneEl.value   = c.phone;
+                    if (addrEl    && c.address) addrEl.value    = c.address;
+                }
+            } catch(e) { /* ignore corrupt localStorage */ }
         });
 
         function calculateHours() {
+            const BASELINE_DATE = '2000-01-01T'; // fixed reference date for time-only arithmetic
             const start = document.getElementById('startTime').value;
-            const end = document.getElementById('endTime').value;
+            const end   = document.getElementById('endTime').value;
             if (start && end) {
-                const startDate = new Date(`2000-01-01 ${start}`);
-                const endDate = new Date(`2000-01-01 ${end}`);
+                const startDate = new Date(BASELINE_DATE + start);
+                let   endDate   = new Date(BASELINE_DATE + end);
+                // Handle overnight shifts (end time strictly before start time)
+                if (endDate < startDate) endDate.setDate(endDate.getDate() + 1);
                 const hours = (endDate - startDate) / (1000 * 60 * 60);
                 document.getElementById('hoursWorked').value = hours.toFixed(2);
             }

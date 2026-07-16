@@ -1160,44 +1160,44 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>First Name *</label>
-                                    <input type="text" placeholder="John" value="John">
+                                    <input type="text" id="inputFirstName" placeholder="John" value="John">
                                 </div>
                                 <div class="form-group">
                                     <label>Last Name *</label>
-                                    <input type="text" placeholder="Smith" value="Smith">
+                                    <input type="text" id="inputLastName" placeholder="Smith" value="Smith">
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Email Address *</label>
-                                    <input type="email" placeholder="john@email.com" value="john@email.com">
+                                    <input type="email" id="inputEmail" placeholder="john@email.com" value="john@email.com">
                                 </div>
                                 <div class="form-group">
                                     <label>Phone Number *</label>
-                                    <input type="tel" placeholder="(555) 123-4567" value="(555) 123-4567">
+                                    <input type="tel" id="inputPhone" placeholder="(555) 123-4567" value="(555) 123-4567">
                                 </div>
                             </div>
 
                             <div class="form-row form-group-full">
                                 <div class="form-group">
                                     <label>Street Address *</label>
-                                    <input type="text" placeholder="123 Main Street" value="123 Main St">
+                                    <input type="text" id="inputStreet" placeholder="123 Main Street" value="123 Main St">
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>City *</label>
-                                    <input type="text" placeholder="Cornwall" value="Cornwall">
+                                    <input type="text" id="inputCity" placeholder="Cornwall" value="Cornwall">
                                 </div>
                                 <div class="form-group">
                                     <label>Province *</label>
-                                    <input type="text" placeholder="ON" value="ON">
+                                    <input type="text" id="inputProvince" placeholder="ON" value="ON">
                                 </div>
                                 <div class="form-group">
                                     <label>Postal Code *</label>
-                                    <input type="text" placeholder="K6H 1A1" value="K6H 1A1">
+                                    <input type="text" id="inputPostal" placeholder="K6H 1A1" value="K6H 1A1">
                                 </div>
                             </div>
                         </div>
@@ -1248,7 +1248,7 @@
                             <div class="form-row" style="margin-top: 30px;">
                                 <div class="form-group">
                                     <label style="display: flex; align-items: center; gap: 10px;">
-                                        <input type="checkbox" checked style="width: 20px; height: 20px; cursor: pointer;">
+                                        <input type="checkbox" id="inputInstallation" checked style="width: 20px; height: 20px; cursor: pointer;">
                                         <span>Include Professional Installation</span>
                                     </label>
                                 </div>
@@ -1262,18 +1262,18 @@
                             <div class="form-row form-group-full">
                                 <div class="form-group">
                                     <label>Total Linear Footage *</label>
-                                    <input type="number" placeholder="100" value="100">
+                                    <input type="number" id="inputLinearFt" placeholder="100" value="100" min="1">
                                 </div>
                             </div>
 
                             <div class="form-row form-group-full">
                                 <div class="form-group">
                                     <label>Post Spacing (Feet):</label>
-                                    <select style="width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px;">
-                                        <option>4 feet</option>
-                                        <option selected>6 feet</option>
-                                        <option>8 feet</option>
-                                        <option>10 feet</option>
+                                    <select id="inputPostSpacing" style="width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px;">
+                                        <option value="4">4 feet</option>
+                                        <option value="6" selected>6 feet</option>
+                                        <option value="8">8 feet</option>
+                                        <option value="10">10 feet</option>
                                     </select>
                                 </div>
                             </div>
@@ -1281,15 +1281,15 @@
                             <div class="summary-card">
                                 <div class="summary-row">
                                     <span class="summary-label">Posts Needed:</span>
-                                    <span class="summary-value"><strong>17</strong></span>
+                                    <span class="summary-value"><strong id="calc-posts">17</strong></span>
                                 </div>
                                 <div class="summary-row">
                                     <span class="summary-label">Sections:</span>
-                                    <span class="summary-value"><strong>10</strong></span>
+                                    <span class="summary-value"><strong id="calc-sections">16</strong></span>
                                 </div>
                                 <div class="summary-row">
                                     <span class="summary-label">Estimated Concrete:</span>
-                                    <span class="summary-value"><strong>30 Bags</strong></span>
+                                    <span class="summary-value"><strong id="calc-concrete">51 Bags</strong></span>
                                 </div>
                             </div>
                         </div>
@@ -1298,57 +1298,8 @@
                         <div class="form-section" id="step4">
                             <h2>Step 4: Materials Review</h2>
 
-                            <div class="summary-card">
-                                <div class="summary-row">
-                                    <span class="summary-label">Chain Link 5' Black (PLU 387):</span>
-                                    <span class="summary-value">100 FT @ $5.03 = <strong>$503.00</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Top Rail 1.25" Black (PLU 956):</span>
-                                    <span class="summary-value">10 EA @ $21.07 = <strong>$210.70</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Tension Bar 5' Black (PLU 927):</span>
-                                    <span class="summary-value">10 EA @ $5.65 = <strong>$56.50</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Tension Band 1.875" Black (PLU 900):</span>
-                                    <span class="summary-value">100 EA @ $1.58 = <strong>$158.00</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Posts 1.875" Black (PLU 1009):</span>
-                                    <span class="summary-value">127 FT @ $2.81 = <strong>$356.87</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Concrete 80lb Bags (50 bags):</span>
-                                    <span class="summary-value">50 EA @ $8.50 = <strong>$425.00</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Labour (51 hours):</span>
-                                    <span class="summary-value">51 HRS @ $30 = <strong>$1,530.00</strong></span>
-                                </div>
-                                <div class="summary-row total">
-                                    <span class="summary-label">SUBTOTAL:</span>
-                                    <span class="summary-value">$3,621.49</span>
-                                </div>
-                                <div class="summary-row total">
-                                    <span class="summary-label">TAX (13%):</span>
-                                    <span class="summary-value">$470.79</span>
-                                </div>
-                                <div class="summary-row total" style="color: var(--success); font-size: 18px;">
-                                    <span class="summary-label">TOTAL:</span>
-                                    <span class="summary-value">$4,092.28</span>
-                                </div>
-                            </div>
-
-                            <div class="profit-card">
-                                <div class="profit-label">YOUR PROFIT:</div>
-                                <div class="profit-value">$1,437.49</div>
-                                <div class="profit-details">
-                                    <span>Margin: 35%</span>
-                                    <span>Per Hour: $251</span>
-                                    <span>Per Foot: $20.11</span>
-                                </div>
+                            <div id="step4-breakdown">
+                                <!-- Dynamically populated when advancing to this step -->
                             </div>
                         </div>
 
@@ -1359,11 +1310,11 @@
                             <div class="summary-card" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border: none; border-left: 4px solid white;">
                                 <div class="summary-row" style="color: white; border-bottom-color: rgba(255, 255, 255, 0.2);">
                                     <span class="summary-label" style="color: white;">Estimate #:</span>
-                                    <span class="summary-value" style="color: white;">001-2026</span>
+                                    <span class="summary-value" style="color: white;" id="step5-est-num">001-2026</span>
                                 </div>
                                 <div class="summary-row" style="color: white; border-bottom-color: rgba(255, 255, 255, 0.2);">
                                     <span class="summary-label" style="color: white;">Valid Until:</span>
-                                    <span class="summary-value" style="color: white;">August 14, 2026</span>
+                                    <span class="summary-value" style="color: white;" id="step5-valid">--</span>
                                 </div>
                                 <div class="summary-row" style="color: white;">
                                     <span class="summary-label" style="color: white;">Price Lock:</span>
@@ -1372,21 +1323,8 @@
                             </div>
 
                             <h3 style="margin: 30px 0 20px; color: var(--text-dark); font-size: 18px; font-weight: 700;">Customer Summary:</h3>
-                            <div class="summary-card">
-                                <div class="summary-row">
-                                    <span class="summary-label"><strong>John Smith</strong></span>
-                                    <span class="summary-value">(555) 123-4567</span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">123 Main St, Cornwall ON K6H 1A1</span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">100 Linear Feet • Chain Link • 5' Height</span>
-                                </div>
-                                <div class="summary-row total">
-                                    <span class="summary-label">TOTAL ESTIMATE:</span>
-                                    <span class="summary-value" style="color: var(--primary); font-size: 18px;">$4,092.28</span>
-                                </div>
+                            <div class="summary-card" id="step5-summary">
+                                <!-- Dynamically populated when advancing to this step -->
                             </div>
 
                             <button class="btn btn-primary" onclick="generatePDF()" style="width: 100%; margin-top: 30px; padding: 16px; font-size: 16px;">
@@ -1657,8 +1595,82 @@
     </div>
 
     <script>
+        // ===== STATE =====
         let currentStep = 1;
+        const TAX_RATE   = 0.13;   // 13% HST
+        const LABOUR_RATE = 30;    // CAD/hr
+        const PROFIT_PCT  = 0.35;  // 35% markup on total cost
 
+        // Named constants for material quantity factors
+        const BOARDS_PER_LF_WITH_WASTE = 2.1;  // 1×6 boards per LF of wood fence + 5% waste
+        const PICKETS_PER_LF           = 3;    // ornamental pickets per LF of wrought iron fence
+        const ESTIMATE_VALIDITY_DAYS   = 30;   // number of days a price-locked estimate remains valid
+
+        // Shared customer field IDs (used for localStorage persistence)
+        const CUSTOMER_FIELDS = ['inputFirstName','inputLastName','inputEmail','inputPhone',
+                                  'inputStreet','inputCity','inputProvince','inputPostal'];
+
+        // Tracks button-group selections (mirrors HTML default selections)
+        const sel = {
+            fenceType:  'residential',
+            fenceStyle: 'chainlink',
+            height:     '5',
+            color:      'black'
+        };
+
+        // ===== SHARED UTILITIES =====
+        function fmt(v) {
+            return '$' + v.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        function fmtDate(d) {
+            return d.toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
+        }
+
+        // ===== PRICING DATA (CAD, Canadian standards) =====
+        const PRICING = {
+            chainlink: {
+                fabricByHeight:      { '3': 3.20, '4': 3.80, '5': 5.03, '6': 6.25, '8': 8.00 },
+                topRailPrice:        21.07,  // per 10-LF section
+                topRailSectionLF:    10,
+                tensionBandPerLF:    1.58,
+                tensionBarPer10LF:   5.65,
+                postPricePerLF:      2.81,   // post material $/LF
+                postBurialFt:        2.5,    // Canadian frost-line burial depth
+                concreteBagsPerPost: 3,
+                concreteBagPrice:    8.50,
+                labourHrsPer100LF:   { '3': 35, '4': 40, '5': 51, '6': 60, '8': 72 }
+            },
+            wood: {
+                postPriceEach:       { '4': 16.50, '5': 18.50, '6': 22.00, '8': 28.00 },
+                railPriceEach:       { '4': 10.00, '5': 12.00, '6': 14.00, '8': 18.00 },
+                boardPriceEach:      5.50,   // 1×6 PT board
+                hardwarePer100LF:    45.00,
+                concreteBagsPerPost: 2,
+                concreteBagPrice:    8.50,
+                labourHrsPer100LF:   { '4': 55, '5': 65, '6': 75, '8': 90 }
+            },
+            vinyl: {
+                panelPriceEach:      { '4': 95.00, '5': 125.00, '6': 155.00, '8': 195.00 },
+                postPriceEach:       { '4': 38.00, '5': 45.00,  '6': 55.00,  '8': 68.00 },
+                railPriceEach:       { '4': 22.00, '5': 28.00,  '6': 34.00,  '8': 42.00 },
+                hardwarePer100LF:    60.00,
+                concreteBagsPerPost: 2.5,
+                concreteBagPrice:    8.50,
+                labourHrsPer100LF:   { '4': 60, '5': 70, '6': 82, '8': 95 }
+            },
+            ornamental: {
+                picketPriceEach:     { '3': 6.50, '4': 7.50, '5': 8.50, '6': 9.50 },
+                postPriceEach:       { '3': 48.00, '4': 52.00, '5': 58.00, '6': 65.00 },
+                railPriceEach:       { '3': 28.00, '4': 32.00, '5': 36.00, '6': 40.00 },
+                paintPer100LF:       90.00,
+                concreteBagsPerPost: 4,
+                concreteBagPrice:    8.50,
+                labourHrsPer100LF:   { '3': 65, '4': 75, '5': 88, '6': 100 }
+            }
+        };
+
+        // ===== NAVIGATION =====
         function goToLogin() {
             document.getElementById('landingPage').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'flex';
@@ -1691,32 +1703,293 @@
         }
 
         function switchTab(tabName) {
-            // Hide all tabs
             const tabs = document.querySelectorAll('[id$="-tab"]');
             tabs.forEach(tab => tab.style.display = 'none');
-
-            // Deactivate all nav items
             document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
-
-            // Show selected tab
             document.getElementById(tabName + '-tab').style.display = 'block';
-
-            // Activate selected nav item
             event.target.classList.add('active');
         }
 
+        // ===== STEP 2 BUTTON SELECTIONS =====
         function selectOption(element, type, value) {
             const siblings = element.parentElement.querySelectorAll('.option-btn');
             siblings.forEach(btn => btn.classList.remove('selected'));
             element.classList.add('selected');
+            sel[type] = value;
+            // Refresh measurements if already on step 3
+            if (currentStep === 3) updateMeasurements();
         }
 
+        // ===== STEP 3 LIVE MEASUREMENT UPDATES =====
+        function updateMeasurements() {
+            const lf      = parseFloat(document.getElementById('inputLinearFt').value) || 0;
+            const spacing = parseFloat(document.getElementById('inputPostSpacing').value) || 6;
+
+            if (lf <= 0) {
+                document.getElementById('calc-posts').textContent    = '--';
+                document.getElementById('calc-sections').textContent = '--';
+                document.getElementById('calc-concrete').textContent = '--';
+                return;
+            }
+
+            const sections = Math.ceil(lf / spacing);
+            const posts    = sections + 1;
+            const p        = PRICING[sel.fenceStyle] || PRICING.chainlink;
+            const bags     = Math.ceil(posts * p.concreteBagsPerPost);
+
+            document.getElementById('calc-posts').textContent    = posts;
+            document.getElementById('calc-sections').textContent = sections;
+            document.getElementById('calc-concrete').textContent = bags + ' Bags';
+        }
+
+        // ===== ESTIMATE BUILDER =====
+        function buildEstimate() {
+            const lf          = parseFloat(document.getElementById('inputLinearFt').value) || 0;
+            const spacing     = parseFloat(document.getElementById('inputPostSpacing').value) || 6;
+            const style       = sel.fenceStyle;
+            const height      = sel.height;
+            const withInstall = document.getElementById('inputInstallation').checked;
+
+            const sections = Math.ceil(lf / spacing);
+            const posts    = sections + 1;
+            const items    = [];
+            let materialsCost = 0;
+
+            function addItem(label, qty, unit, unitPrice) {
+                const total = Math.round(qty * unitPrice * 100) / 100;
+                materialsCost += total;
+                items.push({ label, qty: Math.round(qty * 100) / 100, unit, unitPrice, total });
+            }
+
+            // ---- CHAIN LINK ----
+            if (style === 'chainlink') {
+                const p           = PRICING.chainlink;
+                const fabricPrice = p.fabricByHeight[height] || p.fabricByHeight['5'];
+                const postLen     = parseFloat(height) + p.postBurialFt;
+                const topRails    = Math.ceil(lf / p.topRailSectionLF);
+                const tensBars    = Math.ceil(lf / 10);
+                const tensBands   = lf;
+                const postMatFt   = Math.round(posts * postLen);
+                const bags        = Math.ceil(posts * p.concreteBagsPerPost);
+
+                addItem(`Chain Link Fabric ${height}' (${sel.color})`, lf,         'FT', fabricPrice);
+                addItem(`Top Rail 1.25" (${sel.color})`,                topRails,   'EA', p.topRailPrice);
+                addItem(`Tension Bar ${height}' (${sel.color})`,        tensBars,   'EA', p.tensionBarPer10LF);
+                addItem(`Tension Band 1.875" (${sel.color})`,           tensBands,  'EA', p.tensionBandPerLF);
+                addItem(`Line/Terminal Posts 1.875"`,                   postMatFt,  'FT', p.postPricePerLF);
+                addItem('Concrete 80lb Bags',                           bags,       'EA', p.concreteBagPrice);
+            }
+
+            // ---- WOOD ----
+            else if (style === 'wood') {
+                const p        = PRICING.wood;
+                const postPr   = p.postPriceEach[height] || p.postPriceEach['5'];
+                const railPr   = p.railPriceEach[height] || p.railPriceEach['5'];
+                const boards   = Math.ceil(lf * BOARDS_PER_LF_WITH_WASTE);
+                const rails    = Math.ceil(lf / 8) * 2;     // top + bottom 2×6×8' rails
+                const bags     = Math.ceil(posts * p.concreteBagsPerPost);
+                const hardware = Math.round(lf / 100 * p.hardwarePer100LF * 100) / 100;
+
+                addItem('4×4×8\' Pressure-Treated Posts (CSA O141)', posts,  'EA',  postPr);
+                addItem('2×6×8\' Rails PT (top + bottom)',           rails,  'EA',  railPr);
+                addItem('1×6×6\' Privacy Boards PT',                 boards, 'EA',  p.boardPriceEach);
+                addItem('Hardware (screws, bolts, nails)',            1,      'LOT', hardware);
+                addItem('Concrete 80lb Bags',                         bags,   'EA',  p.concreteBagPrice);
+            }
+
+            // ---- VINYL ----
+            else if (style === 'vinyl') {
+                const p       = PRICING.vinyl;
+                const panelPr = p.panelPriceEach[height] || p.panelPriceEach['5'];
+                const postPr  = p.postPriceEach[height]  || p.postPriceEach['5'];
+                const railPr  = p.railPriceEach[height]  || p.railPriceEach['5'];
+                const panels  = Math.ceil(lf / 8);         // 8-ft panel sections
+                const rails   = Math.ceil(lf / 8) * 3;    // top, mid, bottom per section
+                const bags    = Math.ceil(posts * p.concreteBagsPerPost);
+                const hardware = Math.round(lf / 100 * p.hardwarePer100LF * 100) / 100;
+
+                addItem('Vinyl Posts 4×4×8\' (Homeland)',         posts,  'EA',  postPr);
+                addItem('Vinyl Rails 2×4×8\' (Homeland)',         rails,  'EA',  railPr);
+                addItem('Vinyl Panel Sections 8\' (Homeland)',    panels, 'EA',  panelPr);
+                addItem('Hardware (S/S brackets, bolts)',          1,      'LOT', hardware);
+                addItem('Concrete 80lb Bags',                      bags,   'EA',  p.concreteBagPrice);
+            }
+
+            // ---- ORNAMENTAL / WROUGHT IRON ----
+            else if (style === 'ornamental') {
+                const p        = PRICING.ornamental;
+                const picketPr = p.picketPriceEach[height] || p.picketPriceEach['4'];
+                const postPr   = p.postPriceEach[height]   || p.postPriceEach['4'];
+                const railPr   = p.railPriceEach[height]   || p.railPriceEach['4'];
+                const pickets  = Math.ceil(lf * PICKETS_PER_LF);
+                const rails    = Math.ceil(lf / 6) * 2;    // top + bottom
+                const bags     = Math.ceil(posts * p.concreteBagsPerPost);
+                const paint    = Math.round(lf / 100 * p.paintPer100LF * 100) / 100;
+
+                addItem('Wrought Iron Posts (Cloutier Direct)',       posts,   'EA',  postPr);
+                addItem('Horizontal Rails ¾" sq (Cloutier Direct)',   rails,   'EA',  railPr);
+                addItem('Decorative Pickets ¾" (Cloutier Direct)',    pickets, 'EA',  picketPr);
+                addItem('Paint & Primer (professional)',               1,       'LOT', paint);
+                addItem('Concrete 80lb Bags',                          bags,    'EA',  p.concreteBagPrice);
+            }
+
+            // ---- LABOUR ----
+            let labourHrs = 0, labourCost = 0;
+            if (withInstall) {
+                const p        = PRICING[style] || PRICING.chainlink;
+                const hrsPer100 = (p.labourHrsPer100LF && p.labourHrsPer100LF[height])
+                                    ? p.labourHrsPer100LF[height] : 51;
+                labourHrs  = Math.ceil((lf / 100) * hrsPer100);
+                labourCost = labourHrs * LABOUR_RATE;
+            }
+
+            const profitAmount = (materialsCost + labourCost) * PROFIT_PCT;
+            const subtotal     = materialsCost + labourCost + profitAmount;
+            const taxAmount    = subtotal * TAX_RATE;
+            const total        = subtotal + taxAmount;
+
+            return {
+                lf, style, height, withInstall, posts,
+                items, materialsCost,
+                labourHrs, labourRate: LABOUR_RATE, labourCost,
+                profitPct: PROFIT_PCT * 100, profitAmount,
+                subtotal, taxRate: TAX_RATE * 100, taxAmount, total
+            };
+        }
+
+        // ===== RENDER STEP 4 =====
+        function renderStep4(est) {
+            let rows = est.items.map(i =>
+                `<div class="summary-row">
+                    <span class="summary-label">${i.label}:</span>
+                    <span class="summary-value">${i.qty} ${i.unit} @ ${fmt(i.unitPrice)} = <strong>${fmt(i.total)}</strong></span>
+                </div>`
+            ).join('');
+
+            if (est.withInstall) {
+                rows += `<div class="summary-row">
+                    <span class="summary-label">Labour (${est.labourHrs} hours):</span>
+                    <span class="summary-value">${est.labourHrs} HRS @ $${est.labourRate} = <strong>${fmt(est.labourCost)}</strong></span>
+                </div>`;
+            }
+
+            const costBase = est.materialsCost + est.labourCost;
+            rows += `
+                <div class="summary-row total">
+                    <span class="summary-label">COST (Materials${est.withInstall ? ' + Labour' : ''}):</span>
+                    <span class="summary-value">${fmt(costBase)}</span>
+                </div>
+                <div class="summary-row total">
+                    <span class="summary-label">PROFIT (${est.profitPct}% markup):</span>
+                    <span class="summary-value">${fmt(est.profitAmount)}</span>
+                </div>
+                <div class="summary-row total">
+                    <span class="summary-label">SUBTOTAL (pre-tax):</span>
+                    <span class="summary-value">${fmt(est.subtotal)}</span>
+                </div>
+                <div class="summary-row total">
+                    <span class="summary-label">HST (${est.taxRate}%):</span>
+                    <span class="summary-value">${fmt(est.taxAmount)}</span>
+                </div>
+                <div class="summary-row total" style="color: var(--success); font-size: 18px;">
+                    <span class="summary-label">TOTAL:</span>
+                    <span class="summary-value">${fmt(est.total)}</span>
+                </div>`;
+
+            const perFoot = est.lf > 0          ? est.profitAmount / est.lf         : 0;
+            const perHour = est.labourHrs > 0    ? est.profitAmount / est.labourHrs  : 0;
+
+            document.getElementById('step4-breakdown').innerHTML =
+                `<div class="summary-card">${rows}</div>
+                <div class="profit-card">
+                    <div class="profit-label">YOUR PROFIT:</div>
+                    <div class="profit-value">${fmt(est.profitAmount)}</div>
+                    <div class="profit-details">
+                        <span>Margin: ${est.profitPct}%</span>
+                        ${est.labourHrs > 0 ? `<span>Per Hour: $${perHour.toFixed(0)}</span>` : ''}
+                        <span>Per Foot: $${perFoot.toFixed(2)}</span>
+                    </div>
+                </div>`;
+
+            window._lastEstimate = est;
+        }
+
+        // ===== POPULATE STEP 5 =====
+        function updateStep5(est) {
+            const firstName = (document.getElementById('inputFirstName').value  || '').trim() || 'Customer';
+            const lastName  = (document.getElementById('inputLastName').value   || '').trim();
+            const phone     = (document.getElementById('inputPhone').value      || '').trim() || '--';
+            const street    = (document.getElementById('inputStreet').value     || '').trim();
+            const city      = (document.getElementById('inputCity').value       || '').trim();
+            const prov      = (document.getElementById('inputProvince').value   || '').trim();
+            const postal    = (document.getElementById('inputPostal').value     || '').trim();
+
+            const STYLE_LABEL = { chainlink: 'Chain Link', wood: 'Wood', vinyl: 'Vinyl', ornamental: 'Ornamental' };
+            const address     = [street, city, prov, postal].filter(Boolean).join(', ');
+
+            const today     = new Date();
+            const validDate = new Date(today);
+            validDate.setDate(validDate.getDate() + ESTIMATE_VALIDITY_DAYS);
+
+            // Auto-increment estimate number per year, persisted in localStorage
+            let estSeq = 1;
+            try {
+                const stored = JSON.parse(localStorage.getItem('fd_est_seq') || '{}');
+                const year = today.getFullYear();
+                estSeq = (stored.year === year ? (stored.seq || 0) + 1 : 1);
+                localStorage.setItem('fd_est_seq', JSON.stringify({ year, seq: estSeq }));
+            } catch(e) {}
+            const estNum = String(estSeq).padStart(3, '0') + '-' + today.getFullYear();
+
+            document.getElementById('step5-est-num').textContent = estNum;
+            document.getElementById('step5-valid').textContent   = fmtDate(validDate);
+
+            document.getElementById('step5-summary').innerHTML =
+                `<div class="summary-row">
+                    <span class="summary-label"><strong>${firstName} ${lastName}</strong></span>
+                    <span class="summary-value">${phone}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">${address}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">${est.lf} Linear Feet • ${STYLE_LABEL[est.style] || est.style} • ${est.height}' Height</span>
+                </div>
+                <div class="summary-row total">
+                    <span class="summary-label">TOTAL ESTIMATE:</span>
+                    <span class="summary-value" style="color: var(--primary); font-size: 18px;">${fmt(est.total)}</span>
+                </div>`;
+        }
+
+        // ===== WIZARD NAVIGATION =====
         function nextStep() {
+            // Step 1 validation
+            if (currentStep === 1) {
+                const first = (document.getElementById('inputFirstName').value || '').trim();
+                const last  = (document.getElementById('inputLastName').value  || '').trim();
+                if (!first || !last) {
+                    showToast('Please enter the customer\'s first and last name.', 'error');
+                    return;
+                }
+            }
+            // Step 3 validation
+            if (currentStep === 3) {
+                const lf = parseFloat(document.getElementById('inputLinearFt').value);
+                if (!lf || lf <= 0) {
+                    showToast('Please enter a valid linear footage greater than 0.', 'error');
+                    return;
+                }
+            }
+
             if (currentStep < 5) {
                 document.getElementById('step' + currentStep).classList.remove('active');
                 currentStep++;
                 document.getElementById('step' + currentStep).classList.add('active');
                 updateProgress();
+
+                if (currentStep === 3) updateMeasurements();
+                if (currentStep === 4) renderStep4(buildEstimate());
+                if (currentStep === 5 && window._lastEstimate) updateStep5(window._lastEstimate);
             }
         }
 
@@ -1730,21 +2003,73 @@
         }
 
         function updateProgress() {
-            document.getElementById('stepCounter').textContent = 'Step ' + currentStep + ' of 5';
-            document.getElementById('btnBack').style.display = currentStep === 1 ? 'none' : 'block';
-            document.getElementById('btnNext').textContent = currentStep === 5 ? 'Generate ✓' : 'Next →';
+            document.getElementById('stepCounter').textContent   = 'Step ' + currentStep + ' of 5';
+            document.getElementById('btnBack').style.display     = currentStep === 1 ? 'none' : 'block';
+            document.getElementById('btnNext').textContent       = currentStep === 5 ? 'Generate ✓' : 'Next →';
         }
 
+        // ===== TOAST NOTIFICATIONS =====
+        function showToast(message, type) {
+            type = type || 'success';
+            const existing = document.getElementById('_toast');
+            if (existing) existing.remove();
+
+            const colors = { success: 'var(--success)', error: 'var(--alert)', warning: 'var(--warning)' };
+            const icons  = { success: '✓', error: '✕', warning: '⚠' };
+            const t = document.createElement('div');
+            t.id = '_toast';
+            t.style.cssText =
+                'position:fixed;top:20px;right:20px;z-index:9999;' +
+                'background:' + (colors[type] || colors.success) + ';color:#fff;' +
+                'padding:14px 20px;border-radius:8px;font-weight:600;font-size:14px;' +
+                'box-shadow:0 4px 12px rgba(0,0,0,.25);max-width:340px;' +
+                'animation:_toastIn .25s ease;';
+            t.textContent = (icons[type] || '✓') + ' ' + message;
+            document.body.appendChild(t);
+            setTimeout(function() { if (t.parentNode) t.remove(); }, 3500);
+        }
+
+        // ===== MISC =====
         function generatePDF() {
-            alert('📄 Estimate PDF generated and email sent to customer!');
+            showToast('Estimate ready — PDF would be generated and sent to customer.', 'success');
         }
 
         function viewEstimate() {
-            alert('📄 Viewing estimate details...');
+            showToast('Viewing estimate details...', 'success');
         }
 
-        // Initialize
+        // ===== INIT =====
         updateProgress();
+        // Wire up live step-3 updates
+        document.getElementById('inputLinearFt').addEventListener('input', updateMeasurements);
+        document.getElementById('inputPostSpacing').addEventListener('change', updateMeasurements);
+        updateMeasurements(); // populate defaults on load
+
+        // Persist customer info to localStorage on input change
+        CUSTOMER_FIELDS.forEach(function(id) {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', function() {
+                try {
+                    const data = {};
+                    CUSTOMER_FIELDS.forEach(function(k) {
+                        data[k] = (document.getElementById(k) || {}).value || '';
+                    });
+                    localStorage.setItem('fd_customer_basic', JSON.stringify(data));
+                } catch(e) {}
+            });
+        });
+
+        // Restore customer info on load
+        try {
+            const saved = localStorage.getItem('fd_customer_basic');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(function(k) {
+                    const el = document.getElementById(k);
+                    if (el && data[k]) el.value = data[k];
+                });
+            }
+        } catch(e) {}
     </script>
 </body>
 </html>
