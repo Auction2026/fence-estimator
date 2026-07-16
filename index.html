@@ -2789,19 +2789,19 @@
 
 <script>
   const PROVINCES = {
-    ON: { name:'Ontario', frostMin:0.9, frostMax:1.5, taxRate:0.13, taxName:'HST', minWage:17.20, wcbRate:0.065, wcbName:'WSIB', diggingSeason:'Apr–Nov' },
-    QC: { name:'Québec', frostMin:1.2, frostMax:2.0, taxRate:0.14975, taxName:'GST+QST', minWage:15.75, wcbRate:0.052, wcbName:'CNESST', diggingSeason:'May–Oct' },
-    BC: { name:'British Columbia', frostMin:0.0, frostMax:0.6, taxRate:0.12, taxName:'HST', minWage:17.40, wcbRate:0.07, wcbName:'WorkSafeBC', diggingSeason:'Mar–Dec' },
-    AB: { name:'Alberta', frostMin:1.2, frostMax:1.8, taxRate:0.05, taxName:'GST', minWage:15.00, wcbRate:0.058, wcbName:'WCB-AB', diggingSeason:'Apr–Oct' },
-    SK: { name:'Saskatchewan', frostMin:1.5, frostMax:2.1, taxRate:0.11, taxName:'GST+PST', minWage:14.00, wcbRate:0.045, wcbName:'WCB-SK', diggingSeason:'May–Sep' },
-    MB: { name:'Manitoba', frostMin:1.5, frostMax:2.1, taxRate:0.12, taxName:'GST+PST', minWage:15.30, wcbRate:0.055, wcbName:'WCB-MB', diggingSeason:'May–Sep' },
-    NB: { name:'New Brunswick', frostMin:0.9, frostMax:1.5, taxRate:0.15, taxName:'HST', minWage:15.30, wcbRate:0.06, wcbName:'WorkSafeNB', diggingSeason:'Apr–Nov' },
-    NS: { name:'Nova Scotia', frostMin:0.9, frostMax:1.3, taxRate:0.15, taxName:'HST', minWage:15.20, wcbRate:0.055, wcbName:'WCB-NS', diggingSeason:'Apr–Nov' },
-    PE: { name:'Prince Edward Island', frostMin:0.9, frostMax:1.4, taxRate:0.15, taxName:'HST', minWage:16.00, wcbRate:0.048, wcbName:'WCB-PEI', diggingSeason:'Apr–Nov' },
-    NL: { name:'Newfoundland & Labrador', frostMin:0.9, frostMax:1.5, taxRate:0.15, taxName:'HST', minWage:15.60, wcbRate:0.057, wcbName:'WorkplaceNL', diggingSeason:'May–Oct' },
-    YT: { name:'Yukon', frostMin:2.0, frostMax:3.0, taxRate:0.05, taxName:'GST', minWage:17.59, wcbRate:0.062, wcbName:'WCB-YT', diggingSeason:'Jun–Aug' },
-    NT: { name:'Northwest Territories', frostMin:2.0, frostMax:3.5, taxRate:0.05, taxName:'GST', minWage:16.05, wcbRate:0.068, wcbName:'WSCC', diggingSeason:'Jun–Aug' },
-    NU: { name:'Nunavut', frostMin:2.5, frostMax:4.0, taxRate:0.05, taxName:'GST', minWage:16.00, wcbRate:0.072, wcbName:'WSCC', diggingSeason:'Jul–Aug' }
+    ON: { name: 'Ontario', frostMin: 0.9, frostMax: 1.5, taxRate: 0.13, taxName: 'HST', minWage: 17.20, wcbRate: 0.065, wcbName: 'WSIB', diggingSeason: 'Apr–Nov' },
+    QC: { name: 'Québec', frostMin: 1.2, frostMax: 2.0, taxRate: 0.14975, taxName: 'GST+QST', minWage: 15.75, wcbRate: 0.052, wcbName: 'CNESST', diggingSeason: 'May–Oct' },
+    BC: { name: 'British Columbia', frostMin: 0.0, frostMax: 0.6, taxRate: 0.12, taxName: 'HST', minWage: 17.40, wcbRate: 0.07, wcbName: 'WorkSafeBC', diggingSeason: 'Mar–Dec' },
+    AB: { name: 'Alberta', frostMin: 1.2, frostMax: 1.8, taxRate: 0.05, taxName: 'GST', minWage: 15.00, wcbRate: 0.058, wcbName: 'WCB-AB', diggingSeason: 'Apr–Oct' },
+    SK: { name: 'Saskatchewan', frostMin: 1.5, frostMax: 2.1, taxRate: 0.11, taxName: 'GST+PST', minWage: 14.00, wcbRate: 0.045, wcbName: 'WCB-SK', diggingSeason: 'May–Sep' },
+    MB: { name: 'Manitoba', frostMin: 1.5, frostMax: 2.1, taxRate: 0.12, taxName: 'GST+PST', minWage: 15.30, wcbRate: 0.055, wcbName: 'WCB-MB', diggingSeason: 'May–Sep' },
+    NB: { name: 'New Brunswick', frostMin: 0.9, frostMax: 1.5, taxRate: 0.15, taxName: 'HST', minWage: 15.30, wcbRate: 0.06, wcbName: 'WorkSafeNB', diggingSeason: 'Apr–Nov' },
+    NS: { name: 'Nova Scotia', frostMin: 0.9, frostMax: 1.3, taxRate: 0.15, taxName: 'HST', minWage: 15.20, wcbRate: 0.055, wcbName: 'WCB-NS', diggingSeason: 'Apr–Nov' },
+    PE: { name: 'Prince Edward Island', frostMin: 0.9, frostMax: 1.4, taxRate: 0.15, taxName: 'HST', minWage: 16.00, wcbRate: 0.048, wcbName: 'WCB-PEI', diggingSeason: 'Apr–Nov' },
+    NL: { name: 'Newfoundland & Labrador', frostMin: 0.9, frostMax: 1.5, taxRate: 0.15, taxName: 'HST', minWage: 15.60, wcbRate: 0.057, wcbName: 'WorkplaceNL', diggingSeason: 'May–Oct' },
+    YT: { name: 'Yukon', frostMin: 2.0, frostMax: 3.0, taxRate: 0.05, taxName: 'GST', minWage: 17.59, wcbRate: 0.062, wcbName: 'WCB-YT', diggingSeason: 'Jun–Aug' },
+    NT: { name: 'Northwest Territories', frostMin: 2.0, frostMax: 3.5, taxRate: 0.05, taxName: 'GST', minWage: 16.05, wcbRate: 0.068, wcbName: 'WSCC', diggingSeason: 'Jun–Aug' },
+    NU: { name: 'Nunavut', frostMin: 2.5, frostMax: 4.0, taxRate: 0.05, taxName: 'GST', minWage: 16.00, wcbRate: 0.072, wcbName: 'WSCC', diggingSeason: 'Jul–Aug' }
   };
 
   const MATERIAL_RATES = {
@@ -2947,7 +2947,8 @@ function qsa(selector) { return Array.from(document.querySelectorAll(selector));
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
 function parseNumber(value, fallback = 0) { const parsed = parseFloat(value); return Number.isFinite(parsed) ? parsed : fallback; }
 function parseInteger(value, fallback = 0) { const parsed = parseInt(value, 10); return Number.isFinite(parsed) ? parsed : fallback; }
-function currency(value) { return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number.isFinite(value) ? value : 0); }
+const CAD_FORMATTER = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+function currency(value) { return CAD_FORMATTER.format(Number.isFinite(value) ? value : 0); }
 function percent(value, decimals = 1) { return `${(value * 100).toFixed(decimals)}%`; }
 function percentFromWhole(value, decimals = 1) { return `${parseNumber(value, 0).toFixed(decimals)}%`; }
 function todayISO() { return new Date().toISOString().slice(0, 10); }
@@ -3224,70 +3225,81 @@ function hydrateEstimateForCalc(source) {
   return estimate;
 }
 
-function calculateEstimate(sourceEstimate = state.estimate) {
-  const estimate = hydrateEstimateForCalc(sourceEstimate);
-  const province = estimate.province || state.settings.defaultProvince || 'ON';
-  const gateWidths = estimate.gateDetails.map((gate) => parseNumber(gate.width, 0));
-  let materialResult;
-  if (estimate.fenceType === 'chainlink') materialResult = calcChainLink(estimate.linearFootage, estimate.heightFt, estimate.postSpacing, estimate.corners, estimate.gates, gateWidths, estimate.gauge, province);
-  else if (estimate.fenceType === 'wood') materialResult = calcWood(estimate.linearFootage, estimate.heightFt, estimate.postSpacing, estimate.corners, estimate.gates, gateWidths, province);
-  else if (estimate.fenceType === 'vinyl') materialResult = calcVinyl(estimate.linearFootage, estimate.heightFt, estimate.postSpacing, estimate.corners, estimate.gates, gateWidths, province);
-  else if (estimate.fenceType === 'ornamental') materialResult = calcOrnamental(estimate.linearFootage, estimate.heightFt, estimate.postSpacing, estimate.corners, estimate.gates, gateWidths, province);
-  else materialResult = calcSplitRail(estimate.linearFootage, estimate.heightFt, estimate.postSpacing, estimate.corners, estimate.gates, province);
+function selectMaterialCalculator(estimate, gateWidths, province) {
+  const { fenceType, linearFootage, heightFt, postSpacing, corners, gates, gauge } = estimate;
+  if (fenceType === 'chainlink') return calcChainLink(linearFootage, heightFt, postSpacing, corners, gates, gateWidths, gauge, province);
+  if (fenceType === 'wood') return calcWood(linearFootage, heightFt, postSpacing, corners, gates, gateWidths, province);
+  if (fenceType === 'vinyl') return calcVinyl(linearFootage, heightFt, postSpacing, corners, gates, gateWidths, province);
+  if (fenceType === 'ornamental') return calcOrnamental(linearFootage, heightFt, postSpacing, corners, gates, gateWidths, province);
+  return calcSplitRail(linearFootage, heightFt, postSpacing, corners, gates, province);
+}
 
+function buildMaterialItems(estimate, materialResult) {
   const baseItems = materialResult.items.map((item, index) => {
     const key = `base-${index}`;
     const override = estimate.materialOverrides[key] || {};
-    const adjustedName = override.name || item.name;
-    const adjustedUnit = override.unit || item.unit;
     const adjustedQty = parseNumber(override.qty, item.qty);
     const adjustedRate = parseNumber(override.rate, item.rate);
-    return { key, name: adjustedName, qty: adjustedQty, unit: adjustedUnit, defaultRate: item.rate, defaultQty: item.qty, rate: adjustedRate, total: adjustedQty * adjustedRate, isCustom: false };
+    return { key, name: override.name || item.name, qty: adjustedQty, unit: override.unit || item.unit, defaultRate: item.rate, defaultQty: item.qty, rate: adjustedRate, total: adjustedQty * adjustedRate, isCustom: false };
   });
 
   if (estimate.fenceType === 'wood') {
     const picketItem = baseItems.find((item) => item.name.includes('Pickets'));
     if (picketItem) {
-      if (estimate.finish === 'pressure-treated' || estimate.finish === 'natural') {
-        picketItem.name = estimate.finish === 'pressure-treated' ? 'Pressure Treated Pickets' : 'Natural Wood Pickets';
-        picketItem.rate = estimate.materialOverrides[picketItem.key]?.rate ?? MATERIAL_RATES.wood.picket_dog_ear_6ft;
-        picketItem.defaultRate = MATERIAL_RATES.wood.picket_dog_ear_6ft;
-      } else {
-        picketItem.name = 'Cedar Pickets';
-        picketItem.rate = estimate.materialOverrides[picketItem.key]?.rate ?? MATERIAL_RATES.wood.picket_cedar_6ft;
-        picketItem.defaultRate = MATERIAL_RATES.wood.picket_cedar_6ft;
-      }
+      const isCedar = estimate.finish === 'cedar' || !['pressure-treated', 'natural'].includes(estimate.finish);
+      picketItem.name = estimate.finish === 'pressure-treated' ? 'Pressure Treated Pickets' : isCedar ? 'Cedar Pickets' : 'Natural Wood Pickets';
+      const defaultRate = isCedar ? MATERIAL_RATES.wood.picket_cedar_6ft : MATERIAL_RATES.wood.picket_dog_ear_6ft;
+      picketItem.rate = estimate.materialOverrides[picketItem.key]?.rate ?? defaultRate;
+      picketItem.defaultRate = defaultRate;
       picketItem.total = picketItem.qty * picketItem.rate;
     }
   }
   if (estimate.fenceType === 'chainlink') {
     const fabricItem = baseItems.find((item) => item.name.startsWith('Chain Link Fabric'));
-    if (fabricItem) fabricItem.name = `${fabricItem.name}${estimate.finish ? ` – ${estimate.finish.charAt(0).toUpperCase() + estimate.finish.slice(1)}` : ''}`;
+    if (fabricItem && estimate.finish) {
+      fabricItem.name = `${fabricItem.name} – ${estimate.finish.charAt(0).toUpperCase() + estimate.finish.slice(1)}`;
+    }
   }
   if (estimate.removeExisting) {
     const removalRate = REMOVAL_RATES[estimate.removeType] || 0;
-    baseItems.push({ key: 'removal-line', name: `Removal & disposal – ${estimate.removeType.replace('-', ' ')}`, qty: estimate.linearFootage, unit: 'LF', defaultRate: removalRate, defaultQty: estimate.linearFootage, rate: parseNumber(estimate.materialOverrides['removal-line']?.rate, removalRate), total: estimate.linearFootage * parseNumber(estimate.materialOverrides['removal-line']?.rate, removalRate), isCustom: false });
+    const appliedRate = parseNumber(estimate.materialOverrides['removal-line']?.rate, removalRate);
+    baseItems.push({ key: 'removal-line', name: `Removal & disposal – ${estimate.removeType.replace('-', ' ')}`, qty: estimate.linearFootage, unit: 'LF', defaultRate: removalRate, defaultQty: estimate.linearFootage, rate: appliedRate, total: estimate.linearFootage * appliedRate, isCustom: false });
   }
   const customItems = estimate.customItems.map((item, index) => {
     const qty = parseNumber(item.qty, 0);
     const rate = parseNumber(item.rate, 0);
     return { key: item.key || `custom-${index}`, name: item.name || 'Custom line item', qty, unit: item.unit || 'each', rate, defaultRate: rate, defaultQty: qty, total: qty * rate, isCustom: true };
   });
-  const materialItems = [...baseItems, ...customItems];
-  const materialSubtotal = materialItems.reduce((sum, item) => sum + item.total, 0);
-  const labour = estimate.includeLabour ? calcLabour(estimate.fenceType, estimate.linearFootage, TERRAIN_MULTS[estimate.terrain] || 1, SOIL_MULTS[estimate.soil] || 1, WEATHER_MULT[estimate.weather] || 1, EXP_MULT[estimate.experienceLevel] || 1, SEASON_MULT[estimate.season] || 1, CREW_EFF[estimate.crewSize] || 1, EQUIPMENT_MULTS[estimate.equipment] || 1, estimate.gates, estimate.baseWage, estimate.labourMarkup) : { rows: [], totalHours: 0, totalCost: 0, billableRate: 0 };
-  const equipmentCost = EQUIPMENT_COSTS[estimate.equipment] || 0;
-  const isPool = estimate.poolEnclosure || estimate.application === 'Pool Enclosure';
-  const complianceChecks = checkCompliance(estimate.fenceType, estimate.heightFt, estimate.postSpacing, province, isPool, estimate.gauge, materialResult.postDepthFt);
-  const subtotal = materialSubtotal + labour.totalCost + equipmentCost;
+  return [...baseItems, ...customItems];
+}
+
+function buildPricingTotals(estimate, materialSubtotal, labourCost, equipmentCost, prov) {
+  const subtotal = materialSubtotal + labourCost + equipmentCost;
   const overheadCost = subtotal * (estimate.overheadPct / 100);
   const profitCost = (subtotal + overheadCost) * (estimate.profitPct / 100);
   const preTax = subtotal + overheadCost + profitCost;
-  const prov = PROVINCES[province];
   const tax = preTax * prov.taxRate;
   const grandTotal = preTax + tax;
   const area = Math.max(estimate.linearFootage * estimate.heightFt, 1);
-  return { estimate, province: prov, postDepthFt: materialResult.postDepthFt, materialItems, materialSubtotal, labour, equipmentCost, complianceChecks, pricing: { subtotal, overheadCost, profitCost, preTax, tax, grandTotal, perLf: estimate.linearFootage > 0 ? grandTotal / estimate.linearFootage : 0, perSf: grandTotal / area }, healthChecks: buildHealthChecks(estimate, complianceChecks) };
+  return { subtotal, overheadCost, profitCost, preTax, tax, grandTotal, perLf: estimate.linearFootage > 0 ? grandTotal / estimate.linearFootage : 0, perSf: grandTotal / area };
+}
+
+function calculateEstimate(sourceEstimate = state.estimate) {
+  const estimate = hydrateEstimateForCalc(sourceEstimate);
+  const province = estimate.province || state.settings.defaultProvince || 'ON';
+  const gateWidths = estimate.gateDetails.map((gate) => parseNumber(gate.width, 0));
+  const materialResult = selectMaterialCalculator(estimate, gateWidths, province);
+  const materialItems = buildMaterialItems(estimate, materialResult);
+  const materialSubtotal = materialItems.reduce((sum, item) => sum + item.total, 0);
+  const labour = estimate.includeLabour
+    ? calcLabour(estimate.fenceType, estimate.linearFootage, TERRAIN_MULTS[estimate.terrain] || 1, SOIL_MULTS[estimate.soil] || 1, WEATHER_MULT[estimate.weather] || 1, EXP_MULT[estimate.experienceLevel] || 1, SEASON_MULT[estimate.season] || 1, CREW_EFF[estimate.crewSize] || 1, EQUIPMENT_MULTS[estimate.equipment] || 1, estimate.gates, estimate.baseWage, estimate.labourMarkup)
+    : { rows: [], totalHours: 0, totalCost: 0, billableRate: 0 };
+  const equipmentCost = EQUIPMENT_COSTS[estimate.equipment] || 0;
+  const isPool = estimate.poolEnclosure || estimate.application === 'Pool Enclosure';
+  const complianceChecks = checkCompliance(estimate.fenceType, estimate.heightFt, estimate.postSpacing, province, isPool, estimate.gauge, materialResult.postDepthFt);
+  const prov = PROVINCES[province];
+  const pricing = buildPricingTotals(estimate, materialSubtotal, labour.totalCost, equipmentCost, prov);
+  return { estimate, province: prov, postDepthFt: materialResult.postDepthFt, materialItems, materialSubtotal, labour, equipmentCost, complianceChecks, pricing, healthChecks: buildHealthChecks(estimate, complianceChecks) };
 }
 
 function setScreen(screen) {
@@ -3644,14 +3656,128 @@ function loadProject(id) {
   showToast('Saved estimate loaded into the estimator.');
 }
 
+function buildProposalHTML(calc) {
+  const companyLogo = state.settings.logoUrl
+    ? `<img src="${escapeHtml(state.settings.logoUrl)}" alt="${escapeHtml(state.settings.companyName)} logo">`
+    : '🚧';
+  const materialRows = calc.materialItems
+    .map((item) => `<tr><td>${escapeHtml(item.name)}</td><td>${item.qty}</td><td>${escapeHtml(item.unit)}</td><td>${currency(item.rate)}</td><td>${currency(item.total)}</td></tr>`)
+    .join('');
+  const labourSection = calc.estimate.includeLabour
+    ? `<div class="proposal-box">
+        <h3>Labour breakdown</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Task</th><th>Base hrs</th><th>Effective hrs</th><th>Cost</th></tr></thead>
+          <tbody>${calc.labour.rows.map((row) => `<tr><td>${escapeHtml(row.task)}</td><td>${row.baseHrs.toFixed(1)}</td><td>${row.effHrs.toFixed(1)}</td><td>${currency(row.cost)}</td></tr>`).join('')}</tbody>
+        </table></div>
+        <p><strong>Total labour:</strong> ${currency(calc.labour.totalCost)} &bull; <strong>Total hours:</strong> ${calc.labour.totalHours.toFixed(1)} &bull; <strong>${calc.province.wcbName} note:</strong> ${percent(calc.province.wcbRate, 2)} of labour.</p>
+      </div>`
+    : '';
+  const standards = [
+    'National Building Code frost-depth review based on province profile.',
+    calc.estimate.fenceType === 'chainlink' ? 'CGSB-138.3 chain link spacing and gauge review.' : 'Fence system-specific manufacturer install assumptions applied.',
+    (calc.estimate.application === 'Pool Enclosure' || calc.estimate.poolEnclosure) ? 'CSA B95.1 pool barrier notes referenced for safety considerations.' : 'Customer use-case reviewed against application height expectations.',
+    `Province note: Typical digging season in ${calc.province.name} is ${calc.province.diggingSeason}.`
+  ];
+  const fenceTypeLabel = FENCE_TYPES.find((item) => item.value === calc.estimate.fenceType)?.label || calc.estimate.fenceType;
+  const complianceRows = calc.complianceChecks.map((check) => `<div>&bull; ${escapeHtml(check.label)} &mdash; ${escapeHtml(check.detail)}</div>`).join('');
+  const standardRows = standards.map((line) => `<div>&bull; ${escapeHtml(line)}</div>`).join('');
+
+  return `<div class="proposal-print-only"></div>
+    <div class="proposal-head">
+      <div class="proposal-company">
+        <div class="proposal-company-top">
+          <div class="proposal-logo">${companyLogo}</div>
+          <div>
+            <h1>${escapeHtml(state.settings.companyName)}</h1>
+            <p>${escapeHtml(state.settings.address)}</p>
+            <p>${escapeHtml(state.settings.phone)} &bull; ${escapeHtml(state.settings.email)}</p>
+          </div>
+        </div>
+      </div>
+      <div class="proposal-meta">
+        <div class="proposal-meta-row"><span>Quote number</span><strong>${escapeHtml(calc.estimate.quoteNumber)}</strong></div>
+        <div class="proposal-meta-row"><span>Date</span><strong>${escapeHtml(calc.estimate.quoteDate)}</strong></div>
+        <div class="proposal-meta-row"><span>Valid until</span><strong>${escapeHtml(calc.estimate.validUntil)}</strong></div>
+        <div class="proposal-meta-row"><span>Province tax</span><strong>${calc.province.taxName} ${percent(calc.province.taxRate, 2)}</strong></div>
+      </div>
+    </div>
+    <div class="proposal-grid">
+      <div class="proposal-box">
+        <h3>Customer information</h3>
+        <div class="proposal-list">
+          <div><strong>${escapeHtml(calc.estimate.customerName || 'Customer')}</strong></div>
+          <div>${escapeHtml(calc.estimate.customerCompany || '')}</div>
+          <div>${escapeHtml(calc.estimate.customerAddress || '')}</div>
+          <div>${escapeHtml(calc.estimate.customerPhone || '')}</div>
+          <div>${escapeHtml(calc.estimate.customerEmail || '')}</div>
+        </div>
+      </div>
+      <div class="proposal-box">
+        <h3>Project summary</h3>
+        <div class="proposal-list">
+          <div><strong>Application:</strong> ${escapeHtml(calc.estimate.application)}</div>
+          <div><strong>Fence system:</strong> ${escapeHtml(fenceTypeLabel)}</div>
+          <div><strong>Finish:</strong> ${escapeHtml(calc.estimate.finish)}</div>
+          <div><strong>Fence height:</strong> ${calc.estimate.heightFt} ft (${ftToMetres(calc.estimate.heightFt).toFixed(2)} m)</div>
+          <div><strong>Total length:</strong> ${calc.estimate.linearFootage} LF</div>
+          <div><strong>Post depth target:</strong> ${calc.postDepthFt.toFixed(1)} ft</div>
+        </div>
+      </div>
+    </div>
+    <div class="proposal-box"><h3>Scope of work</h3><p>${escapeHtml(buildScopeDescription(calc))}</p></div>
+    <div class="proposal-box">
+      <h3>Material list</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Item</th><th>Qty</th><th>Unit</th><th>Unit rate</th><th>Line total</th></tr></thead>
+        <tbody>${materialRows}</tbody>
+      </table></div>
+    </div>
+    ${labourSection}
+    <div class="proposal-grid">
+      <div class="proposal-box">
+        <h3>Pricing summary</h3>
+        <div class="proposal-list">
+          <div><strong>Material subtotal:</strong> ${currency(calc.materialSubtotal)}</div>
+          <div><strong>Labour subtotal:</strong> ${currency(calc.estimate.includeLabour ? calc.labour.totalCost : 0)}</div>
+          <div><strong>Equipment / rental:</strong> ${currency(calc.equipmentCost)}</div>
+          <div><strong>Subtotal:</strong> ${currency(calc.pricing.subtotal)}</div>
+          <div><strong>Overhead (${percentFromWhole(calc.estimate.overheadPct)}):</strong> ${currency(calc.pricing.overheadCost)}</div>
+          <div><strong>Profit (${percentFromWhole(calc.estimate.profitPct)}):</strong> ${currency(calc.pricing.profitCost)}</div>
+          <div><strong>${calc.province.taxName}:</strong> ${currency(calc.pricing.tax)}</div>
+          <div><strong>Total:</strong> ${currency(calc.pricing.grandTotal)}</div>
+          <div><strong>Per linear foot:</strong> ${currency(calc.pricing.perLf)}</div>
+        </div>
+      </div>
+      <div class="proposal-box">
+        <h3>Compliance references</h3>
+        <div class="proposal-list">${complianceRows}</div>
+      </div>
+    </div>
+    <div class="proposal-box">
+      <h3>Standards and installation notes</h3>
+      <div class="proposal-list">${standardRows}</div>
+    </div>
+    <div class="proposal-box">
+      <h3>Terms and conditions</h3>
+      <ol class="proposal-terms">
+        <li>Pricing is based on the site conditions described in this estimate and may require revision if hidden obstructions, rock or utility conflicts are encountered.</li>
+        <li>Utility locates, permits, engineering review and property line confirmation remain subject to owner approval unless separately listed.</li>
+        <li>Quotes remain valid until the date shown above and are subject to current supplier availability and freight conditions.</li>
+        <li>Any change in length, height, gate count, finish or access requirements may affect material, labour and equipment costs.</li>
+        <li>Customer acceptance authorizes scheduling, procurement and mobilization in accordance with the agreed deposit and timeline.</li>
+      </ol>
+    </div>
+    <div class="proposal-signatures">
+      <div class="signature-line"><span>Authorized company representative</span></div>
+      <div class="signature-line"><span>Customer acceptance</span></div>
+    </div>`;
+}
+
     function openProposal(estimateSource) {
       const calc = calculateEstimate(estimateSource || state.estimate);
       state.lastCalc = calc;
-      const companyLogo = state.settings.logoUrl ? `<img src="${escapeHtml(state.settings.logoUrl)}" alt="${escapeHtml(state.settings.companyName)} logo">` : '🚧';
-      const materialRows = calc.materialItems.map((item) => `<tr><td>${escapeHtml(item.name)}</td><td>${item.qty}</td><td>${escapeHtml(item.unit)}</td><td>${currency(item.rate)}</td><td>${currency(item.total)}</td></tr>`).join('');
-      const labourSection = calc.estimate.includeLabour ? `<div class="proposal-box"><h3>Labour breakdown</h3><div class="table-wrap"><table><thead><tr><th>Task</th><th>Base hrs</th><th>Effective hrs</th><th>Cost</th></tr></thead><tbody>${calc.labour.rows.map((row) => `<tr><td>${escapeHtml(row.task)}</td><td>${row.baseHrs.toFixed(1)}</td><td>${row.effHrs.toFixed(1)}</td><td>${currency(row.cost)}</td></tr>`).join('')}</tbody></table></div><p><strong>Total labour:</strong> ${currency(calc.labour.totalCost)} • <strong>Total hours:</strong> ${calc.labour.totalHours.toFixed(1)} • <strong>${calc.province.wcbName} note:</strong> ${percent(calc.province.wcbRate, 2)} of labour.</p></div>` : '';
-      const standards = ['National Building Code frost-depth review based on province profile.', calc.estimate.fenceType === 'chainlink' ? 'CGSB-138.3 chain link spacing and gauge review.' : 'Fence system-specific manufacturer install assumptions applied.', (calc.estimate.application === 'Pool Enclosure' || calc.estimate.poolEnclosure) ? 'CSA B95.1 pool barrier notes referenced for safety considerations.' : 'Customer use-case reviewed against application height expectations.', `Province note: Typical digging season in ${calc.province.name} is ${calc.province.diggingSeason}.`];
-      qs('#proposalContent').innerHTML = `<div class="proposal-print-only"></div><div class="proposal-head"><div class="proposal-company"><div class="proposal-company-top"><div class="proposal-logo">${companyLogo}</div><div><h1>${escapeHtml(state.settings.companyName)}</h1><p>${escapeHtml(state.settings.address)}</p><p>${escapeHtml(state.settings.phone)} • ${escapeHtml(state.settings.email)}</p></div></div></div><div class="proposal-meta"><div class="proposal-meta-row"><span>Quote number</span><strong>${escapeHtml(calc.estimate.quoteNumber)}</strong></div><div class="proposal-meta-row"><span>Date</span><strong>${escapeHtml(calc.estimate.quoteDate)}</strong></div><div class="proposal-meta-row"><span>Valid until</span><strong>${escapeHtml(calc.estimate.validUntil)}</strong></div><div class="proposal-meta-row"><span>Province tax</span><strong>${calc.province.taxName} ${percent(calc.province.taxRate, 2)}</strong></div></div></div><div class="proposal-grid"><div class="proposal-box"><h3>Customer information</h3><div class="proposal-list"><div><strong>${escapeHtml(calc.estimate.customerName || 'Customer')}</strong></div><div>${escapeHtml(calc.estimate.customerCompany || '')}</div><div>${escapeHtml(calc.estimate.customerAddress || '')}</div><div>${escapeHtml(calc.estimate.customerPhone || '')}</div><div>${escapeHtml(calc.estimate.customerEmail || '')}</div></div></div><div class="proposal-box"><h3>Project summary</h3><div class="proposal-list"><div><strong>Application:</strong> ${escapeHtml(calc.estimate.application)}</div><div><strong>Fence system:</strong> ${escapeHtml(FENCE_TYPES.find((item) => item.value === calc.estimate.fenceType)?.label || calc.estimate.fenceType)}</div><div><strong>Finish:</strong> ${escapeHtml(calc.estimate.finish)}</div><div><strong>Fence height:</strong> ${calc.estimate.heightFt} ft (${ftToMetres(calc.estimate.heightFt).toFixed(2)} m)</div><div><strong>Total length:</strong> ${calc.estimate.linearFootage} LF</div><div><strong>Post depth target:</strong> ${calc.postDepthFt.toFixed(1)} ft</div></div></div></div><div class="proposal-box"><h3>Scope of work</h3><p>${escapeHtml(buildScopeDescription(calc))}</p></div><div class="proposal-box"><h3>Material list</h3><div class="table-wrap"><table><thead><tr><th>Item</th><th>Qty</th><th>Unit</th><th>Unit rate</th><th>Line total</th></tr></thead><tbody>${materialRows}</tbody></table></div></div>${labourSection}<div class="proposal-grid"><div class="proposal-box"><h3>Pricing summary</h3><div class="proposal-list"><div><strong>Material subtotal:</strong> ${currency(calc.materialSubtotal)}</div><div><strong>Labour subtotal:</strong> ${currency(calc.estimate.includeLabour ? calc.labour.totalCost : 0)}</div><div><strong>Equipment / rental:</strong> ${currency(calc.equipmentCost)}</div><div><strong>Subtotal:</strong> ${currency(calc.pricing.subtotal)}</div><div><strong>Overhead (${percentFromWhole(calc.estimate.overheadPct)}):</strong> ${currency(calc.pricing.overheadCost)}</div><div><strong>Profit (${percentFromWhole(calc.estimate.profitPct)}):</strong> ${currency(calc.pricing.profitCost)}</div><div><strong>${calc.province.taxName}:</strong> ${currency(calc.pricing.tax)}</div><div><strong>Total:</strong> ${currency(calc.pricing.grandTotal)}</div><div><strong>Per linear foot:</strong> ${currency(calc.pricing.perLf)}</div></div></div><div class="proposal-box"><h3>Compliance references</h3><div class="proposal-list">${calc.complianceChecks.map((check) => `<div>• ${escapeHtml(check.label)} — ${escapeHtml(check.detail)}</div>`).join('')}</div></div></div><div class="proposal-box"><h3>Standards and installation notes</h3><div class="proposal-list">${standards.map((line) => `<div>• ${escapeHtml(line)}</div>`).join('')}</div></div><div class="proposal-box"><h3>Terms and conditions</h3><ol class="proposal-terms"><li>Pricing is based on the site conditions described in this estimate and may require revision if hidden obstructions, rock or utility conflicts are encountered.</li><li>Utility locates, permits, engineering review and property line confirmation remain subject to owner approval unless separately listed.</li><li>Quotes remain valid until the date shown above and are subject to current supplier availability and freight conditions.</li><li>Any change in length, height, gate count, finish or access requirements may affect material, labour and equipment costs.</li><li>Customer acceptance authorizes scheduling, procurement and mobilization in accordance with the agreed deposit and timeline.</li></ol></div><div class="proposal-signatures"><div class="signature-line"><span>Authorized company representative</span></div><div class="signature-line"><span>Customer acceptance</span></div></div>`;
+      qs('#proposalContent').innerHTML = buildProposalHTML(calc);
       qs('#proposalOverlay').classList.add('active');
       qs('#proposalOverlay').setAttribute('aria-hidden', 'false');
     }
