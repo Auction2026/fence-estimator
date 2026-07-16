@@ -2791,7 +2791,7 @@
   const PROVINCES = {
     ON: { name: 'Ontario', frostMin: 0.9, frostMax: 1.5, taxRate: 0.13, taxName: 'HST', minWage: 17.20, wcbRate: 0.065, wcbName: 'WSIB', diggingSeason: 'Apr–Nov' },
     QC: { name: 'Québec', frostMin: 1.2, frostMax: 2.0, taxRate: 0.14975, taxName: 'GST+QST', minWage: 15.75, wcbRate: 0.052, wcbName: 'CNESST', diggingSeason: 'May–Oct' },
-    BC: { name: 'British Columbia', frostMin: 0.0, frostMax: 0.6, taxRate: 0.12, taxName: 'HST', minWage: 17.40, wcbRate: 0.07, wcbName: 'WorkSafeBC', diggingSeason: 'Mar–Dec' },
+    BC: { name: 'British Columbia', frostMin: 0.0, frostMax: 0.6, taxRate: 0.12, taxName: 'GST+PST', minWage: 17.40, wcbRate: 0.07, wcbName: 'WorkSafeBC', diggingSeason: 'Mar–Dec' },
     AB: { name: 'Alberta', frostMin: 1.2, frostMax: 1.8, taxRate: 0.05, taxName: 'GST', minWage: 15.00, wcbRate: 0.058, wcbName: 'WCB-AB', diggingSeason: 'Apr–Oct' },
     SK: { name: 'Saskatchewan', frostMin: 1.5, frostMax: 2.1, taxRate: 0.11, taxName: 'GST+PST', minWage: 14.00, wcbRate: 0.045, wcbName: 'WCB-SK', diggingSeason: 'May–Sep' },
     MB: { name: 'Manitoba', frostMin: 1.5, frostMax: 2.1, taxRate: 0.12, taxName: 'GST+PST', minWage: 15.30, wcbRate: 0.055, wcbName: 'WCB-MB', diggingSeason: 'May–Sep' },
@@ -2825,6 +2825,7 @@
       rail_2x4_8ft: 8.50,
       picket_dog_ear_6ft: 2.80,
       picket_cedar_6ft: 4.20,
+      picket_pt_6ft: 3.40,
       concrete_bag_80lb: 8.50,
       screws_per_lf: 0.45,
       post_cap_each: 3.50,
@@ -2920,7 +2921,7 @@ const FINISH_OPTIONS = {
 const DEFAULT_SPACING = { chainlink: 8, wood: 8, vinyl: 8, ornamental: 6, splitrail: 8 };
 const TERRAIN_MULTS = { flat: 1.0, slight: 1.1, moderate: 1.25, steep: 1.45 };
 const SOIL_MULTS = { normal: 1.0, clay: 1.2, sandy: 0.9, rocky: 1.6, frozen: 2.1 };
-const EQUIPMENT_MULTS = { 'manual-pounder': 1.4, 'hand-auger': 1.5, 'power-auger': 1.0, 'hydraulic-auger': 0.7 };
+const EQUIPMENT_MULTS = { 'manual-pounder': 1.5, 'hand-auger': 1.25, 'power-auger': 1.0, 'hydraulic-auger': 0.7 };
 const EQUIPMENT_COSTS = { 'manual-pounder': 0, 'hand-auger': 45, 'power-auger': 175, 'hydraulic-auger': 425 };
 const CREW_EFF = { '1': 0.85, '2': 1.0, '3': 1.1, '4': 1.15 };
 const EXP_MULT = { apprentice: 1.35, journeyman: 1.0, master: 0.8, mixed: 1.1 };
@@ -3034,6 +3035,7 @@ function calcChainLink(lf, heightFt, postSpacing, corners, gates, gateWidths, ga
   const tensionBars = terminalCount * 2;
   const tensionBands = terminalCount * 3;
   const rates = MATERIAL_RATES.chainlink;
+  const gateHardwareTotal = gateWidths.reduce((sum, w) => sum + (w > 8 ? rates.gate_hardware_drive : rates.gate_hardware_walk), 0);
   return { postDepthFt, items: [
     { name: `Chain Link Fabric ${gauge}ga ${Math.round(heightFt * 12 / 2) * 2}"`, qty: Math.ceil(fabricLF / 50) * 50, unit: 'LF roll', rate: rates.fabric_per_lf[gauge], total: fabricLF * rates.fabric_per_lf[gauge] },
     { name: `Line Posts (${gauge}ga)`, qty: linePostCount, unit: 'each', rate: rates.line_post_per_each[gauge], total: linePostCount * rates.line_post_per_each[gauge] },
@@ -3043,7 +3045,7 @@ function calcChainLink(lf, heightFt, postSpacing, corners, gates, gateWidths, ga
     { name: 'Tension Bands & Clips', qty: tensionBands, unit: 'each', rate: rates.tension_band_per_each, total: tensionBands * rates.tension_band_per_each },
     { name: 'Tie Wire', qty: Math.ceil(fabricLF), unit: 'LF', rate: rates.tie_wire_per_lf, total: fabricLF * rates.tie_wire_per_lf },
     { name: 'Concrete (80lb bags)', qty: totalPosts * concreteBagsPerPost, unit: 'bags', rate: rates.concrete_bag_80lb, total: totalPosts * concreteBagsPerPost * rates.concrete_bag_80lb },
-    { name: 'Gate Hardware Sets', qty: gates, unit: 'set', rate: gates > 0 ? (gateWidths[0] > 8 ? rates.gate_hardware_drive : rates.gate_hardware_walk) : 0, total: gates * (gateWidths[0] > 8 ? rates.gate_hardware_drive : rates.gate_hardware_walk) },
+    { name: 'Gate Hardware Sets', qty: gates, unit: 'set', rate: gates > 0 ? gateHardwareTotal / gates : 0, total: gateHardwareTotal },
     { name: 'Gate Fabric', qty: Math.ceil(gateLF), unit: 'LF', rate: rates.gate_fabric_per_lf, total: gateLF * rates.gate_fabric_per_lf }
   ] };
 }
@@ -3084,6 +3086,7 @@ function calcVinyl(lf, heightFt, postSpacing, corners, gates, gateWidths, provin
   const panels = Math.ceil(lf / postSpacing);
   const railsPerSection = heightFt <= 4 ? 2 : heightFt <= 6 ? 3 : 4;
   const rates = MATERIAL_RATES.vinyl;
+  const gateKitTotal = gateWidths.reduce((sum, w) => sum + (w > 8 ? rates.gate_kit_drive : rates.gate_kit_walk), 0);
   return { postDepthFt, items: [
     { name: 'Vinyl Posts', qty: totalPosts, unit: 'each', rate: rates.post_each, total: totalPosts * rates.post_each },
     { name: 'Vinyl Panels/Boards', qty: panels, unit: 'section', rate: rates.panel_6ft, total: panels * rates.panel_6ft },
@@ -3091,7 +3094,7 @@ function calcVinyl(lf, heightFt, postSpacing, corners, gates, gateWidths, provin
     { name: 'Post Caps', qty: totalPosts, unit: 'each', rate: rates.post_cap_each, total: totalPosts * rates.post_cap_each },
     { name: 'Post Bases', qty: totalPosts, unit: 'each', rate: rates.post_base_each, total: totalPosts * rates.post_base_each },
     { name: 'Concrete (80lb bags)', qty: totalPosts * concreteBagsPerPost, unit: 'bags', rate: rates.concrete_bag_80lb, total: totalPosts * concreteBagsPerPost * rates.concrete_bag_80lb },
-    { name: 'Walk Gate Kit', qty: gates, unit: 'kit', rate: gateWidths[0] > 8 ? rates.gate_kit_drive : rates.gate_kit_walk, total: gates * (gateWidths[0] > 8 ? rates.gate_kit_drive : rates.gate_kit_walk) }
+    { name: 'Gate Kit(s)', qty: gates, unit: 'kit', rate: gates > 0 ? gateKitTotal / gates : 0, total: gateKitTotal }
   ] };
 }
 
@@ -3248,7 +3251,7 @@ function buildMaterialItems(estimate, materialResult) {
     if (picketItem) {
       const isCedar = estimate.finish === 'cedar' || !['pressure-treated', 'natural'].includes(estimate.finish);
       picketItem.name = estimate.finish === 'pressure-treated' ? 'Pressure Treated Pickets' : isCedar ? 'Cedar Pickets' : 'Natural Wood Pickets';
-      const defaultRate = isCedar ? MATERIAL_RATES.wood.picket_cedar_6ft : MATERIAL_RATES.wood.picket_dog_ear_6ft;
+      const defaultRate = estimate.finish === 'pressure-treated' ? MATERIAL_RATES.wood.picket_pt_6ft : isCedar ? MATERIAL_RATES.wood.picket_cedar_6ft : MATERIAL_RATES.wood.picket_dog_ear_6ft;
       picketItem.rate = estimate.materialOverrides[picketItem.key]?.rate ?? defaultRate;
       picketItem.defaultRate = defaultRate;
       picketItem.total = picketItem.qty * picketItem.rate;
