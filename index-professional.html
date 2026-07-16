@@ -1,0 +1,2272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fence Depot Pro - Professional Fencing Estimator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0FA89F;
+            --primary-dark: #078A83;
+            --primary-light: #E0F7F6;
+            --secondary: #1B2D4D;
+            --secondary-light: #2C3E50;
+            --success: #27AE60;
+            --warning: #F39C12;
+            --danger: #E74C3C;
+            --info: #3498DB;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --text-primary: #111827;
+            --text-secondary: #6B7280;
+            --border-color: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--gray-50);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        /* ===== WRAPPER ===== */
+        .app-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            color: white;
+            padding: 16px 32px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .company-name {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .company-tagline {
+            font-size: 12px;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-role {
+            font-size: 12px;
+            opacity: 0.85;
+        }
+
+        .logout-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== TAB NAVIGATION ===== */
+        .tab-navigation {
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0 32px;
+            flex-shrink: 0;
+            scroll-behavior: smooth;
+        }
+
+        .tab-navigation::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .tab-navigation::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .tab-navigation::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 2px;
+        }
+
+        .tab-btn {
+            flex: 0 0 auto;
+            padding: 16px 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+            background-color: var(--gray-50);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .tab-content {
+            display: none;
+            width: 100%;
+            padding: 32px;
+            overflow-y: auto;
+            background-color: var(--gray-50);
+            animation: fadeIn 0.2s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        /* ===== FORM GROUPS ===== */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .label-required::after {
+            content: "*";
+            color: var(--danger);
+            margin-left: 4px;
+        }
+
+        .label-hint {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="date"],
+        input[type="time"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+            transition: all 0.2s;
+            color: var(--text-primary);
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        input[type="time"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        input[type="text"]:disabled,
+        input[type="number"]:disabled,
+        select:disabled,
+        textarea:disabled {
+            background-color: var(--gray-100);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* ===== GRIDS ===== */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--gray-100);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background-color: var(--gray-200);
+            border-color: var(--gray-300);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background-color: #C0392B;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background-color: #229954;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background-color: var(--primary-light);
+        }
+
+        /* ===== STAT CARDS ===== */
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--primary);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-subtext {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* ===== TABLES ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        thead {
+            background-color: var(--gray-50);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background-color: var(--gray-50);
+        }
+
+        /* ===== BADGES ===== */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-success {
+            background-color: #D5F4E6;
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background-color: #FEF3C7;
+            color: #D97706;
+        }
+
+        .badge-danger {
+            background-color: #FEE2E2;
+            color: var(--danger);
+        }
+
+        .badge-info {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .badge-pending {
+            background-color: #E0E7FF;
+            color: #4F46E5;
+        }
+
+        /* ===== ALERTS ===== */
+        .alert {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14px;
+        }
+
+        .alert-info {
+            background-color: #EFF6FF;
+            border-left-color: var(--info);
+            color: #0C4A6E;
+        }
+
+        .alert-success {
+            background-color: #F0FDF4;
+            border-left-color: var(--success);
+            color: #166534;
+        }
+
+        .alert-warning {
+            background-color: #FFFBEB;
+            border-left-color: var(--warning);
+            color: #92400E;
+        }
+
+        .alert-danger {
+            background-color: #FEF2F2;
+            border-left-color: var(--danger);
+            color: #7F1D1D;
+        }
+
+        .alert-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            margin-bottom: 24px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ===== LOADING SPINNER ===== */
+        .spinner {
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        /* ===== CHECKBOXES ===== */
+        .checkbox-group {
+            margin-top: 12px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .grid-4 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px 16px;
+            }
+
+            .header-left {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .header-right {
+                width: 100%;
+                gap: 12px;
+            }
+
+            .tab-navigation {
+                padding: 0 16px;
+            }
+
+            .tab-btn {
+                padding: 12px 16px;
+                font-size: 12px;
+            }
+
+            .tab-content {
+                padding: 16px;
+            }
+
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .main-container {
+                flex-direction: column;
+            }
+
+            .section {
+                padding: 16px;
+            }
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .gap-12 {
+            gap: 12px;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.2s;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- HEADER -->
+        <header>
+            <div class="header-left">
+                <div class="logo">🏗️</div>
+                <div>
+                    <div class="company-name">Fence Depot Pro</div>
+                    <div class="company-tagline">Professional Fencing Estimator</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-name" id="userName">Welcome, Professional</div>
+                    <div class="user-role">Project Manager</div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <!-- TAB NAVIGATION -->
+        <div class="tab-navigation" id="tabNavigation">
+            <button class="tab-btn active" onclick="switchTab('fenceStyle')">
+                <span class="tab-icon">🎨</span>Fence Style
+            </button>
+            <button class="tab-btn" onclick="switchTab('installation')">
+                <span class="tab-icon">🔧</span>Installation
+            </button>
+            <button class="tab-btn" onclick="switchTab('permit')">
+                <span class="tab-icon">📋</span>Permit
+            </button>
+            <button class="tab-btn" onclick="switchTab('locates')">
+                <span class="tab-icon">📍</span>Locates
+            </button>
+            <button class="tab-btn" onclick="switchTab('estimate')">
+                <span class="tab-icon">💰</span>Estimate
+            </button>
+            <button class="tab-btn" onclick="switchTab('contract')">
+                <span class="tab-icon">📝</span>Contract
+            </button>
+            <button class="tab-btn" onclick="switchTab('shopDrawing')">
+                <span class="tab-icon">🗺️</span>Shop Drawings
+            </button>
+            <button class="tab-btn" onclick="switchTab('installer')">
+                <span class="tab-icon">👷</span>Installer Paperwork
+            </button>
+            <button class="tab-btn" onclick="switchTab('customer')">
+                <span class="tab-icon">👥</span>Customer
+            </button>
+            <button class="tab-btn" onclick="switchTab('inventory')">
+                <span class="tab-icon">📦</span>Inventory
+            </button>
+            <button class="tab-btn" onclick="switchTab('reports')">
+                <span class="tab-icon">📊</span>Reports
+            </button>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-container">
+
+            <!-- TAB 1: FENCE STYLE -->
+            <div id="fenceStyle" class="tab-content active">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-palette"></i> Fence Style & Type Selection
+                    </div>
+                    <div class="section-description">Select the fence type, style, and specifications for this project</div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label-required">Fence Type</label>
+                            <select id="fenceType" onchange="updateFenceDetails()">
+                                <option value="">-- Select Fence Type --</option>
+                                <option value="chainlink">Chain Link (CAN/CGSB-138.3-2019)</option>
+                                <option value="wood">Wood Privacy (CSA O141)</option>
+                                <option value="vinyl">Vinyl (Homeland Products)</option>
+                                <option value="wroughtiron">Wrought Iron (Cloutier Direct)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="label-required">Fence Height</label>
+                            <select id="fenceHeight" onchange="updateFenceDetails()">
+                                <option value="">-- Select Height --</option>
+                                <option value="3">3 feet (0.9m)</option>
+                                <option value="4">4 feet (1.2m)</option>
+                                <option value="5">5 feet (1.5m)</option>
+                                <option value="6">6 feet (1.8m)</option>
+                                <option value="8">8 feet (2.4m)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label-required">Fence Style/Pattern</label>
+                            <select id="fenceStyle">
+                                <option value="">-- Select Style --</option>
+                                <option value="privacy">Privacy (Solid)</option>
+                                <option value="semiprivacy">Semi-Privacy</option>
+                                <option value="picket">Picket</option>
+                                <option value="decorative">Decorative</option>
+                                <option value="rustic">Rustic</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="label-required">Color/Material Finish</label>
+                            <select id="fenceColor">
+                                <option value="">-- Select Color --</option>
+                                <option value="natural">Natural Wood (CSA O141)</option>
+                                <option value="stained">Stained</option>
+                                <option value="painted">Painted</option>
+                                <option value="galvanized">Galvanized (CSA G40.8)</option>
+                                <option value="black">Black Vinyl Coated</option>
+                                <option value="brown">Brown Vinyl Coated</option>
+                                <option value="white">White Vinyl (Homeland)</option>
+                                <option value="gray">Gray Composite</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="section-title mt-20">Additional Features</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Number of Gates</label>
+                            <input type="number" id="gatesCount" placeholder="0" value="0" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Gate Width</label>
+                            <select id="gateWidth">
+                                <option value="3">3 feet (0.9m)</option>
+                                <option value="4">4 feet (1.2m)</option>
+                                <option value="5">5 feet (1.5m)</option>
+                                <option value="6">6 feet (1.8m)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Post Spacing (CAN/CGSB)</label>
+                            <select id="postSpacing">
+                                <option value="6">6 feet (1.8m) Standard</option>
+                                <option value="8">8 feet (2.4m)</option>
+                                <option value="10">10 feet (3m)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="saveFenceStyle()">
+                            <i class="fas fa-save"></i> Save Fence Style
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearFenceForm()">
+                            <i class="fas fa-eraser"></i> Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SUMMARY -->
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-chart-pie"></i> Project Summary
+                    </div>
+                    <div class="grid-4">
+                        <div class="stat-card">
+                            <div class="stat-label">Fence Type</div>
+                            <div class="stat-value" id="summaryType" style="font-size: 16px; color: var(--primary);">--</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Height</div>
+                            <div class="stat-value" id="summaryHeight" style="font-size: 16px; color: var(--primary);">--</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Gates</div>
+                            <div class="stat-value" id="summaryGates" style="font-size: 16px; color: var(--primary);">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Post Spacing</div>
+                            <div class="stat-value" id="summarySpacing" style="font-size: 16px; color: var(--primary);">--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: INSTALLATION -->
+            <div id="installation" class="tab-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-hammer"></i> Installation Details
+                    </div>
+                    <div class="section-description">Specify installation requirements, timeline, and conditions</div>
+
+                    <div class="alert alert-info">
+                        <div class="alert-icon"><i class="fas fa-info-circle"></i></div>
+                        <div>All installations must comply with Canadian Standards (CAN/CGSB-138.3-2019, CSA standards, and local building codes)</div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label-required">Installation Start Date</label>
+                            <input type="date" id="installStart">
+                        </div>
+                        <div class="form-group">
+                            <label class="label-required">Estimated Completion Date</label>
+                            <input type="date" id="installEnd">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Installation Crew Size</label>
+                            <select id="crewSize">
+                                <option value="1">1 Person (Base rate)</option>
+                                <option value="2">2 People (Standard)</option>
+                                <option value="3">3 People (110% efficiency)</option>
+                                <option value="4">4 People (125% efficiency)</option>
+                                <option value="5+">5+ People (150% efficiency)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Terrain Difficulty</label>
+                            <select id="terrainDifficulty">
+                                <option value="1.0">Flat & Accessible (1.0x)</option>
+                                <option value="1.25">Slight Slopes/Obstacles (1.25x)</option>
+                                <option value="1.5">Steep Terrain 20-30% (1.5x)</option>
+                                <option value="2.0">Very Steep 30%+ (2.0x)</option>
+                                <option value="2.5">Extreme Terrain (2.5x)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Soil Type</label>
+                            <select id="soilType">
+                                <option value="0.75">Sandy/Loose (0.75x)</option>
+                                <option value="1.0">Normal Soil (1.0x)</option>
+                                <option value="1.25">Clay/Heavy (1.25x)</option>
+                                <option value="1.75">Rocky (1.75x)</option>
+                                <option value="2.5">Bedrock (2.5x)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Weather Conditions</label>
+                            <select id="weatherConditions">
+                                <option value="1.0">Ideal - 15-25°C, Dry (1.0x)</option>
+                                <option value="0.85">Hot - 25-35°C (0.85x)</option>
+                                <option value="0.9">Cold - 0-10°C (0.9x)</option>
+                                <option value="0.75">Wet/Rain (0.75x)</option>
+                                <option value="0.5">Snow/Extreme (0.5x)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Special Installation Requirements</label>
+                        <textarea id="installNotes" placeholder="E.g., slopes, obstacles, access restrictions, utility lines nearby, underground sprinkler systems, flower gardens, neighbor dogs, etc."></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="saveInstallation()">
+                            <i class="fas fa-save"></i> Save Installation Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: PERMIT -->
+            <div id="permit" class="tab-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-file-contract"></i> Permit Information
+                    </div>
+                    <div class="section-description">Track permit requirements and compliance with building codes</div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label-required">Municipality</label>
+                            <input type="text" id="municipality" placeholder="City/Township">
+                        </div>
+                        <div class="form-group">
+                            <label class="label-required">Province/Region</label>
+                            <select id="province">
+                                <option value="">-- Select Province --</option>
+                                <option value="ON">Ontario (OBC)</option>
+                                <option value="BC">British Columbia (BCBC)</option>
+                                <option value="AB">Alberta (ABC)</option>
+                                <option value="QC">Quebec (NBC)</option>
+                                <option value="MB">Manitoba (NBC)</option>
+                                <option value="SK">Saskatchewan (NBC)</option>
+                                <option value="NS">Nova Scotia (NBC)</option>
+                                <option value="NB">New Brunswick (NBC)</option>
+                                <option value="PE">Prince Edward Island (NBC)</option>
+                                <option value="NL">Newfoundland & Labrador (NBC)</option>
+                                <option value="YT">Yukon</option>
+                                <option value="NWT">Northwest Territories</option>
+                                <option value="NU">Nunavut</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Permit Required?</label>
+                            <select id="permitRequired">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                                <option value="unknown">Unknown - Check with municipality</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Permit Number (if obtained)</label>
+                            <input type="text" id="permitNumber" placeholder="Permit #">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Permit Status</label>
+                            <select id="permitStatus">
+                                <option value="pending">Pending Application</option>
+                                <option value="applied">Applied</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="notneeded">Not Needed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Permit Issue Date</label>
+                            <input type="date" id="permitDate">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Permit Notes/Requirements</label>
+                        <textarea id="permitNotes" placeholder="Special permit conditions, setbacks, height restrictions, building code compliance notes, etc."></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="savePermit()">
+                            <i class="fas fa-save"></i> Save Permit Information
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: LOCATES -->
+            <div id="locates" class="tab-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-map-marker-alt"></i> Utility Locates
+                    </div>
+                    <div class="section-description">Track utility line locating (Ontario One Call, 811, etc.)</div>
+
+                    <div class="alert alert-danger">
+                        <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div><strong>SAFETY CRITICAL:</strong> Before ANY digging: Call 811 (Canada) or Ontario One Call (Ontario) for FREE utility location services. This is MANDATORY and protects against electrocution, gas leaks, and water damage.</div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Locate Request Submitted?</label>
+                            <select id="locateSubmitted">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                                <option value="notneeded">Not Needed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Locate Service Used</label>
+                            <select id="locateService">
+                                <option value="ontarioone">Ontario One Call (Ontario)</option>
+                                <option value="811">811 National Service</option>
+                                <option value="provincial">Provincial Service</option>
+                                <option value="private">Private Locating Company</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Request Reference Number</label>
+                            <input type="text" id="locateRefNumber" placeholder="Reference/Ticket #">
+                        </div>
+                        <div class="form-group">
+                            <label>Locate Requested Date</label>
+                            <input type="date" id="locateRequestDate">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Locate Completed Date</label>
+                            <input type="date" id="locateCompletedDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Locate Status</label>
+                            <select id="locateStatus">
+                                <option value="pending">Pending</option>
+                                <option value="locating">In Progress</option>
+                                <option value="completed">Completed</option>
+                                <option value="cleared">Cleared - Safe to Dig</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Utilities Located/Marked</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="util_hydro" name="utilities" value="hydro">
+                                <label for="util_hydro">Hydro/Electrical (Yellow)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="util_gas" name="utilities" value="gas">
+                                <label for="util_gas">Gas (Orange)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="util_water" name="utilities" value="water">
+                                <label for="util_water">Water/Sewer (Blue)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="util_telecom" name="utilities" value="telecom">
+                                <label for="util_telecom">Telecom (White)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="util_none" name="utilities" value="none">
+                                <label for="util_none">No Utilities Found</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Locate Notes/Hazards</label>
+                        <textarea id="locateNotes" placeholder="Any hazards, clearances, depth information, or special notes..."></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="saveLocates()">
+                            <i class="fas fa-save"></i> Save Locate Information
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: ESTIMATE -->
+            <div id="estimate" class="tab-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-calculator"></i> Project Estimate
+                    </div>
+                    <div class="section-description">Calculate materials, labour, and final pricing</div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label-required">Total Linear Footage</label>
+                            <input type="number" id="linearFootage" placeholder="100" min="0" step="0.1">
+                            <span class="label-hint">Total length of fence in feet</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Posts (Auto-calculated)</label>
+                            <input type="number" id="postCount" placeholder="Auto-calculated" readonly>
+                            <span class="label-hint">Based on post spacing and linear footage</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Frost Depth for Region (inches)</label>
+                        <input type="number" id="frostDepth" placeholder="36" readonly>
+                        <span class="label-hint">Varies by province - Auto-populated based on location</span>
+                    </div>
+
+                    <div class="section-title mt-20">Labour Calculation</div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Base Labour Hours (per 100 LF)</label>
+                            <input type="number" id="baseLabour" placeholder="14" step="0.5" readonly>
+                            <span class="label-hint">Standard 2-person crew, normal conditions</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Adjusted Labour Hours</label>
+                            <input type="number" id="adjustedLabour" placeholder="Auto-calculated" step="0.5" readonly>
+                            <span class="label-hint">Applied multipliers: crew size, terrain, soil, weather, experience</span>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label-required">Labour Rate/Hour (CAD)</label>
+                            <input type="number" id="labourRate" placeholder="45" step="0.01">
+                            <span class="label-hint">Includes wage, benefits, WCB, overhead</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Labour Cost</label>
+                            <input type="text" id="totalLabourCost" placeholder="$0.00" readonly style="font-weight: 600; font-size: 16px; color: var(--primary);">
+                        </div>
+                    </div>
+
+                    <div class="section-title mt-20">Materials & Costs</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Materials Cost (CAD)</label>
+                            <input type="number" id="materialsCost" placeholder="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Hardware/Fasteners Cost (CAD)</label>
+                            <input type="number" id="hardwareCost" placeholder="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Concrete Cost (CAD)</label>
+                            <input type="number" id="concreteCost" placeholder="0" step="0.01">
+                        </div>
+                    </div>
+
+                    <div class="section-title mt-20">Special Notes & Extra Work</div>
+                    <div class="form-group">
+                        <label>Additional Work/Materials Beyond Standard Installation</label>
+                        <textarea id="specialNotes" placeholder="E.g., gate automation, custom painting, site cleanup, permits, inspections, etc."></textarea>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Extra Work Cost (CAD)</label>
+                            <input type="number" id="extraCost" placeholder="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Overhead % (0-50%)</label>
+                            <input type="number" id="overheadPercent" placeholder="25" min="0" max="50" value="25">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Profit Margin % (0-100%)</label>
+                        <input type="number" id="profitPercent" placeholder="35" min="0" max="100" value="35">
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="calculateEstimate()">
+                            <i class="fas fa-calculator"></i> Calculate Estimate
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ESTIMATE SUMMARY -->
+                <div class="section mt-20">
+                    <div class="section-title">
+                        <i class="fas fa-receipt"></i> Estimate Summary
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th style="text-align: right;">Amount (CAD)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Materials</td>
+                                <td style="text-align: right;"><span id="sumMaterials">$0.00</span></td>
+                            </tr>
+                            <tr>
+                                <td>Hardware & Fasteners</td>
+                                <td style="text-align: right;"><span id="sumHardware">$0.00</span></td>
+                            </tr>
+                            <tr>
+                                <td>Concrete</td>
+                                <td style="text-align: right;"><span id="sumConcrete">$0.00</span></td>
+                            </tr>
+                            <tr style="background-color: var(--gray-50); font-weight: 600;">
+                                <td><strong>Subtotal (Materials)</strong></td>
+                                <td style="text-align: right;"><strong><span id="sumSubtotal">$0.00</span></strong></td>
+                            </tr>
+                            <tr style="background-color: var(--primary-light);">
+                                <td>Labour (Hours × Rate)</td>
+                                <td style="text-align: right;"><span id="sumLabour">$0.00</span></td>
+                            </tr>
+                            <tr>
+                                <td>Extra Work</td>
+                                <td style="text-align: right;"><span id="sumExtra">$0.00</span></td>
+                            </tr>
+                            <tr>
+                                <td>Overhead</td>
+                                <td style="text-align: right;"><span id="sumOverhead">$0.00</span></td>
+                            </tr>
+                            <tr style="background-color: #D5F4E6; font-weight: 600;">
+                                <td><strong>PROFIT</strong></td>
+                                <td style="text-align: right;"><strong><span id="sumProfit">$0.00</span></strong></td>
+                            </tr>
+                            <tr style="background-color: var(--primary); color: white; font-size: 16px; font-weight: 700;">
+                                <td>TOTAL ESTIMATE</td>
+                                <td style="text-align: right;"><span id="sumTotal">$0.00</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 6: CONTRACT -->
+            <div id="contract" class="tab-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-file-signature"></i> Contract & Agreement
+                    </div>
+                    <div class="section-description">Generate and manage customer contracts and agreements</div>
+
+                    <div class="form-group">
+                        <label class="label-required">Contract Template</label>
+                        <select id="contractTemplate">
+                            <option value="">-- Select Template --</option>
+                            <option value="standard">Standard Fencing Contract (Canadian)</option>
+                            <option value="residential">Residential Fence Agreement</option>
+                            <option value="commercial">Commercial Fencing Agreement</option>
+                            <option value="custom">Custom Contract</option>
+                        </select>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Contract Status</label>
+                            <select id="contractStatus">
+                                <option value="draft">Draft</option>
+                                <option value="sent">Sent to Customer</option>
+                                <option value="signed">Signed by Customer</option>
+                                <option value="accepted">Accepted & Approved</option>
+                                <option value="completed">Completed & Filed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Contract Date</label>
+                            <input type="date" id="contractDate">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Payment Terms & Conditions</label>
+                        <textarea id="contractNotes" placeholder="Payment schedule, cancellation policy, warranties, liability, dispute resolution, etc."></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="generateContract()">
+                            <i class="fas fa-file-pdf"></i> Generate Contract
+                        </button>
+                        <button class="btn btn-secondary" onclick="sendContractToCustomer()">
+                            <i class="fas fa-envelope"></i> Send to Customer
+                        </button>
+                        <button class="btn btn-success" onclick="markContractSigned()">
+                            <i class="fas fa-check-circle"></i> Mark as Signed
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 7: SHOP DRAWINGS/MAPPING -->
+            <div id="shopDrawing" class="tab-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-map"></i> Shop Drawings & Site Mapping
+                    </div>
+                    <div class="section-description">Create site layouts and shop drawing details for installation</div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Site Address</label>
+                            <input type="text" id="shopAddress" placeholder="Customer address">
+                        </div>
+                        <div class="form-group">
+                            <label>Site Dimensions</label>
+                            <input type="text" id="siteDimensions" placeholder="E.g., 100' x 50'">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Site Layout Description</label>
+                        <textarea id="siteLayout" placeholder="Describe the site layout: property boundaries, existing structures, trees, slopes, utilities, gate locations, etc."></textarea>
+                    </div>
+
+                    <div class="section-title mt-20">Fence Line Details</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Linear Footage</label>
+                            <input type="number" id="drawingLinearFootage" placeholder="100" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>Post Locations (Count)</label>
+                            <input type="number" id="postLocations" placeholder="16">
+                        </div>
+                        <div class="form-group">
+                            <label>Gate Locations (Count)</label>
+                            <input type="number" id="gateLocations" placeholder="1">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Shop Drawing Notes</label>
+                        <textarea id="shopDrawingNotes" placeholder="Specific installation notes, measurements, special details, etc."></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="generateShopDrawing()">
+                            <i class="fas fa-download"></i> Generate Shop Drawing
+                        </button>
+                        <button class="btn btn-secondary" onclick="uploadSiteImage()">
+                            <i class="fas fa-image"></i> Upload Site Photo
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 8: INSTALLER WORK PAPER -->
+            <div id="installer" class="tab-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-clipboard-list"></i> Installer Work Paper
+                    </div>
+                    <div class="section-description">Complete work log, material tracking, and customer sign-off</div>
+
+                    <!-- CUSTOMER INFO SECTION -->
+                    <div class="section-title mt-20">Customer Information</div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Customer Name</label>
+                            <input type="text" id="installerCustomerName" placeholder="Customer name">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Phone</label>
+                            <input type="text" id="installerCustomerPhone" placeholder="Phone number">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Installation Address</label>
+                            <input type="text" id="installerAddress" placeholder="Site address">
+                        </div>
+                        <div class="form-group">
+                            <label>Installation Date</label>
+                            <input type="date" id="workDate">
+                        </div>
+                    </div>
+
+                    <!-- SITE LAYOUT FOR INSTALLATION -->
+                    <div class="section-title mt-20">Site Layout & Installation Plan</div>
+                    <div class="form-group">
+                        <label>Site Layout Sketch/Notes</label>
+                        <textarea id="installerSiteLayout" placeholder="Draw or describe the site layout: fence line, gate locations, obstacles, utility locations, etc."></textarea>
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Total Linear Footage</label>
+                            <input type="number" id="installerLinearFootage" placeholder="100" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Posts</label>
+                            <input type="number" id="installerPostCount" placeholder="16">
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Gates</label>
+                            <input type="number" id="installerGateCount" placeholder="1">
+                        </div>
+                    </div>
+
+                    <!-- MATERIAL PICKLIST -->
+                    <div class="section-title mt-20">Material Picklist & Tracking</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Material Item</th>
+                                <th style="text-align: center;">Required Qty</th>
+                                <th style="text-align: center;">Taken On Site</th>
+                                <th style="text-align: center;">Returned</th>
+                                <th style="text-align: center;">Used</th>
+                            </tr>
+                        </thead>
+                        <tbody id="materialPicklist">
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 20px; color: var(--text-secondary);">Material list will populate based on project specifications</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- TOOLS & EQUIPMENT -->
+                    <div class="section-title mt-20">Tools & Equipment</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tool_auger" name="tools" value="auger">
+                            <label for="tool_auger">Power Auger</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tool_handauger" name="tools" value="handauger">
+                            <label for="tool_handauger">Hand Auger</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tool_wheelbarrow" name="tools" value="wheelbarrow">
+                            <label for="tool_wheelbarrow">Wheelbarrow</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tool_concrete" name="tools" value="concrete">
+                            <label for="tool_concrete">Concrete Mixer</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tool_level" name="tools" value="level">
+                            <label for="tool_level">Level</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tool_tapemeasure" name="tools" value="tapemeasure">
+                            <label for="tool_tapemeasure">Tape Measure</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tool_posthole" name="tools" value="posthole">
+                            <label for="tool_posthole">Post Hole Digger</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tool_circular" name="tools" value="circular">
+                            <label for="tool_circular">Circular Saw</label>
+                        </div>
+                    </div>
+
+                    <!-- WORK LOG -->
+                    <div class="section-title mt-20">Daily Work Log</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Start Time</label>
+                            <input type="time" id="startTime">
+                        </div>
+                        <div class="form-group">
+                            <label>End Time</label>
+                            <input type="time" id="endTime">
+                        </div>
+                        <div class="form-group">
+                            <label>Hours Worked</label>
+                            <input type="number" id="hoursWorked" placeholder="Auto-calculated" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Assigned Installers</label>
+                        <input type="text" id="installerName" placeholder="Names of crew members working today">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Daily Progress Summary</label>
+                        <textarea id="dailyProgress" placeholder="What was completed today? Posts dug? Rails installed? Gates hung? Any delays or issues?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tasks Completed Today</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="task_prep" name="tasks" value="prep">
+                                <label for="task_prep">Site Prep & Clearing</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="task_digging" name="tasks" value="digging">
+                                <label for="task_digging">Post Hole Digging</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="task_posts" name="tasks" value="posts">
+                                <label for="task_posts">Setting Posts</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="task_rails" name="tasks" value="rails">
+                                <label for="task_rails">Rails Installation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="task_panels" name="tasks" value="panels">
+                                <label for="task_panels">Panel Installation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="task_gates" name="tasks" value="gates">
+                                <label for="task_gates">Gate Installation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="task_finishing" name="tasks" value="finishing">
+                                <label for="task_finishing">Finishing Work</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="task_cleanup" name="tasks" value="cleanup">
+                                <label for="task_cleanup">Site Cleanup</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Project Completion %</label>
+                        <input type="range" id="percentComplete" min="0" max="100" value="0" style="width: 100%;">
+                        <span id="percentLabel" style="font-weight: 600; color: var(--primary);">0%</span>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="workStatus">
+                                <option value="inprogress">In Progress</option>
+                                <option value="complete">Complete</option>
+                                <option value="pending">Pending</option>
+                                <option value="onhold">On Hold</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Issues/Obstacles Encountered</label>
+                            <select id="workIssues">
+                                <option value="none">No Issues</option>
+                                <option value="weather">Weather Delay</option>
+                                <option value="material">Material Shortage</option>
+                                <option value="terrain">Terrain Difficulty</option>
+                                <option value="utility">Utility Found</option>
+                                <option value="other">Other - See Notes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Detailed Notes on Issues/Changes</label>
+                        <textarea id="dailyIssues" placeholder="Any problems, delays, changes, concerns, customer requests, etc."></textarea>
+                    </div>
+
+                    <!-- SPECIAL NOTES FROM ESTIMATE -->
+                    <div class="section-title mt-20">Special Notes (From Estimate)</div>
+                    <div class="form-group">
+                        <label>Special Installation Notes & Warnings</label>
+                        <textarea id="installerSpecialNotes" placeholder="E.g., Do NOT cut flowers, watch for underground sprinkler system, neighbor dog is mean, existing structures nearby, etc." readonly></textarea>
+                    </div>
+
+                    <!-- UNDERGROUND LOCATES -->
+                    <div class="section-title mt-20">Underground Locates Documentation</div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Locates Completed?</label>
+                            <select id="installerLocatesCompleted">
+                                <option value="yes">Yes - Safe to Dig</option>
+                                <option value="no">No - Not Done Yet</option>
+                                <option value="notneeded">Not Needed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Reference Number</label>
+                            <input type="text" id="installerLocatesRefNumber" placeholder="Locate ticket #">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Utilities Found</label>
+                        <textarea id="installerUtilitiesFound" placeholder="Document any utilities encountered: type, location, depth, etc."></textarea>
+                    </div>
+
+                    <!-- CHANGE ORDER -->
+                    <div class="section-title mt-20">Change Order (If Applicable)</div>
+                    <div class="form-group">
+                        <label>Customer Approval for Changes</label>
+                        <textarea id="changeOrder" placeholder="Describe any changes from original contract, additional work requested, modifications, etc. Get customer signature on separate form."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Change Order Amount (CAD)</label>
+                        <input type="number" id="changeOrderAmount" placeholder="0" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Change Order Signed by Customer?</label>
+                        <select id="changeOrderSigned">
+                            <option value="pending">Pending - Awaiting Signature</option>
+                            <option value="signed">Signed & Approved</option>
+                            <option value="notneeded">Not Needed</option>
+                        </select>
+                    </div>
+
+                    <!-- FINAL SIGN-OFF -->
+                    <div class="section-title mt-20">Final Customer Sign-Off & Approval</div>
+                    <div class="alert alert-info">
+                        <div class="alert-icon"><i class="fas fa-info-circle"></i></div>
+                        <div>Get customer signature on printed work paper to approve completed work and confirm satisfaction</div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Work Complete & Inspected?</label>
+                            <select id="workCompleteInspected">
+                                <option value="no">No</option>
+                                <option value="yes">Yes - Ready for Sign-Off</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Customer Sign-Off Status</label>
+                            <select id="customerSignOffStatus">
+                                <option value="pending">Pending - Awaiting Approval</option>
+                                <option value="approved">Approved by Customer</option>
+                                <option value="conditional">Approved with Conditions</option>
+                                <option value="rejected">Issues - Not Approved</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Customer Printed Name</label>
+                        <input type="text" id="customerPrintedName" placeholder="Customer's printed name for sign-off">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sign-Off Date</label>
+                        <input type="date" id="signOffDate">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Customer Comments/Feedback</label>
+                        <textarea id="customerFeedback" placeholder="Any customer feedback, concerns, or compliments"></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="saveInstallerLog()">
+                            <i class="fas fa-save"></i> Save Work Log
+                        </button>
+                        <button class="btn btn-secondary" onclick="printInstallerPaper()">
+                            <i class="fas fa-print"></i> Print Work Paper
+                        </button>
+                        <button class="btn btn-success" onclick="finalizeJob()">
+                            <i class="fas fa-check-double"></i> Finalize & Complete
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 9: CUSTOMER -->
+            <div id="customer" class="tab-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-address-card"></i> Customer Information
+                    </div>
+                    <div class="section-description">Manage customer contact details and project information</div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label-required">Customer Name</label>
+                            <input type="text" id="customerName" placeholder="Full Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="customerEmail" placeholder="email@example.com">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Primary Phone</label>
+                            <input type="text" id="customerPhone" placeholder="(555) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label>Secondary Phone</label>
+                            <input type="text" id="customerSecondaryPhone" placeholder="(555) 123-4568">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label-required">Project Address</label>
+                        <input type="text" id="customerAddress" placeholder="Street Address">
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="customerCity" placeholder="City">
+                        </div>
+                        <div class="form-group">
+                            <label>Province</label>
+                            <input type="text" id="customerProvince" placeholder="ON">
+                        </div>
+                        <div class="form-group">
+                            <label>Postal Code</label>
+                            <input type="text" id="customerPostal" placeholder="L4K 1Z4">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Customer Notes</label>
+                        <textarea id="customerNotes" placeholder="Special instructions, preferences, access information, etc."></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="saveCustomer()">
+                            <i class="fas fa-save"></i> Save Customer
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 10: INVENTORY -->
+            <div id="inventory" class="tab-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-warehouse"></i> Inventory Management
+                    </div>
+                    <div class="section-description">Track materials and inventory for projects</div>
+
+                    <div class="form-group">
+                        <label>Filter by Material Type</label>
+                        <select onchange="filterInventory(this.value)">
+                            <option value="">-- All Items --</option>
+                            <option value="chainlink">Chain Link</option>
+                            <option value="vinyl">Vinyl</option>
+                            <option value="wood">Wood</option>
+                            <option value="wroughtiron">Wrought Iron</option>
+                            <option value="hardware">Hardware/Fasteners</option>
+                            <option value="concrete">Concrete</option>
+                        </select>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th style="text-align: center;">Qty Required</th>
+                                <th style="text-align: center;">Qty Available</th>
+                                <th style="text-align: center;">Qty Needed</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>4×4 Posts (8ft PT)</td>
+                                <td style="text-align: center;">12</td>
+                                <td style="text-align: center;">8</td>
+                                <td style="text-align: center;">4</td>
+                                <td><span class="badge badge-warning">LOW STOCK</span></td>
+                                <td><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;">Order</button></td>
+                            </tr>
+                            <tr>
+                                <td>2×6 Rails (PT)</td>
+                                <td style="text-align: center;">24</td>
+                                <td style="text-align: center;">24</td>
+                                <td style="text-align: center;">0</td>
+                                <td><span class="badge badge-success">IN STOCK</span></td>
+                                <td><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>Chain Link Fabric (250ft roll)</td>
+                                <td style="text-align: center;">1</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">1</td>
+                                <td><span class="badge badge-danger">OUT OF STOCK</span></td>
+                                <td><button class="btn btn-danger" style="padding: 4px 8px; font-size: 12px; background: var(--danger); color: white;">Order Now</button></td>
+                            </tr>
+                            <tr>
+                                <td>Concrete (80lb bag)</td>
+                                <td style="text-align: center;">40</td>
+                                <td style="text-align: center;">30</td>
+                                <td style="text-align: center;">10</td>
+                                <td><span class="badge badge-warning">LOW STOCK</span></td>
+                                <td><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;">Order</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="button-group mt-20">
+                        <button class="btn btn-primary" onclick="addInventoryItem()">
+                            <i class="fas fa-plus"></i> Add Item
+                        </button>
+                        <button class="btn btn-secondary" onclick="generateOrderForm()">
+                            <i class="fas fa-file-excel"></i> Generate Order Form
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 11: REPORTS -->
+            <div id="reports" class="tab-content">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-chart-line"></i> Reports & Analytics
+                    </div>
+                    <div class="section-description">View project statistics and performance metrics</div>
+
+                    <div class="grid-4">
+                        <div class="stat-card">
+                            <div class="stat-label">Active Projects</div>
+                            <div class="stat-value">12</div>
+                            <div class="stat-subtext">In progress</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Completed This Month</div>
+                            <div class="stat-value">8</div>
+                            <div class="stat-subtext">Successfully finished</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Total Revenue (This Month)</div>
+                            <div class="stat-value">$28,540</div>
+                            <div class="stat-subtext">CAD</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Average Profit Margin</div>
+                            <div class="stat-value">35%</div>
+                            <div class="stat-subtext">Current average</div>
+                        </div>
+                    </div>
+
+                    <div class="section-title mt-20">Recent Projects</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Amount (CAD)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Wood Privacy Fence - 120ft</td>
+                                <td>John Smith</td>
+                                <td>2026-07-15</td>
+                                <td>$3,240</td>
+                                <td><span class="badge badge-success">COMPLETED</span></td>
+                            </tr>
+                            <tr>
+                                <td>Chain Link Commercial - 250ft</td>
+                                <td>ABC Company</td>
+                                <td>2026-07-10</td>
+                                <td>$6,750</td>
+                                <td><span class="badge badge-success">COMPLETED</span></td>
+                            </tr>
+                            <tr>
+                                <td>Vinyl Gates & Posts</td>
+                                <td>Mary Johnson</td>
+                                <td>2026-07-05</td>
+                                <td>$2,100</td>
+                                <td><span class="badge badge-success">COMPLETED</span></td>
+                            </tr>
+                            <tr>
+                                <td>Wrought Iron Ornamental - 80ft</td>
+                                <td>David Lee</td>
+                                <td>2026-07-01</td>
+                                <td>$9,200</td>
+                                <td><span class="badge badge-success">COMPLETED</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="button-group mt-20">
+                        <button class="btn btn-primary" onclick="generateReport()">
+                            <i class="fas fa-file-pdf"></i> Generate Full Report
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportToCSV()">
+                            <i class="fas fa-file-excel"></i> Export to CSV
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportToExcel()">
+                            <i class="fas fa-chart-bar"></i> Export to Excel
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // ===== TAB SWITCHING =====
+        function switchTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Update active button
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.tab-btn').classList.add('active');
+
+            // Scroll tab into view
+            event.target.closest('.tab-btn').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // ===== PERCENTAGE TRACKER =====
+        document.getElementById('percentComplete').addEventListener('input', function() {
+            document.getElementById('percentLabel').textContent = this.value + '%';
+        });
+
+        // ===== FENCE STYLE TAB =====
+        function updateFenceDetails() {
+            const type = document.getElementById('fenceType').value;
+            document.getElementById('summaryType').textContent = type || '--';
+        }
+
+        function saveFenceStyle() {
+            const fenceType = document.getElementById('fenceType').value;
+            const fenceHeight = document.getElementById('fenceHeight').value;
+            const gatesCount = document.getElementById('gatesCount').value;
+            const postSpacing = document.getElementById('postSpacing').value;
+
+            if (!fenceType || !fenceHeight) {
+                showAlert('Please select fence type and height', 'danger');
+                return;
+            }
+
+            showAlert('Fence Style saved successfully!', 'success');
+            document.getElementById('summaryType').textContent = fenceType;
+            document.getElementById('summaryHeight').textContent = fenceHeight + ' ft';
+            document.getElementById('summaryGates').textContent = gatesCount;
+            document.getElementById('summarySpacing').textContent = postSpacing + ' ft';
+        }
+
+        function clearFenceForm() {
+            document.getElementById('fenceType').value = '';
+            document.getElementById('fenceHeight').value = '';
+            document.getElementById('gatesCount').value = '0';
+            document.getElementById('summaryType').textContent = '--';
+            document.getElementById('summaryHeight').textContent = '--';
+        }
+
+        // ===== INSTALLATION TAB =====
+        function saveInstallation() {
+            showAlert('Installation details saved successfully!', 'success');
+        }
+
+        // ===== PERMIT TAB =====
+        function savePermit() {
+            showAlert('Permit information saved successfully!', 'success');
+        }
+
+        // ===== LOCATES TAB =====
+        function saveLocates() {
+            showAlert('Locate information saved successfully!', 'success');
+        }
+
+        // ===== ESTIMATE TAB =====
+        function calculateEstimate() {
+            const linearFootage = parseFloat(document.getElementById('linearFootage').value) || 0;
+            const materialsCost = parseFloat(document.getElementById('materialsCost').value) || 0;
+            const hardwareCost = parseFloat(document.getElementById('hardwareCost').value) || 0;
+            const concreteCost = parseFloat(document.getElementById('concreteCost').value) || 0;
+            const extraCost = parseFloat(document.getElementById('extraCost').value) || 0;
+            const labourRate = parseFloat(document.getElementById('labourRate').value) || 0;
+            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 25;
+            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 35;
+
+            // Calculate labour hours
+            const baseLabour = 14; // per 100 LF
+            const adjustedLabour = (linearFootage / 100) * baseLabour;
+            document.getElementById('baseLabour').value = baseLabour;
+            document.getElementById('adjustedLabour').value = adjustedLabour.toFixed(2);
+
+            // Calculate costs
+            const totalLabourCost = adjustedLabour * labourRate;
+            const subtotal = materialsCost + hardwareCost + concreteCost;
+            const overhead = subtotal * (overheadPercent / 100);
+            const profit = (subtotal + totalLabourCost + extraCost) * (profitPercent / 100);
+            const total = subtotal + totalLabourCost + overhead + profit + extraCost;
+
+            // Update display
+            document.getElementById('totalLabourCost').value = '$' + totalLabourCost.toFixed(2);
+            document.getElementById('sumMaterials').textContent = '$' + materialsCost.toFixed(2);
+            document.getElementById('sumHardware').textContent = '$' + hardwareCost.toFixed(2);
+            document.getElementById('sumConcrete').textContent = '$' + concreteCost.toFixed(2);
+            document.getElementById('sumSubtotal').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('sumLabour').textContent = '$' + totalLabourCost.toFixed(2);
+            document.getElementById('sumExtra').textContent = '$' + extraCost.toFixed(2);
+            document.getElementById('sumOverhead').textContent = '$' + overhead.toFixed(2);
+            document.getElementById('sumProfit').textContent = '$' + profit.toFixed(2);
+            document.getElementById('sumTotal').textContent = '$' + total.toFixed(2);
+
+            showAlert('Estimate calculated successfully!', 'success');
+        }
+
+        // ===== CONTRACT TAB =====
+        function generateContract() {
+            showAlert('Contract generated and ready to download', 'success');
+        }
+
+        function sendContractToCustomer() {
+            showAlert('Contract sent to customer email', 'success');
+        }
+
+        function markContractSigned() {
+            showAlert('Contract marked as signed', 'success');
+        }
+
+        // ===== SHOP DRAWING TAB =====
+        function generateShopDrawing() {
+            showAlert('Shop drawing generated and ready to download', 'success');
+        }
+
+        function uploadSiteImage() {
+            showAlert('Site image upload feature would open', 'info');
+        }
+
+        // ===== INSTALLER TAB =====
+        function saveInstallerLog() {
+            showAlert('Work log saved successfully!', 'success');
+        }
+
+        function printInstallerPaper() {
+            showAlert('Installer work paper sent to printer', 'info');
+        }
+
+        function finalizeJob() {
+            if (confirm('Are you sure you want to finalize this job? This cannot be undone.')) {
+                showAlert('Job finalized and archived', 'success');
+            }
+        }
+
+        // ===== CUSTOMER TAB =====
+        function saveCustomer() {
+            const customerName = document.getElementById('customerName').value;
+            if (!customerName) {
+                showAlert('Please enter customer name', 'danger');
+                return;
+            }
+            showAlert('Customer information saved successfully!', 'success');
+        }
+
+        // ===== INVENTORY TAB =====
+        function addInventoryItem() {
+            showAlert('Add inventory item form would open', 'info');
+        }
+
+        function generateOrderForm() {
+            showAlert('Order form generated and ready to download', 'success');
+        }
+
+        function filterInventory(type) {
+            showAlert('Filtering inventory by: ' + (type || 'All Items'), 'info');
+        }
+
+        // ===== REPORTS TAB =====
+        function generateReport() {
+            showAlert('Full report generated and ready to download', 'success');
+        }
+
+        function exportToCSV() {
+            showAlert('Data exported to CSV', 'success');
+        }
+
+        function exportToExcel() {
+            showAlert('Data exported to Excel', 'success');
+        }
+
+        // ===== UTILITY FUNCTIONS =====
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                showAlert('Logged out successfully', 'success');
+            }
+        }
+
+        function showAlert(message, type) {
+            // Simple alert for now - could be replaced with toast notification
+            const alertMap = {
+                success: '✓',
+                danger: '✕',
+                warning: '⚠',
+                info: 'ⓘ'
+            };
+            console.log(`[${type.toUpperCase()}] ${message}`);
+            alert(message);
+        }
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('installStart').value = today;
+            document.getElementById('permitDate').value = today;
+            document.getElementById('locateRequestDate').value = today;
+            document.getElementById('contractDate').value = today;
+            document.getElementById('workDate').value = today;
+            document.getElementById('signOffDate').value = today;
+
+            // Example: Calculate hours worked
+            document.getElementById('startTime').addEventListener('change', calculateHours);
+            document.getElementById('endTime').addEventListener('change', calculateHours);
+        });
+
+        function calculateHours() {
+            const start = document.getElementById('startTime').value;
+            const end = document.getElementById('endTime').value;
+            if (start && end) {
+                const startDate = new Date(`2000-01-01 ${start}`);
+                const endDate = new Date(`2000-01-01 ${end}`);
+                const hours = (endDate - startDate) / (1000 * 60 * 60);
+                document.getElementById('hoursWorked').value = hours.toFixed(2);
+            }
+        }
+    </script>
+</body>
+</html>
