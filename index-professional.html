@@ -2256,6 +2256,7 @@
 
         function initializeTextareaCounters() {
             // Editable note fields share maxlength="500" in HTML to keep save payloads small for API/Sheets-style submissions.
+            const NEAR_LIMIT_THRESHOLD = 50;
             document.querySelectorAll('textarea[maxlength]:not([readonly])').forEach(textarea => {
                 const counter = document.createElement('div');
                 counter.className = 'field-counter';
@@ -2263,7 +2264,7 @@
                 const updateCounter = () => {
                     const remaining = textarea.maxLength - textarea.value.length;
                     counter.textContent = `${textarea.value.length}/${textarea.maxLength} characters`;
-                    counter.classList.toggle('near-limit', remaining <= 50);
+                    counter.classList.toggle('near-limit', remaining <= NEAR_LIMIT_THRESHOLD);
                 };
 
                 textarea.insertAdjacentElement('afterend', counter);
