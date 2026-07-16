@@ -2254,14 +2254,9 @@
             alert(message);
         }
 
-        const SAFE_TEXTAREA_REQUEST_LIMIT = 500; // Keep note saves small enough for API/Sheets-style submissions.
-
         function initializeTextareaCounters() {
+            // Editable note fields share maxlength="500" in HTML to keep save payloads small for API/Sheets-style submissions.
             document.querySelectorAll('textarea[maxlength]:not([readonly])').forEach(textarea => {
-                if (textarea.maxLength !== SAFE_TEXTAREA_REQUEST_LIMIT) {
-                    textarea.maxLength = SAFE_TEXTAREA_REQUEST_LIMIT;
-                }
-
                 const counter = document.createElement('div');
                 counter.className = 'field-counter';
 
