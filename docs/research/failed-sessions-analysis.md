@@ -52,7 +52,7 @@ Every session **correctly identified and implemented the fix**, but the work was
 
 - Added `maxlength="2000"` to all unbounded textareas in `index-professional.html`
 - Added a live `<span>` character counter below each textarea showing `X / 2000`
-- The counter turns **orange at 1800** (90%) and **red at 1950** (97.5%) to warn users before they hit the limit
+- The counter turns **orange at 1800** (90%) and **red at 2000** (at the limit) to warn users before and at the hard cap
 - A shared `TEXTAREA_MAX` constant (value: `2000`) and `TEXTAREA_WARN` constant (value: `1800`) are defined in the JS block for easy future adjustment
 
 ---
