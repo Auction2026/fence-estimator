@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Fence Depot Installation Tasks Schema",
+  "description": "Labour tasks and time estimates for each fence type",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["fence_type", "task_name", "unit", "labour_hours_per_unit"],
+    "properties": {
+      "fence_type": {
+        "type": "string",
+        "description": "Type of fence this task applies to",
+        "examples": ["Chain Link Residential", "Chain Link Commercial", "Wood", "Vinyl", "Wrought Iron"]
+      },
+      "task_name": {
+        "type": "string",
+        "description": "Short name of the installation task"
+      },
+      "task_description": {
+        "type": "string",
+        "description": "Detailed description of what the task involves"
+      },
+      "unit": {
+        "type": "string",
+        "description": "The unit this time estimate is per",
+        "examples": ["Per 100 LF", "Per Post", "Per Gate", "Per Panel", "Per Hour"]
+      },
+      "labour_hours_per_unit": {
+        "type": "number",
+        "description": "Number of man-hours required per unit",
+        "minimum": 0
+      },
+      "crew_size": {
+        "type": "integer",
+        "description": "Number of workers needed for this task",
+        "minimum": 1
+      },
+      "skill_level": {
+        "type": "string",
+        "description": "Skill level required",
+        "enum": ["Basic", "Intermediate", "Advanced", "Specialist"]
+      },
+      "equipment_needed": {
+        "type": "string",
+        "description": "Tools and equipment required for this task"
+      },
+      "notes": {
+        "type": "string",
+        "description": "Additional notes, tips or safety information"
+      }
+    }
+  }
+}

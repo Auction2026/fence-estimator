@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Depot — Data Import Tool</title>
+  <style>
+    :root {
+      --primary: #0FA89F;
+      --primary-dark: #078A83;
+      --secondary: #1B2D4D;
+      --success: #27AE60;
+      --alert: #E74C3C;
+      --warning: #F39C12;
+      --neutral: #F5F7FA;
+      --border: #DDE3EC;
+      --text: #2C3E50;
+      --text-light: #7F8C8D;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background: var(--neutral);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      background: var(--secondary);
+      color: #fff;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    header .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; }
+    header .subtitle { font-size: 0.9rem; opacity: 0.75; margin-top: 2px; }
+    .main { max-width: 1100px; margin: 32px auto; padding: 0 20px; }
+
+    /* Step indicator */
+    .steps {
+      display: flex;
+      gap: 0;
+      margin-bottom: 32px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .step {
+      flex: 1;
+      padding: 14px 12px;
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-light);
+      border-right: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .step:last-child { border-right: none; }
+    .step.active { background: var(--primary); color: #fff; }
+    .step.done { background: var(--success); color: #fff; }
+    .step .num { font-size: 1.1rem; font-weight: 700; display: block; margin-bottom: 3px; }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+    }
+    .card h2 { font-size: 1.15rem; margin-bottom: 6px; color: var(--secondary); }
+    .card .desc { font-size: 0.88rem; color: var(--text-light); margin-bottom: 20px; }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2.5px dashed var(--border);
+      border-radius: 10px;
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--primary);
+      background: #f0fffe;
+    }
+    .upload-zone .icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .upload-zone p { color: var(--text-light); font-size: 0.9rem; }
+    .upload-zone strong { color: var(--primary); }
+    #fileInput { display: none; }
+
+    /* Format badges */
+    .badges { display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+    .badge {
+      background: var(--neutral);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+
+    /* File type tabs */
+    .type-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .type-tab {
+      padding: 7px 16px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--neutral);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .type-tab:hover { border-color: var(--primary); color: var(--primary); }
+    .type-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    /* Column mapping */
+    .mapping-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .mapping-item label { font-size: 0.8rem; font-weight: 600; color: var(--text-light); display: block; margin-bottom: 4px; }
+    .mapping-item select, .mapping-item input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: var(--text);
+      background: #fff;
+    }
+    .mapping-item select:focus, .mapping-item input:focus { outline: none; border-color: var(--primary); }
+
+    /* Data preview table */
+    .table-wrap { overflow-x: auto; margin-top: 16px; border-radius: 8px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    thead tr { background: var(--secondary); color: #fff; }
+    thead th { padding: 10px 12px; text-align: left; font-weight: 600; white-space: nowrap; }
+    tbody tr:nth-child(even) { background: var(--neutral); }
+    tbody td { padding: 8px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+    .row-ok { border-left: 3px solid var(--success); }
+    .row-warn { border-left: 3px solid var(--warning); }
+    .row-error { border-left: 3px solid var(--alert); }
+
+    /* Validation summary */
+    .val-summary { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+    .val-box {
+      flex: 1;
+      min-width: 130px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .val-box .count { font-size: 1.6rem; font-weight: 700; }
+    .val-box .label { font-size: 0.78rem; margin-top: 2px; }
+    .val-box.ok { background: #eafaf1; color: var(--success); }
+    .val-box.warn { background: #fef9e7; color: var(--warning); }
+    .val-box.error { background: #fdedec; color: var(--alert); }
+    .val-box.total { background: #eaf0fb; color: var(--secondary); }
+
+    /* Buttons */
+    .btn-row { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+    .btn {
+      padding: 10px 22px;
+      border-radius: 7px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover:not(:disabled) { background: var(--primary-dark); }
+    .btn-secondary { background: var(--neutral); border: 1px solid var(--border); color: var(--text); }
+    .btn-secondary:hover:not(:disabled) { background: var(--border); }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-success:hover:not(:disabled) { opacity: 0.9; }
+    .btn-danger { background: var(--alert); color: #fff; }
+
+    /* Alerts */
+    .alert {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .alert-info { background: #eaf5ff; border-left: 4px solid #3498DB; color: #2471A3; }
+    .alert-success { background: #eafaf1; border-left: 4px solid var(--success); color: #1e8449; }
+    .alert-warning { background: #fef9e7; border-left: 4px solid var(--warning); color: #9a7d0a; }
+    .alert-error { background: #fdedec; border-left: 4px solid var(--alert); color: #922b21; }
+
+    /* Progress */
+    .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin: 8px 0; }
+    .progress-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.3s; }
+
+    /* Templates section */
+    .template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+    .template-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .template-card:hover { border-color: var(--primary); box-shadow: 0 2px 8px rgba(15,168,159,0.1); }
+    .template-card .tc-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .template-card h3 { font-size: 0.95rem; margin-bottom: 4px; }
+    .template-card p { font-size: 0.8rem; color: var(--text-light); }
+
+    /* Output code */
+    .output-code {
+      background: #1e2a38;
+      color: #a8d8b9;
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      max-height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* Instructions */
+    .instructions ol { padding-left: 22px; }
+    .instructions li { margin-bottom: 8px; font-size: 0.9rem; line-height: 1.5; }
+    .instructions li strong { color: var(--secondary); }
+
+    /* hidden */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">🔧 Fence Depot</div>
+    <div class="subtitle">Inventory Import Tool — Version 1.0</div>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- Step indicator -->
+  <div class="steps" id="stepIndicator">
+    <div class="step active" id="step1"><span class="num">1</span>Upload File</div>
+    <div class="step" id="step2"><span class="num">2</span>Map Columns</div>
+    <div class="step" id="step3"><span class="num">3</span>Validate</div>
+    <div class="step" id="step4"><span class="num">4</span>Import</div>
+  </div>
+
+  <!-- STEP 1: Upload -->
+  <div id="sectionUpload">
+
+    <div class="card">
+      <h2>📥 Step 1 — Upload Your Inventory File</h2>
+      <p class="desc">Drag & drop your file below, or click to browse. Works with Excel, CSV, Google Sheets exports, and JSON.</p>
+
+      <div class="upload-zone" id="uploadZone">
+        <div class="icon">📂</div>
+        <p><strong>Click here</strong> to choose a file, or drag & drop it here</p>
+        <p style="margin-top:6px; font-size:0.8rem;">Your file stays on your computer — nothing is sent to the internet</p>
+        <div class="badges">
+          <span class="badge">.csv</span>
+          <span class="badge">.xlsx</span>
+          <span class="badge">.xls</span>
+          <span class="badge">.json</span>
+          <span class="badge">Google Sheets</span>
+        </div>
+        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.json,.txt">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📋 Don't have a file yet? Download a template</h2>
+      <p class="desc">Fill in one of these templates with your data, then upload it above.</p>
+      <div class="template-grid">
+        <div class="template-card" onclick="downloadTemplate('inventory')">
+          <div class="tc-icon">📦</div>
+          <h3>Inventory Template</h3>
+          <p>Materials, costs, sell prices, stock levels, supplier info</p>
+        </div>
+        <div class="template-card" onclick="downloadTemplate('installation')">
+          <div class="tc-icon">🔨</div>
+          <h3>Installation Template</h3>
+          <p>Labour tasks, time estimates, crew size per fence type</p>
+        </div>
+        <div class="template-card" onclick="downloadTemplate('suppliers')">
+          <div class="tc-icon">🏭</div>
+          <h3>Suppliers Template</h3>
+          <p>Supplier names, contacts, payment terms, lead times</p>
+        </div>
+      </div>
+
+      <div class="alert alert-info" style="margin-top:18px;">
+        <span>💡</span>
+        <div>
+          <strong>How to use Google Sheets:</strong> Open your sheet → File → Download → Comma Separated Values (.csv) → then upload the .csv file here.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STEP 2: Column Mapping -->
+  <div id="sectionMapping" class="hidden">
+    <div class="card">
+      <h2>🗂️ Step 2 — Map Your Columns</h2>
+      <p class="desc">Tell the system which column in your file matches which field. Auto-detection is applied — just correct anything that looks wrong.</p>
+
+      <div class="alert alert-info" id="fileInfo"></div>
+
+      <div class="mapping-grid" id="mappingGrid"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="applyMapping()">✅ Apply Mapping & Preview</button>
+        <button class="btn btn-secondary" onclick="goToStep(1)">← Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Validate & Preview -->
+  <div id="sectionValidate" class="hidden">
+    <div class="card">
+      <h2>🔍 Step 3 — Preview & Validate</h2>
+      <p class="desc">Review your data below. The system has checked for missing or unusual values. Fix any errors before importing.</p>
+
+      <div class="val-summary" id="valSummary"></div>
+
+      <div id="valAlerts"></div>
+
+      <div class="table-wrap">
+        <table id="previewTable">
+          <thead id="previewHead"></thead>
+          <tbody id="previewBody"></tbody>
+        </table>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-success" id="btnImport" onclick="doImport()">⬇️ Import to System</button>
+        <button class="btn btn-secondary" onclick="goToStep(2)">← Back to Mapping</button>
+        <button class="btn btn-secondary" onclick="exportPreviewCSV()">📥 Export Preview as CSV</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Done -->
+  <div id="sectionDone" class="hidden">
+    <div class="card">
+      <h2>🎉 Import Complete!</h2>
+      <p class="desc">Your inventory data has been processed and saved. Here's a summary of what was imported.</p>
+
+      <div id="importSummary"></div>
+
+      <div class="alert alert-info" style="margin-top:16px;">
+        <span>💾</span>
+        <div>
+          <strong>Your data has been saved.</strong> Click "Download JSON" to save the processed file to
+          <code>data/processed/</code> in your repository, or copy the JSON data to use directly in the estimator.
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-success" id="btnDownloadJSON" onclick="downloadJSON()">💾 Download JSON File</button>
+        <button class="btn btn-secondary" onclick="copyToClipboard()">📋 Copy JSON to Clipboard</button>
+        <button class="btn btn-secondary" onclick="location.reload()">🔄 Import Another File</button>
+      </div>
+
+      <div style="margin-top:20px;">
+        <p style="font-size:0.85rem; font-weight:600; margin-bottom:8px; color:var(--text-light);">PROCESSED JSON DATA:</p>
+        <div class="output-code" id="outputJSON"></div>
+      </div>
+    </div>
+
+    <div class="card instructions">
+      <h2>✅ Next Steps</h2>
+      <ol>
+        <li><strong>Save the downloaded JSON file</strong> to the <code>data/processed/</code> folder in your repository.</li>
+        <li><strong>Open <code>index.html</code></strong> (the estimator) — it will automatically load your inventory data from the processed folder.</li>
+        <li><strong>Add more data anytime</strong> — come back to this tool to import additional files (installation tasks, suppliers, etc.).</li>
+        <li><strong>Connect to your POS</strong> — once ready, your POS system can write to the same JSON format and the estimator will update automatically.</li>
+      </ol>
+    </div>
+  </div>
+
+</div>
+
+<!-- SheetJS for Excel support -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<!-- PapaParse for CSV -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<script>
+// ─── State ───────────────────────────────────────────────────────────────────
+let rawData = [];        // Array of objects from parsed file
+let headers = [];        // Column headers from file
+let mappedData = [];     // After column mapping applied
+let processedData = [];  // After validation / cleanup
+let importType = 'inventory'; // 'inventory' | 'installation' | 'suppliers'
+let fileName = '';
+
+// ─── System field definitions ─────────────────────────────────────────────
+const INVENTORY_FIELDS = [
+  { key: 'sku',           label: 'SKU / Part Number',   required: false },
+  { key: 'item_name',     label: 'Item Name',            required: true  },
+  { key: 'category',      label: 'Category',             required: false },
+  { key: 'subcategory',   label: 'Sub-Category',         required: false },
+  { key: 'description',   label: 'Description',          required: false },
+  { key: 'unit',          label: 'Unit (Each/LF/Roll…)', required: false },
+  { key: 'cost_price',    label: 'Cost Price ($)',        required: false },
+  { key: 'sell_price',    label: 'Sell Price ($)',        required: false },
+  { key: 'stock_qty',     label: 'Stock Quantity',       required: false },
+  { key: 'reorder_point', label: 'Reorder Point',        required: false },
+  { key: 'supplier',      label: 'Supplier Name',        required: false },
+  { key: 'supplier_sku',  label: 'Supplier SKU',         required: false },
+  { key: 'notes',         label: 'Notes',                required: false },
+];
+
+const INSTALLATION_FIELDS = [
+  { key: 'fence_type',              label: 'Fence Type',           required: true  },
+  { key: 'task_name',               label: 'Task Name',            required: true  },
+  { key: 'task_description',        label: 'Task Description',     required: false },
+  { key: 'unit',                    label: 'Unit (Per 100LF…)',    required: false },
+  { key: 'labour_hours_per_unit',   label: 'Labour Hours / Unit',  required: true  },
+  { key: 'crew_size',               label: 'Crew Size',            required: false },
+  { key: 'skill_level',             label: 'Skill Level',          required: false },
+  { key: 'equipment_needed',        label: 'Equipment Needed',     required: false },
+  { key: 'notes',                   label: 'Notes',                required: false },
+];
+
+const SUPPLIERS_FIELDS = [
+  { key: 'supplier_name',       label: 'Supplier Name',        required: true  },
+  { key: 'contact_name',        label: 'Contact Name',         required: false },
+  { key: 'phone',               label: 'Phone',                required: false },
+  { key: 'email',               label: 'Email',                required: false },
+  { key: 'website',             label: 'Website',              required: false },
+  { key: 'address',             label: 'Address',              required: false },
+  { key: 'city',                label: 'City',                 required: false },
+  { key: 'province',            label: 'Province',             required: false },
+  { key: 'payment_terms',       label: 'Payment Terms',        required: false },
+  { key: 'lead_time_days',      label: 'Lead Time (Days)',     required: false },
+  { key: 'categories_supplied', label: 'Categories Supplied',  required: false },
+  { key: 'notes',               label: 'Notes',                required: false },
+];
+
+function getFields() {
+  if (importType === 'installation') return INSTALLATION_FIELDS;
+  if (importType === 'suppliers') return SUPPLIERS_FIELDS;
+  return INVENTORY_FIELDS;
+}
+
+// ─── Step navigation ─────────────────────────────────────────────────────────
+function goToStep(n) {
+  document.getElementById('sectionUpload').classList.toggle('hidden', n !== 1);
+  document.getElementById('sectionMapping').classList.toggle('hidden', n !== 2);
+  document.getElementById('sectionValidate').classList.toggle('hidden', n !== 3);
+  document.getElementById('sectionDone').classList.toggle('hidden', n !== 4);
+  [1,2,3,4].forEach(i => {
+    const el = document.getElementById('step' + i);
+    el.className = 'step' + (i < n ? ' done' : i === n ? ' active' : '');
+  });
+}
+
+// ─── File upload ─────────────────────────────────────────────────────────────
+const uploadZone = document.getElementById('uploadZone');
+const fileInput = document.getElementById('fileInput');
+
+uploadZone.addEventListener('click', () => fileInput.click());
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+
+function handleFile(file) {
+  if (!file) return;
+  fileName = file.name;
+  const ext = file.name.split('.').pop().toLowerCase();
+
+  if (ext === 'json') {
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const json = JSON.parse(e.target.result);
+        rawData = Array.isArray(json) ? json : [json];
+        headers = rawData.length ? Object.keys(rawData[0]) : [];
+        autoDetectType();
+        showMapping();
+      } catch(err) {
+        alert('Could not read JSON file: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+
+  } else if (ext === 'csv' || ext === 'txt') {
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: result => {
+        rawData = result.data;
+        headers = result.meta.fields || [];
+        autoDetectType();
+        showMapping();
+      },
+      error: err => alert('CSV parse error: ' + err.message)
+    });
+
+  } else if (ext === 'xlsx' || ext === 'xls') {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const wb = XLSX.read(e.target.result, { type: 'array' });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      rawData = XLSX.utils.sheet_to_json(ws, { defval: '' });
+      headers = rawData.length ? Object.keys(rawData[0]) : [];
+      autoDetectType();
+      showMapping();
+    };
+    reader.readAsArrayBuffer(file);
+
+  } else {
+    alert('Unsupported file type: .' + ext + '\nPlease use .csv, .xlsx, .xls, or .json');
+  }
+}
+
+function autoDetectType() {
+  const hLower = headers.map(h => h.toLowerCase());
+  if (hLower.some(h => h.includes('labour') || h.includes('labor') || h.includes('hours') || h.includes('crew'))) {
+    importType = 'installation';
+  } else if (hLower.some(h => h.includes('supplier_name') || (h.includes('lead_time') && h.includes('day')))) {
+    importType = 'suppliers';
+  } else {
+    importType = 'inventory';
+  }
+}
+
+// Safely escape a string for use inside HTML attributes or text content
+function esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// ─── Mapping ──────────────────────────────────────────────────────────────────
+function showMapping() {
+  document.getElementById('fileInfo').innerHTML =
+    `<strong>📄 File loaded:</strong> ${esc(fileName)} — <strong>${rawData.length}</strong> rows, <strong>${headers.length}</strong> columns detected. Data type auto-detected as: <strong>${esc(importType.toUpperCase())}</strong>`;
+
+  const grid = document.getElementById('mappingGrid');
+  grid.innerHTML = '';
+  const fields = getFields();
+
+  fields.forEach(field => {
+    const matched = autoMatch(field.key, headers);
+    const div = document.createElement('div');
+    div.className = 'mapping-item';
+    div.innerHTML = `
+      <label>${field.required ? '⚠️ ' : ''}${esc(field.label)} ${field.required ? '(required)' : ''}</label>
+      <select id="map_${esc(field.key)}">
+        <option value="">(skip this field)</option>
+        ${headers.map(h => `<option value="${esc(h)}" ${h === matched ? 'selected' : ''}>${esc(h)}</option>`).join('')}
+      </select>`;
+    grid.appendChild(div);
+  });
+
+  goToStep(2);
+}
+
+function autoMatch(fieldKey, headers) {
+  const aliases = {
+    sku: ['sku', 'part number', 'part#', 'item code', 'code', 'product code', 'item#'],
+    item_name: ['item name', 'name', 'description', 'product', 'material', 'item', 'product name'],
+    category: ['category', 'type', 'fence type', 'product type', 'cat'],
+    subcategory: ['subcategory', 'sub category', 'sub-category', 'subcat', 'sub type'],
+    description: ['description', 'desc', 'details', 'notes', 'product description'],
+    unit: ['unit', 'uom', 'unit of measure', 'um', 'measure'],
+    cost_price: ['cost', 'cost price', 'cost ($)', 'our cost', 'purchase price', 'buy price', 'price paid', 'net price'],
+    sell_price: ['sell', 'sell price', 'retail', 'retail price', 'list price', 'selling price', 'price', 'customer price'],
+    stock_qty: ['qty', 'quantity', 'stock', 'on hand', 'stock qty', 'inventory', 'count'],
+    reorder_point: ['reorder', 'reorder point', 'min qty', 'minimum', 'low stock'],
+    supplier: ['supplier', 'vendor', 'manufacturer', 'source', 'buy from'],
+    supplier_sku: ['supplier sku', 'vendor sku', 'supplier part', 'vendor part', 'supplier code'],
+    notes: ['notes', 'comment', 'remarks', 'info'],
+    fence_type: ['fence type', 'type', 'category', 'fence'],
+    task_name: ['task', 'task name', 'activity', 'work item', 'job'],
+    task_description: ['task description', 'description', 'details'],
+    labour_hours_per_unit: ['hours', 'labour hours', 'labor hours', 'time', 'man hours', 'hrs'],
+    crew_size: ['crew', 'crew size', 'workers', 'people'],
+    skill_level: ['skill', 'skill level', 'level', 'difficulty'],
+    equipment_needed: ['equipment', 'tools', 'equipment needed'],
+    supplier_name: ['supplier name', 'company', 'supplier', 'vendor name', 'vendor', 'name'],
+    contact_name: ['contact', 'contact name', 'person', 'rep'],
+    phone: ['phone', 'telephone', 'tel', 'mobile', 'cell'],
+    email: ['email', 'e-mail'],
+    website: ['website', 'web', 'url', 'site'],
+    address: ['address', 'street', 'addr'],
+    city: ['city', 'town', 'municipality'],
+    province: ['province', 'state', 'prov'],
+    payment_terms: ['payment terms', 'terms', 'net'],
+    lead_time_days: ['lead time', 'lead time days', 'days', 'delivery'],
+    categories_supplied: ['categories', 'categories supplied', 'products', 'supplies'],
+  };
+
+  const words = (aliases[fieldKey] || [fieldKey.replace(/_/g, ' ')]);
+  const hLower = headers.map(h => h.toLowerCase().trim());
+  for (const w of words) {
+    const idx = hLower.indexOf(w);
+    if (idx !== -1) return headers[idx];
+  }
+  // partial match
+  for (const w of words) {
+    const idx = hLower.findIndex(h => h.includes(w) || w.includes(h));
+    if (idx !== -1) return headers[idx];
+  }
+  return '';
+}
+
+// ─── Apply mapping ─────────────────────────────────────────────────────────
+function applyMapping() {
+  const fields = getFields();
+  const mapping = {};
+  fields.forEach(f => {
+    const sel = document.getElementById('map_' + f.key);
+    if (sel && sel.value) mapping[f.key] = sel.value;
+  });
+
+  mappedData = rawData.map(row => {
+    const out = {};
+    fields.forEach(f => {
+      if (mapping[f.key]) {
+        out[f.key] = row[mapping[f.key]] !== undefined ? String(row[mapping[f.key]]).trim() : '';
+      } else {
+        out[f.key] = '';
+      }
+    });
+    return out;
+  });
+
+  validateAndPreview();
+}
+
+// ─── Validation ───────────────────────────────────────────────────────────
+function validateAndPreview() {
+  const fields = getFields();
+  let ok = 0, warn = 0, errors = 0;
+  const alerts = [];
+
+  processedData = mappedData.map((row, i) => {
+    const issues = [];
+
+    fields.forEach(f => {
+      if (f.required && !row[f.key]) {
+        issues.push({ level: 'error', msg: `Missing required field: ${f.label}` });
+      }
+    });
+
+    // Numeric field checks
+    ['cost_price', 'sell_price', 'stock_qty', 'reorder_point', 'labour_hours_per_unit', 'crew_size', 'lead_time_days'].forEach(k => {
+      if (row[k] !== undefined && row[k] !== '') {
+        const n = parseFloat(row[k]);
+        if (isNaN(n)) {
+          issues.push({ level: 'warn', msg: `${k} is not a number: "${row[k]}"` });
+          row[k] = null;
+        } else {
+          row[k] = n;
+        }
+      } else if (row[k] !== undefined) {
+        row[k] = null;
+      }
+    });
+
+    // Pricing sanity
+    if (row.cost_price && row.sell_price && row.cost_price > row.sell_price) {
+      issues.push({ level: 'warn', msg: `Cost price ($${row.cost_price}) is higher than sell price ($${row.sell_price})` });
+    }
+    if (row.sell_price && !row.cost_price) {
+      issues.push({ level: 'warn', msg: 'Sell price set but no cost price — margin cannot be calculated' });
+    }
+
+    // Auto-calculate markup
+    if (row.cost_price && row.sell_price && row.cost_price > 0) {
+      row.markup_percent = Math.round(((row.sell_price - row.cost_price) / row.cost_price) * 10000) / 100;
+    }
+
+    row._row = i + 1;
+    row._issues = issues;
+    if (issues.some(x => x.level === 'error')) { errors++; row._status = 'error'; }
+    else if (issues.length) { warn++; row._status = 'warn'; }
+    else { ok++; row._status = 'ok'; }
+
+    return row;
+  });
+
+  // Build summary
+  document.getElementById('valSummary').innerHTML = `
+    <div class="val-box total"><div class="count">${processedData.length}</div><div class="label">Total Rows</div></div>
+    <div class="val-box ok"><div class="count">${ok}</div><div class="label">✅ Ready</div></div>
+    <div class="val-box warn"><div class="count">${warn}</div><div class="label">⚠️ Warnings</div></div>
+    <div class="val-box error"><div class="count">${errors}</div><div class="label">❌ Errors</div></div>
+  `;
+
+  const alertDiv = document.getElementById('valAlerts');
+  alertDiv.innerHTML = '';
+  if (errors > 0) {
+    alertDiv.innerHTML += `<div class="alert alert-error">❌ <div><strong>${errors} row(s) have errors</strong> — required fields are missing. You can still import, but these rows will need to be fixed.</div></div>`;
+  }
+  if (warn > 0) {
+    alertDiv.innerHTML += `<div class="alert alert-warning">⚠️ <div><strong>${warn} row(s) have warnings</strong> — prices or numbers may need review. Check the highlighted rows below.</div></div>`;
+  }
+  if (ok === processedData.length) {
+    alertDiv.innerHTML += `<div class="alert alert-success">✅ <div>All ${ok} rows look good and are ready to import!</div></div>`;
+  }
+
+  // Build table (show first 50 rows)
+  const displayFields = getFields().filter(f => f.required || ['cost_price','sell_price','stock_qty','unit','category'].includes(f.key));
+  const head = document.getElementById('previewHead');
+  const body = document.getElementById('previewBody');
+  head.innerHTML = `<tr><th>#</th><th>Status</th>${displayFields.map(f => `<th>${esc(f.label)}</th>`).join('')}</tr>`;
+  body.innerHTML = processedData.slice(0, 50).map(row => `
+    <tr class="row-${esc(row._status)}">
+      <td>${row._row}</td>
+      <td>${row._status === 'ok' ? '✅' : row._status === 'warn' ? '⚠️' : '❌'} ${esc(row._issues.map(i => i.msg).join('; '))}</td>
+      ${displayFields.map(f => `<td title="${esc(row[f.key] != null ? row[f.key] : '')}">${esc(row[f.key] != null ? row[f.key] : '')}</td>`).join('')}
+    </tr>`).join('');
+
+  if (processedData.length > 50) {
+    body.innerHTML += `<tr><td colspan="${displayFields.length + 2}" style="text-align:center;padding:12px;color:var(--text-light)">… and ${processedData.length - 50} more rows (showing first 50)</td></tr>`;
+  }
+
+  goToStep(3);
+}
+
+// ─── Import ────────────────────────────────────────────────────────────────
+function doImport() {
+  const clean = processedData.map(row => {
+    const out = Object.assign({}, row);
+    delete out._row;
+    delete out._issues;
+    delete out._status;
+    out.last_updated = new Date().toISOString().split('T')[0];
+    out.active = true;
+    return out;
+  });
+
+  const ok = clean.length;
+  const withPrices = clean.filter(r => r.cost_price || r.sell_price).length;
+
+  document.getElementById('importSummary').innerHTML = `
+    <div class="val-summary">
+      <div class="val-box ok"><div class="count">${ok}</div><div class="label">Items Imported</div></div>
+      <div class="val-box total"><div class="count">${withPrices}</div><div class="label">Items with Prices</div></div>
+      <div class="val-box total"><div class="count">${esc(importType.toUpperCase())}</div><div class="label">Data Type</div></div>
+    </div>`;
+
+  const json = JSON.stringify(clean, null, 2);
+  document.getElementById('outputJSON').textContent = json;
+
+  window._importedJSON = json;
+  window._importedData = clean;
+  window._importType = importType;
+
+  goToStep(4);
+}
+
+// ─── Export / Download ────────────────────────────────────────────────────
+function downloadJSON() {
+  const fn = importType + '-data-' + new Date().toISOString().split('T')[0] + '.json';
+  const blob = new Blob([window._importedJSON], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = fn;
+  a.click();
+  alert('File downloaded: ' + fn + '\n\nSave this file to the data/processed/ folder in your repository.');
+}
+
+function copyToClipboard() {
+  navigator.clipboard.writeText(window._importedJSON)
+    .then(() => alert('✅ JSON data copied to clipboard!'))
+    .catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = window._importedJSON;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      alert('✅ JSON data copied to clipboard!');
+    });
+}
+
+function exportPreviewCSV() {
+  const fields = getFields();
+  const rows = [fields.map(f => f.label).join(',')];
+  processedData.forEach(row => {
+    rows.push(fields.map(f => {
+      const v = row[f.key] !== null && row[f.key] !== undefined ? row[f.key] : '';
+      return '"' + String(v).replace(/"/g, '""') + '"';
+    }).join(','));
+  });
+  const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'preview-export.csv';
+  a.click();
+}
+
+// ─── Template downloads ────────────────────────────────────────────────────
+const TEMPLATE_URLS = {
+  inventory:    '../data/templates/inventory-template.csv',
+  installation: '../data/templates/installation-template.csv',
+  suppliers:    '../data/templates/suppliers-template.csv',
+};
+
+function downloadTemplate(type) {
+  const a = document.createElement('a');
+  a.href = TEMPLATE_URLS[type];
+  a.download = type + '-template.csv';
+  a.click();
+}
+</script>
+</body>
+</html>

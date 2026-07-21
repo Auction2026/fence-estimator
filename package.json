@@ -1,0 +1,17 @@
+{
+  "name": "fence-depot-import-scripts",
+  "version": "1.0.0",
+  "description": "Import and migration scripts for Fence Depot inventory data",
+  "scripts": {
+    "import": "node scripts/import-inventory.js",
+    "validate": "node scripts/validate-data.js",
+    "transform": "node scripts/transform-csv.js"
+  },
+  "dependencies": {
+    "csv-parse": "^5.5.6",
+    "xlsx": "^0.18.5"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

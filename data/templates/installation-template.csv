@@ -1,0 +1,32 @@
+fence_type,task_name,task_description,unit,labour_hours_per_unit,crew_size,skill_level,equipment_needed,notes
+Chain Link Residential,Layout & Marking,Mark post locations with spray paint or stakes along fence line,Per 100 LF,1.5,2,Basic,Measuring tape / string line,Mark every 8-10 ft for line posts
+Chain Link Residential,Post Holes - Manual,Dig post holes with manual clamshell digger,Per Hole,0.25,1,Basic,Clamshell digger,18in diameter x 36in deep for 6ft fence
+Chain Link Residential,Post Holes - Power Auger,Dig post holes with gas or skid-steer auger,Per Hole,0.08,2,Basic,Power auger,Faster in good soil conditions
+Chain Link Residential,Set Posts in Concrete,Mix and pour concrete around posts - hold plumb until set,Per Post,0.25,2,Basic,Level / bracing,Allow 24-48 hrs to cure before tensioning fabric
+Chain Link Residential,Install Top Rail,Thread top rail through loop caps and connect sections,Per 100 LF,1.0,2,Basic,Pipe cutter / rail coupler,Overlap 6in at couplers
+Chain Link Residential,Hang Chain Link Fabric,Unroll and attach fabric to terminal posts with tension bands,Per 100 LF,2.0,2,Intermediate,Come-along / tension bar,Tension fabric taut - no sag
+Chain Link Residential,Tie Off Fabric,Secure fabric to top rail and line posts with tie wire,Per 100 LF,1.5,2,Basic,Tie wire / lineman pliers,Tie every 12in on posts and 24in on rails
+Chain Link Residential,Install Bottom Tension Wire,Run tension wire along bottom of fence and tension,Per 100 LF,0.75,1,Basic,Wire stretcher,Protects bottom from lifting
+Chain Link Residential,Install Walk Gate,Set gate posts hang gate and adjust hinges and latch,Per Gate,1.0,2,Intermediate,Level / shims,Allow 1/2in clearance on sides
+Chain Link Residential,Install Drive Gate,Set gate posts hang double gate panels and adjust,Per Gate,2.0,2,Intermediate,Level / shims,Allow 1/2in clearance on all sides
+Chain Link Residential,Cleanup & Final Inspection,Remove debris cap all posts check all ties and tension,Per 100 LF,0.5,1,Basic,,Walk full fence line
+Chain Link Commercial,Layout & Marking,Mark post locations - tighter spacing for commercial,Per 100 LF,1.5,2,Intermediate,Measuring tape / string line / surveyor pin,Commercial uses 8ft post spacing max
+Chain Link Commercial,Post Holes - Power Auger,Dig post holes with auger - deeper for commercial,Per Hole,0.1,2,Intermediate,Power auger,24in diameter x 42in deep for 8ft+ fence
+Chain Link Commercial,Set Posts in Concrete,Set heavier commercial posts in concrete,Per Post,0.33,2,Intermediate,Level / bracing,Use more concrete for commercial - 2 bags min
+Chain Link Commercial,Install Top Rail,Install commercial top rail with heavier gauge rail,Per 100 LF,1.25,2,Intermediate,Pipe cutter / rail coupler,May need mid-rail for 8ft+ fences
+Chain Link Commercial,Hang Chain Link Fabric,Install heavier 6GA or 9GA commercial fabric,Per 100 LF,2.5,2,Intermediate,Come-along / tension bar,Commercial fabric is heavier - use extra hands
+Chain Link Commercial,Barbed Wire Top,Install 3-strand barbed wire on extension arms,Per 100 LF,1.5,2,Intermediate,Lineman pliers / gloves,Wear heavy gloves - follow local municipality rules
+Wood,Layout & Marking,Mark post locations with stakes,Per 100 LF,1.0,1,Basic,Measuring tape / string line,Typical 8ft post spacing for wood
+Wood,Post Holes - Manual,Dig holes with clamshell digger - below frost line,Per Hole,0.33,1,Basic,Clamshell digger,Min 42in deep in Ontario (frost line)
+Wood,Post Holes - Power Auger,Dig holes with power auger,Per Hole,0.1,2,Basic,Power auger,10-12in diameter for 4x4 post
+Wood,Set Posts in Concrete,Plumb and concrete posts,Per Post,0.33,2,Basic,Level / concrete mix,Allow 24-48 hrs before attaching rails
+Wood,Install Rails,Attach 2x4 rails horizontal between posts,Per 100 LF,2.0,2,Basic,Circular saw / drill,Typically 2 or 3 rail per panel
+Wood,Install Pickets,Nail or screw individual pickets to rails,Per 100 LF,4.0,2,Basic,Nail gun / drill,Use spacer jig for consistent spacing
+Wood,Install Gate,Hang wood gate frame with pickets on posts,Per Gate,2.0,2,Intermediate,Level / gate hinges / latch,Brace gate diagonally to prevent sag
+Wood,Stain or Seal,Apply stain or sealer to finished fence,Per 100 LF,1.5,1,Basic,Brush / roller / sprayer,Optional - extends life significantly
+Vinyl,Layout & Marking,Mark post locations - vinyl uses specific post spacing,Per 100 LF,1.0,1,Basic,Measuring tape / string line,Check panel length - typically 72in or 96in
+Vinyl,Post Holes,Dig holes for vinyl posts with steel inserts,Per Hole,0.25,1,Basic,Power auger preferred,8-10in diameter x 36-42in deep
+Vinyl,Set Vinyl Posts in Concrete,Plumb and set vinyl posts (with steel inserts),Per Post,0.25,2,Intermediate,Level / bracing,Steel insert REQUIRED for structural integrity
+Vinyl,Install Vinyl Panels,Slide rails and pickets into post channels,Per Panel,0.5,2,Basic,,Do not force - vinyl cracks in cold weather
+Vinyl,Install Post Caps,Snap vinyl caps onto all posts,Per Post,0.05,1,Basic,,
+Vinyl,Install Gate,Hang vinyl gate with hinges and latch,Per Gate,1.5,2,Intermediate,Level / shims,

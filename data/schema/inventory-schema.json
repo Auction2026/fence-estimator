@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Fence Depot Inventory Schema",
+  "description": "Schema for inventory items in the Fence Depot system",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["sku", "item_name", "category", "unit"],
+    "properties": {
+      "sku": {
+        "type": "string",
+        "description": "Unique product code or part number",
+        "examples": ["CL-LP-1.5-6.5", "WD-POST-4x4-8"]
+      },
+      "item_name": {
+        "type": "string",
+        "description": "Full product name / description"
+      },
+      "category": {
+        "type": "string",
+        "description": "Main product category",
+        "enum": [
+          "Chain Link",
+          "Wood",
+          "Vinyl",
+          "Wrought Iron",
+          "Guide Rail",
+          "Concrete & Aggregate",
+          "Hardware",
+          "Tools",
+          "Other"
+        ]
+      },
+      "subcategory": {
+        "type": "string",
+        "description": "Sub-category within the main category",
+        "examples": ["Posts", "Rails", "Fabric", "Gates", "Caps & Fittings", "Wire", "Pickets", "Panels", "Hardware"]
+      },
+      "description": {
+        "type": "string",
+        "description": "Detailed product description"
+      },
+      "unit": {
+        "type": "string",
+        "description": "Unit of measure",
+        "examples": ["Each", "LF", "Roll", "Bag", "Tonne", "Box", "Bundle", "Sheet"]
+      },
+      "cost_price": {
+        "type": ["number", "null"],
+        "description": "Your cost from supplier (what you pay)",
+        "minimum": 0
+      },
+      "sell_price": {
+        "type": ["number", "null"],
+        "description": "Your selling price to customers",
+        "minimum": 0
+      },
+      "markup_percent": {
+        "type": ["number", "null"],
+        "description": "Markup percentage over cost (auto-calculated if not provided)",
+        "minimum": 0
+      },
+      "stock_qty": {
+        "type": ["number", "null"],
+        "description": "Current quantity on hand",
+        "minimum": 0
+      },
+      "reorder_point": {
+        "type": ["number", "null"],
+        "description": "Quantity at which to reorder",
+        "minimum": 0
+      },
+      "supplier": {
+        "type": "string",
+        "description": "Primary supplier name"
+      },
+      "supplier_sku": {
+        "type": "string",
+        "description": "Supplier's own part number for this item"
+      },
+      "canadian_standard": {
+        "type": "string",
+        "description": "Applicable Canadian standard (e.g. CAN/CGSB-138.3-2019)",
+        "examples": ["CAN/CGSB-138.3-2019", "CSA G40.21", "CSA A3000"]
+      },
+      "active": {
+        "type": "boolean",
+        "description": "Whether this item is currently active / in use",
+        "default": true
+      },
+      "notes": {
+        "type": "string",
+        "description": "Any additional notes"
+      },
+      "last_updated": {
+        "type": "string",
+        "format": "date",
+        "description": "Date this record was last updated (YYYY-MM-DD)"
+      }
+    }
+  }
+}

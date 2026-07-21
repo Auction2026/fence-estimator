@@ -1,0 +1,19 @@
+# Node.js
+node_modules/
+
+# Raw import files (may contain sensitive pricing data — keep out of git)
+# Remove the next two lines if you WANT to commit your import files
+data/imports/*.csv
+data/imports/*.xlsx
+data/imports/*.xls
+data/imports/*.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
