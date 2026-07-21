@@ -1025,6 +1025,7 @@
             <button class="tab-item active" onclick="switchTab('dashboard')">📊 Dashboard</button>
             <button class="tab-item" onclick="switchTab('new-estimate')">📝 New Estimate</button>
             <button class="tab-item" onclick="switchTab('projects')">📋 Projects</button>
+            <button class="tab-item" onclick="switchTab('inventory')">📦 Inventory</button>
             <button class="tab-item" onclick="switchTab('materials')">🛠️ Materials & Costs</button>
             <button class="tab-item" onclick="switchTab('suppliers')">🏢 Suppliers</button>
             <button class="tab-item" onclick="switchTab('analytics')">📈 Analytics</button>
@@ -1262,34 +1263,34 @@
                             <div class="form-row form-group-full">
                                 <div class="form-group">
                                     <label>Total Linear Footage *</label>
-                                    <input type="number" placeholder="100" value="100">
+                                    <input type="number" id="linearFootage" placeholder="100" value="100" oninput="updateMeasurements()">
                                 </div>
                             </div>
 
                             <div class="form-row form-group-full">
                                 <div class="form-group">
                                     <label>Post Spacing (Feet):</label>
-                                    <select style="width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px;">
-                                        <option>4 feet</option>
-                                        <option selected>6 feet</option>
-                                        <option>8 feet</option>
-                                        <option>10 feet</option>
+                                    <select id="postSpacingSelect" onchange="updateMeasurements()" style="width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px;">
+                                        <option value="4">4 feet</option>
+                                        <option value="6" selected>6 feet</option>
+                                        <option value="8">8 feet</option>
+                                        <option value="10">10 feet</option>
                                     </select>
                                 </div>
                             </div>
 
-                            <div class="summary-card">
+                            <div class="summary-card" id="measurementSummary">
                                 <div class="summary-row">
                                     <span class="summary-label">Posts Needed:</span>
-                                    <span class="summary-value"><strong>17</strong></span>
+                                    <span class="summary-value" id="postsNeededDisplay"><strong>17</strong></span>
                                 </div>
                                 <div class="summary-row">
                                     <span class="summary-label">Sections:</span>
-                                    <span class="summary-value"><strong>10</strong></span>
+                                    <span class="summary-value" id="sectionsDisplay"><strong>16</strong></span>
                                 </div>
                                 <div class="summary-row">
                                     <span class="summary-label">Estimated Concrete:</span>
-                                    <span class="summary-value"><strong>30 Bags</strong></span>
+                                    <span class="summary-value" id="concreteDisplay"><strong>34 Bags</strong></span>
                                 </div>
                             </div>
                         </div>
@@ -1297,58 +1298,8 @@
                         <!-- STEP 4 -->
                         <div class="form-section" id="step4">
                             <h2>Step 4: Materials Review</h2>
-
-                            <div class="summary-card">
-                                <div class="summary-row">
-                                    <span class="summary-label">Chain Link 5' Black (PLU 387):</span>
-                                    <span class="summary-value">100 FT @ $5.03 = <strong>$503.00</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Top Rail 1.25" Black (PLU 956):</span>
-                                    <span class="summary-value">10 EA @ $21.07 = <strong>$210.70</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Tension Bar 5' Black (PLU 927):</span>
-                                    <span class="summary-value">10 EA @ $5.65 = <strong>$56.50</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Tension Band 1.875" Black (PLU 900):</span>
-                                    <span class="summary-value">100 EA @ $1.58 = <strong>$158.00</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Posts 1.875" Black (PLU 1009):</span>
-                                    <span class="summary-value">127 FT @ $2.81 = <strong>$356.87</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Concrete 80lb Bags (50 bags):</span>
-                                    <span class="summary-value">50 EA @ $8.50 = <strong>$425.00</strong></span>
-                                </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Labour (51 hours):</span>
-                                    <span class="summary-value">51 HRS @ $30 = <strong>$1,530.00</strong></span>
-                                </div>
-                                <div class="summary-row total">
-                                    <span class="summary-label">SUBTOTAL:</span>
-                                    <span class="summary-value">$3,621.49</span>
-                                </div>
-                                <div class="summary-row total">
-                                    <span class="summary-label">TAX (13%):</span>
-                                    <span class="summary-value">$470.79</span>
-                                </div>
-                                <div class="summary-row total" style="color: var(--success); font-size: 18px;">
-                                    <span class="summary-label">TOTAL:</span>
-                                    <span class="summary-value">$4,092.28</span>
-                                </div>
-                            </div>
-
-                            <div class="profit-card">
-                                <div class="profit-label">YOUR PROFIT:</div>
-                                <div class="profit-value">$1,437.49</div>
-                                <div class="profit-details">
-                                    <span>Margin: 35%</span>
-                                    <span>Per Hour: $251</span>
-                                    <span>Per Foot: $20.11</span>
-                                </div>
+                            <div id="materialsBreakdown">
+                                <!-- Dynamically rendered by calculateAndRenderMaterials() -->
                             </div>
                         </div>
 
@@ -1469,6 +1420,74 @@
                 </div>
             </div>
 
+            <!-- INVENTORY TAB -->
+            <div id="inventory-tab" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">📦 Inventory Management</h2>
+                    <p class="section-subtitle">Real-time stock levels • Actual POS data • Parts 2–7 pending import</p>
+                </div>
+
+                <div class="stats-grid" id="inventoryStats">
+                    <!-- Rendered by renderInventoryStats() -->
+                </div>
+
+                <div class="summary-card" style="margin-top: 20px;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>🔍 Search (PLU, description, vendor code):</label>
+                            <input type="text" id="inventorySearch" placeholder="e.g. 387, chain link, black..." oninput="renderInventory()" style="width:100%;padding:10px 14px;border:2px solid var(--border);border-radius:8px;font-size:14px;">
+                        </div>
+                        <div class="form-group">
+                            <label>Filter by Department:</label>
+                            <select id="inventoryFilter" onchange="renderInventory()" style="width:100%;padding:10px 14px;border:2px solid var(--border);border-radius:8px;font-size:14px;">
+                                <option value="">All Departments</option>
+                                <option value="Chainlink Mesh">Chainlink Mesh</option>
+                                <option value="Residential Fittings">Residential Fittings</option>
+                                <option value="Commercial Fitting">Commercial Fitting</option>
+                                <option value="Construction Fencing">Construction Fencing</option>
+                                <option value="Non Stock Fencing">Non Stock / Order Only</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-section" style="margin-top: 10px;">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>PLU</th>
+                                    <th>Description</th>
+                                    <th>Department</th>
+                                    <th style="text-align:right;">Qty on Hand</th>
+                                    <th style="text-align:right;">Cost</th>
+                                    <th style="text-align:right;">Sell Price</th>
+                                    <th style="text-align:right;">Margin %</th>
+                                    <th>Stock Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody">
+                                <tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light);">Loading inventory...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p id="inventoryCount" style="margin-top:10px;font-size:13px;color:var(--text-light);"></p>
+                </div>
+
+                <div class="summary-card" style="margin-top: 20px; background: #FFF8E1; border-left: 4px solid var(--warning);">
+                    <h3 style="margin-bottom: 10px; color: var(--text-dark); font-weight: 700;">⚠️ Pending Data Import (Parts 2–7)</h3>
+                    <p style="color: var(--text-light); margin-bottom: 10px;">The following product lines will be imported once remaining data is provided:</p>
+                    <div class="form-row" style="gap:8px;flex-wrap:wrap;">
+                        <span style="background:#E3F2FD;padding:4px 10px;border-radius:12px;font-size:13px;">🔗 Residential Pipes (Part 2)</span>
+                        <span style="background:#E8F5E9;padding:4px 10px;border-radius:12px;font-size:13px;">🏗️ Commercial Pipes (Part 3)</span>
+                        <span style="background:#F3E5F5;padding:4px 10px;border-radius:12px;font-size:13px;">🌲 Wood Products (Part 4)</span>
+                        <span style="background:#E0F7FA;padding:4px 10px;border-radius:12px;font-size:13px;">🏠 Vinyl OASIS (Part 5)</span>
+                        <span style="background:#FFF3E0;padding:4px 10px;border-radius:12px;font-size:13px;">🦾 ARMA Cantilever (Part 6)</span>
+                        <span style="background:#FCE4EC;padding:4px 10px;border-radius:12px;font-size:13px;">🏆 SIMTEK / GORILLA / CR ELITE (Part 7)</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- MATERIALS TAB -->
             <div id="materials-tab" style="display: none;">
                 <div class="section-header">
@@ -1483,14 +1502,14 @@
                         <div class="stat-change">→ Master Halco, Cloutier Direct, More</div>
                     </div>
                     <div class="stat-card success">
-                        <div class="stat-label">Products Cataloged</div>
-                        <div class="stat-value">2,847</div>
-                        <div class="stat-change">→ All fence types</div>
+                        <div class="stat-label">SKUs in POS</div>
+                        <div class="stat-value" id="materialSkuCount">58</div>
+                        <div class="stat-change" id="materialSkuNote">→ Part 1 loaded · Parts 2–7 pending</div>
                     </div>
                     <div class="stat-card accent">
-                        <div class="stat-label">Average Margin</div>
-                        <div class="stat-value">35%</div>
-                        <div class="stat-change">→ Per project</div>
+                        <div class="stat-label">Average Markup</div>
+                        <div class="stat-value" id="materialAvgMargin">128%</div>
+                        <div class="stat-change">→ On cost (Part 1 data)</div>
                     </div>
                 </div>
 
@@ -1561,7 +1580,7 @@
             <div id="analytics-tab" style="display: none;">
                 <div class="section-header">
                     <h2 class="section-title">Analytics & Reports</h2>
-                    <p class="section-subtitle">July 2026 • Performance metrics and insights</p>
+                    <p class="section-subtitle">July 2026 • Performance metrics and inventory insights</p>
                 </div>
 
                 <div class="stats-grid">
@@ -1584,7 +1603,7 @@
                     </div>
                 </div>
 
-                <div class="summary-card">
+                <div class="summary-card" style="margin-top: 20px;">
                     <h3 style="margin-bottom: 20px; color: var(--text-dark); font-weight: 700;">Revenue by Type:</h3>
                     <div class="summary-row">
                         <span class="summary-label">Chain Link:</span>
@@ -1601,6 +1620,17 @@
                     <div class="summary-row">
                         <span class="summary-label">Commercial:</span>
                         <span class="summary-value">██░░░░░░░░ 9% ($2,711)</span>
+                    </div>
+                </div>
+
+                <!-- Real inventory margins by department -->
+                <div class="summary-card" style="margin-top: 20px;" id="analyticsInvSection">
+                    <h3 style="margin-bottom: 20px; color: var(--text-dark); font-weight: 700;">📦 Inventory Margin by Department (Real Data — Part 1):</h3>
+                    <div id="analyticsInvRows">
+                        <!-- Rendered by renderAnalyticsInventory() on tab switch -->
+                    </div>
+                    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px;color:var(--text-light);">
+                        Note: Parts 2–7 not yet imported. Full analytics available once all 950+ SKUs are loaded.
                     </div>
                 </div>
             </div>
@@ -1657,6 +1687,376 @@
     </div>
 
     <script>
+        // ================================================================
+        // INVENTORY DATABASE — Part 1 of 7 (61 SKUs from POS export)
+        // Columns: plu, vendorPid, desc, notes, qty, cost, price, dept
+        // ================================================================
+        const INVENTORY_DB = [
+            { plu: 20,  vendorPid: '',              desc: 'CARRIAGE BOLT, 5/16" X 1-1/2", C/W NUT, GALV',              notes: 'PAGE 26 MAY/8/23 SL',            qty: 1244,   cost: 0.48,    price: 0.99,    dept: 'Residential Fittings' },
+            { plu: 100, vendorPid: 'PA1212',         desc: 'BASE PLATE, 12" X 12" X 1/2", GALV',                        notes: 'GAL, ANCHOR, PLATE, W/ HOLES',   qty: 3,      cost: 53.79,   price: 132.88,  dept: 'Commercial Fitting' },
+            { plu: 103, vendorPid: '10869',          desc: 'BASE PLATE, 6" X 6" X 1/4", GALV',                          notes: '',                               qty: 44,     cost: 7.52,    price: 17.70,   dept: 'Commercial Fitting' },
+            { plu: 108, vendorPid: '',              desc: 'BARBWIRE ARM, 1 7/8", LINE, STRAIGHT',                       notes: 'N/A FROM SUPPLIER',              qty: 36,     cost: 5.83,    price: 11.66,   dept: 'Commercial Fitting' },
+            { plu: 110, vendorPid: '',              desc: 'BARBWIRE ARM, 2 3/8", LINE, STEEL, STRAIGHT',                notes: '',                               qty: 14,     cost: 6.38,    price: 15.95,   dept: 'Commercial Fitting' },
+            { plu: 112, vendorPid: '',              desc: 'BARBWIRE ARM, 2 3/8", DOUBLE, STEEL/ALUM, 45 DEG',          notes: '',                               qty: 28,     cost: 8.70,    price: 21.75,   dept: 'Commercial Fitting' },
+            { plu: 113, vendorPid: 'TB23845A',      desc: 'BARBWIRE ARM, 2 3/8", LINE, GALV STEEL/ALUMINIUM, 45 DEG', notes: '',                               qty: 187,    cost: 5.51,    price: 19.50,   dept: 'Commercial Fitting' },
+            { plu: 115, vendorPid: '',              desc: 'BARBWIRE ARM, 2 7/8", CORNER, 45 DEG, ALUMINUM',           notes: '',                               qty: 26,     cost: 20.19,   price: 40.38,   dept: 'Commercial Fitting' },
+            { plu: 117, vendorPid: '',              desc: 'BARBWIRE ARM, 3 1/2", CORNER, STEEL/ALUMINUM, 45 DEG',     notes: 'UPDATED FEB 20-24 BL',           qty: 14,     cost: 20.20,   price: 40.40,   dept: 'Commercial Fitting' },
+            { plu: 118, vendorPid: '',              desc: 'BARBWIRE, 15.5 GA, PER ROLL (1320 FT)',                     notes: '1320\' PER ROLL',                qty: 11,     cost: 100.00,  price: 157.56,  dept: 'Construction Fencing' },
+            { plu: 120, vendorPid: '120',           desc: 'BARBWIRE, 12.5 GA, PER ROLL (1320 FT)',                     notes: 'EST. LENGTH 1320\'/ROLL',        qty: 11.89,  cost: 122.10,  price: 244.16,  dept: 'Construction Fencing' },
+            { plu: 124, vendorPid: '',              desc: 'TENSION WIRE, 11 GA, GALV, PER/FT',                         notes: 'Pg 23 05/05/19',                 qty: 0,      cost: 0.02,    price: 0.25,    dept: 'Chainlink Mesh' },
+            { plu: 127, vendorPid: 'FB9G50LBS',     desc: 'TENSION WIRE, 9 GA, GALV, PER/FT',                          notes: 'OCT/2025 BL',                    qty: 777.2,  cost: 0.12,    price: 0.48,    dept: 'Chainlink Mesh' },
+            { plu: 130, vendorPid: 'FB9NO50LBS',    desc: 'TENSION WIRE, 9 GA, BLACK, PER/FT',                         notes: '',                               qty: 1454.8, cost: 0.20,    price: 0.80,    dept: 'Chainlink Mesh' },
+            { plu: 131, vendorPid: 'FB9(C)50LBS',   desc: 'TENSION WIRE, 9 GA, BROWN, PER/FT',                         notes: 'Oct-2025',                       qty: 17884,  cost: 0.09,    price: 0.36,    dept: 'Chainlink Mesh' },
+            { plu: 133, vendorPid: '',              desc: 'TENSION WIRE, 9 GA, GREEN, PER/FT',                         notes: 'October-1-2025',                 qty: 9452,   cost: 0.09,    price: 0.36,    dept: 'Chainlink Mesh' },
+            { plu: 134, vendorPid: '370164',        desc: 'TENSION WIRE, 9 GA, WHITE, PER/FT',                         notes: 'Pg 23 JUNE/01/2022',             qty: 3298,   cost: 0.09,    price: 0.36,    dept: 'Chainlink Mesh' },
+            { plu: 137, vendorPid: 'BTR11116(G)',   desc: 'BRACE BAND, 1 11/16", COM, GALV (CENTRE BAND)',            notes: 'CENTRE BAND',                    qty: 629,    cost: 0.44,    price: 1.83,    dept: 'Commercial Fitting' },
+            { plu: 141, vendorPid: '',              desc: 'BRACE BAND, 1 7/8", RES, BLACK (CENTRE BAND)',             notes: 'MAY/5/2025 SL',                  qty: 1294,   cost: 0.61,    price: 1.20,    dept: 'Residential Fittings' },
+            { plu: 142, vendorPid: '',              desc: 'BRACE BAND, 1 7/8", RES, BROWN (CENTRE BAND)',             notes: 'PAGE 17 MAY/5/2025 SL',          qty: 274,    cost: 0.60,    price: 1.20,    dept: 'Residential Fittings' },
+            { plu: 143, vendorPid: '',              desc: 'BRACE BAND, 1 7/8", RES, GALV (CENTRE BAND)',              notes: 'PC 06/15/22 JLJR',               qty: 249,    cost: 0.55,    price: 0.77,    dept: 'Residential Fittings' },
+            { plu: 144, vendorPid: '600831',        desc: 'BRACE BAND, 1 7/8", RES, GREEN (CENTRE BAND)',             notes: 'PC 06/15/22 JLJR',               qty: 144,    cost: 0.52,    price: 1.02,    dept: 'Residential Fittings' },
+            { plu: 145, vendorPid: '',              desc: 'BRACE BAND, 1 7/8", RES, WHITE (CENTRE BAND)',             notes: 'PAGE 17 MAY/5/2025 SL',          qty: 45,     cost: 0.60,    price: 1.20,    dept: 'Residential Fittings' },
+            { plu: 147, vendorPid: '10304',         desc: 'BRACE BAND, 2 3/8", COM, GALV (CENTRE BAND)',              notes: 'CENTRE BAND',                    qty: 224,    cost: 0.57,    price: 1.90,    dept: 'Commercial Fitting' },
+            { plu: 150, vendorPid: '',              desc: 'BRACE BAND, 2 7/8", COM, GALV (CENTRE BAND)',              notes: 'CENTRE BAND',                    qty: 64,     cost: 0.70,    price: 2.33,    dept: 'Commercial Fitting' },
+            { plu: 152, vendorPid: 'BTR312G',       desc: 'BRACE BAND, 3 1/2", COM, GALV (CENTRE BAND)',              notes: 'CENTRE BAND',                    qty: 1071,   cost: 0.80,    price: 2.67,    dept: 'Commercial Fitting' },
+            { plu: 154, vendorPid: '',              desc: 'BRACE BAND, 4 1/2", COM, GALV (CENTRE BAND)',              notes: '4-1/2" 06/15/22',                qty: 78,     cost: 0.89,    price: 3.56,    dept: 'Commercial Fitting' },
+            { plu: 155, vendorPid: '',              desc: 'BRACE BAND, 6 5/8", COM, GALV (CENTRE BAND)',              notes: 'CENTRE BAND',                    qty: 154,    cost: 1.93,    price: 6.43,    dept: 'Commercial Fitting' },
+            { plu: 179, vendorPid: '',              desc: 'CANTILEVER, SLIDING GATE, 6\'H X 12\'W',                   notes: 'PAGE 33 05/05/19',               qty: 0,      cost: 861.50,  price: 1723.00, dept: 'Non Stock Fencing' },
+            { plu: 181, vendorPid: '24833',         desc: 'CANTILEVER, SLIDING GATE, 6\'H X 16\'W (FRAME ONLY)',      notes: 'UPDATED JULY 4-22 BL',           qty: 0,      cost: 1242.50, price: 1775.00, dept: 'Non Stock Fencing' },
+            { plu: 182, vendorPid: '',              desc: 'CANTILEVER, SLIDING GATE, 6\'H X 20\'W',                   notes: 'WITH OR WITHOUT BARBWIRE',       qty: 0,      cost: 1645.09, price: 2463.15, dept: 'Non Stock Fencing' },
+            { plu: 199, vendorPid: 'LOCQ238',       desc: 'CANTILEVER, LATCH CATCH ARM, 2 3/8", COM, GALV',           notes: 'UPDATED FEB 21-24 BL',           qty: 13,     cost: 8.94,    price: 19.67,   dept: 'Commercial Fitting' },
+            { plu: 200, vendorPid: '18509',         desc: 'CANTILEVER, LATCH CATCH ARM, 3 1/2", COM, GALV',           notes: 'UPDATED FEB 21-24 BL',           qty: 8,      cost: 20.66,   price: 45.95,   dept: 'Commercial Fitting' },
+            { plu: 202, vendorPid: '18353',         desc: 'CANTILEVER ROLLER, 4 1/2" X 2 3/8", NYLON WHEEL',         notes: 'PAGE 25 JUNE/16/2022',           qty: 5,      cost: 97.97,   price: 195.94,  dept: 'Commercial Fitting' },
+            { plu: 309, vendorPid: 'BRG21136(G)',   desc: 'CHAIN LINK, 3\', GALV, 11 GA, 2" MESH',                   notes: 'CALL FOR PRICE',                 qty: 0,      cost: 1.68,    price: 3.36,    dept: 'Non Stock Fencing' },
+            { plu: 312, vendorPid: '',              desc: 'CHAIN LINK, 4\', BLACK, 11 GA, 2" MESH',                   notes: '',                               qty: 494,    cost: 2.08,    price: 3.73,    dept: 'Chainlink Mesh' },
+            { plu: 315, vendorPid: '',              desc: 'CHAIN LINK, 3\', GREEN, 11 GA, 2" MESH',                   notes: 'PAGE n/a 05/05/19',              qty: 0,      cost: 1.26,    price: 2.52,    dept: 'Non Stock Fencing' },
+            { plu: 317, vendorPid: '',              desc: 'CHAIN LINK, 5\', BLACK, 11 GA, 2" MESH',                   notes: '',                               qty: 800,    cost: 2.60,    price: 4.67,    dept: 'Chainlink Mesh' },
+            { plu: 320, vendorPid: '',              desc: 'CHAIN LINK, 5\', GREEN, 11 GA, 2" MESH',                   notes: 'PAGE 11 05/05/19',               qty: 0,      cost: 1.58,    price: 3.15,    dept: 'Non Stock Fencing' },
+            { plu: 324, vendorPid: '',              desc: 'CHAIN LINK, 6\', GALV, 11 GA, 2" MESH',                    notes: 'PAGE 7 05/05/19',                qty: 0,      cost: 3.62,    price: 6.24,    dept: 'Chainlink Mesh' },
+            { plu: 364, vendorPid: '54468',         desc: 'CHAIN LINK, 10\', GALV, 9 GA, 2" MESH',                    notes: 'Oct-16-2024',                    qty: 0,      cost: 8.03,    price: 14.42,   dept: 'Chainlink Mesh' },
+            { plu: 365, vendorPid: '',              desc: 'CHAIN LINK, 10\', GREEN, 9 GA, 2" MESH',                   notes: '',                               qty: 0,      cost: 5.60,    price: 10.05,   dept: 'Chainlink Mesh' },
+            { plu: 377, vendorPid: '',              desc: 'CHAIN LINK, 3\', BLACK, 9 GA, 2" MESH',                    notes: '',                               qty: 350,    cost: 1.85,    price: 3.32,    dept: 'Chainlink Mesh' },
+            { plu: 378, vendorPid: '',              desc: 'CHAIN LINK, 3\', BROWN, 9 GA, 2" MESH',                    notes: '',                               qty: 350,    cost: 1.68,    price: 2.87,    dept: 'Chainlink Mesh' },
+            { plu: 379, vendorPid: '',              desc: 'CHAIN LINK, 3\', GALV, 9 GA, 2" MESH',                     notes: 'PAGE 4 10/07/21',                qty: 50,     cost: 2.41,    price: 4.33,    dept: 'Chainlink Mesh' },
+            { plu: 380, vendorPid: '',              desc: 'CHAIN LINK, 3\', GREEN, 9 GA, 2" MESH',                    notes: '',                               qty: 142,    cost: 1.68,    price: 2.87,    dept: 'Chainlink Mesh' },
+            { plu: 381, vendorPid: 'BRV2936(C)',    desc: 'CHAIN LINK, 3\', WHITE, 9 GA, 2" MESH',                    notes: 'PAGE 8 JUN/2/23',                qty: 0,      cost: 1.68,    price: 2.84,    dept: 'Chainlink Mesh' },
+            { plu: 382, vendorPid: 'BRV2948(C)',    desc: 'CHAIN LINK, 4\', BLACK, 9 GA, 2" MESH',                    notes: '',                               qty: 662,    cost: 2.25,    price: 4.40,    dept: 'Chainlink Mesh' },
+            { plu: 383, vendorPid: '',              desc: 'CHAIN LINK, 4\', BROWN, 9 GA, 2" MESH',                    notes: '',                               qty: 450,    cost: 2.24,    price: 4.02,    dept: 'Chainlink Mesh' },
+            { plu: 384, vendorPid: '',              desc: 'CHAIN LINK, 4\', GALV, 9 GA, 2" MESH',                     notes: 'Oct-2024',                       qty: 295,    cost: 3.07,    price: 5.24,    dept: 'Chainlink Mesh' },
+            { plu: 385, vendorPid: '',              desc: 'CHAIN LINK, 4\', GREEN, 11 GA, 2" MESH',                   notes: 'PAGE 11 06/14/22',               qty: 0,      cost: 2.72,    price: 7.77,    dept: 'Non Stock Fencing' },
+            { plu: 386, vendorPid: '',              desc: 'CHAIN LINK, 4\', WHITE, 9 GA, 2" MESH',                    notes: '',                               qty: 400,    cost: 2.24,    price: 4.02,    dept: 'Chainlink Mesh' },
+            { plu: 387, vendorPid: 'BRV2960(C)',    desc: 'CHAIN LINK, 5\', BLACK, 9 GA, 2" MESH',                    notes: '',                               qty: 2400,   cost: 2.83,    price: 5.03,    dept: 'Chainlink Mesh' },
+            { plu: 388, vendorPid: '',              desc: 'CHAIN LINK, 5\', BROWN, 9 GA, 2" MESH',                    notes: '',                               qty: 100,    cost: 2.80,    price: 5.03,    dept: 'Chainlink Mesh' },
+            { plu: 389, vendorPid: '54396',         desc: 'CHAIN LINK, 5\', GALV, 9 GA, 2" MESH',                     notes: '',                               qty: 533,    cost: 4.01,    price: 7.15,    dept: 'Chainlink Mesh' },
+            { plu: 390, vendorPid: '',              desc: 'CHAIN LINK, 5\', GREEN, 9 GA, 2" MESH',                    notes: '',                               qty: 300,    cost: 2.91,    price: 5.03,    dept: 'Chainlink Mesh' },
+            { plu: 391, vendorPid: '517414',        desc: 'CHAIN LINK, 5\', WHITE, 9 GA, 2" MESH',                    notes: '',                               qty: 200,    cost: 2.82,    price: 5.03,    dept: 'Chainlink Mesh' },
+            { plu: 392, vendorPid: 'BRV2972NO',     desc: 'CHAIN LINK, 6\', BLACK, 9 GA, 2" MESH',                    notes: 'March-2026',                     qty: 1379,   cost: 3.99,    price: 7.76,    dept: 'Chainlink Mesh' },
+            { plu: 393, vendorPid: '',              desc: 'CHAIN LINK, 6\', BROWN, 9 GA, 2" MESH',                    notes: '',                               qty: 250,    cost: 3.36,    price: 6.03,    dept: 'Chainlink Mesh' },
+            { plu: 395, vendorPid: '',              desc: 'CHAIN LINK, 6\', GREEN, 9 GA, 2" MESH',                    notes: '',                               qty: 810,    cost: 3.38,    price: 6.03,    dept: 'Chainlink Mesh' },
+            { plu: 396, vendorPid: '',              desc: 'CHAIN LINK, 6\', WHITE, 9 GA, 2" MESH',                    notes: '',                               qty: 116,    cost: 3.36,    price: 6.03,    dept: 'Chainlink Mesh' },
+        ];
+
+        // ================================================================
+        // INVENTORY HELPERS
+        // ================================================================
+
+        function invByPlu(plu) {
+            return INVENTORY_DB.find(i => i.plu === plu) || null;
+        }
+
+        // Find chain-link mesh by height (ft, as string) and color keyword
+        function findMesh(heightFt, color) {
+            const colorMap = { black: 'BLACK', white: 'WHITE', brown: 'BROWN', green: 'GREEN', galv: 'GALV' };
+            const c = colorMap[color] || 'BLACK';
+            const h = heightFt + "'";
+            return INVENTORY_DB.find(i =>
+                i.desc.includes('CHAIN LINK,') &&
+                i.desc.includes(h) &&
+                i.desc.includes(c) &&
+                i.desc.includes('9 GA')
+            ) || null;
+        }
+
+        // Find tension wire by color
+        function findTensionWire(color) {
+            const colorMap = { black: 'BLACK', white: 'WHITE', brown: 'BROWN', green: 'GREEN', galv: 'GALV' };
+            const c = colorMap[color] || 'BLACK';
+            return INVENTORY_DB.find(i =>
+                i.desc.includes('TENSION WIRE, 9 GA,') &&
+                i.desc.includes(c)
+            ) || null;
+        }
+
+        // Find brace band for residential, by color (1 7/8")
+        function findBraceBand(color) {
+            const colorMap = { black: 'BLACK', white: 'WHITE', brown: 'BROWN', green: 'GREEN', galv: 'GALV' };
+            const c = colorMap[color] || 'BLACK';
+            return INVENTORY_DB.find(i =>
+                i.desc.includes('BRACE BAND, 1 7/8", RES,') &&
+                i.desc.includes(c)
+            ) || null;
+        }
+
+        // ================================================================
+        // ESTIMATE STATE
+        // ================================================================
+        let estimateState = {
+            fenceType:    'residential',
+            fenceStyle:   'chainlink',
+            height:       '5',
+            color:        'black',
+            footage:      100,
+            postSpacing:  6,
+            includeInstall: true
+        };
+
+        // Compute inventory stats
+        function computeInvStats() {
+            const total      = INVENTORY_DB.length;
+            const totalValue = INVENTORY_DB.reduce((s, i) => s + i.qty * i.cost, 0);
+            const margins    = INVENTORY_DB.filter(i => i.cost > 0).map(i => (i.price - i.cost) / i.cost * 100);
+            const avgMargin  = margins.length ? margins.reduce((a, b) => a + b, 0) / margins.length : 0;
+            const outOfStock = INVENTORY_DB.filter(i => i.qty === 0).length;
+            const lowStock   = INVENTORY_DB.filter(i => i.qty > 0 && i.qty < 50).length;
+            return { total, totalValue, avgMargin, outOfStock, lowStock };
+        }
+
+        // ================================================================
+        // INVENTORY TAB RENDERING
+        // ================================================================
+        function renderInventoryStats() {
+            const el = document.getElementById('inventoryStats');
+            if (!el) return;
+            const s = computeInvStats();
+            el.innerHTML = `
+                <div class="stat-card primary">
+                    <div class="stat-label">SKUs Loaded</div>
+                    <div class="stat-value">${s.total}</div>
+                    <div class="stat-change">→ Part 1 of 7 imported</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-label">Inventory Value</div>
+                    <div class="stat-value">$${s.totalValue.toLocaleString('en-CA', {maximumFractionDigits: 0})}</div>
+                    <div class="stat-change">→ At cost</div>
+                </div>
+                <div class="stat-card accent">
+                    <div class="stat-label">Avg Markup</div>
+                    <div class="stat-value">${s.avgMargin.toFixed(0)}%</div>
+                    <div class="stat-change">→ On cost price</div>
+                </div>
+                <div class="stat-card" style="border-left:4px solid var(--alert);">
+                    <div class="stat-label">Out of Stock / Low</div>
+                    <div class="stat-value" style="color:var(--alert);">${s.outOfStock} / ${s.lowStock}</div>
+                    <div class="stat-change">→ Needs ordering</div>
+                </div>
+            `;
+        }
+
+        function renderInventory() {
+            const search = (document.getElementById('inventorySearch')?.value || '').toLowerCase();
+            const filter = document.getElementById('inventoryFilter')?.value || '';
+
+            const filtered = INVENTORY_DB.filter(item => {
+                const matchSearch = !search ||
+                    item.desc.toLowerCase().includes(search) ||
+                    String(item.plu).includes(search) ||
+                    item.vendorPid.toLowerCase().includes(search);
+                const matchDept = !filter || item.dept === filter;
+                return matchSearch && matchDept;
+            });
+
+            const tbody = document.getElementById('inventoryTableBody');
+            const countEl = document.getElementById('inventoryCount');
+            if (!tbody) return;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light);">No items match your search.</td></tr>';
+                if (countEl) countEl.textContent = '';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(item => {
+                const margin = item.cost > 0 ? ((item.price - item.cost) / item.cost * 100).toFixed(0) : '—';
+                const marginColor = Number(margin) >= 100 ? 'var(--success)' : Number(margin) >= 50 ? 'var(--warning)' : 'var(--alert)';
+                let badge, badgeColor;
+                if (item.qty === 0) {
+                    badge = 'OUT OF STOCK'; badgeColor = 'var(--alert)';
+                } else if (item.qty < 50) {
+                    badge = 'LOW STOCK'; badgeColor = 'var(--warning)';
+                } else {
+                    badge = 'IN STOCK'; badgeColor = 'var(--success)';
+                }
+                const stockBadge = `<span style="background:${badgeColor};color:white;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;">${badge}</span>`;
+                const qtyDisplay = Number.isInteger(item.qty) ? item.qty.toLocaleString() : item.qty.toFixed(2);
+                return `
+                    <tr>
+                        <td><strong>${item.plu}</strong></td>
+                        <td style="font-size:13px;">${item.desc}</td>
+                        <td><small style="color:var(--text-light);">${item.dept}</small></td>
+                        <td style="text-align:right;">${qtyDisplay}</td>
+                        <td style="text-align:right;">$${item.cost.toFixed(2)}</td>
+                        <td style="text-align:right;">$${item.price.toFixed(2)}</td>
+                        <td style="text-align:right;color:${marginColor};font-weight:700;">${margin}%</td>
+                        <td>${stockBadge}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            if (countEl) countEl.textContent = `Showing ${filtered.length} of ${INVENTORY_DB.length} items`;
+        }
+
+        // ================================================================
+        // ESTIMATE CALCULATION
+        // ================================================================
+        function updateMeasurements() {
+            const lf  = parseFloat(document.getElementById('linearFootage')?.value) || 100;
+            const sp  = parseFloat(document.getElementById('postSpacingSelect')?.value) || 6;
+            estimateState.footage     = lf;
+            estimateState.postSpacing = sp;
+            const posts    = Math.ceil(lf / sp) + 1;
+            const sections = Math.ceil(lf / sp);
+            const concrete = posts * 2;
+            const pEl = document.getElementById('postsNeededDisplay');
+            const sEl = document.getElementById('sectionsDisplay');
+            const cEl = document.getElementById('concreteDisplay');
+            if (pEl) pEl.innerHTML = `<strong>${posts}</strong>`;
+            if (sEl) sEl.innerHTML = `<strong>${sections}</strong>`;
+            if (cEl) cEl.innerHTML = `<strong>${concrete} Bags</strong>`;
+        }
+
+        function fmtMoney(n) {
+            return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        function calculateAndRenderMaterials() {
+            const lf  = estimateState.footage     || 100;
+            const sp  = estimateState.postSpacing  || 6;
+            const h   = estimateState.height       || '5';
+            const col = estimateState.color        || 'black';
+            const inc = estimateState.includeInstall;
+            const TAX = 0.13;
+            const LABOUR_RATE = 30;
+            const LABOUR_HRS_PER_100LF = 51;   // total crew-hours to install 100 LF of chain-link
+            const OVERHEAD_RATE = 0.05;          // 5% overhead applied to grand total
+
+            // Quantities
+            const meshFt      = lf;
+            const postsNeeded = Math.ceil(lf / sp) + 1;
+            const twFt        = lf;           // one tension-wire run
+            const bbCount     = postsNeeded * 2;
+            const boltCount   = postsNeeded * 4;
+            const concreteQty = postsNeeded * 2;
+            const labourHrs   = (lf / 100) * LABOUR_HRS_PER_100LF;
+
+            // Pricing from inventory
+            const meshItem  = findMesh(h, col);
+            const twItem    = findTensionWire(col);
+            const bbItem    = findBraceBand(col);
+            const boltItem  = invByPlu(20); // carriage bolt
+
+            const CONCRETE_COST  = 8.50;  // placeholder (not in Part 1)
+            const CONCRETE_PRICE = 14.00;
+            const POST_PRICE     = null;  // posts not in Part 1 yet
+            const RAIL_PRICE     = null;  // rails not in Part 1 yet
+
+            function rowHtml(label, qty, unit, price, plu, isPlaceholder) {
+                if (isPlaceholder) {
+                    return `<div class="summary-row" style="background:#FFF8E1;">
+                        <span class="summary-label" style="color:var(--warning);">⚠️ ${label}:</span>
+                        <span class="summary-value" style="color:var(--warning);">Pricing needed — add to inventory</span>
+                    </div>`;
+                }
+                const total = qty * price;
+                const pluTag = plu ? ` <small style="color:var(--text-light);">(PLU ${plu})</small>` : '';
+                return `<div class="summary-row">
+                    <span class="summary-label">${label}${pluTag}:</span>
+                    <span class="summary-value">${qty} ${unit} @ ${fmtMoney(price)} = <strong>${fmtMoney(total)}</strong></span>
+                </div>`;
+            }
+
+            // Subtotal calculation
+            let matCost  = 0;
+            let matSell  = 0;
+
+            const meshSell  = meshItem  ? meshItem.price * meshFt  : 0;
+            const twSell    = twItem    ? twItem.price   * twFt    : 0;
+            const bbSell    = bbItem    ? bbItem.price   * bbCount : 0;
+            const boltSell  = boltItem  ? boltItem.price * boltCount : 0;
+            const concSell  = CONCRETE_PRICE * concreteQty;
+
+            matSell = meshSell + twSell + bbSell + boltSell + concSell;
+
+            const meshCost  = meshItem  ? meshItem.cost  * meshFt  : 0;
+            const twCost    = twItem    ? twItem.cost    * twFt    : 0;
+            const bbCost    = bbItem    ? bbItem.cost    * bbCount : 0;
+            const boltCost  = boltItem  ? boltItem.cost  * boltCount : 0;
+            const concCost  = CONCRETE_COST * concreteQty;
+
+            matCost = meshCost + twCost + bbCost + boltCost + concCost;
+
+            const labourTotal = inc ? labourHrs * LABOUR_RATE : 0;
+            const subtotal    = matSell + labourTotal;
+            const tax         = subtotal * TAX;
+            const grandTotal  = subtotal + tax;
+            const profit      = grandTotal - matCost - labourTotal - (grandTotal * OVERHEAD_RATE);
+
+            const colLabel = col.charAt(0).toUpperCase() + col.slice(1);
+            const needsPosts = !POST_PRICE;
+            const needsRails = !RAIL_PRICE;
+
+            document.getElementById('materialsBreakdown').innerHTML = `
+                <div class="summary-card">
+                    ${meshItem
+                        ? rowHtml(`Chain Link ${h}' ${colLabel} 9GA (PLU ${meshItem.plu})`, meshFt, 'FT', meshItem.price, null, false)
+                        : `<div class="summary-row" style="background:#FFF8E1;"><span class="summary-label" style="color:var(--warning);">⚠️ Chain Link ${h}' ${colLabel}:</span><span class="summary-value" style="color:var(--warning);">Not in inventory — check height/color</span></div>`
+                    }
+                    ${rowHtml(`Line Posts (${h}' ${colLabel})`, postsNeeded, 'EA', 0, null, needsPosts)}
+                    ${rowHtml(`Top Rail 1-1/4" ${colLabel}`, Math.ceil(lf / 21), 'EA', 0, null, needsRails)}
+                    ${twItem
+                        ? rowHtml(`Tension Wire 9GA ${colLabel} (PLU ${twItem.plu})`, twFt, 'FT', twItem.price, null, false)
+                        : `<div class="summary-row" style="background:#FFF8E1;"><span class="summary-label" style="color:var(--warning);">⚠️ Tension Wire ${colLabel}:</span><span class="summary-value" style="color:var(--warning);">Not in inventory</span></div>`
+                    }
+                    ${bbItem
+                        ? rowHtml(`Brace Bands 1-7/8" RES ${colLabel} (PLU ${bbItem.plu})`, bbCount, 'EA', bbItem.price, null, false)
+                        : `<div class="summary-row" style="background:#FFF8E1;"><span class="summary-label" style="color:var(--warning);">⚠️ Brace Bands ${colLabel}:</span><span class="summary-value" style="color:var(--warning);">Not in inventory</span></div>`
+                    }
+                    ${boltItem ? rowHtml(`Carriage Bolts 5/16" (PLU 20)`, boltCount, 'EA', boltItem.price, null, false) : ''}
+                    ${rowHtml('Concrete 80lb Bags (est.)', concreteQty, 'EA', CONCRETE_PRICE, null, false)}
+                    ${inc ? rowHtml('Labour', Math.round(labourHrs), 'HRS', LABOUR_RATE, null, false) : ''}
+                    <div class="summary-row total">
+                        <span class="summary-label">SUBTOTAL (known items):</span>
+                        <span class="summary-value">${fmtMoney(subtotal)}</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span class="summary-label">TAX (13% HST):</span>
+                        <span class="summary-value">${fmtMoney(tax)}</span>
+                    </div>
+                    <div class="summary-row total" style="color:var(--success);font-size:18px;">
+                        <span class="summary-label">TOTAL:</span>
+                        <span class="summary-value">${fmtMoney(grandTotal)}</span>
+                    </div>
+                </div>
+                ${(needsPosts || needsRails)
+                    ? `<div class="summary-card" style="background:#FFF8E1;border-left:4px solid var(--warning);margin-top:12px;">
+                        <h3 style="color:var(--warning);margin-bottom:8px;">⚠️ Incomplete — Missing Pricing Data</h3>
+                        <p style="font-size:14px;color:var(--text-light);">Posts and rails are not yet in inventory (Parts 2–3 pending). Totals above reflect only items available in Part 1. Once posts and rails are imported the estimate will be complete.</p>
+                       </div>`
+                    : ''
+                }
+                <div class="profit-card">
+                    <div class="profit-label">ESTIMATED PROFIT (partial):</div>
+                    <div class="profit-value">${fmtMoney(Math.max(profit, 0))}</div>
+                    <div class="profit-details">
+                        <span>Footage: ${lf} LF</span>
+                        <span>Height: ${h}'</span>
+                        <span>Color: ${colLabel}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ================================================================
+        // NAVIGATION & WIZARD
+        // ================================================================
         let currentStep = 1;
 
         function goToLogin() {
@@ -1691,24 +2091,60 @@
         }
 
         function switchTab(tabName) {
-            // Hide all tabs
-            const tabs = document.querySelectorAll('[id$="-tab"]');
-            tabs.forEach(tab => tab.style.display = 'none');
-
-            // Deactivate all nav items
+            document.querySelectorAll('[id$="-tab"]').forEach(tab => tab.style.display = 'none');
             document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
-
-            // Show selected tab
             document.getElementById(tabName + '-tab').style.display = 'block';
-
-            // Activate selected nav item
             event.target.classList.add('active');
+
+            if (tabName === 'inventory') {
+                renderInventoryStats();
+                renderInventory();
+            }
+            if (tabName === 'materials') {
+                updateMaterialsStats();
+            }
+            if (tabName === 'analytics') {
+                renderAnalyticsInventory();
+            }
+        }
+
+        function renderAnalyticsInventory() {
+            const el = document.getElementById('analyticsInvRows');
+            if (!el) return;
+            // Group by department
+            const depts = {};
+            INVENTORY_DB.forEach(item => {
+                if (!depts[item.dept]) depts[item.dept] = { items: 0, costValue: 0, sellValue: 0 };
+                depts[item.dept].items++;
+                depts[item.dept].costValue += item.qty * item.cost;
+                depts[item.dept].sellValue += item.qty * item.price;
+            });
+            el.innerHTML = Object.entries(depts).map(([dept, d]) => {
+                const markup = d.costValue > 0 ? ((d.sellValue - d.costValue) / d.costValue * 100).toFixed(0) : '—';
+                const markupColor = Number(markup) >= 100 ? 'var(--success)' : 'var(--warning)';
+                return `<div class="summary-row">
+                    <span class="summary-label">${dept} <small style="color:var(--text-light);">(${d.items} SKUs)</small>:</span>
+                    <span class="summary-value">Cost: ${fmtMoney(d.costValue)} → Sell: ${fmtMoney(d.sellValue)} &nbsp;<strong style="color:${markupColor};">${markup}% markup</strong></span>
+                </div>`;
+            }).join('');
+        }
+
+        function updateMaterialsStats() {
+            const s = computeInvStats();
+            const skuEl = document.getElementById('materialSkuCount');
+            const avgEl = document.getElementById('materialAvgMargin');
+            if (skuEl) skuEl.textContent = s.total;
+            if (avgEl) avgEl.textContent = s.avgMargin.toFixed(0) + '%';
         }
 
         function selectOption(element, type, value) {
             const siblings = element.parentElement.querySelectorAll('.option-btn');
             siblings.forEach(btn => btn.classList.remove('selected'));
             element.classList.add('selected');
+            if (type === 'fenceType')  estimateState.fenceType  = value;
+            if (type === 'fenceStyle') estimateState.fenceStyle = value;
+            if (type === 'height')     estimateState.height     = value;
+            if (type === 'color')      estimateState.color      = value;
         }
 
         function nextStep() {
@@ -1717,6 +2153,15 @@
                 currentStep++;
                 document.getElementById('step' + currentStep).classList.add('active');
                 updateProgress();
+
+                if (currentStep === 3) {
+                    updateMeasurements();
+                }
+                if (currentStep === 4) {
+                    estimateState.footage     = parseFloat(document.getElementById('linearFootage')?.value) || 100;
+                    estimateState.postSpacing = parseFloat(document.getElementById('postSpacingSelect')?.value) || 6;
+                    calculateAndRenderMaterials();
+                }
             }
         }
 
@@ -1743,8 +2188,18 @@
             alert('📄 Viewing estimate details...');
         }
 
-        // Initialize
+        // ================================================================
+        // INITIALIZATION
+        // ================================================================
         updateProgress();
+        // Pre-compute materials stats for materials tab badge
+        (function initStats() {
+            const s = computeInvStats();
+            const skuEl = document.getElementById('materialSkuCount');
+            const avgEl = document.getElementById('materialAvgMargin');
+            if (skuEl) skuEl.textContent = s.total;
+            if (avgEl) avgEl.textContent = s.avgMargin.toFixed(0) + '%';
+        })();
     </script>
 </body>
 </html>
