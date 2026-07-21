@@ -1443,7 +1443,7 @@
                                 <option value="">All Departments</option>
                                 <option value="Chainlink Mesh">Chainlink Mesh</option>
                                 <option value="Residential Fittings">Residential Fittings</option>
-                                <option value="Commerical Fitting">Commercial Fitting</option>
+                                <option value="Commercial Fitting">Commercial Fitting</option>
                                 <option value="Construction Fencing">Construction Fencing</option>
                                 <option value="Non Stock Fencing">Non Stock / Order Only</option>
                             </select>
@@ -1688,19 +1688,19 @@
 
     <script>
         // ================================================================
-        // INVENTORY DATABASE — Part 1 of 7 (58 SKUs from POS export)
+        // INVENTORY DATABASE — Part 1 of 7 (61 SKUs from POS export)
         // Columns: plu, vendorPid, desc, notes, qty, cost, price, dept
         // ================================================================
         const INVENTORY_DB = [
             { plu: 20,  vendorPid: '',              desc: 'CARRIAGE BOLT, 5/16" X 1-1/2", C/W NUT, GALV',              notes: 'PAGE 26 MAY/8/23 SL',            qty: 1244,   cost: 0.48,    price: 0.99,    dept: 'Residential Fittings' },
-            { plu: 100, vendorPid: 'PA1212',         desc: 'BASE PLATE, 12" X 12" X 1/2", GALV',                        notes: 'GAL, ANCHOR, PLATE, W/ HOLES',   qty: 3,      cost: 53.79,   price: 132.88,  dept: 'Commerical Fitting' },
-            { plu: 103, vendorPid: '10869',          desc: 'BASE PLATE, 6" X 6" X 1/4", GALV',                          notes: '',                               qty: 44,     cost: 7.52,    price: 17.70,   dept: 'Commerical Fitting' },
-            { plu: 108, vendorPid: '',              desc: 'BARBWIRE ARM, 1 7/8", LINE, STRAIGHT',                       notes: 'N/A FROM SUPPLIER',              qty: 36,     cost: 5.83,    price: 11.66,   dept: 'Commerical Fitting' },
-            { plu: 110, vendorPid: '',              desc: 'BARBWIRE ARM, 2 3/8", LINE, STEEL, STRAIGHT',                notes: '',                               qty: 14,     cost: 6.38,    price: 15.95,   dept: 'Commerical Fitting' },
-            { plu: 112, vendorPid: '',              desc: 'BARBWIRE ARM, 2 3/8", DOUBLE, STEEL/ALUM, 45 DEG',          notes: '',                               qty: 28,     cost: 8.70,    price: 21.75,   dept: 'Commerical Fitting' },
-            { plu: 113, vendorPid: 'TB23845A',      desc: 'BARBWIRE ARM, 2 3/8", LINE, GALV STEEL/ALUMINIUM, 45 DEG', notes: '',                               qty: 187,    cost: 5.51,    price: 19.50,   dept: 'Commerical Fitting' },
-            { plu: 115, vendorPid: '',              desc: 'BARBWIRE ARM, 2 7/8", CORNER, 45 DEG, ALUMINUM',           notes: '',                               qty: 26,     cost: 20.19,   price: 40.38,   dept: 'Commerical Fitting' },
-            { plu: 117, vendorPid: '',              desc: 'BARBWIRE ARM, 3 1/2", CORNER, STEEL/ALUMINUM, 45 DEG',     notes: 'UPDATED FEB 20-24 BL',           qty: 14,     cost: 20.20,   price: 40.40,   dept: 'Commerical Fitting' },
+            { plu: 100, vendorPid: 'PA1212',         desc: 'BASE PLATE, 12" X 12" X 1/2", GALV',                        notes: 'GAL, ANCHOR, PLATE, W/ HOLES',   qty: 3,      cost: 53.79,   price: 132.88,  dept: 'Commercial Fitting' },
+            { plu: 103, vendorPid: '10869',          desc: 'BASE PLATE, 6" X 6" X 1/4", GALV',                          notes: '',                               qty: 44,     cost: 7.52,    price: 17.70,   dept: 'Commercial Fitting' },
+            { plu: 108, vendorPid: '',              desc: 'BARBWIRE ARM, 1 7/8", LINE, STRAIGHT',                       notes: 'N/A FROM SUPPLIER',              qty: 36,     cost: 5.83,    price: 11.66,   dept: 'Commercial Fitting' },
+            { plu: 110, vendorPid: '',              desc: 'BARBWIRE ARM, 2 3/8", LINE, STEEL, STRAIGHT',                notes: '',                               qty: 14,     cost: 6.38,    price: 15.95,   dept: 'Commercial Fitting' },
+            { plu: 112, vendorPid: '',              desc: 'BARBWIRE ARM, 2 3/8", DOUBLE, STEEL/ALUM, 45 DEG',          notes: '',                               qty: 28,     cost: 8.70,    price: 21.75,   dept: 'Commercial Fitting' },
+            { plu: 113, vendorPid: 'TB23845A',      desc: 'BARBWIRE ARM, 2 3/8", LINE, GALV STEEL/ALUMINIUM, 45 DEG', notes: '',                               qty: 187,    cost: 5.51,    price: 19.50,   dept: 'Commercial Fitting' },
+            { plu: 115, vendorPid: '',              desc: 'BARBWIRE ARM, 2 7/8", CORNER, 45 DEG, ALUMINUM',           notes: '',                               qty: 26,     cost: 20.19,   price: 40.38,   dept: 'Commercial Fitting' },
+            { plu: 117, vendorPid: '',              desc: 'BARBWIRE ARM, 3 1/2", CORNER, STEEL/ALUMINUM, 45 DEG',     notes: 'UPDATED FEB 20-24 BL',           qty: 14,     cost: 20.20,   price: 40.40,   dept: 'Commercial Fitting' },
             { plu: 118, vendorPid: '',              desc: 'BARBWIRE, 15.5 GA, PER ROLL (1320 FT)',                     notes: '1320\' PER ROLL',                qty: 11,     cost: 100.00,  price: 157.56,  dept: 'Construction Fencing' },
             { plu: 120, vendorPid: '120',           desc: 'BARBWIRE, 12.5 GA, PER ROLL (1320 FT)',                     notes: 'EST. LENGTH 1320\'/ROLL',        qty: 11.89,  cost: 122.10,  price: 244.16,  dept: 'Construction Fencing' },
             { plu: 124, vendorPid: '',              desc: 'TENSION WIRE, 11 GA, GALV, PER/FT',                         notes: 'Pg 23 05/05/19',                 qty: 0,      cost: 0.02,    price: 0.25,    dept: 'Chainlink Mesh' },
@@ -1709,23 +1709,23 @@
             { plu: 131, vendorPid: 'FB9(C)50LBS',   desc: 'TENSION WIRE, 9 GA, BROWN, PER/FT',                         notes: 'Oct-2025',                       qty: 17884,  cost: 0.09,    price: 0.36,    dept: 'Chainlink Mesh' },
             { plu: 133, vendorPid: '',              desc: 'TENSION WIRE, 9 GA, GREEN, PER/FT',                         notes: 'October-1-2025',                 qty: 9452,   cost: 0.09,    price: 0.36,    dept: 'Chainlink Mesh' },
             { plu: 134, vendorPid: '370164',        desc: 'TENSION WIRE, 9 GA, WHITE, PER/FT',                         notes: 'Pg 23 JUNE/01/2022',             qty: 3298,   cost: 0.09,    price: 0.36,    dept: 'Chainlink Mesh' },
-            { plu: 137, vendorPid: 'BTR11116(G)',   desc: 'BRACE BAND, 1 11/16", COM, GALV (CENTRE BAND)',            notes: 'CENTRE BAND',                    qty: 629,    cost: 0.44,    price: 1.83,    dept: 'Commerical Fitting' },
+            { plu: 137, vendorPid: 'BTR11116(G)',   desc: 'BRACE BAND, 1 11/16", COM, GALV (CENTRE BAND)',            notes: 'CENTRE BAND',                    qty: 629,    cost: 0.44,    price: 1.83,    dept: 'Commercial Fitting' },
             { plu: 141, vendorPid: '',              desc: 'BRACE BAND, 1 7/8", RES, BLACK (CENTRE BAND)',             notes: 'MAY/5/2025 SL',                  qty: 1294,   cost: 0.61,    price: 1.20,    dept: 'Residential Fittings' },
             { plu: 142, vendorPid: '',              desc: 'BRACE BAND, 1 7/8", RES, BROWN (CENTRE BAND)',             notes: 'PAGE 17 MAY/5/2025 SL',          qty: 274,    cost: 0.60,    price: 1.20,    dept: 'Residential Fittings' },
             { plu: 143, vendorPid: '',              desc: 'BRACE BAND, 1 7/8", RES, GALV (CENTRE BAND)',              notes: 'PC 06/15/22 JLJR',               qty: 249,    cost: 0.55,    price: 0.77,    dept: 'Residential Fittings' },
             { plu: 144, vendorPid: '600831',        desc: 'BRACE BAND, 1 7/8", RES, GREEN (CENTRE BAND)',             notes: 'PC 06/15/22 JLJR',               qty: 144,    cost: 0.52,    price: 1.02,    dept: 'Residential Fittings' },
             { plu: 145, vendorPid: '',              desc: 'BRACE BAND, 1 7/8", RES, WHITE (CENTRE BAND)',             notes: 'PAGE 17 MAY/5/2025 SL',          qty: 45,     cost: 0.60,    price: 1.20,    dept: 'Residential Fittings' },
-            { plu: 147, vendorPid: '10304',         desc: 'BRACE BAND, 2 3/8", COM, GALV (CENTRE BAND)',              notes: 'CENTRE BAND',                    qty: 224,    cost: 0.57,    price: 1.90,    dept: 'Commerical Fitting' },
-            { plu: 150, vendorPid: '',              desc: 'BRACE BAND, 2 7/8", COM, GALV (CENTRE BAND)',              notes: 'CENTRE BAND',                    qty: 64,     cost: 0.70,    price: 2.33,    dept: 'Commerical Fitting' },
-            { plu: 152, vendorPid: 'BTR312G',       desc: 'BRACE BAND, 3 1/2", COM, GALV (CENTRE BAND)',              notes: 'CENTRE BAND',                    qty: 1071,   cost: 0.80,    price: 2.67,    dept: 'Commerical Fitting' },
-            { plu: 154, vendorPid: '',              desc: 'BRACE BAND, 4 1/2", COM, GALV (CENTRE BAND)',              notes: '4-1/2" 06/15/22',                qty: 78,     cost: 0.89,    price: 3.56,    dept: 'Commerical Fitting' },
-            { plu: 155, vendorPid: '',              desc: 'BRACE BAND, 6 5/8", COM, GALV (CENTRE BAND)',              notes: 'CENTRE BAND',                    qty: 154,    cost: 1.93,    price: 6.43,    dept: 'Commerical Fitting' },
+            { plu: 147, vendorPid: '10304',         desc: 'BRACE BAND, 2 3/8", COM, GALV (CENTRE BAND)',              notes: 'CENTRE BAND',                    qty: 224,    cost: 0.57,    price: 1.90,    dept: 'Commercial Fitting' },
+            { plu: 150, vendorPid: '',              desc: 'BRACE BAND, 2 7/8", COM, GALV (CENTRE BAND)',              notes: 'CENTRE BAND',                    qty: 64,     cost: 0.70,    price: 2.33,    dept: 'Commercial Fitting' },
+            { plu: 152, vendorPid: 'BTR312G',       desc: 'BRACE BAND, 3 1/2", COM, GALV (CENTRE BAND)',              notes: 'CENTRE BAND',                    qty: 1071,   cost: 0.80,    price: 2.67,    dept: 'Commercial Fitting' },
+            { plu: 154, vendorPid: '',              desc: 'BRACE BAND, 4 1/2", COM, GALV (CENTRE BAND)',              notes: '4-1/2" 06/15/22',                qty: 78,     cost: 0.89,    price: 3.56,    dept: 'Commercial Fitting' },
+            { plu: 155, vendorPid: '',              desc: 'BRACE BAND, 6 5/8", COM, GALV (CENTRE BAND)',              notes: 'CENTRE BAND',                    qty: 154,    cost: 1.93,    price: 6.43,    dept: 'Commercial Fitting' },
             { plu: 179, vendorPid: '',              desc: 'CANTILEVER, SLIDING GATE, 6\'H X 12\'W',                   notes: 'PAGE 33 05/05/19',               qty: 0,      cost: 861.50,  price: 1723.00, dept: 'Non Stock Fencing' },
             { plu: 181, vendorPid: '24833',         desc: 'CANTILEVER, SLIDING GATE, 6\'H X 16\'W (FRAME ONLY)',      notes: 'UPDATED JULY 4-22 BL',           qty: 0,      cost: 1242.50, price: 1775.00, dept: 'Non Stock Fencing' },
             { plu: 182, vendorPid: '',              desc: 'CANTILEVER, SLIDING GATE, 6\'H X 20\'W',                   notes: 'WITH OR WITHOUT BARBWIRE',       qty: 0,      cost: 1645.09, price: 2463.15, dept: 'Non Stock Fencing' },
-            { plu: 199, vendorPid: 'LOCQ238',       desc: 'CANTILEVER, LATCH CATCH ARM, 2 3/8", COM, GALV',           notes: 'UPDATED FEB 21-24 BL',           qty: 13,     cost: 8.94,    price: 19.67,   dept: 'Commerical Fitting' },
-            { plu: 200, vendorPid: '18509',         desc: 'CANTILEVER, LATCH CATCH ARM, 3 1/2", COM, GALV',           notes: 'UPDATED FEB 21-24 BL',           qty: 8,      cost: 20.66,   price: 45.95,   dept: 'Commerical Fitting' },
-            { plu: 202, vendorPid: '18353',         desc: 'CANTILEVER ROLLER, 4 1/2" X 2 3/8", NYLON WHEEL',         notes: 'PAGE 25 JUNE/16/2022',           qty: 5,      cost: 97.97,   price: 195.94,  dept: 'Commerical Fitting' },
+            { plu: 199, vendorPid: 'LOCQ238',       desc: 'CANTILEVER, LATCH CATCH ARM, 2 3/8", COM, GALV',           notes: 'UPDATED FEB 21-24 BL',           qty: 13,     cost: 8.94,    price: 19.67,   dept: 'Commercial Fitting' },
+            { plu: 200, vendorPid: '18509',         desc: 'CANTILEVER, LATCH CATCH ARM, 3 1/2", COM, GALV',           notes: 'UPDATED FEB 21-24 BL',           qty: 8,      cost: 20.66,   price: 45.95,   dept: 'Commercial Fitting' },
+            { plu: 202, vendorPid: '18353',         desc: 'CANTILEVER ROLLER, 4 1/2" X 2 3/8", NYLON WHEEL',         notes: 'PAGE 25 JUNE/16/2022',           qty: 5,      cost: 97.97,   price: 195.94,  dept: 'Commercial Fitting' },
             { plu: 309, vendorPid: 'BRG21136(G)',   desc: 'CHAIN LINK, 3\', GALV, 11 GA, 2" MESH',                   notes: 'CALL FOR PRICE',                 qty: 0,      cost: 1.68,    price: 3.36,    dept: 'Non Stock Fencing' },
             { plu: 312, vendorPid: '',              desc: 'CHAIN LINK, 4\', BLACK, 11 GA, 2" MESH',                   notes: '',                               qty: 494,    cost: 2.08,    price: 3.73,    dept: 'Chainlink Mesh' },
             { plu: 315, vendorPid: '',              desc: 'CHAIN LINK, 3\', GREEN, 11 GA, 2" MESH',                   notes: 'PAGE n/a 05/05/19',              qty: 0,      cost: 1.26,    price: 2.52,    dept: 'Non Stock Fencing' },
@@ -1935,7 +1935,8 @@
             const inc = estimateState.includeInstall;
             const TAX = 0.13;
             const LABOUR_RATE = 30;
-            const LABOUR_HRS_PER_100LF = 5.1; // industry standard ~51 hrs/100 LF team-equivalent
+            const LABOUR_HRS_PER_100LF = 51;   // total crew-hours to install 100 LF of chain-link
+            const OVERHEAD_RATE = 0.05;          // 5% overhead applied to grand total
 
             // Quantities
             const meshFt      = lf;
@@ -1944,7 +1945,7 @@
             const bbCount     = postsNeeded * 2;
             const boltCount   = postsNeeded * 4;
             const concreteQty = postsNeeded * 2;
-            const labourHrs   = (lf / 100) * (LABOUR_HRS_PER_100LF * 10); // hrs per crew
+            const labourHrs   = (lf / 100) * LABOUR_HRS_PER_100LF;
 
             // Pricing from inventory
             const meshItem  = findMesh(h, col);
@@ -1996,7 +1997,7 @@
             const subtotal    = matSell + labourTotal;
             const tax         = subtotal * TAX;
             const grandTotal  = subtotal + tax;
-            const profit      = grandTotal - matCost - labourTotal - (grandTotal * 0.05); // 5% overhead
+            const profit      = grandTotal - matCost - labourTotal - (grandTotal * OVERHEAD_RATE);
 
             const colLabel = col.charAt(0).toUpperCase() + col.slice(1);
             const needsPosts = !POST_PRICE;
