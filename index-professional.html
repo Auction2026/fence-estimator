@@ -721,6 +721,83 @@
             align-items: center;
         }
 
+        .helper-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .note-helper {
+            margin-top: 10px;
+            padding: 12px;
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            background: var(--gray-50);
+        }
+
+        .note-helper-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .note-helper-row input {
+            flex: 1 1 260px;
+        }
+
+        .inline-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .sheet-preview {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: white;
+            padding: 24px;
+        }
+
+        .sheet-preview h3 {
+            margin-bottom: 8px;
+            color: var(--secondary);
+        }
+
+        .sheet-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .sheet-block {
+            margin-top: 20px;
+        }
+
+        .sheet-block h4 {
+            margin-bottom: 8px;
+            color: var(--secondary);
+        }
+
+        .mini-muted {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .inventory-meta {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .empty-state {
+            padding: 24px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
         /* ===== MODAL ===== */
         .modal {
             display: none;
@@ -843,6 +920,9 @@
             <button class="tab-btn" onclick="switchTab('reports')">
                 <span class="tab-icon">📊</span>Reports
             </button>
+            <button class="tab-btn" onclick="switchTab('admin')">
+                <span class="tab-icon">⚙️</span>Admin
+            </button>
         </div>
 
         <!-- MAIN CONTENT -->
@@ -931,6 +1011,27 @@
                                 <option value="10">10 feet (3m)</option>
                             </select>
                         </div>
+                    </div>
+
+                    <div class="section-title mt-20">Post Options & Guidance</div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Post Diameter / Size</label>
+                            <select id="postDiameter"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Post Gauge / Wall</label>
+                            <select id="postGauge"></select>
+                        </div>
+                    </div>
+                    <div class="alert alert-info" id="postGuidanceBox">
+                        <div class="alert-icon"><i class="fas fa-circle-info"></i></div>
+                        <div id="postGuidanceText">Choose a fence type to see starter post-size guidance.</div>
+                    </div>
+                    <div class="inline-actions">
+                        <button class="btn btn-secondary" type="button" onclick="openPostGuidanceModal()">
+                            <i class="fas fa-ruler-combined"></i> View Post Size Guidance
+                        </button>
                     </div>
 
                     <div class="button-group">
@@ -1238,6 +1339,11 @@
                     </div>
                     <div class="section-description">Calculate materials, labour, and final pricing</div>
 
+                    <div class="alert alert-info" id="rateGuidance">
+                        <div class="alert-icon"><i class="fas fa-screwdriver-wrench"></i></div>
+                        <div>Starter labour and material rates will load from the selected fence type and can be changed anytime in the Admin backdoor.</div>
+                    </div>
+
                     <div class="grid-2">
                         <div class="form-group">
                             <label class="label-required">Total Linear Footage</label>
@@ -1325,6 +1431,9 @@
                         <button class="btn btn-primary" onclick="calculateEstimate()">
                             <i class="fas fa-calculator"></i> Calculate Estimate
                         </button>
+                        <button class="btn btn-secondary" type="button" onclick="applyFenceTypeDefaults(true)">
+                            <i class="fas fa-wand-magic-sparkles"></i> Use Starter Rates
+                        </button>
                     </div>
                 </div>
 
@@ -1333,7 +1442,7 @@
                     <div class="section-title">
                         <i class="fas fa-receipt"></i> Estimate Summary
                     </div>
-                    <table>
+                    <table id="estimateSummaryTable">
                         <thead>
                             <tr>
                                 <th>Item</th>
@@ -1379,6 +1488,20 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="button-group">
+                        <button class="btn btn-secondary" type="button" onclick="printEstimateSheet()">
+                            <i class="fas fa-print"></i> Print / Save Estimate PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section mt-20">
+                    <div class="section-title">
+                        <i class="fas fa-file-lines"></i> Estimate Sheet Preview
+                    </div>
+                    <div class="sheet-preview" id="estimateSheetContent">
+                        <div class="mini-muted">Calculate the estimate to generate a customer-ready estimate sheet.</div>
+                    </div>
                 </div>
             </div>
 
@@ -1433,6 +1556,18 @@
                         <button class="btn btn-success" onclick="markContractSigned()">
                             <i class="fas fa-check-circle"></i> Mark as Signed
                         </button>
+                        <button class="btn btn-secondary" type="button" onclick="printContractSheet()">
+                            <i class="fas fa-print"></i> Print / Save Contract PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section mt-20">
+                    <div class="section-title">
+                        <i class="fas fa-file-contract"></i> Contract Sheet Preview
+                    </div>
+                    <div class="sheet-preview" id="contractSheetContent">
+                        <div class="mini-muted">Generate the contract to build a printable contract sheet with reusable wording.</div>
                     </div>
                 </div>
             </div>
@@ -1891,6 +2026,11 @@
                         </select>
                     </div>
 
+                    <div class="alert alert-info">
+                        <div class="alert-icon"><i class="fas fa-box-open"></i></div>
+                        <div>Use temporary PLUs or supplier references for missing items now. When your real PLU arrives, edit the item and the inventory will keep matching future imports.</div>
+                    </div>
+
                     <table>
                         <thead>
                             <tr>
@@ -1902,40 +2042,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>4×4 Posts (8ft PT)</td>
-                                <td style="text-align: center;">12</td>
-                                <td style="text-align: center;">8</td>
-                                <td style="text-align: center;">4</td>
-                                <td><span class="badge badge-warning">LOW STOCK</span></td>
-                                <td><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;">Order</button></td>
-                            </tr>
-                            <tr>
-                                <td>2×6 Rails (PT)</td>
-                                <td style="text-align: center;">24</td>
-                                <td style="text-align: center;">24</td>
-                                <td style="text-align: center;">0</td>
-                                <td><span class="badge badge-success">IN STOCK</span></td>
-                                <td><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;">View</button></td>
-                            </tr>
-                            <tr>
-                                <td>Chain Link Fabric (250ft roll)</td>
-                                <td style="text-align: center;">1</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">1</td>
-                                <td><span class="badge badge-danger">OUT OF STOCK</span></td>
-                                <td><button class="btn btn-danger" style="padding: 4px 8px; font-size: 12px; background: var(--danger); color: white;">Order Now</button></td>
-                            </tr>
-                            <tr>
-                                <td>Concrete (80lb bag)</td>
-                                <td style="text-align: center;">40</td>
-                                <td style="text-align: center;">30</td>
-                                <td style="text-align: center;">10</td>
-                                <td><span class="badge badge-warning">LOW STOCK</span></td>
-                                <td><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;">Order</button></td>
-                            </tr>
-                        </tbody>
+                        <tbody id="inventoryTableBody"></tbody>
                     </table>
 
                     <div class="button-group mt-20">
@@ -2037,37 +2144,626 @@
                 </div>
             </div>
 
+            <div id="admin" class="tab-content">
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-lock"></i> Admin Backdoor - Starter Rates & Contract Wording</div>
+                    <div class="section-description">Update starter labour/material rates and reusable contract wording without changing code.</div>
+                    <div class="alert alert-warning">
+                        <div class="alert-icon"><i class="fas fa-key"></i></div>
+                        <div>These defaults are your editable starting point. Existing values on the screen stay editable, and you can reset to these saved rates anytime.</div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fence Type</th>
+                                <th>Starter Labour Rate / Hr</th>
+                                <th>Starter Hours / 100 LF</th>
+                                <th>Overhead %</th>
+                                <th>Profit %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Chain Link</td>
+                                <td><input type="number" id="adminRate_chainlink" step="0.01"></td>
+                                <td><input type="number" id="adminHours_chainlink" step="0.5"></td>
+                                <td><input type="number" id="adminOverhead_chainlink" step="0.1"></td>
+                                <td><input type="number" id="adminProfit_chainlink" step="0.1"></td>
+                            </tr>
+                            <tr>
+                                <td>Wood Privacy</td>
+                                <td><input type="number" id="adminRate_wood" step="0.01"></td>
+                                <td><input type="number" id="adminHours_wood" step="0.5"></td>
+                                <td><input type="number" id="adminOverhead_wood" step="0.1"></td>
+                                <td><input type="number" id="adminProfit_wood" step="0.1"></td>
+                            </tr>
+                            <tr>
+                                <td>Vinyl</td>
+                                <td><input type="number" id="adminRate_vinyl" step="0.01"></td>
+                                <td><input type="number" id="adminHours_vinyl" step="0.5"></td>
+                                <td><input type="number" id="adminOverhead_vinyl" step="0.1"></td>
+                                <td><input type="number" id="adminProfit_vinyl" step="0.1"></td>
+                            </tr>
+                            <tr>
+                                <td>Wrought Iron</td>
+                                <td><input type="number" id="adminRate_wroughtiron" step="0.01"></td>
+                                <td><input type="number" id="adminHours_wroughtiron" step="0.5"></td>
+                                <td><input type="number" id="adminOverhead_wroughtiron" step="0.1"></td>
+                                <td><input type="number" id="adminProfit_wroughtiron" step="0.1"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="section-title mt-20">Starter Material Assumptions</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Concrete (80 lb bag)</label>
+                            <input type="number" id="adminConcreteBagCost" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Stone Dust (per ton)</label>
+                            <input type="number" id="adminStoneDustCost" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Gravel (per ton)</label>
+                            <input type="number" id="adminGravelCost" step="0.01">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Concrete Bags per Post Hole (starter)</label>
+                        <input type="number" id="adminBagsPerHole" step="0.5" min="0">
+                    </div>
+
+                    <div class="section-title mt-20">Reusable Contract Wording</div>
+                    <div class="form-group">
+                        <label>Scope of Work</label>
+                        <textarea id="adminScopeOfWork"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Terms</label>
+                        <textarea id="adminPaymentTerms"></textarea>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Warranty</label>
+                            <textarea id="adminWarranty"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Customer Responsibilities</label>
+                            <textarea id="adminCustomerResponsibilities"></textarea>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Timeline / Scheduling</label>
+                            <textarea id="adminTimeline"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Liability / Site Conditions</label>
+                            <textarea id="adminLiability"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" type="button" onclick="saveAdminSettings()"><i class="fas fa-save"></i> Save Admin Defaults</button>
+                        <button class="btn btn-secondary" type="button" onclick="resetStarterDefaults()"><i class="fas fa-rotate-left"></i> Reset Starter Defaults</button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-note-sticky"></i> Reusable Notes Library</div>
+                    <div class="section-description">Save, reuse, edit, or delete notes. As you type in note search boxes on the main tabs, matching saved notes will pop up for one-click reuse.</div>
+                    <input type="hidden" id="editingNoteId">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Note Category</label>
+                            <select id="noteCategory">
+                                <option value="general">General</option>
+                                <option value="installation">Installation</option>
+                                <option value="locates">Locates</option>
+                                <option value="estimate">Estimate</option>
+                                <option value="contract">Contract</option>
+                                <option value="customer">Customer</option>
+                                <option value="shop">Shop Drawing</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Short Note Title</label>
+                            <input type="text" id="noteTitle" placeholder="Deposit schedule">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Saved Note Text</label>
+                        <textarea id="noteText" placeholder="Type the reusable note wording here..."></textarea>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" type="button" onclick="saveNoteFromAdmin()"><i class="fas fa-plus"></i> Save / Update Note</button>
+                        <button class="btn btn-secondary" type="button" onclick="clearNoteEditor()"><i class="fas fa-eraser"></i> Clear</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Title</th>
+                                <th>Text</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="notesLibraryTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal" id="inventoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Inventory Item</div>
+                <button class="modal-close" type="button" onclick="closeModal('inventoryModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="inventoryItemId">
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Item Name</label>
+                        <input type="text" id="inventoryItemName" placeholder="Chain link mesh 6' black">
+                    </div>
+                    <div class="form-group">
+                        <label>Material Type</label>
+                        <select id="inventoryItemType">
+                            <option value="chainlink">Chain Link</option>
+                            <option value="wood">Wood</option>
+                            <option value="vinyl">Vinyl</option>
+                            <option value="wroughtiron">Wrought Iron</option>
+                            <option value="hardware">Hardware/Fasteners</option>
+                            <option value="concrete">Concrete</option>
+                            <option value="general">General</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Current PLU</label>
+                        <input type="text" id="inventoryItemPlu" placeholder="Leave blank if not assigned yet">
+                    </div>
+                    <div class="form-group">
+                        <label>Future / Replacement PLU</label>
+                        <input type="text" id="inventoryItemFuturePlu" placeholder="Optional future PLU">
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Supplier / Source</label>
+                        <input type="text" id="inventoryItemSupplier" placeholder="Supplier or manufacturer">
+                    </div>
+                    <div class="form-group">
+                        <label>Supplier Reference</label>
+                        <input type="text" id="inventoryItemSupplierRef" placeholder="Supplier sku, quote, or website ref">
+                    </div>
+                </div>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>Qty Required</label>
+                        <input type="number" id="inventoryItemRequired" min="0" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Qty Available</label>
+                        <input type="number" id="inventoryItemAvailable" min="0" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Unit Cost (CAD)</label>
+                        <input type="number" id="inventoryItemCost" min="0" step="0.01">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="inventoryItemNotes" placeholder="Record missing-PLU details, supplier notes, or what needs to be updated when the real item arrives."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" onclick="closeModal('inventoryModal')">Cancel</button>
+                <button class="btn btn-primary" type="button" onclick="saveInventoryItem()">Save Item</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="postGuidanceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Post Size Guidance</div>
+                <button class="modal-close" type="button" onclick="closeModal('postGuidanceModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="postGuidanceModalBody"></div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" onclick="closeModal('postGuidanceModal')">Close</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // ===== TAB SWITCHING =====
-        function switchTab(tabName) {
-            // Hide all tabs
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.remove('active'));
+        const STORAGE_KEY = 'fenceDepotProStateV1';
+        const STARTER_RATE_PRESETS = {
+            chainlink: {
+                label: 'Chain Link',
+                labourRate: 50,
+                labourHoursPer100: 15,
+                overheadPercent: 25,
+                profitPercent: 35,
+                recommendedSpacing: 10,
+                diameterOptions: ['1 7/8" Line Post', '2 3/8" Terminal Post', '2 7/8" Gate Post'],
+                gaugeOptions: ['11 gauge', '9 gauge', 'Schedule 40'],
+                starterDiameter: '2 3/8" Terminal Post',
+                starterGauge: '11 gauge',
+                guidance: [
+                    'Starter Canadian rate: about $45-$55/hr for residential chain link crews.',
+                    'Use 1 7/8" line posts for lighter runs and 2 3/8"+ on terminals or gates.',
+                    'Tighten spacing or increase wall thickness when wind load, privacy slats, or barbed wire are added.'
+                ]
+            },
+            wood: {
+                label: 'Wood Privacy',
+                labourRate: 57.5,
+                labourHoursPer100: 16,
+                overheadPercent: 25,
+                profitPercent: 35,
+                recommendedSpacing: 6,
+                diameterOptions: ['4x4 PT Line Post', '6x6 PT Gate Post'],
+                gaugeOptions: ['5/4 board system', '2x6 rail system', 'Heavy gate framing'],
+                starterDiameter: '4x4 PT Line Post',
+                starterGauge: '2x6 rail system',
+                guidance: [
+                    'Starter Canadian rate: about $50-$65/hr for wood crews.',
+                    '6 ft spacing is the safer starting point for privacy panels and heavier loads.',
+                    'Upgrade to 6x6 gate posts for wide gates, slope transitions, or poor soil.'
+                ]
+            },
+            vinyl: {
+                label: 'Vinyl',
+                labourRate: 65,
+                labourHoursPer100: 18,
+                overheadPercent: 27,
+                profitPercent: 35,
+                recommendedSpacing: 6,
+                diameterOptions: ['5x5 Vinyl Post', '5x5 Reinforced Gate Post', 'Aluminum Insert Post'],
+                gaugeOptions: ['Standard insert', 'Heavy insert', 'Gate reinforcement'],
+                starterDiameter: '5x5 Vinyl Post',
+                starterGauge: 'Heavy insert',
+                guidance: [
+                    'Starter Canadian rate: about $55-$75/hr for vinyl work.',
+                    'Vinyl systems usually need tighter spacing and reinforced posts on gates and corners.',
+                    'Use heavy inserts when panels are tall, exposed, or tied to automation.'
+                ]
+            },
+            wroughtiron: {
+                label: 'Wrought Iron',
+                labourRate: 82.5,
+                labourHoursPer100: 20,
+                overheadPercent: 30,
+                profitPercent: 38,
+                recommendedSpacing: 6,
+                diameterOptions: ['2" SQ Steel Post', '2 1/2" SQ Gate Post', '3" SQ Heavy Gate Post'],
+                gaugeOptions: ['0.120 wall', '0.188 wall', 'Schedule 40'],
+                starterDiameter: '2" SQ Steel Post',
+                starterGauge: '0.188 wall',
+                guidance: [
+                    'Starter Canadian rate: about $70-$95/hr for specialty and ornamental installs.',
+                    'Use heavier wall posts for long welded panels, operators, and larger gates.',
+                    'Confirm finishes and anchoring details early because they affect cost and lead times.'
+                ]
+            }
+        };
 
-            // Show selected tab
-            document.getElementById(tabName).classList.add('active');
+        const DEFAULT_NOTE_LIBRARY = [
+            { id: 'note-1', category: 'installation', title: 'Tight access', text: 'Limited backyard access. Hand-carry materials and protect existing landscaping during installation.' },
+            { id: 'note-2', category: 'locates', title: 'Utility locate required', text: 'Utility locates must be confirmed and active before drilling or digging begins.' },
+            { id: 'note-3', category: 'estimate', title: 'Disposal excluded', text: 'Existing fence demolition and disposal are excluded unless specifically listed in the estimate.' },
+            { id: 'note-4', category: 'contract', title: 'Deposit schedule', text: 'A 50% deposit is due on acceptance with the balance due immediately upon substantial completion.' },
+            { id: 'note-5', category: 'customer', title: 'Gate swing clearance', text: 'Customer to confirm final gate swing and hardware clearance before fabrication starts.' },
+            { id: 'note-6', category: 'shop', title: 'Confirm site grades', text: 'Verify grade changes and exact post elevations on site before final fabrication or layout.' }
+        ];
 
-            // Update active button
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.closest('.tab-btn').classList.add('active');
+        const DEFAULT_CONTRACT_DEFAULTS = {
+            scopeOfWork: 'Supply and install the fencing, gates, posts, and hardware described on the estimate sheet. Work includes standard layout, normal drilling/digging, and site cleanup for fencing debris only unless other items are listed.',
+            paymentTerms: 'A 50% deposit is due when the contract is accepted. Progress draws may be requested for custom materials. The balance is due immediately upon substantial completion.',
+            warranty: 'Workmanship warranty: 1 year from installation. Manufacturer material warranties apply where offered and are subject to the manufacturer terms.',
+            customerResponsibilities: 'Customer is responsible for confirming property lines, granting site access, removing obstructions not listed in scope, and protecting private underground systems such as sprinklers unless specifically marked.',
+            timeline: 'Scheduling is subject to weather, utility locates, supplier lead times, and site readiness. The installer will confirm the target start date when materials and locates are available.',
+            liability: 'Unknown underground obstructions, hidden concrete, rock, unsuitable soil, and unmarked private utilities may require change-order pricing before work continues.'
+        };
 
-            // Scroll tab into view
-            event.target.closest('.tab-btn').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        const DEFAULT_MATERIAL_DEFAULTS = {
+            concreteBagCost: 8.5,
+            stoneDustCost: 48,
+            gravelCost: 42,
+            bagsPerHole: 2
+        };
+
+        const DEFAULT_INVENTORY = [
+            { id: 'inv-1', name: 'Chain Link Fabric 6\' Black', type: 'chainlink', plu: '', futurePlu: 'Pending real PLU', supplier: 'Direct / local supplier', supplierRef: 'Research required', qtyRequired: 1, qtyAvailable: 0, cost: 0, notes: 'Placeholder item for missing PLU. Replace with actual company PLU after import.' },
+            { id: 'inv-2', name: 'Concrete (80 lb bag)', type: 'concrete', plu: '', futurePlu: '', supplier: 'Regional building supplier', supplierRef: 'Starter material', qtyRequired: 40, qtyAvailable: 20, cost: 8.5, notes: 'Starter concrete pricing can be changed in Admin.' },
+            { id: 'inv-3', name: '5x5 Vinyl Gate Post Insert', type: 'vinyl', plu: '', futurePlu: 'Future PLU pending', supplier: 'Vinyl manufacturer', supplierRef: 'Gate reinforcement', qtyRequired: 2, qtyAvailable: 0, cost: 0, notes: 'Use as temporary placeholder until your internal PLU is assigned.' },
+            { id: 'inv-4', name: '2 3/8" Terminal Post', type: 'chainlink', plu: '', futurePlu: '', supplier: 'Pipe supplier', supplierRef: 'Standard commercial/ residential terminal', qtyRequired: 10, qtyAvailable: 6, cost: 0, notes: 'Review wall thickness based on final project load.' }
+        ];
+
+        const NOTE_FIELD_CONFIGS = [
+            { targetId: 'installNotes', category: 'installation' },
+            { targetId: 'locateNotes', category: 'locates' },
+            { targetId: 'specialNotes', category: 'estimate' },
+            { targetId: 'contractNotes', category: 'contract' },
+            { targetId: 'customerNotes', category: 'customer' },
+            { targetId: 'shopDrawingNotes', category: 'shop' }
+        ];
+
+        const FROST_DEPTH_BY_PROVINCE = {
+            ON: 48,
+            BC: 30,
+            AB: 54,
+            QC: 48,
+            MB: 60,
+            SK: 60,
+            NS: 42,
+            NB: 48,
+            PE: 42,
+            NL: 48,
+            YT: 72,
+            NWT: 72,
+            NU: 72
+        };
+
+        let appData = loadState();
+        let currentInventoryFilter = '';
+
+        function createDefaultState() {
+            return {
+                rateProfiles: JSON.parse(JSON.stringify(STARTER_RATE_PRESETS)),
+                contractDefaults: { ...DEFAULT_CONTRACT_DEFAULTS },
+                materialDefaults: { ...DEFAULT_MATERIAL_DEFAULTS },
+                notes: JSON.parse(JSON.stringify(DEFAULT_NOTE_LIBRARY)),
+                inventory: JSON.parse(JSON.stringify(DEFAULT_INVENTORY)),
+                formValues: {},
+                lastEstimate: null
+            };
         }
 
-        // ===== PERCENTAGE TRACKER =====
-        document.getElementById('percentComplete').addEventListener('input', function() {
-            document.getElementById('percentLabel').textContent = this.value + '%';
-        });
+        function loadState() {
+            const defaults = createDefaultState();
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return defaults;
+                const parsed = JSON.parse(raw);
+                if (!parsed || typeof parsed !== 'object') return defaults;
+                return {
+                    ...defaults,
+                    ...parsed,
+                    rateProfiles: { ...defaults.rateProfiles, ...(parsed.rateProfiles || {}) },
+                    contractDefaults: { ...defaults.contractDefaults, ...(parsed.contractDefaults || {}) },
+                    materialDefaults: { ...defaults.materialDefaults, ...(parsed.materialDefaults || {}) },
+                    notes: Array.isArray(parsed.notes) && parsed.notes.length ? parsed.notes : defaults.notes,
+                    inventory: Array.isArray(parsed.inventory) && parsed.inventory.length ? parsed.inventory : defaults.inventory,
+                    formValues: parsed.formValues && typeof parsed.formValues === 'object' ? parsed.formValues : {},
+                    lastEstimate: parsed.lastEstimate || null
+                };
+            } catch (error) {
+                console.warn('Unable to load saved state', error);
+                return defaults;
+            }
+        }
 
-        // ===== FENCE STYLE TAB =====
+        function persistState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+        }
+
+        function humanizeFenceType(type) {
+            return STARTER_RATE_PRESETS[type]?.label || '--';
+        }
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-CA', {
+                style: 'currency',
+                currency: 'CAD'
+            }).format(Number(value || 0));
+        }
+
+        function escapeHtml(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function nl2br(value) {
+            return escapeHtml(value || '').replace(/\n/g, '<br>');
+        }
+
+        function openPrintableWindow(title, html) {
+            const printWindow = window.open('', '_blank', 'width=960,height=720');
+            if (!printWindow) {
+                showAlert('Please allow pop-ups to print or save a PDF.', 'warning');
+                return;
+            }
+            printWindow.document.write(`<!DOCTYPE html><html><head><title>${escapeHtml(title)}</title><style>
+                body { font-family: Arial, sans-serif; padding: 24px; color: #111827; }
+                h1, h2, h3, h4 { color: #1B2D4D; margin-bottom: 8px; }
+                table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+                th, td { border: 1px solid #D1D5DB; padding: 8px; text-align: left; }
+                .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; margin: 16px 0; }
+                .block { margin-top: 18px; }
+                .muted { color: #6B7280; font-size: 12px; }
+            </style></head><body>${html}</body></html>`);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) modal.classList.remove('active');
+        }
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) modal.classList.add('active');
+        }
+
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            const target = document.getElementById(tabName);
+            if (target) target.classList.add('active');
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            const activeButton = (window.event && window.event.target && window.event.target.closest('.tab-btn'))
+                || Array.from(buttons).find(btn => (btn.getAttribute('onclick') || '').includes(`'${tabName}'`));
+            if (activeButton) {
+                activeButton.classList.add('active');
+                activeButton.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+            if (tabName === 'contract') renderContractSheet();
+            if (tabName === 'estimate') renderEstimateSheet();
+            if (tabName === 'inventory') renderInventoryTable();
+        }
+
+        function captureFormValues() {
+            const values = {};
+            document.querySelectorAll('input[id], select[id], textarea[id]').forEach(element => {
+                if (element.type === 'checkbox') {
+                    values[element.id] = element.checked;
+                } else {
+                    values[element.id] = element.value;
+                }
+            });
+            appData.formValues = values;
+            persistState();
+        }
+
+        function restoreFormValues() {
+            const values = appData.formValues || {};
+            Object.entries(values).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (!element) return;
+                if (element.type === 'checkbox') {
+                    element.checked = Boolean(value);
+                } else {
+                    element.value = value;
+                }
+            });
+        }
+
+        function getSelectedProfile() {
+            const type = document.getElementById('fenceType')?.value;
+            return appData.rateProfiles[type] || STARTER_RATE_PRESETS.chainlink;
+        }
+
         function updateFenceDetails() {
             const type = document.getElementById('fenceType').value;
-            document.getElementById('summaryType').textContent = type || '--';
+            const height = document.getElementById('fenceHeight').value;
+            document.getElementById('summaryType').textContent = type ? humanizeFenceType(type) : '--';
+            document.getElementById('summaryHeight').textContent = height ? `${height} ft` : '--';
+            updatePostGuidance();
+            updatePostCount();
+            updateRateGuidance();
+            captureFormValues();
+        }
+
+        function populatePostOptions(forceStarter = false) {
+            const type = document.getElementById('fenceType').value;
+            const profile = appData.rateProfiles[type] || STARTER_RATE_PRESETS.chainlink;
+            const diameterSelect = document.getElementById('postDiameter');
+            const gaugeSelect = document.getElementById('postGauge');
+            diameterSelect.innerHTML = profile.diameterOptions.map(option => `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`).join('');
+            gaugeSelect.innerHTML = profile.gaugeOptions.map(option => `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`).join('');
+            if (forceStarter || !diameterSelect.value) diameterSelect.value = profile.starterDiameter;
+            if (forceStarter || !gaugeSelect.value) gaugeSelect.value = profile.starterGauge;
+        }
+
+        function updatePostGuidance() {
+            const type = document.getElementById('fenceType').value;
+            const profile = appData.rateProfiles[type] || STARTER_RATE_PRESETS.chainlink;
+            const guidanceText = document.getElementById('postGuidanceText');
+            const spacing = document.getElementById('postSpacing').value || profile.recommendedSpacing;
+            guidanceText.innerHTML = `<strong>${escapeHtml(profile.label)} starter guidance:</strong> ${escapeHtml(profile.guidance[0])}<br>${escapeHtml(profile.guidance[1])}<br><span class="mini-muted">Suggested starting spacing: every ${escapeHtml(spacing)} ft. Final selection should be confirmed for wind load, gate size, and soil conditions.</span>`;
+        }
+
+        function openPostGuidanceModal() {
+            const type = document.getElementById('fenceType').value || 'chainlink';
+            const profile = appData.rateProfiles[type] || STARTER_RATE_PRESETS.chainlink;
+            document.getElementById('postGuidanceModalBody').innerHTML = `
+                <h3>${escapeHtml(profile.label)} starter post guidance</h3>
+                <div class="sheet-meta">
+                    <div><strong>Starter Diameter</strong><br>${escapeHtml(profile.starterDiameter)}</div>
+                    <div><strong>Starter Gauge / Wall</strong><br>${escapeHtml(profile.starterGauge)}</div>
+                    <div><strong>Starter Spacing</strong><br>${escapeHtml(String(profile.recommendedSpacing))} ft</div>
+                </div>
+                <div class="sheet-block">
+                    <h4>Recommended options</h4>
+                    <ul>${profile.diameterOptions.map(option => `<li>${escapeHtml(option)}</li>`).join('')}</ul>
+                    <ul>${profile.guidance.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+                </div>
+            `;
+            openModal('postGuidanceModal');
+        }
+
+        function updateRateGuidance() {
+            const type = document.getElementById('fenceType').value || 'chainlink';
+            const profile = appData.rateProfiles[type] || STARTER_RATE_PRESETS.chainlink;
+            document.getElementById('rateGuidance').innerHTML = `
+                <div class="alert-icon"><i class="fas fa-screwdriver-wrench"></i></div>
+                <div>
+                    <strong>${escapeHtml(profile.label)} starter rates:</strong> ${formatCurrency(profile.labourRate)}/hr and ${escapeHtml(String(profile.labourHoursPer100))} hrs per 100 LF.<br>
+                    <span class="mini-muted">Concrete starter cost ${formatCurrency(appData.materialDefaults.concreteBagCost)} / 80 lb bag, stone dust ${formatCurrency(appData.materialDefaults.stoneDustCost)} / ton, gravel ${formatCurrency(appData.materialDefaults.gravelCost)} / ton. Edit anytime in Admin.</span>
+                </div>`;
+        }
+
+        function markRateFieldAsManual(id) {
+            const element = document.getElementById(id);
+            if (element) element.dataset.userEdited = 'true';
+        }
+
+        function applyFenceTypeDefaults(force = false) {
+            const type = document.getElementById('fenceType').value || 'chainlink';
+            const profile = appData.rateProfiles[type] || STARTER_RATE_PRESETS.chainlink;
+            populatePostOptions(force);
+            const postSpacing = document.getElementById('postSpacing');
+            if (force || !postSpacing.value) postSpacing.value = String(profile.recommendedSpacing);
+            ['labourRate', 'baseLabour', 'overheadPercent', 'profitPercent'].forEach(id => {
+                const element = document.getElementById(id);
+                if (!element) return;
+                const autoValue = {
+                    labourRate: profile.labourRate,
+                    baseLabour: profile.labourHoursPer100,
+                    overheadPercent: profile.overheadPercent,
+                    profitPercent: profile.profitPercent
+                }[id];
+                if (force || !element.value || element.dataset.userEdited !== 'true') {
+                    element.value = autoValue;
+                    element.dataset.autoValue = String(autoValue);
+                    if (force) element.dataset.userEdited = 'false';
+                }
+            });
+            updateFenceDetails();
+            captureFormValues();
+        }
+
+        function updatePostCount() {
+            const linearFootage = parseFloat(document.getElementById('linearFootage')?.value) || 0;
+            const spacing = parseFloat(document.getElementById('postSpacing')?.value) || getSelectedProfile().recommendedSpacing || 8;
+            const gateCount = parseInt(document.getElementById('gatesCount')?.value || '0', 10) || 0;
+            if (!linearFootage) return;
+            const count = Math.max(2, Math.ceil(linearFootage / spacing) + 1 + gateCount);
+            document.getElementById('postCount').value = count;
+            const postLocations = document.getElementById('postLocations');
+            if (postLocations && !postLocations.value) postLocations.value = count;
+        }
+
+        function updateFrostDepth() {
+            const province = document.getElementById('province').value;
+            document.getElementById('frostDepth').value = FROST_DEPTH_BY_PROVINCE[province] || 36;
+            captureFormValues();
         }
 
         function saveFenceStyle() {
@@ -2075,17 +2771,16 @@
             const fenceHeight = document.getElementById('fenceHeight').value;
             const gatesCount = document.getElementById('gatesCount').value;
             const postSpacing = document.getElementById('postSpacing').value;
-
             if (!fenceType || !fenceHeight) {
                 showAlert('Please select fence type and height', 'danger');
                 return;
             }
-
-            showAlert('Fence Style saved successfully!', 'success');
-            document.getElementById('summaryType').textContent = fenceType;
-            document.getElementById('summaryHeight').textContent = fenceHeight + ' ft';
+            document.getElementById('summaryType').textContent = humanizeFenceType(fenceType);
+            document.getElementById('summaryHeight').textContent = `${fenceHeight} ft`;
             document.getElementById('summaryGates').textContent = gatesCount;
-            document.getElementById('summarySpacing').textContent = postSpacing + ' ft';
+            document.getElementById('summarySpacing').textContent = `${postSpacing} ft`;
+            captureFormValues();
+            showAlert('Fence Style saved successfully!', 'success');
         }
 
         function clearFenceForm() {
@@ -2094,136 +2789,550 @@
             document.getElementById('gatesCount').value = '0';
             document.getElementById('summaryType').textContent = '--';
             document.getElementById('summaryHeight').textContent = '--';
+            document.getElementById('summaryGates').textContent = '0';
+            document.getElementById('summarySpacing').textContent = '--';
+            populatePostOptions(true);
+            updatePostGuidance();
+            captureFormValues();
         }
 
-        // ===== INSTALLATION TAB =====
-        function saveInstallation() {
-            showAlert('Installation details saved successfully!', 'success');
-        }
+        function saveInstallation() { captureFormValues(); showAlert('Installation details saved successfully!', 'success'); }
+        function savePermit() { captureFormValues(); showAlert('Permit information saved successfully!', 'success'); }
+        function saveLocates() { captureFormValues(); showAlert('Locate information saved successfully!', 'success'); }
+        function saveInstallerLog() { captureFormValues(); showAlert('Work log saved successfully!', 'success'); }
 
-        // ===== PERMIT TAB =====
-        function savePermit() {
-            showAlert('Permit information saved successfully!', 'success');
-        }
-
-        // ===== LOCATES TAB =====
-        function saveLocates() {
-            showAlert('Locate information saved successfully!', 'success');
-        }
-
-        // ===== ESTIMATE TAB =====
         function calculateEstimate() {
+            const fenceType = document.getElementById('fenceType').value || 'chainlink';
+            const profile = appData.rateProfiles[fenceType] || STARTER_RATE_PRESETS.chainlink;
             const linearFootage = parseFloat(document.getElementById('linearFootage').value) || 0;
             const materialsCost = parseFloat(document.getElementById('materialsCost').value) || 0;
             const hardwareCost = parseFloat(document.getElementById('hardwareCost').value) || 0;
-            const concreteCost = parseFloat(document.getElementById('concreteCost').value) || 0;
             const extraCost = parseFloat(document.getElementById('extraCost').value) || 0;
-            const labourRate = parseFloat(document.getElementById('labourRate').value) || 0;
-            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 25;
-            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 35;
+            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || profile.overheadPercent;
+            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || profile.profitPercent;
+            const labourRate = parseFloat(document.getElementById('labourRate').value) || profile.labourRate;
+            const baseLabour = parseFloat(document.getElementById('baseLabour').value) || profile.labourHoursPer100;
+            const crewSize = document.getElementById('crewSize').value || '2';
+            const terrainFactor = parseFloat(document.getElementById('terrainDifficulty').value) || 1;
+            const soilFactor = parseFloat(document.getElementById('soilType').value) || 1;
+            const weatherEfficiency = parseFloat(document.getElementById('weatherConditions').value) || 1;
+            const crewProductivity = { '1': 0.75, '2': 1, '3': 1.1, '4': 1.25, '5+': 1.5 }[crewSize] || 1;
+            if (!linearFootage) {
+                showAlert('Enter total linear footage before calculating the estimate.', 'danger');
+                return;
+            }
 
-            // Calculate labour hours
-            const baseLabour = 14; // per 100 LF
-            const adjustedLabour = (linearFootage / 100) * baseLabour;
+            document.getElementById('labourRate').value = labourRate;
             document.getElementById('baseLabour').value = baseLabour;
+            updatePostCount();
+            const postCount = parseFloat(document.getElementById('postCount').value) || Math.max(2, Math.ceil(linearFootage / profile.recommendedSpacing) + 1);
+
+            const adjustedLabour = ((linearFootage / 100) * baseLabour * terrainFactor * soilFactor) / (crewProductivity * weatherEfficiency);
             document.getElementById('adjustedLabour').value = adjustedLabour.toFixed(2);
 
-            // Calculate costs
+            const concreteInput = document.getElementById('concreteCost');
+            let concreteCost = parseFloat(concreteInput.value) || 0;
+            if (!concreteInput.value || concreteCost === 0) {
+                concreteCost = postCount * (appData.materialDefaults.bagsPerHole || 0) * (appData.materialDefaults.concreteBagCost || 0);
+                concreteInput.value = concreteCost.toFixed(2);
+            }
+
             const totalLabourCost = adjustedLabour * labourRate;
             const subtotal = materialsCost + hardwareCost + concreteCost;
             const overhead = subtotal * (overheadPercent / 100);
             const profit = (subtotal + totalLabourCost + extraCost) * (profitPercent / 100);
             const total = subtotal + totalLabourCost + overhead + profit + extraCost;
 
-            // Update display
-            document.getElementById('totalLabourCost').value = '$' + totalLabourCost.toFixed(2);
-            document.getElementById('sumMaterials').textContent = '$' + materialsCost.toFixed(2);
-            document.getElementById('sumHardware').textContent = '$' + hardwareCost.toFixed(2);
-            document.getElementById('sumConcrete').textContent = '$' + concreteCost.toFixed(2);
-            document.getElementById('sumSubtotal').textContent = '$' + subtotal.toFixed(2);
-            document.getElementById('sumLabour').textContent = '$' + totalLabourCost.toFixed(2);
-            document.getElementById('sumExtra').textContent = '$' + extraCost.toFixed(2);
-            document.getElementById('sumOverhead').textContent = '$' + overhead.toFixed(2);
-            document.getElementById('sumProfit').textContent = '$' + profit.toFixed(2);
-            document.getElementById('sumTotal').textContent = '$' + total.toFixed(2);
+            document.getElementById('totalLabourCost').value = formatCurrency(totalLabourCost);
+            document.getElementById('sumMaterials').textContent = formatCurrency(materialsCost);
+            document.getElementById('sumHardware').textContent = formatCurrency(hardwareCost);
+            document.getElementById('sumConcrete').textContent = formatCurrency(concreteCost);
+            document.getElementById('sumSubtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('sumLabour').textContent = formatCurrency(totalLabourCost);
+            document.getElementById('sumExtra').textContent = formatCurrency(extraCost);
+            document.getElementById('sumOverhead').textContent = formatCurrency(overhead);
+            document.getElementById('sumProfit').textContent = formatCurrency(profit);
+            document.getElementById('sumTotal').textContent = formatCurrency(total);
 
+            appData.lastEstimate = {
+                fenceType,
+                linearFootage,
+                postCount,
+                materialsCost,
+                hardwareCost,
+                concreteCost,
+                extraCost,
+                labourRate,
+                baseLabour,
+                adjustedLabour,
+                totalLabourCost,
+                subtotal,
+                overhead,
+                profit,
+                total,
+                notes: document.getElementById('specialNotes').value,
+                postDiameter: document.getElementById('postDiameter').value,
+                postGauge: document.getElementById('postGauge').value,
+                updatedAt: new Date().toISOString()
+            };
+            persistState();
+            captureFormValues();
+            renderEstimateSheet();
             showAlert('Estimate calculated successfully!', 'success');
         }
 
-        // ===== CONTRACT TAB =====
+        function renderEstimateSheet() {
+            const container = document.getElementById('estimateSheetContent');
+            const estimate = appData.lastEstimate;
+            if (!estimate) {
+                container.innerHTML = '<div class="mini-muted">Calculate the estimate to generate a customer-ready estimate sheet.</div>';
+                return;
+            }
+            const customerName = document.getElementById('customerName').value || 'Customer';
+            const customerAddress = [document.getElementById('customerAddress').value, document.getElementById('customerCity').value, document.getElementById('customerProvince').value, document.getElementById('customerPostal').value].filter(Boolean).join(', ');
+            container.innerHTML = `
+                <h3>Estimate Sheet</h3>
+                <div class="mini-muted">Prepared ${new Date(estimate.updatedAt).toLocaleString('en-CA')}</div>
+                <div class="sheet-meta">
+                    <div><strong>Customer</strong><br>${escapeHtml(customerName)}</div>
+                    <div><strong>Project Address</strong><br>${escapeHtml(customerAddress || 'To be confirmed')}</div>
+                    <div><strong>Fence Type</strong><br>${escapeHtml(humanizeFenceType(estimate.fenceType))}</div>
+                    <div><strong>Length</strong><br>${escapeHtml(String(estimate.linearFootage))} LF</div>
+                </div>
+                <div class="sheet-block">
+                    <h4>Starter installation assumptions</h4>
+                    <p>${escapeHtml(estimate.postDiameter)} / ${escapeHtml(estimate.postGauge)} posts, ${escapeHtml(String(estimate.baseLabour))} hrs per 100 LF, labour rate ${formatCurrency(estimate.labourRate)}.</p>
+                </div>
+                <div class="sheet-block">
+                    <h4>Price breakdown</h4>
+                    <table>
+                        <tr><th>Item</th><th>Amount</th></tr>
+                        <tr><td>Materials</td><td>${formatCurrency(estimate.materialsCost)}</td></tr>
+                        <tr><td>Hardware</td><td>${formatCurrency(estimate.hardwareCost)}</td></tr>
+                        <tr><td>Concrete</td><td>${formatCurrency(estimate.concreteCost)}</td></tr>
+                        <tr><td>Labour</td><td>${formatCurrency(estimate.totalLabourCost)}</td></tr>
+                        <tr><td>Extra Work</td><td>${formatCurrency(estimate.extraCost)}</td></tr>
+                        <tr><td>Overhead</td><td>${formatCurrency(estimate.overhead)}</td></tr>
+                        <tr><td>Profit</td><td>${formatCurrency(estimate.profit)}</td></tr>
+                        <tr><th>Total Estimate</th><th>${formatCurrency(estimate.total)}</th></tr>
+                    </table>
+                </div>
+                <div class="sheet-block">
+                    <h4>Special notes</h4>
+                    <p>${nl2br(estimate.notes || 'No additional notes entered.')}</p>
+                </div>
+            `;
+        }
+
+        function printEstimateSheet() {
+            if (!appData.lastEstimate) {
+                showAlert('Calculate an estimate first.', 'warning');
+                return;
+            }
+            openPrintableWindow('Fence Estimate Sheet', document.getElementById('estimateSheetContent').innerHTML);
+        }
+
+        function buildContractTermsHtml() {
+            const defaults = appData.contractDefaults;
+            return `
+                <div class="block"><h4>Scope of Work</h4><p>${nl2br(defaults.scopeOfWork)}</p></div>
+                <div class="block"><h4>Payment Terms</h4><p>${nl2br(defaults.paymentTerms)}</p></div>
+                <div class="block"><h4>Warranty</h4><p>${nl2br(defaults.warranty)}</p></div>
+                <div class="block"><h4>Customer Responsibilities</h4><p>${nl2br(defaults.customerResponsibilities)}</p></div>
+                <div class="block"><h4>Timeline / Scheduling</h4><p>${nl2br(defaults.timeline)}</p></div>
+                <div class="block"><h4>Liability / Site Conditions</h4><p>${nl2br(defaults.liability)}</p></div>
+            `;
+        }
+
+        function renderContractSheet() {
+            const container = document.getElementById('contractSheetContent');
+            const customerName = document.getElementById('customerName').value || 'Customer';
+            const estimate = appData.lastEstimate;
+            const total = estimate ? estimate.total : 0;
+            const template = document.getElementById('contractTemplate').selectedOptions[0]?.textContent || 'Contract';
+            const contractNotes = document.getElementById('contractNotes').value;
+            container.innerHTML = `
+                <h3>${escapeHtml(template)}</h3>
+                <div class="sheet-meta">
+                    <div><strong>Customer</strong><br>${escapeHtml(customerName)}</div>
+                    <div><strong>Contract Date</strong><br>${escapeHtml(document.getElementById('contractDate').value || new Date().toISOString().split('T')[0])}</div>
+                    <div><strong>Status</strong><br>${escapeHtml(document.getElementById('contractStatus').selectedOptions[0]?.textContent || 'Draft')}</div>
+                    <div><strong>Contract Value</strong><br>${formatCurrency(total)}</div>
+                </div>
+                ${buildContractTermsHtml()}
+                <div class="block"><h4>Project-specific notes</h4><p>${nl2br(contractNotes || 'No additional contract notes entered.')}</p></div>
+                <div class="block"><h4>Acceptance</h4><p>Customer signature: _________________________ &nbsp;&nbsp; Date: _________________________</p></div>
+            `;
+        }
+
         function generateContract() {
-            showAlert('Contract generated and ready to download', 'success');
+            renderContractSheet();
+            captureFormValues();
+            showAlert('Contract sheet prepared. Use Print / Save Contract PDF to create the PDF.', 'success');
+        }
+
+        function printContractSheet() {
+            renderContractSheet();
+            openPrintableWindow('Fence Contract Sheet', document.getElementById('contractSheetContent').innerHTML);
         }
 
         function sendContractToCustomer() {
-            showAlert('Contract sent to customer email', 'success');
+            renderContractSheet();
+            showAlert('Contract sheet prepared for email. Print/save as PDF, then attach it in your email client.', 'success');
         }
 
         function markContractSigned() {
+            document.getElementById('contractStatus').value = 'signed';
+            captureFormValues();
             showAlert('Contract marked as signed', 'success');
         }
 
-        // ===== SHOP DRAWING TAB =====
         function generateShopDrawing() {
-            showAlert('Shop drawing generated and ready to download', 'success');
+            const html = `
+                <h1>Shop Drawing / Site Mapping Sheet</h1>
+                <div class="meta">
+                    <div><strong>Address</strong><br>${escapeHtml(document.getElementById('shopAddress').value || document.getElementById('customerAddress').value || '')}</div>
+                    <div><strong>Site Dimensions</strong><br>${escapeHtml(document.getElementById('siteDimensions').value || 'Not entered')}</div>
+                    <div><strong>Linear Footage</strong><br>${escapeHtml(document.getElementById('drawingLinearFootage').value || document.getElementById('linearFootage').value || '0')} LF</div>
+                    <div><strong>Gate Count</strong><br>${escapeHtml(document.getElementById('gateLocations').value || document.getElementById('gatesCount').value || '0')}</div>
+                </div>
+                <div class="block"><h4>Layout Description</h4><p>${nl2br(document.getElementById('siteLayout').value || 'No site layout entered.')}</p></div>
+                <div class="block"><h4>Shop Notes</h4><p>${nl2br(document.getElementById('shopDrawingNotes').value || 'No shop notes entered.')}</p></div>
+            `;
+            openPrintableWindow('Shop Drawing Sheet', html);
+            captureFormValues();
+            showAlert('Shop drawing sheet opened for print / PDF saving.', 'success');
         }
 
-        function uploadSiteImage() {
-            showAlert('Site image upload feature would open', 'info');
-        }
-
-        // ===== INSTALLER TAB =====
-        function saveInstallerLog() {
-            showAlert('Work log saved successfully!', 'success');
-        }
-
-        function printInstallerPaper() {
-            showAlert('Installer work paper sent to printer', 'info');
-        }
+        function uploadSiteImage() { showAlert('Site image upload feature would open', 'info'); }
+        function printInstallerPaper() { showAlert('Installer work paper sent to printer', 'info'); }
 
         function finalizeJob() {
             if (confirm('Are you sure you want to finalize this job? This cannot be undone.')) {
+                captureFormValues();
                 showAlert('Job finalized and archived', 'success');
             }
         }
 
-        // ===== CUSTOMER TAB =====
         function saveCustomer() {
             const customerName = document.getElementById('customerName').value;
             if (!customerName) {
                 showAlert('Please enter customer name', 'danger');
                 return;
             }
+            captureFormValues();
+            renderEstimateSheet();
+            renderContractSheet();
             showAlert('Customer information saved successfully!', 'success');
         }
 
-        // ===== INVENTORY TAB =====
+        function getInventoryStatus(item) {
+            if (!item.plu) return { label: 'PLU NEEDED', badge: 'badge-info' };
+            const needed = Math.max((Number(item.qtyRequired) || 0) - (Number(item.qtyAvailable) || 0), 0);
+            if (needed > 0 && (Number(item.qtyAvailable) || 0) === 0) return { label: 'OUT OF STOCK', badge: 'badge-danger' };
+            if (needed > 0) return { label: 'LOW STOCK', badge: 'badge-warning' };
+            return { label: 'IN STOCK', badge: 'badge-success' };
+        }
+
+        function renderInventoryTable() {
+            const tbody = document.getElementById('inventoryTableBody');
+            const items = (appData.inventory || []).filter(item => !currentInventoryFilter || item.type === currentInventoryFilter);
+            if (!items.length) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No inventory items match the current filter.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = items.map(item => {
+                const qtyRequired = Number(item.qtyRequired) || 0;
+                const qtyAvailable = Number(item.qtyAvailable) || 0;
+                const qtyNeeded = Math.max(qtyRequired - qtyAvailable, 0);
+                const status = getInventoryStatus(item);
+                return `
+                    <tr>
+                        <td>
+                            <strong>${escapeHtml(item.name)}</strong>
+                            <span class="inventory-meta">${escapeHtml(item.supplier || 'Supplier TBD')} • PLU: ${escapeHtml(item.plu || 'TEMP / pending')} ${item.futurePlu ? `• Future PLU: ${escapeHtml(item.futurePlu)}` : ''}</span>
+                        </td>
+                        <td style="text-align:center;">${qtyRequired}</td>
+                        <td style="text-align:center;">${qtyAvailable}</td>
+                        <td style="text-align:center;">${qtyNeeded}</td>
+                        <td><span class="badge ${status.badge}">${status.label}</span></td>
+                        <td>
+                            <div class="inline-actions">
+                                <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="editInventoryItem('${item.id}')">Edit</button>
+                                <button class="btn btn-danger" style="padding: 4px 8px; font-size: 12px;" onclick="deleteInventoryItem('${item.id}')">Delete</button>
+                            </div>
+                        </td>
+                    </tr>`;
+            }).join('');
+        }
+
+        function resetInventoryForm() {
+            ['inventoryItemId','inventoryItemName','inventoryItemPlu','inventoryItemFuturePlu','inventoryItemSupplier','inventoryItemSupplierRef','inventoryItemRequired','inventoryItemAvailable','inventoryItemCost','inventoryItemNotes'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.value = '';
+            });
+            document.getElementById('inventoryItemType').value = 'general';
+        }
+
         function addInventoryItem() {
-            showAlert('Add inventory item form would open', 'info');
+            resetInventoryForm();
+            openModal('inventoryModal');
+        }
+
+        function editInventoryItem(id) {
+            const item = appData.inventory.find(entry => entry.id === id);
+            if (!item) return;
+            document.getElementById('inventoryItemId').value = item.id;
+            document.getElementById('inventoryItemName').value = item.name || '';
+            document.getElementById('inventoryItemType').value = item.type || 'general';
+            document.getElementById('inventoryItemPlu').value = item.plu || '';
+            document.getElementById('inventoryItemFuturePlu').value = item.futurePlu || '';
+            document.getElementById('inventoryItemSupplier').value = item.supplier || '';
+            document.getElementById('inventoryItemSupplierRef').value = item.supplierRef || '';
+            document.getElementById('inventoryItemRequired').value = item.qtyRequired || 0;
+            document.getElementById('inventoryItemAvailable').value = item.qtyAvailable || 0;
+            document.getElementById('inventoryItemCost').value = item.cost || 0;
+            document.getElementById('inventoryItemNotes').value = item.notes || '';
+            openModal('inventoryModal');
+        }
+
+        function saveInventoryItem() {
+            const id = document.getElementById('inventoryItemId').value || `inv-${Date.now()}`;
+            const name = document.getElementById('inventoryItemName').value.trim();
+            if (!name) {
+                showAlert('Enter an item name before saving.', 'danger');
+                return;
+            }
+            const item = {
+                id,
+                name,
+                type: document.getElementById('inventoryItemType').value,
+                plu: document.getElementById('inventoryItemPlu').value.trim(),
+                futurePlu: document.getElementById('inventoryItemFuturePlu').value.trim(),
+                supplier: document.getElementById('inventoryItemSupplier').value.trim(),
+                supplierRef: document.getElementById('inventoryItemSupplierRef').value.trim(),
+                qtyRequired: parseFloat(document.getElementById('inventoryItemRequired').value) || 0,
+                qtyAvailable: parseFloat(document.getElementById('inventoryItemAvailable').value) || 0,
+                cost: parseFloat(document.getElementById('inventoryItemCost').value) || 0,
+                notes: document.getElementById('inventoryItemNotes').value.trim()
+            };
+            const existingIndex = appData.inventory.findIndex(entry => entry.id === id);
+            if (existingIndex >= 0) appData.inventory.splice(existingIndex, 1, item);
+            else appData.inventory.unshift(item);
+            persistState();
+            renderInventoryTable();
+            closeModal('inventoryModal');
+            showAlert('Inventory item saved.', 'success');
+        }
+
+        function deleteInventoryItem(id) {
+            const item = appData.inventory.find(entry => entry.id === id);
+            if (!item) return;
+            if (!confirm(`Delete inventory item "${item.name}"?`)) return;
+            appData.inventory = appData.inventory.filter(entry => entry.id !== id);
+            persistState();
+            renderInventoryTable();
+            showAlert('Inventory item deleted.', 'success');
         }
 
         function generateOrderForm() {
-            showAlert('Order form generated and ready to download', 'success');
+            const outstanding = appData.inventory.filter(item => Math.max((Number(item.qtyRequired) || 0) - (Number(item.qtyAvailable) || 0), 0) > 0 || !item.plu);
+            const rows = outstanding.map(item => `<tr><td>${escapeHtml(item.name)}</td><td>${escapeHtml(item.supplier || 'Supplier TBD')}</td><td>${escapeHtml(item.plu || 'PLU pending')}</td><td>${Math.max((Number(item.qtyRequired) || 0) - (Number(item.qtyAvailable) || 0), 0)}</td></tr>`).join('');
+            openPrintableWindow('Inventory Order Form', `<h1>Inventory Order Form</h1><table><tr><th>Item</th><th>Supplier</th><th>PLU</th><th>Qty Needed</th></tr>${rows || '<tr><td colspan="4">No outstanding items.</td></tr>'}</table>`);
+            showAlert('Order form generated and ready to print / save.', 'success');
         }
 
         function filterInventory(type) {
-            showAlert('Filtering inventory by: ' + (type || 'All Items'), 'info');
+            currentInventoryFilter = type || '';
+            renderInventoryTable();
         }
 
-        // ===== REPORTS TAB =====
-        function generateReport() {
-            showAlert('Full report generated and ready to download', 'success');
+        function generateReport() { showAlert('Full report generated and ready to download', 'success'); }
+        function exportToCSV() { showAlert('Data exported to CSV', 'success'); }
+        function exportToExcel() { showAlert('Data exported to Excel', 'success'); }
+
+        function saveAdminSettings() {
+            ['chainlink', 'wood', 'vinyl', 'wroughtiron'].forEach(type => {
+                appData.rateProfiles[type] = {
+                    ...appData.rateProfiles[type],
+                    labourRate: parseFloat(document.getElementById(`adminRate_${type}`).value) || STARTER_RATE_PRESETS[type].labourRate,
+                    labourHoursPer100: parseFloat(document.getElementById(`adminHours_${type}`).value) || STARTER_RATE_PRESETS[type].labourHoursPer100,
+                    overheadPercent: parseFloat(document.getElementById(`adminOverhead_${type}`).value) || STARTER_RATE_PRESETS[type].overheadPercent,
+                    profitPercent: parseFloat(document.getElementById(`adminProfit_${type}`).value) || STARTER_RATE_PRESETS[type].profitPercent
+                };
+            });
+            appData.materialDefaults = {
+                concreteBagCost: parseFloat(document.getElementById('adminConcreteBagCost').value) || DEFAULT_MATERIAL_DEFAULTS.concreteBagCost,
+                stoneDustCost: parseFloat(document.getElementById('adminStoneDustCost').value) || DEFAULT_MATERIAL_DEFAULTS.stoneDustCost,
+                gravelCost: parseFloat(document.getElementById('adminGravelCost').value) || DEFAULT_MATERIAL_DEFAULTS.gravelCost,
+                bagsPerHole: parseFloat(document.getElementById('adminBagsPerHole').value) || DEFAULT_MATERIAL_DEFAULTS.bagsPerHole
+            };
+            appData.contractDefaults = {
+                scopeOfWork: document.getElementById('adminScopeOfWork').value.trim(),
+                paymentTerms: document.getElementById('adminPaymentTerms').value.trim(),
+                warranty: document.getElementById('adminWarranty').value.trim(),
+                customerResponsibilities: document.getElementById('adminCustomerResponsibilities').value.trim(),
+                timeline: document.getElementById('adminTimeline').value.trim(),
+                liability: document.getElementById('adminLiability').value.trim()
+            };
+            persistState();
+            applyFenceTypeDefaults(true);
+            renderContractSheet();
+            showAlert('Admin defaults saved.', 'success');
         }
 
-        function exportToCSV() {
-            showAlert('Data exported to CSV', 'success');
+        function resetStarterDefaults() {
+            appData.rateProfiles = JSON.parse(JSON.stringify(STARTER_RATE_PRESETS));
+            appData.contractDefaults = { ...DEFAULT_CONTRACT_DEFAULTS };
+            appData.materialDefaults = { ...DEFAULT_MATERIAL_DEFAULTS };
+            persistState();
+            populateAdminFields();
+            applyFenceTypeDefaults(true);
+            renderContractSheet();
+            updateRateGuidance();
+            showAlert('Starter defaults restored.', 'success');
         }
 
-        function exportToExcel() {
-            showAlert('Data exported to Excel', 'success');
+        function populateAdminFields() {
+            ['chainlink', 'wood', 'vinyl', 'wroughtiron'].forEach(type => {
+                const profile = appData.rateProfiles[type] || STARTER_RATE_PRESETS[type];
+                document.getElementById(`adminRate_${type}`).value = profile.labourRate;
+                document.getElementById(`adminHours_${type}`).value = profile.labourHoursPer100;
+                document.getElementById(`adminOverhead_${type}`).value = profile.overheadPercent;
+                document.getElementById(`adminProfit_${type}`).value = profile.profitPercent;
+            });
+            document.getElementById('adminConcreteBagCost').value = appData.materialDefaults.concreteBagCost;
+            document.getElementById('adminStoneDustCost').value = appData.materialDefaults.stoneDustCost;
+            document.getElementById('adminGravelCost').value = appData.materialDefaults.gravelCost;
+            document.getElementById('adminBagsPerHole').value = appData.materialDefaults.bagsPerHole;
+            document.getElementById('adminScopeOfWork').value = appData.contractDefaults.scopeOfWork;
+            document.getElementById('adminPaymentTerms').value = appData.contractDefaults.paymentTerms;
+            document.getElementById('adminWarranty').value = appData.contractDefaults.warranty;
+            document.getElementById('adminCustomerResponsibilities').value = appData.contractDefaults.customerResponsibilities;
+            document.getElementById('adminTimeline').value = appData.contractDefaults.timeline;
+            document.getElementById('adminLiability').value = appData.contractDefaults.liability;
         }
 
-        // ===== UTILITY FUNCTIONS =====
+        function injectNoteHelpers() {
+            NOTE_FIELD_CONFIGS.forEach(config => {
+                const textarea = document.getElementById(config.targetId);
+                if (!textarea || document.getElementById(`${config.targetId}Helper`)) return;
+                textarea.insertAdjacentHTML('afterend', `
+                    <div class="note-helper" id="${config.targetId}Helper">
+                        <label>Saved notes</label>
+                        <div class="note-helper-row">
+                            <input type="text" id="${config.targetId}Lookup" list="${config.targetId}List" placeholder="Start typing to reuse a saved note">
+                            <datalist id="${config.targetId}List"></datalist>
+                            <button class="btn btn-secondary" type="button" onclick="insertSavedNote('${config.targetId}')">Insert</button>
+                            <button class="btn btn-secondary" type="button" onclick="saveCurrentTextAsNote('${config.targetId}', '${config.category}')">Save Current</button>
+                        </div>
+                        <div class="helper-text">Suggestions come from the reusable notes library in Admin.</div>
+                    </div>
+                `);
+            });
+            renderNoteHelpers();
+        }
+
+        function renderNoteHelpers() {
+            NOTE_FIELD_CONFIGS.forEach(config => {
+                const datalist = document.getElementById(`${config.targetId}List`);
+                if (!datalist) return;
+                const notes = appData.notes.filter(note => note.category === config.category || note.category === 'general');
+                datalist.innerHTML = notes.map(note => `<option value="${escapeHtml(note.title)}" label="${escapeHtml(note.text.slice(0, 120))}"></option>`).join('');
+            });
+        }
+
+        function insertSavedNote(targetId) {
+            const lookup = document.getElementById(`${targetId}Lookup`);
+            const textarea = document.getElementById(targetId);
+            if (!lookup || !textarea) return;
+            const match = appData.notes.find(note => note.title === lookup.value);
+            if (!match) {
+                showAlert('Choose a saved note from the list first.', 'warning');
+                return;
+            }
+            textarea.value = textarea.value ? `${textarea.value.trim()}\n${match.text}` : match.text;
+            lookup.value = '';
+            captureFormValues();
+        }
+
+        function saveCurrentTextAsNote(targetId, category) {
+            const textarea = document.getElementById(targetId);
+            if (!textarea || !textarea.value.trim()) {
+                showAlert('Type note wording first, then save it.', 'warning');
+                return;
+            }
+            const title = textarea.value.trim().split('\n')[0].slice(0, 50) || 'Saved note';
+            appData.notes.unshift({ id: `note-${Date.now()}`, category, title, text: textarea.value.trim() });
+            persistState();
+            renderNoteHelpers();
+            renderNotesLibrary();
+            showAlert('Note saved to the reusable library.', 'success');
+        }
+
+        function renderNotesLibrary() {
+            const tbody = document.getElementById('notesLibraryTableBody');
+            const notes = [...appData.notes].sort((a, b) => a.category.localeCompare(b.category) || a.title.localeCompare(b.title));
+            tbody.innerHTML = notes.map(note => `
+                <tr>
+                    <td>${escapeHtml(note.category)}</td>
+                    <td>${escapeHtml(note.title)}</td>
+                    <td>${escapeHtml(note.text)}</td>
+                    <td>
+                        <div class="inline-actions">
+                            <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="editNote('${note.id}')">Edit</button>
+                            <button class="btn btn-danger" style="padding: 4px 8px; font-size: 12px;" onclick="deleteNote('${note.id}')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            renderNoteHelpers();
+        }
+
+        function clearNoteEditor() {
+            document.getElementById('editingNoteId').value = '';
+            document.getElementById('noteCategory').value = 'general';
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteText').value = '';
+        }
+
+        function saveNoteFromAdmin() {
+            const id = document.getElementById('editingNoteId').value || `note-${Date.now()}`;
+            const title = document.getElementById('noteTitle').value.trim();
+            const text = document.getElementById('noteText').value.trim();
+            const category = document.getElementById('noteCategory').value;
+            if (!title || !text) {
+                showAlert('Enter both a note title and note text.', 'danger');
+                return;
+            }
+            const note = { id, title, text, category };
+            const existingIndex = appData.notes.findIndex(entry => entry.id === id);
+            if (existingIndex >= 0) appData.notes.splice(existingIndex, 1, note);
+            else appData.notes.unshift(note);
+            persistState();
+            clearNoteEditor();
+            renderNotesLibrary();
+            showAlert('Reusable note saved.', 'success');
+        }
+
+        function editNote(id) {
+            const note = appData.notes.find(entry => entry.id === id);
+            if (!note) return;
+            document.getElementById('editingNoteId').value = note.id;
+            document.getElementById('noteCategory').value = note.category;
+            document.getElementById('noteTitle').value = note.title;
+            document.getElementById('noteText').value = note.text;
+            switchTab('admin');
+        }
+
+        function deleteNote(id) {
+            if (!confirm('Delete this saved note?')) return;
+            appData.notes = appData.notes.filter(entry => entry.id !== id);
+            persistState();
+            renderNotesLibrary();
+            showAlert('Reusable note deleted.', 'success');
+        }
+
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
                 showAlert('Logged out successfully', 'success');
@@ -2231,40 +3340,75 @@
         }
 
         function showAlert(message, type) {
-            // Simple alert for now - could be replaced with toast notification
-            const alertMap = {
-                success: '✓',
-                danger: '✕',
-                warning: '⚠',
-                info: 'ⓘ'
-            };
             console.log(`[${type.toUpperCase()}] ${message}`);
             alert(message);
         }
 
-        // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('installStart').value = today;
-            document.getElementById('permitDate').value = today;
-            document.getElementById('locateRequestDate').value = today;
-            document.getElementById('contractDate').value = today;
-            document.getElementById('workDate').value = today;
-            document.getElementById('signOffDate').value = today;
+            ['installStart', 'permitDate', 'locateRequestDate', 'contractDate', 'workDate', 'signOffDate'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element && !element.value) element.value = today;
+            });
 
-            // Example: Calculate hours worked
-            document.getElementById('startTime').addEventListener('change', calculateHours);
-            document.getElementById('endTime').addEventListener('change', calculateHours);
+            restoreFormValues();
+            populateAdminFields();
+            injectNoteHelpers();
+            renderNotesLibrary();
+            renderInventoryTable();
+            updateFrostDepth();
+            populatePostOptions();
+            updatePostGuidance();
+            updateRateGuidance();
+            updateFenceDetails();
+            applyFenceTypeDefaults(false);
+            renderEstimateSheet();
+            renderContractSheet();
+
+            const percentComplete = document.getElementById('percentComplete');
+            if (percentComplete) {
+                percentComplete.addEventListener('input', function() {
+                    const label = document.getElementById('percentLabel');
+                    if (label) label.textContent = `${this.value}%`;
+                });
+            }
+
+            const startTime = document.getElementById('startTime');
+            const endTime = document.getElementById('endTime');
+            if (startTime && endTime) {
+                startTime.addEventListener('change', calculateHours);
+                endTime.addEventListener('change', calculateHours);
+            }
+
+            const fenceType = document.getElementById('fenceType');
+            if (fenceType) {
+                fenceType.addEventListener('change', () => applyFenceTypeDefaults(true));
+            }
+            const province = document.getElementById('province');
+            if (province) province.addEventListener('change', updateFrostDepth);
+            ['linearFootage', 'postSpacing', 'gatesCount'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', updatePostCount);
+            });
+            ['labourRate', 'baseLabour', 'overheadPercent', 'profitPercent'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', () => markRateFieldAsManual(id));
+            });
+            document.querySelectorAll('input[id], select[id], textarea[id]').forEach(element => {
+                const eventName = element.tagName === 'SELECT' || element.type === 'checkbox' ? 'change' : 'input';
+                element.addEventListener(eventName, captureFormValues);
+            });
         });
 
         function calculateHours() {
-            const start = document.getElementById('startTime').value;
-            const end = document.getElementById('endTime').value;
+            const start = document.getElementById('startTime')?.value;
+            const end = document.getElementById('endTime')?.value;
             if (start && end) {
                 const startDate = new Date(`2000-01-01 ${start}`);
                 const endDate = new Date(`2000-01-01 ${end}`);
                 const hours = (endDate - startDate) / (1000 * 60 * 60);
-                document.getElementById('hoursWorked').value = hours.toFixed(2);
+                const hoursWorked = document.getElementById('hoursWorked');
+                if (hoursWorked) hoursWorked.value = hours.toFixed(2);
             }
         }
     </script>
