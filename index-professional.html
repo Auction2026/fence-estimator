@@ -800,8 +800,12 @@
             <div class="header-right">
                 <div class="user-info">
                     <div class="user-name" id="userName">Welcome, Professional</div>
-                    <div class="user-role">Project Manager</div>
+                    <div class="user-role" id="userRoleLabel">Estimator</div>
                 </div>
+                <select id="roleMode" onchange="setUserRole(this.value)" style="padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border-color); margin-right: 10px;">
+                    <option value="estimator" selected>Estimator View</option>
+                    <option value="admin">Admin View</option>
+                </select>
                 <button class="logout-btn" onclick="logout()">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
@@ -842,6 +846,15 @@
             </button>
             <button class="tab-btn" onclick="switchTab('reports')">
                 <span class="tab-icon">📊</span>Reports
+            </button>
+            <button class="tab-btn" onclick="switchTab('fenceParts')">
+                <span class="tab-icon">🧰</span>Fence Parts Catalog
+            </button>
+            <button class="tab-btn" onclick="switchTab('propertyMapping')">
+                <span class="tab-icon">🛰️</span>Property Mapping
+            </button>
+            <button class="tab-btn" onclick="switchTab('adminCosts')">
+                <span class="tab-icon">🛠️</span>Admin Costs
             </button>
         </div>
 
@@ -1123,6 +1136,21 @@
                         <textarea id="permitNotes" placeholder="Special permit conditions, setbacks, height restrictions, building code compliance notes, etc."></textarea>
                     </div>
 
+                    <div class="section-title mt-20">Permit Form Selection</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="checkbox" class="permit-form" value="Property tax assessment" id="permit_tax"><label for="permit_tax">Property tax assessment</label></div>
+                        <div class="checkbox-item"><input type="checkbox" class="permit-form" value="Neighbor notification form" id="permit_neighbor"><label for="permit_neighbor">Neighbor notification form</label></div>
+                        <div class="checkbox-item"><input type="checkbox" class="permit-form" value="HOA approval form" id="permit_hoa"><label for="permit_hoa">HOA approval form</label></div>
+                        <div class="checkbox-item"><input type="checkbox" class="permit-form" value="Municipal permit application" id="permit_municipal"><label for="permit_municipal">Municipal permit application</label></div>
+                        <div class="checkbox-item"><input type="checkbox" class="permit-form" value="Environmental assessment" id="permit_environment"><label for="permit_environment">Environmental assessment</label></div>
+                        <div class="checkbox-item"><input type="checkbox" class="permit-form" value="Utility company approval" id="permit_utility"><label for="permit_utility">Utility company approval</label></div>
+                        <div class="checkbox-item"><input type="checkbox" class="permit-form" value="Other custom forms" id="permit_other"><label for="permit_other">Other custom forms</label></div>
+                    </div>
+                    <div class="button-group mt-20">
+                        <button class="btn btn-secondary" onclick="printSelectedPermitForms()"><i class="fas fa-print"></i> Print Selected Forms</button>
+                        <button class="btn btn-secondary" onclick="emailSelectedPermitForms()"><i class="fas fa-envelope"></i> Email Selected Forms</button>
+                    </div>
+
                     <div class="button-group">
                         <button class="btn btn-primary" onclick="savePermit()">
                             <i class="fas fa-save"></i> Save Permit Information
@@ -1240,9 +1268,26 @@
 
                     <div class="grid-2">
                         <div class="form-group">
-                            <label class="label-required">Total Linear Footage</label>
+                            <label>User Measurement Settings</label>
+                            <select id="unitSystem" onchange="setUnitSystem(this.value)">
+                                <option value="imperial" selected>Imperial (feet/inches/pounds)</option>
+                                <option value="metric">Metric (meters/centimeters/kilograms)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Metric Option Availability (Admin Only)</label>
+                            <select id="metricEnabled" class="admin-only-field" onchange="toggleMetricOption(this.value)">
+                                <option value="enabled" selected>Enabled</option>
+                                <option value="disabled">Disabled (Imperial Only)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label-required">Total Linear <span id="linearMeasurementLabel">Footage</span></label>
                             <input type="number" id="linearFootage" placeholder="100" min="0" step="0.1">
-                            <span class="label-hint">Total length of fence in feet</span>
+                            <span class="label-hint">Total length of fence in <span id="linearMeasurementHint">feet</span></span>
                         </div>
                         <div class="form-group">
                             <label>Number of Posts (Auto-calculated)</label>
@@ -1299,6 +1344,31 @@
                         </div>
                     </div>
 
+                    <div class="section-title mt-20">Concrete & Stone Dust Calculator</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Hole Width (<span id="holeWidthUnit">inches</span>)</label>
+                            <input type="number" id="holeWidth" value="12" min="1" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>Hole Depth (<span id="holeDepthUnit">inches</span>)</label>
+                            <input type="number" id="holeDepth" value="24" min="1" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Holes</label>
+                            <input type="number" id="holeCount" value="10" min="1" step="1">
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-secondary" onclick="calculateConcreteStoneDust()"><i class="fas fa-cubes"></i> Calculate Concrete/Stone Dust</button>
+                    </div>
+                    <div class="grid-4">
+                        <div class="stat-card"><div class="stat-label">Cubic Feet</div><div class="stat-value" id="calcCubicFeet">0.00</div></div>
+                        <div class="stat-card"><div class="stat-label">Cubic Yards (¼ up)</div><div class="stat-value" id="calcCubicYards">0.00</div></div>
+                        <div class="stat-card"><div class="stat-label">Cubic Meters (¼ up)</div><div class="stat-value" id="calcCubicMeters">0.00</div></div>
+                        <div class="stat-card"><div class="stat-label">80lb Bags</div><div class="stat-value" id="calcBags">0</div></div>
+                    </div>
+
                     <div class="section-title mt-20">Special Notes & Extra Work</div>
                     <div class="form-group">
                         <label>Additional Work/Materials Beyond Standard Installation</label>
@@ -1319,6 +1389,32 @@
                     <div class="form-group">
                         <label>Profit Margin % (0-100%)</label>
                         <input type="number" id="profitPercent" placeholder="35" min="0" max="100" value="35">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tax %</label>
+                        <input type="number" id="taxPercent" placeholder="13" min="0" max="100" value="13">
+                    </div>
+
+                    <div class="section-title mt-20">Estimator Final Cost Round-Up (Estimator Only)</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Round Final Total To</label>
+                            <select id="roundToOption" onchange="toggleCustomRoundValue()">
+                                <option value="none">No Rounding</option>
+                                <option value="50">Nearest $50</option>
+                                <option value="100">Nearest $100</option>
+                                <option value="custom">Custom Value</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Custom Round Value ($)</label>
+                            <input type="number" id="customRoundValue" value="25" min="1" step="1" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Rounding Adjustment (CAD)</label>
+                            <input type="text" id="roundingAdjustmentValue" value="$0.00" readonly>
+                        </div>
                     </div>
 
                     <div class="button-group">
@@ -1353,6 +1449,10 @@
                                 <td>Concrete</td>
                                 <td style="text-align: right;"><span id="sumConcrete">$0.00</span></td>
                             </tr>
+                            <tr>
+                                <td>Equipment</td>
+                                <td style="text-align: right;"><span id="sumEquipment">$0.00</span></td>
+                            </tr>
                             <tr style="background-color: var(--gray-50); font-weight: 600;">
                                 <td><strong>Subtotal (Materials)</strong></td>
                                 <td style="text-align: right;"><strong><span id="sumSubtotal">$0.00</span></strong></td>
@@ -1373,12 +1473,41 @@
                                 <td><strong>PROFIT</strong></td>
                                 <td style="text-align: right;"><strong><span id="sumProfit">$0.00</span></strong></td>
                             </tr>
+                            <tr>
+                                <td>Tax</td>
+                                <td style="text-align: right;"><span id="sumTax">$0.00</span></td>
+                            </tr>
+                            <tr>
+                                <td>Original Total (Before Rounding)</td>
+                                <td style="text-align: right;"><span id="sumOriginalTotal">$0.00</span></td>
+                            </tr>
+                            <tr>
+                                <td>Rounding Adjustment</td>
+                                <td style="text-align: right;"><span id="sumRoundingAdjustment">$0.00</span></td>
+                            </tr>
                             <tr style="background-color: var(--primary); color: white; font-size: 16px; font-weight: 700;">
                                 <td>TOTAL ESTIMATE</td>
                                 <td style="text-align: right;"><span id="sumTotal">$0.00</span></td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="section mt-20">
+                    <div class="section-title"><i class="fas fa-list-ol"></i> Step-by-Step Calculation Breakdown</div>
+                    <pre id="calculationBreakdown" style="white-space: pre-wrap; font-family: inherit; background: var(--gray-50); padding: 14px; border-radius: 8px;">Run an estimate to generate the calculation breakdown.</pre>
+                </div>
+
+                <div class="section mt-20">
+                    <div class="section-title"><i class="fas fa-image"></i> Fence Information Sheet</div>
+                    <div class="section-description">Printable/emailable informational sheet for budget/proposal</div>
+                    <div id="fenceInfoSheet" style="background: var(--gray-50); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px;">
+                        Select fence details, then calculate estimate to generate this sheet.
+                    </div>
+                    <div class="button-group mt-20">
+                        <button class="btn btn-secondary" onclick="printFenceInfoSheet()"><i class="fas fa-print"></i> Print Info Sheet</button>
+                        <button class="btn btn-secondary" onclick="emailFenceInfoSheet()"><i class="fas fa-envelope"></i> Email Info Sheet</button>
+                    </div>
                 </div>
             </div>
 
@@ -1389,6 +1518,10 @@
                         <i class="fas fa-file-signature"></i> Contract & Agreement
                     </div>
                     <div class="section-description">Generate and manage customer contracts and agreements</div>
+                    <div class="alert alert-info">
+                        <div class="alert-icon"><i class="fas fa-lock"></i></div>
+                        <div><strong>Contract Pricing Lock:</strong> <span id="pricingLockStatus">Unlocked (estimate stage)</span></div>
+                    </div>
 
                     <div class="form-group">
                         <label class="label-required">Contract Template</label>
@@ -1423,7 +1556,31 @@
                         <textarea id="contractNotes" placeholder="Payment schedule, cancellation policy, warranties, liability, dispute resolution, etc."></textarea>
                     </div>
 
+                    <div class="section-title mt-20">Admin-Only Contract/Estimate Templates</div>
+                    <div class="section-description">Estimators can view defaults only. Admin can edit these legal templates.</div>
+                    <div class="grid-2">
+                        <div class="form-group"><label>Scope of Work <span class="badge badge-warning">Admin Only</span></label><textarea class="admin-only-field template-field" id="tmplScope">Standard scope: layout, install fence, cleanup, and closeout.</textarea></div>
+                        <div class="form-group"><label>Payment Terms <span class="badge badge-warning">Admin Only</span></label><textarea class="admin-only-field template-field" id="tmplPayment">50% deposit, 40% at installation, 10% at completion.</textarea></div>
+                        <div class="form-group"><label>Warranties <span class="badge badge-warning">Admin Only</span></label><textarea class="admin-only-field template-field" id="tmplWarranty">Material and workmanship warranty as per manufacturer and company policy.</textarea></div>
+                        <div class="form-group"><label>Timeline <span class="badge badge-warning">Admin Only</span></label><textarea class="admin-only-field template-field" id="tmplTimeline">Typical installation timeline: 2-5 business days after permit/locates.</textarea></div>
+                        <div class="form-group"><label>Change Order Process <span class="badge badge-warning">Admin Only</span></label><textarea class="admin-only-field template-field" id="tmplChangeOrder">Any scope or quantity changes require signed change order before work.</textarea></div>
+                        <div class="form-group"><label>Liabilities & Insurance <span class="badge badge-warning">Admin Only</span></label><textarea class="admin-only-field template-field" id="tmplLiability">Company carries liability insurance and required coverage.</textarea></div>
+                        <div class="form-group"><label>Customer Responsibilities <span class="badge badge-warning">Admin Only</span></label><textarea class="admin-only-field template-field" id="tmplCustomerResponsibilities">Customer provides access, approvals, and accurate boundary info.</textarea></div>
+                        <div class="form-group"><label>Company Policies <span class="badge badge-warning">Admin Only</span></label><textarea class="admin-only-field template-field" id="tmplCompanyPolicies">Work hours, site conduct, and safety policies apply to all jobs.</textarea></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Terms & Conditions <span class="badge badge-warning">Admin Only</span></label>
+                        <textarea class="admin-only-field template-field" id="tmplTerms">Final legal terms are governed by executed contract and signed changes.</textarea>
+                    </div>
                     <div class="button-group">
+                        <button class="btn btn-secondary admin-only-action" onclick="unlockAdminBackdoor()"><i class="fas fa-key"></i> Admin Backdoor</button>
+                        <button class="btn btn-secondary admin-only-action" onclick="saveAdminTemplates()"><i class="fas fa-save"></i> Save Admin Templates</button>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-secondary" onclick="convertEstimateToContract()">
+                            <i class="fas fa-lock"></i> Convert Estimate to Contract (Lock Pricing)
+                        </button>
                         <button class="btn btn-primary" onclick="generateContract()">
                             <i class="fas fa-file-pdf"></i> Generate Contract
                         </button>
@@ -2023,6 +2180,25 @@
                         </tbody>
                     </table>
 
+                    <div class="section-title mt-20">Comprehensive QA Scenarios</div>
+                    <table>
+                        <thead>
+                            <tr><th>Scenario</th><th>Status</th><th>Notes</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Commercial Chain Link (with barbed wire)</td><td><span class="badge badge-info">READY</span></td><td>100 LF × 6' with 2&quot; pipe and top barbed wire</td></tr>
+                            <tr><td>Commercial Chain Link (without barbed wire)</td><td><span class="badge badge-info">READY</span></td><td>Cost comparison baseline</td></tr>
+                            <tr><td>Wrought Iron Fence</td><td><span class="badge badge-info">READY</span></td><td>Fabricated gates + ornamental design</td></tr>
+                            <tr><td>Mixed Fence Types (Complex)</td><td><span class="badge badge-info">READY</span></td><td>Chain link + wood + wrought iron combined totals</td></tr>
+                            <tr><td>Electric Gate Operator (Commercial Swing)</td><td><span class="badge badge-info">READY</span></td><td>48&quot; × 6' with operator, sensors, control panel</td></tr>
+                            <tr><td>Electric Gate Operator (Cantilever)</td><td><span class="badge badge-info">READY</span></td><td>60&quot; × 6' with safety features</td></tr>
+                            <tr><td>Barrier Gates</td><td><span class="badge badge-info">READY</span></td><td>Multiple styles and installation comparison</td></tr>
+                            <tr><td>Bollards & Bollard Covers</td><td><span class="badge badge-info">READY</span></td><td>Inventory and multi-quantity pricing</td></tr>
+                            <tr><td>Chain Link Decorative Inserts</td><td><span class="badge badge-info">READY</span></td><td>Diamond lock inserts with labour</td></tr>
+                            <tr><td>Complex Multi-Height Project</td><td><span class="badge badge-info">READY</span></td><td>4', 5', and 6' sides with combined output</td></tr>
+                        </tbody>
+                    </table>
+
                     <div class="button-group mt-20">
                         <button class="btn btn-primary" onclick="generateReport()">
                             <i class="fas fa-file-pdf"></i> Generate Full Report
@@ -2037,55 +2213,161 @@
                 </div>
             </div>
 
+            <!-- TAB 12: FENCE PARTS CATALOG -->
+            <div id="fenceParts" class="tab-content">
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-toolbox"></i> Fence Parts Catalog</div>
+                    <div class="section-description">Product image/drawing, PLU, retail, and description by fence type</div>
+                    <div class="alert alert-info"><div class="alert-icon"><i class="fas fa-user-shield"></i></div><div>Catalog editing requires Admin Backdoor. Estimators are read-only.</div></div>
+                    <table>
+                        <thead><tr><th>Type</th><th>Image</th><th>PLU</th><th>Retail Price</th><th>Description</th></tr></thead>
+                        <tbody id="fencePartsTableBody">
+                            <tr><td>Chain Link - Mesh</td><td>🖼️ Mesh Roll</td><td>CL-MESH-050-BLK</td><td>$3.45/LF</td><td>5' black vinyl coated chain link, 17GA</td></tr>
+                            <tr><td>Chain Link - Pipe</td><td>🖼️ Pipe</td><td>CL-PIPE-2-154</td><td>$24.00/ea</td><td>2&quot; pipe, 0.154&quot; wall, galvanized</td></tr>
+                            <tr><td>Chain Link - Fittings</td><td>🖼️ Cap/Band</td><td>CL-FIT-BAND</td><td>$2.25/ea</td><td>Tension bands, brace bands, caps, hinges, latch set</td></tr>
+                            <tr><td>Wood - Boards</td><td>🖼️ Board</td><td>WD-BRD-1X6X6</td><td>$7.80/ea</td><td>1x6x6 PT board for privacy sections</td></tr>
+                            <tr><td>Wood - Posts & Rails</td><td>🖼️ Post/Rail</td><td>WD-PST-4X4X8</td><td>$19.95/ea</td><td>4x4x8 PT post and 2x4 rails</td></tr>
+                            <tr><td>Vinyl/PVC - Panels</td><td>🖼️ Panel</td><td>VN-PNL-6X8-WHT</td><td>$129.00/ea</td><td>6x8 privacy panel, white, UV stabilized</td></tr>
+                            <tr><td>Vinyl/PVC - Accessories</td><td>🖼️ Accessory</td><td>VN-ACC-KIT</td><td>$16.00/kit</td><td>Post caps, brackets, rail connectors</td></tr>
+                            <tr><td>Wrought Iron - Components</td><td>🖼️ Gate</td><td>WI-GATE-FAB-48</td><td>$485.00/ea</td><td>Fabricated swing gate, ornamental design</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="section-title mt-20">Admin Backdoor Controls</div>
+                    <div class="grid-2">
+                        <div class="form-group"><label>Non-stock Item Name</label><input type="text" id="nonStockName" class="admin-only-field" placeholder="Custom welded section"></div>
+                        <div class="form-group"><label>Non-stock Price (CAD)</label><input type="number" id="nonStockPrice" class="admin-only-field" placeholder="0" step="0.01"></div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-secondary admin-only-action" onclick="updateCatalogFromPOS()"><i class="fas fa-sync"></i> Update from POS</button>
+                        <button class="btn btn-primary admin-only-action" onclick="addCatalogItem()"><i class="fas fa-plus"></i> Add Item</button>
+                        <button class="btn btn-secondary admin-only-action" onclick="editCatalogItem()"><i class="fas fa-edit"></i> Edit/Delete Item</button>
+                        <button class="btn btn-secondary admin-only-action" onclick="uploadCatalogImage()"><i class="fas fa-upload"></i> Upload Product Image</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 13: PROPERTY MAPPING -->
+            <div id="propertyMapping" class="tab-content">
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-map-marked-alt"></i> Property Mapping</div>
+                    <div class="section-description">Map view, fence-line drawing notes, gate/corner/utility markers and printable sheet</div>
+                    <div class="grid-2">
+                        <div class="form-group"><label>Property Address (from Customer)</label><input type="text" id="mapAddress" readonly></div>
+                        <div class="form-group"><label>Map Service</label><select id="mapService"><option value="google">Google Maps / Earth Equivalent</option><option value="osm">OpenStreetMap</option></select></div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-secondary" onclick="loadPropertyMap()"><i class="fas fa-search-location"></i> Auto-Search Address</button>
+                        <button class="btn btn-secondary" onclick="openStreetView()"><i class="fas fa-street-view"></i> Street View</button>
+                    </div>
+                    <iframe id="propertyMapFrame" title="Property map" style="width:100%; height:340px; border:1px solid var(--border-color); border-radius:8px; margin-top:12px;" src="about:blank"></iframe>
+                    <div class="section-title mt-20">Fence Drawing Markups</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="checkbox" id="mapFenceLines"><label for="mapFenceLines">Draw fence lines</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="mapGates"><label for="mapGates">Mark gate locations</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="mapCorners"><label for="mapCorners">Identify corners</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="mapUtilities"><label for="mapUtilities">Mark utilities</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="mapBoundaries"><label for="mapBoundaries">Add property boundaries</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="mapObstacles"><label for="mapObstacles">Add obstacles</label></div>
+                    </div>
+                    <div class="form-group"><label>Drawing/Mapping Notes</label><textarea id="propertyDrawingNotes" placeholder="Fence line dimensions, gate placement, corners, utility marks, and obstacles"></textarea></div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="printPropertyMappingSheet()"><i class="fas fa-print"></i> Print Mapping Sheet</button>
+                        <button class="btn btn-secondary" onclick="emailPropertyMappingSheet()"><i class="fas fa-envelope"></i> Email Mapping Sheet</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 14: ADMIN COSTS -->
+            <div id="adminCosts" class="tab-content">
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-file-invoice-dollar"></i> Equipment, Labour & Specialty Costs</div>
+                    <div class="section-description">Admin-managed rates used for new estimates/contracts. Existing locked contracts retain original rates.</div>
+                    <table>
+                        <thead><tr><th>Equipment</th><th>Purchase/Lease</th><th>Daily</th><th>Weekly</th><th>Monthly</th><th>Hourly Op</th><th>Fuel/Hour</th><th>Maint./Hour</th><th>Cert Required</th></tr></thead>
+                        <tbody>
+                            <tr><td>Backhoe (Auger/Bucket/Pounder/Jackhammer)</td><td><input class="admin-only-field" id="eqBackhoePurchase" type="number" placeholder="0"></td><td><input class="admin-only-field" id="eqBackhoeDaily" type="number" placeholder="0"></td><td><input class="admin-only-field" type="number" placeholder="0"></td><td><input class="admin-only-field" type="number" placeholder="0"></td><td><input class="admin-only-field" id="eqBackhoeHourly" type="number" placeholder="0"></td><td><input class="admin-only-field" type="number" placeholder="L/hr"></td><td><input class="admin-only-field" type="number" placeholder="0"></td><td><input class="admin-only-field" type="text" value="Yes"></td></tr>
+                            <tr><td>Skidsteer (Mini Loader)</td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" id="eqSkidsteerHourly" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="text" value="Yes"></td></tr>
+                            <tr><td>Mini Excavator</td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" id="eqMiniExcavatorHourly" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="text" value="Yes"></td></tr>
+                            <tr><td>Pickup Truck</td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" id="eqPickupDaily" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" id="eqPickupHourly" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="text" value="No"></td></tr>
+                            <tr><td>1 Ton Dump Truck</td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" id="eqDumpDaily" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="text" value="Yes"></td></tr>
+                            <tr><td>Dump Trailer</td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" id="eqTrailerDaily" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="text" value="Tow vehicle required"></td></tr>
+                            <tr><td>Float Trailer (Equipment)</td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" id="eqFloatDaily" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="number"></td><td><input class="admin-only-field" type="text" value="Equipment capacity required"></td></tr>
+                        </tbody>
+                    </table>
+
+                    <div class="section-title mt-20">Labour Costs (Hourly)</div>
+                    <div class="grid-4">
+                        <div class="form-group"><label>Foreman</label><input class="admin-only-field" id="rateForeman" type="number" placeholder="0"></div>
+                        <div class="form-group"><label>Labourer</label><input class="admin-only-field" id="rateLabourer" type="number" placeholder="0"></div>
+                        <div class="form-group"><label>Equipment Operator</label><input class="admin-only-field" id="rateOperator" type="number" placeholder="0"></div>
+                        <div class="form-group"><label>Specialized</label><input class="admin-only-field" id="rateSpecialized" type="number" placeholder="0"></div>
+                    </div>
+
+                    <div class="section-title mt-20">Specialty Costs</div>
+                    <div class="grid-3">
+                        <div class="form-group"><label>Tipping Fees ($/ton)</label><input class="admin-only-field" id="specTipping" type="number" step="0.01"></div>
+                        <div class="form-group"><label>Concrete per Hole</label><input class="admin-only-field" id="specConcretePerHole" type="number" step="0.01"></div>
+                        <div class="form-group"><label>Stone Dust per Hole</label><input class="admin-only-field" id="specStonePerHole" type="number" step="0.01"></div>
+                        <div class="form-group"><label>Concrete per m³</label><input class="admin-only-field" id="specConcreteM3" type="number" step="0.01"></div>
+                        <div class="form-group"><label>Stone Dust per m³</label><input class="admin-only-field" id="specStoneM3" type="number" step="0.01"></div>
+                    </div>
+
+                    <div class="section-title mt-20">Installation Rates</div>
+                    <div class="grid-4">
+                        <div class="form-group"><label>Fence Installation $/LF</label><input class="admin-only-field" id="instRateLF" type="number" step="0.01"></div>
+                        <div class="form-group"><label>Terminal Post $/post</label><input class="admin-only-field" id="instTerminalRate" type="number" step="0.01"></div>
+                        <div class="form-group"><label>Corner Post $/post</label><input class="admin-only-field" id="instCornerRate" type="number" step="0.01"></div>
+                        <div class="form-group"><label>Gate Post $/post</label><input class="admin-only-field" id="instGatePostRate" type="number" step="0.01"></div>
+                        <div class="form-group"><label>3-Way Corner Post $/post</label><input class="admin-only-field" id="instThreeWayRate" type="number" step="0.01"></div>
+                        <div class="form-group"><label>Gate Installation $/gate</label><input class="admin-only-field" id="instGateRate" type="number" step="0.01"></div>
+                        <div class="form-group"><label>Gate Operator Installation</label><input class="admin-only-field" id="instGateOperatorRate" type="number" step="0.01"></div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary admin-only-action" onclick="saveAdminCosts()"><i class="fas fa-save"></i> Save Admin Costs</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script>
-        // ===== TAB SWITCHING =====
-        function switchTab(tabName) {
-            // Hide all tabs
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.remove('active'));
+        const appState = { isAdmin: false, pricingLocked: false, metricEnabled: true, unitSystem: 'imperial' };
+        const materialCostFieldIds = ['materialsCost', 'hardwareCost', 'concreteCost', 'extraCost', 'labourRate', 'overheadPercent', 'profitPercent', 'taxPercent'];
 
-            // Show selected tab
-            document.getElementById(tabName).classList.add('active');
+        function formatCurrency(value) { return `$${(Number(value) || 0).toFixed(2)}`; }
+        function roundToQuarter(value) { return Math.ceil(value * 4) / 4; }
 
-            // Update active button
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.closest('.tab-btn').classList.add('active');
-
-            // Scroll tab into view
-            event.target.closest('.tab-btn').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        function switchTab(tabName, evt) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            const tab = document.getElementById(tabName);
+            if (tab) tab.classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const clickEvent = evt || window.event;
+            if (clickEvent?.target?.closest('.tab-btn')) {
+                const btn = clickEvent.target.closest('.tab-btn');
+                btn.classList.add('active');
+                btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
         }
 
-        // ===== PERCENTAGE TRACKER =====
         document.getElementById('percentComplete').addEventListener('input', function() {
             document.getElementById('percentLabel').textContent = this.value + '%';
         });
 
-        // ===== FENCE STYLE TAB =====
         function updateFenceDetails() {
-            const type = document.getElementById('fenceType').value;
-            document.getElementById('summaryType').textContent = type || '--';
+            document.getElementById('summaryType').textContent = document.getElementById('fenceType').value || '--';
         }
 
         function saveFenceStyle() {
             const fenceType = document.getElementById('fenceType').value;
             const fenceHeight = document.getElementById('fenceHeight').value;
-            const gatesCount = document.getElementById('gatesCount').value;
-            const postSpacing = document.getElementById('postSpacing').value;
-
-            if (!fenceType || !fenceHeight) {
-                showAlert('Please select fence type and height', 'danger');
-                return;
-            }
-
-            showAlert('Fence Style saved successfully!', 'success');
+            if (!fenceType || !fenceHeight) return showAlert('Please select fence type and height', 'danger');
             document.getElementById('summaryType').textContent = fenceType;
-            document.getElementById('summaryHeight').textContent = fenceHeight + ' ft';
-            document.getElementById('summaryGates').textContent = gatesCount;
-            document.getElementById('summarySpacing').textContent = postSpacing + ' ft';
+            document.getElementById('summaryHeight').textContent = fenceHeight + (appState.unitSystem === 'metric' ? ' m' : ' ft');
+            document.getElementById('summaryGates').textContent = document.getElementById('gatesCount').value;
+            document.getElementById('summarySpacing').textContent = document.getElementById('postSpacing').value + (appState.unitSystem === 'metric' ? ' m' : ' ft');
+            showAlert('Fence Style saved successfully!', 'success');
         }
 
         function clearFenceForm() {
@@ -2096,153 +2378,254 @@
             document.getElementById('summaryHeight').textContent = '--';
         }
 
-        // ===== INSTALLATION TAB =====
-        function saveInstallation() {
-            showAlert('Installation details saved successfully!', 'success');
+        function saveInstallation() { showAlert('Installation details saved successfully!', 'success'); }
+        function savePermit() { showAlert('Permit information saved successfully!', 'success'); }
+        function saveLocates() { showAlert('Locate information saved successfully!', 'success'); }
+
+        function getSelectedPermitForms() { return Array.from(document.querySelectorAll('.permit-form:checked')).map(item => item.value); }
+        function printSelectedPermitForms() { const selected = getSelectedPermitForms(); selected.length ? showAlert(`Printing selected forms: ${selected.join(', ')}`, 'info') : showAlert('Select at least one permit form first.', 'warning'); }
+        function emailSelectedPermitForms() { const selected = getSelectedPermitForms(); selected.length ? showAlert(`Emailing selected forms: ${selected.join(', ')}`, 'success') : showAlert('Select at least one permit form first.', 'warning'); }
+
+        function toggleMetricOption(value) {
+            appState.metricEnabled = value === 'enabled';
+            document.querySelector('#unitSystem option[value="metric"]').disabled = !appState.metricEnabled;
+            if (!appState.metricEnabled && appState.unitSystem === 'metric') {
+                document.getElementById('unitSystem').value = 'imperial';
+                setUnitSystem('imperial');
+            }
         }
 
-        // ===== PERMIT TAB =====
-        function savePermit() {
-            showAlert('Permit information saved successfully!', 'success');
+        function setUnitSystem(nextUnit) {
+            if (nextUnit === 'metric' && !appState.metricEnabled) return showAlert('Metric mode is disabled by admin', 'warning');
+            if (nextUnit === appState.unitSystem) return;
+            const convertField = (id, factor) => {
+                const el = document.getElementById(id);
+                const value = parseFloat(el.value);
+                if (!Number.isNaN(value)) el.value = (value * factor).toFixed(2);
+            };
+            if (nextUnit === 'metric') {
+                convertField('linearFootage', 0.3048); convertField('holeWidth', 2.54); convertField('holeDepth', 2.54);
+            } else {
+                convertField('linearFootage', 3.28084); convertField('holeWidth', 1 / 2.54); convertField('holeDepth', 1 / 2.54);
+            }
+            appState.unitSystem = nextUnit;
+            document.getElementById('linearMeasurementLabel').textContent = nextUnit === 'metric' ? 'Meters' : 'Footage';
+            document.getElementById('linearMeasurementHint').textContent = nextUnit === 'metric' ? 'meters' : 'feet';
+            document.getElementById('holeWidthUnit').textContent = nextUnit === 'metric' ? 'centimeters' : 'inches';
+            document.getElementById('holeDepthUnit').textContent = nextUnit === 'metric' ? 'centimeters' : 'inches';
+            calculateConcreteStoneDust();
         }
 
-        // ===== LOCATES TAB =====
-        function saveLocates() {
-            showAlert('Locate information saved successfully!', 'success');
+        function toggleCustomRoundValue() {
+            document.getElementById('customRoundValue').disabled = document.getElementById('roundToOption').value !== 'custom';
         }
 
-        // ===== ESTIMATE TAB =====
+        function getLinearFeet() {
+            const input = parseFloat(document.getElementById('linearFootage').value) || 0;
+            return appState.unitSystem === 'metric' ? input * 3.28084 : input;
+        }
+
+        function calculateConcreteStoneDust() {
+            const holes = parseFloat(document.getElementById('holeCount').value) || 0;
+            const width = parseFloat(document.getElementById('holeWidth').value) || 0;
+            const depth = parseFloat(document.getElementById('holeDepth').value) || 0;
+            const widthInches = appState.unitSystem === 'metric' ? width / 2.54 : width;
+            const depthInches = appState.unitSystem === 'metric' ? depth / 2.54 : depth;
+            const radiusFeet = widthInches / 24;
+            const depthFeet = depthInches / 12;
+            const cubicFeet = holes * Math.PI * radiusFeet * radiusFeet * depthFeet;
+            const cubicYards = roundToQuarter(cubicFeet / 27);
+            const cubicMeters = roundToQuarter(cubicFeet * 0.0283168);
+            const bags = Math.ceil(cubicFeet / 0.6);
+            document.getElementById('calcCubicFeet').textContent = cubicFeet.toFixed(2);
+            document.getElementById('calcCubicYards').textContent = cubicYards.toFixed(2);
+            document.getElementById('calcCubicMeters').textContent = cubicMeters.toFixed(2);
+            document.getElementById('calcBags').textContent = bags;
+            const perHole = parseFloat(document.getElementById('specConcretePerHole')?.value) || 0;
+            if (perHole > 0) document.getElementById('concreteCost').value = (holes * perHole).toFixed(2);
+        }
+
+        function applyRounding(originalTotal) {
+            const option = document.getElementById('roundToOption').value;
+            if (option === 'none') return originalTotal;
+            const step = option === 'custom' ? (parseFloat(document.getElementById('customRoundValue').value) || 0) : parseFloat(option);
+            return step > 0 ? Math.round(originalTotal / step) * step : originalTotal;
+        }
+
+        function renderFenceInfoSheet(linearFeet, materialsCost) {
+            const fenceType = document.getElementById('fenceType').selectedOptions[0]?.textContent || 'Not Selected';
+            const height = document.getElementById('fenceHeight').value || '--';
+            const color = document.getElementById('fenceColor').selectedOptions[0]?.textContent || 'Not Selected';
+            const unitLabel = appState.unitSystem === 'metric' ? 'm' : 'LF';
+            const displayLength = appState.unitSystem === 'metric' ? (linearFeet * 0.3048).toFixed(2) : linearFeet.toFixed(2);
+            document.getElementById('fenceInfoSheet').innerHTML = `<div style="font-weight:700; font-size:18px; margin-bottom:8px;">FENCE INFORMATION SHEET</div>
+                <div style="margin-bottom:10px;">🖼️ Fence picture/drawing placeholder</div>
+                <div><strong>Fence Type:</strong> ${fenceType}</div><div><strong>Height:</strong> ${height}${appState.unitSystem === 'metric' ? ' m' : '\''}</div>
+                <div><strong>Color:</strong> ${color}</div><div><strong>Material:</strong> Standard project selection</div>
+                <div style="margin-top:10px;"><strong>Price per ${unitLabel}:</strong> ${formatCurrency(linearFeet ? materialsCost / linearFeet : 0)}</div>
+                <div><strong>Material Total (excl. installation & tax):</strong> ${formatCurrency(materialsCost)}</div>
+                <div><strong>Quantity Reference:</strong> ${displayLength} ${unitLabel}</div>`;
+        }
+
+        function renderCalculationBreakdown(linearFeet, postCount, labourHours, labourCost, holes, bags, subtotal, overhead, profit, tax, total) {
+            const spacing = parseFloat(document.getElementById('postSpacing').value) || 1;
+            const gates = parseFloat(document.getElementById('gatesCount').value) || 0;
+            const gateWidth = parseFloat(document.getElementById('gateWidth').value) || 4;
+            const gateOpenings = gates * gateWidth;
+            const height = parseFloat(document.getElementById('fenceHeight').value) || 0;
+            const fabric = Math.max(linearFeet - gateOpenings, 0) * height;
+            document.getElementById('calculationBreakdown').textContent =
+`CHAIN LINK FENCE CALCULATION BREAKDOWN
+1) POSTS: ${linearFeet.toFixed(2)} ÷ ${spacing} + terminal/corner/gate = ${postCount}
+2) TOP RAILS: ${Math.ceil(linearFeet / spacing)} sections
+3) FABRIC: (${linearFeet.toFixed(2)} - ${gateOpenings.toFixed(2)}) × ${height} = ${fabric.toFixed(2)} sq ft
+4) TENSION WIRE: ${(linearFeet * 2).toFixed(2)} LF
+5) TENSION BANDS: ${postCount * 2}
+6) BRACE BANDS: ${Math.ceil(linearFeet / 20) * 2}
+7) POST CAPS: ${postCount}
+8) GATES: ${gates} gate(s) with hinges/latches/hardware
+9) CONCRETE: ${holes} holes ≈ ${bags} x 80lb bags
+10) LABOUR: ${labourHours.toFixed(2)} hrs = ${formatCurrency(labourCost)}
+11) EQUIPMENT: Calculated from admin hourly/day rates
+12) TOTAL: Subtotal ${formatCurrency(subtotal)} + Overhead ${formatCurrency(overhead)} + Profit ${formatCurrency(profit)} + Tax ${formatCurrency(tax)} = ${formatCurrency(total)}`;
+        }
+
         function calculateEstimate() {
-            const linearFootage = parseFloat(document.getElementById('linearFootage').value) || 0;
+            const linearFeet = getLinearFeet();
             const materialsCost = parseFloat(document.getElementById('materialsCost').value) || 0;
             const hardwareCost = parseFloat(document.getElementById('hardwareCost').value) || 0;
             const concreteCost = parseFloat(document.getElementById('concreteCost').value) || 0;
             const extraCost = parseFloat(document.getElementById('extraCost').value) || 0;
-            const labourRate = parseFloat(document.getElementById('labourRate').value) || 0;
+            const labourRate = parseFloat(document.getElementById('labourRate').value) || parseFloat(document.getElementById('rateLabourer')?.value) || 0;
             const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 25;
             const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 35;
-
-            // Calculate labour hours
-            const baseLabour = 14; // per 100 LF
-            const adjustedLabour = (linearFootage / 100) * baseLabour;
-            document.getElementById('baseLabour').value = baseLabour;
-            document.getElementById('adjustedLabour').value = adjustedLabour.toFixed(2);
-
-            // Calculate costs
-            const totalLabourCost = adjustedLabour * labourRate;
-            const subtotal = materialsCost + hardwareCost + concreteCost;
+            const taxPercent = parseFloat(document.getElementById('taxPercent').value) || 0;
+            const spacing = parseFloat(document.getElementById('postSpacing').value) || 8;
+            const postCount = Math.ceil(linearFeet / spacing) + 2;
+            const baseLabour = 14;
+            const labourHours = (linearFeet / 100) * baseLabour;
+            const labourCost = labourHours * labourRate;
+            const equipmentHourly = (parseFloat(document.getElementById('eqBackhoeHourly')?.value) || 0) + (parseFloat(document.getElementById('eqSkidsteerHourly')?.value) || 0) + (parseFloat(document.getElementById('eqMiniExcavatorHourly')?.value) || 0);
+            const equipmentDaily = (parseFloat(document.getElementById('eqPickupDaily')?.value) || 0) + (parseFloat(document.getElementById('eqDumpDaily')?.value) || 0) + (parseFloat(document.getElementById('eqTrailerDaily')?.value) || 0) + (parseFloat(document.getElementById('eqFloatDaily')?.value) || 0);
+            const equipmentCost = (equipmentHourly * (labourHours / 8)) + equipmentDaily;
+            const subtotal = materialsCost + hardwareCost + concreteCost + equipmentCost;
             const overhead = subtotal * (overheadPercent / 100);
-            const profit = (subtotal + totalLabourCost + extraCost) * (profitPercent / 100);
-            const total = subtotal + totalLabourCost + overhead + profit + extraCost;
+            const profit = (subtotal + labourCost + extraCost) * (profitPercent / 100);
+            const preTax = subtotal + labourCost + overhead + profit + extraCost;
+            const tax = preTax * (taxPercent / 100);
+            const originalTotal = preTax + tax;
+            const roundedTotal = applyRounding(originalTotal);
+            const roundingAdjustment = roundedTotal - originalTotal;
 
-            // Update display
-            document.getElementById('totalLabourCost').value = '$' + totalLabourCost.toFixed(2);
-            document.getElementById('sumMaterials').textContent = '$' + materialsCost.toFixed(2);
-            document.getElementById('sumHardware').textContent = '$' + hardwareCost.toFixed(2);
-            document.getElementById('sumConcrete').textContent = '$' + concreteCost.toFixed(2);
-            document.getElementById('sumSubtotal').textContent = '$' + subtotal.toFixed(2);
-            document.getElementById('sumLabour').textContent = '$' + totalLabourCost.toFixed(2);
-            document.getElementById('sumExtra').textContent = '$' + extraCost.toFixed(2);
-            document.getElementById('sumOverhead').textContent = '$' + overhead.toFixed(2);
-            document.getElementById('sumProfit').textContent = '$' + profit.toFixed(2);
-            document.getElementById('sumTotal').textContent = '$' + total.toFixed(2);
+            document.getElementById('postCount').value = postCount;
+            document.getElementById('baseLabour').value = baseLabour;
+            document.getElementById('adjustedLabour').value = labourHours.toFixed(2);
+            document.getElementById('totalLabourCost').value = formatCurrency(labourCost);
+            document.getElementById('sumMaterials').textContent = formatCurrency(materialsCost);
+            document.getElementById('sumHardware').textContent = formatCurrency(hardwareCost);
+            document.getElementById('sumConcrete').textContent = formatCurrency(concreteCost);
+            document.getElementById('sumEquipment').textContent = formatCurrency(equipmentCost);
+            document.getElementById('sumSubtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('sumLabour').textContent = formatCurrency(labourCost);
+            document.getElementById('sumExtra').textContent = formatCurrency(extraCost);
+            document.getElementById('sumOverhead').textContent = formatCurrency(overhead);
+            document.getElementById('sumProfit').textContent = formatCurrency(profit);
+            document.getElementById('sumTax').textContent = formatCurrency(tax);
+            document.getElementById('sumOriginalTotal').textContent = formatCurrency(originalTotal);
+            document.getElementById('sumRoundingAdjustment').textContent = formatCurrency(roundingAdjustment);
+            document.getElementById('roundingAdjustmentValue').value = formatCurrency(roundingAdjustment);
+            document.getElementById('sumTotal').textContent = formatCurrency(roundedTotal);
 
+            const holes = parseFloat(document.getElementById('holeCount').value) || postCount;
+            const bags = parseInt(document.getElementById('calcBags').textContent, 10) || 0;
+            renderCalculationBreakdown(linearFeet, postCount, labourHours, labourCost, holes, bags, subtotal, overhead, profit, tax, roundedTotal);
+            renderFenceInfoSheet(linearFeet, materialsCost);
             showAlert('Estimate calculated successfully!', 'success');
         }
 
-        // ===== CONTRACT TAB =====
-        function generateContract() {
-            showAlert('Contract generated and ready to download', 'success');
+        function setPricingLock(lockOn) {
+            appState.pricingLocked = lockOn;
+            materialCostFieldIds.forEach(id => { const field = document.getElementById(id); if (field) field.disabled = lockOn; });
+            document.getElementById('pricingLockStatus').textContent = lockOn ? 'Locked (contract guaranteed pricing)' : 'Unlocked (estimate stage)';
         }
+        function convertEstimateToContract() { setPricingLock(true); showAlert('Estimate converted to contract. Pricing is now locked.', 'success'); }
+        function generateContract() { showAlert('Contract generated and ready to download', 'success'); }
+        function sendContractToCustomer() { showAlert('Contract sent to customer email', 'success'); }
+        function markContractSigned() { setPricingLock(true); showAlert('Contract marked as signed', 'success'); }
 
-        function sendContractToCustomer() {
-            showAlert('Contract sent to customer email', 'success');
+        function generateShopDrawing() { showAlert('Shop drawing generated and ready to download', 'success'); }
+        function uploadSiteImage() { showAlert('Site image upload feature would open', 'info'); }
+        function saveInstallerLog() { showAlert('Work log saved successfully!', 'success'); }
+        function printInstallerPaper() { showAlert('Installer work paper sent to printer', 'info'); }
+        function finalizeJob() { if (confirm('Are you sure you want to finalize this job? This cannot be undone.')) showAlert('Job finalized and archived', 'success'); }
+
+        function syncPropertyAddress() {
+            document.getElementById('mapAddress').value = `${document.getElementById('customerAddress').value || ''} ${document.getElementById('customerCity').value || ''} ${document.getElementById('customerProvince').value || ''}`.trim();
         }
-
-        function markContractSigned() {
-            showAlert('Contract marked as signed', 'success');
-        }
-
-        // ===== SHOP DRAWING TAB =====
-        function generateShopDrawing() {
-            showAlert('Shop drawing generated and ready to download', 'success');
-        }
-
-        function uploadSiteImage() {
-            showAlert('Site image upload feature would open', 'info');
-        }
-
-        // ===== INSTALLER TAB =====
-        function saveInstallerLog() {
-            showAlert('Work log saved successfully!', 'success');
-        }
-
-        function printInstallerPaper() {
-            showAlert('Installer work paper sent to printer', 'info');
-        }
-
-        function finalizeJob() {
-            if (confirm('Are you sure you want to finalize this job? This cannot be undone.')) {
-                showAlert('Job finalized and archived', 'success');
-            }
-        }
-
-        // ===== CUSTOMER TAB =====
         function saveCustomer() {
-            const customerName = document.getElementById('customerName').value;
-            if (!customerName) {
-                showAlert('Please enter customer name', 'danger');
-                return;
-            }
+            if (!document.getElementById('customerName').value) return showAlert('Please enter customer name', 'danger');
+            syncPropertyAddress();
             showAlert('Customer information saved successfully!', 'success');
         }
 
-        // ===== INVENTORY TAB =====
-        function addInventoryItem() {
-            showAlert('Add inventory item form would open', 'info');
-        }
+        function addInventoryItem() { showAlert('Add inventory item form would open', 'info'); }
+        function generateOrderForm() { showAlert('Order form generated and ready to download', 'success'); }
+        function filterInventory(type) { showAlert('Filtering inventory by: ' + (type || 'All Items'), 'info'); }
 
-        function generateOrderForm() {
-            showAlert('Order form generated and ready to download', 'success');
-        }
+        function generateReport() { showAlert('Full report generated and ready to download', 'success'); }
+        function exportToCSV() { showAlert('Data exported to CSV', 'success'); }
+        function exportToExcel() { showAlert('Data exported to Excel', 'success'); }
 
-        function filterInventory(type) {
-            showAlert('Filtering inventory by: ' + (type || 'All Items'), 'info');
+        function setUserRole(role, silent = false) {
+            appState.isAdmin = role === 'admin';
+            document.getElementById('userRoleLabel').textContent = appState.isAdmin ? 'Admin' : 'Estimator';
+            document.querySelectorAll('.admin-only-field').forEach(field => { field.readOnly = !appState.isAdmin; field.disabled = !appState.isAdmin; });
+            document.querySelectorAll('.admin-only-action').forEach(btn => { btn.disabled = !appState.isAdmin; btn.style.opacity = appState.isAdmin ? '1' : '0.6'; });
+            if (!appState.isAdmin) { document.getElementById('metricEnabled').value = 'enabled'; toggleMetricOption('enabled'); }
+            if (!silent) showAlert(`Switched to ${appState.isAdmin ? 'Admin' : 'Estimator'} view`, 'info');
         }
-
-        // ===== REPORTS TAB =====
-        function generateReport() {
-            showAlert('Full report generated and ready to download', 'success');
+        function unlockAdminBackdoor() {
+            const code = prompt('Enter admin backdoor code:');
+            if (code === '2026') { document.getElementById('roleMode').value = 'admin'; setUserRole('admin'); showAlert('Admin backdoor access granted', 'success'); }
+            else showAlert('Invalid admin backdoor code', 'danger');
         }
-
-        function exportToCSV() {
-            showAlert('Data exported to CSV', 'success');
+        function saveAdminTemplates() { appState.isAdmin ? showAlert('Admin templates saved', 'success') : showAlert('Admin access required', 'warning'); }
+        function saveAdminCosts() { appState.isAdmin ? showAlert('Equipment/labour/specialty costs saved', 'success') : showAlert('Admin access required', 'warning'); }
+        function updateCatalogFromPOS() { appState.isAdmin ? showAlert('Catalog updated from POS', 'success') : showAlert('Admin access required', 'warning'); }
+        function addCatalogItem() {
+            if (!appState.isAdmin) return showAlert('Admin access required', 'warning');
+            const name = document.getElementById('nonStockName').value.trim();
+            const price = parseFloat(document.getElementById('nonStockPrice').value) || 0;
+            if (!name) return showAlert('Enter non-stock item name first', 'warning');
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>Non-Stock Item</td><td>🖼️ Custom</td><td>NON-STOCK</td><td>${formatCurrency(price)}</td><td>${name}</td>`;
+            document.getElementById('fencePartsTableBody').appendChild(row);
+            showAlert('Catalog item added', 'success');
         }
+        function editCatalogItem() { appState.isAdmin ? showAlert('Edit/Delete mode opened', 'info') : showAlert('Admin access required', 'warning'); }
+        function uploadCatalogImage() { appState.isAdmin ? showAlert('Upload product image dialog would open', 'info') : showAlert('Admin access required', 'warning'); }
 
-        function exportToExcel() {
-            showAlert('Data exported to Excel', 'success');
+        function loadPropertyMap() {
+            syncPropertyAddress();
+            const address = document.getElementById('mapAddress').value.trim();
+            if (!address) return showAlert('Enter customer address first', 'warning');
+            const service = document.getElementById('mapService').value;
+            const encoded = encodeURIComponent(address);
+            document.getElementById('propertyMapFrame').src = service === 'osm' ? `https://www.openstreetmap.org/search?query=${encoded}` : `https://maps.google.com/maps?q=${encoded}&output=embed`;
         }
-
-        // ===== UTILITY FUNCTIONS =====
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                showAlert('Logged out successfully', 'success');
-            }
+        function openStreetView() {
+            const address = document.getElementById('mapAddress').value.trim();
+            if (!address) return showAlert('Enter customer address first', 'warning');
+            window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`, '_blank');
         }
+        function printPropertyMappingSheet() { showAlert('Property mapping sheet sent to printer', 'info'); }
+        function emailPropertyMappingSheet() { showAlert('Property mapping sheet emailed', 'success'); }
+        function printFenceInfoSheet() { showAlert('Fence information sheet sent to printer', 'info'); }
+        function emailFenceInfoSheet() { showAlert('Fence information sheet emailed', 'success'); }
 
-        function showAlert(message, type) {
-            // Simple alert for now - could be replaced with toast notification
-            const alertMap = {
-                success: '✓',
-                danger: '✕',
-                warning: '⚠',
-                info: 'ⓘ'
-            };
-            console.log(`[${type.toUpperCase()}] ${message}`);
-            alert(message);
-        }
+        function logout() { if (confirm('Are you sure you want to logout?')) showAlert('Logged out successfully', 'success'); }
+        function showAlert(message, type) { console.log(`[${type.toUpperCase()}] ${message}`); alert(message); }
 
-        // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('installStart').value = today;
@@ -2251,19 +2634,24 @@
             document.getElementById('contractDate').value = today;
             document.getElementById('workDate').value = today;
             document.getElementById('signOffDate').value = today;
-
-            // Example: Calculate hours worked
             document.getElementById('startTime').addEventListener('change', calculateHours);
             document.getElementById('endTime').addEventListener('change', calculateHours);
+            document.getElementById('roundToOption').addEventListener('change', toggleCustomRoundValue);
+            document.getElementById('customerAddress').addEventListener('input', syncPropertyAddress);
+            document.getElementById('customerCity').addEventListener('input', syncPropertyAddress);
+            document.getElementById('customerProvince').addEventListener('input', syncPropertyAddress);
+            setPricingLock(false);
+            setUserRole('estimator', true);
+            calculateConcreteStoneDust();
+            toggleCustomRoundValue();
+            syncPropertyAddress();
         });
 
         function calculateHours() {
             const start = document.getElementById('startTime').value;
             const end = document.getElementById('endTime').value;
             if (start && end) {
-                const startDate = new Date(`2000-01-01 ${start}`);
-                const endDate = new Date(`2000-01-01 ${end}`);
-                const hours = (endDate - startDate) / (1000 * 60 * 60);
+                const hours = (new Date(`2000-01-01 ${end}`) - new Date(`2000-01-01 ${start}`)) / (1000 * 60 * 60);
                 document.getElementById('hoursWorked').value = hours.toFixed(2);
             }
         }
