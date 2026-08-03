@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fence Depot Pro - Professional Fencing Estimator</title>
+    <title>Fence Depot Fence Estimator - Professional Fencing Estimator</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -784,6 +784,367 @@
             padding-top: 16px;
             border-top: 1px solid var(--border-color);
         }
+
+        /* ===== TOAST NOTIFICATIONS ===== */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            min-width: 280px;
+            max-width: 400px;
+            padding: 14px 18px;
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast-success { background: var(--success); }
+        .toast-danger  { background: var(--danger); }
+        .toast-warning { background: var(--warning); }
+        .toast-info    { background: var(--info); }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(60px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to   { opacity: 0; transform: translateX(60px); }
+        }
+
+        /* ===== TUTORIAL PANELS ===== */
+        .tutorial-toggle-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #FFF8E1;
+            border: 1px solid #FFD54F;
+            border-radius: 8px;
+            padding: 10px 16px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #6D4C00;
+        }
+
+        .tutorial-panel {
+            display: none;
+            background: #E3F2FD;
+            border: 1px solid #90CAF9;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #0D47A1;
+        }
+
+        .tutorial-panel.visible { display: block; }
+
+        .tutorial-panel h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            font-weight: 700;
+            color: #0D47A1;
+        }
+
+        .tutorial-panel ol, .tutorial-panel ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .tutorial-panel li {
+            margin-bottom: 6px;
+        }
+
+        /* ===== PRICING LOCK ===== */
+        .lock-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .lock-badge-locked {
+            background: #FEE2E2;
+            color: var(--danger);
+        }
+
+        .lock-badge-unlocked {
+            background: #D5F4E6;
+            color: var(--success);
+        }
+
+        /* ===== METRIC/IMPERIAL TOGGLE ===== */
+        .unit-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 6px 12px;
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .unit-toggle:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .unit-toggle .toggle-pill {
+            display: inline-flex;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 2px;
+        }
+
+        .unit-toggle .toggle-opt {
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .unit-toggle .toggle-opt.active {
+            background: white;
+            color: var(--secondary);
+        }
+
+        /* ===== CALC BOX (concrete calculator) ===== */
+        .calc-box {
+            background: var(--primary-light);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .calc-box .calc-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+        }
+
+        .calc-result {
+            background: white;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        /* ===== ROUND-UP BOX ===== */
+        .roundup-box {
+            background: #FFF3E0;
+            border: 1px solid #FFB74D;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .roundup-box .roundup-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #E65100;
+            margin-bottom: 16px;
+        }
+
+        /* ===== PARTS CATALOG ===== */
+        .catalog-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .catalog-filter-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .catalog-filter-btn.active,
+        .catalog-filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .catalog-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.2s;
+        }
+
+        .catalog-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .catalog-card-img {
+            width: 100%;
+            height: 120px;
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .catalog-card-body {
+            padding: 12px;
+        }
+
+        .catalog-card-name {
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .catalog-card-plu {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .catalog-card-price {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* ===== MAP PLACEHOLDER ===== */
+        .map-placeholder {
+            width: 100%;
+            height: 400px;
+            background: var(--gray-100);
+            border: 2px dashed var(--gray-300);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            gap: 12px;
+        }
+
+        .map-placeholder i {
+            font-size: 48px;
+            color: var(--gray-400);
+        }
+
+        #mapFrame {
+            width: 100%;
+            height: 420px;
+            border: none;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* ===== ADMIN PANEL ===== */
+        .admin-section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--secondary);
+            background: var(--gray-100);
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin: 20px 0 12px;
+            border-left: 4px solid var(--warning);
+        }
+
+        /* ===== BREAKDOWN STEPS ===== */
+        .breakdown-step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+
+        .breakdown-step-num {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .breakdown-step-content {
+            flex: 1;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+        }
+
+        .breakdown-step-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .breakdown-step-value {
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .breakdown-step-formula {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
     </style>
 </head>
 <body>
@@ -793,14 +1154,21 @@
             <div class="header-left">
                 <div class="logo">🏗️</div>
                 <div>
-                    <div class="company-name">Fence Depot Pro</div>
-                    <div class="company-tagline">Professional Fencing Estimator</div>
+                    <div class="company-name">Fence Depot Fence Estimator</div>
+                    <div class="company-tagline">Professional Fencing Estimator System</div>
                 </div>
             </div>
             <div class="header-right">
+                <button class="unit-toggle" id="unitToggleBtn" onclick="toggleUnits()" title="Switch between Imperial and Metric">
+                    <i class="fas fa-ruler"></i>
+                    <span class="toggle-pill">
+                        <span class="toggle-opt active" id="unitImperial">Imperial</span>
+                        <span class="toggle-opt" id="unitMetric">Metric</span>
+                    </span>
+                </button>
                 <div class="user-info">
                     <div class="user-name" id="userName">Welcome, Professional</div>
-                    <div class="user-role">Project Manager</div>
+                    <div class="user-role" id="userRole">Project Manager</div>
                 </div>
                 <button class="logout-btn" onclick="logout()">
                     <i class="fas fa-sign-out-alt"></i> Logout
@@ -808,49 +1176,186 @@
             </div>
         </header>
 
+        <!-- TOAST CONTAINER -->
+        <div id="toast-container"></div>
+
         <!-- TAB NAVIGATION -->
         <div class="tab-navigation" id="tabNavigation">
-            <button class="tab-btn active" onclick="switchTab('fenceStyle')">
+            <button class="tab-btn active" onclick="switchTab(event,'project')">
+                <span class="tab-icon">👤</span>Project
+            </button>
+            <button class="tab-btn" onclick="switchTab(event,'fenceStyle')">
                 <span class="tab-icon">🎨</span>Fence Style
             </button>
-            <button class="tab-btn" onclick="switchTab('installation')">
+            <button class="tab-btn" onclick="switchTab(event,'installation')">
                 <span class="tab-icon">🔧</span>Installation
             </button>
-            <button class="tab-btn" onclick="switchTab('permit')">
+            <button class="tab-btn" onclick="switchTab(event,'permit')">
                 <span class="tab-icon">📋</span>Permit
             </button>
-            <button class="tab-btn" onclick="switchTab('locates')">
+            <button class="tab-btn" onclick="switchTab(event,'locates')">
                 <span class="tab-icon">📍</span>Locates
             </button>
-            <button class="tab-btn" onclick="switchTab('estimate')">
+            <button class="tab-btn" onclick="switchTab(event,'estimate')">
                 <span class="tab-icon">💰</span>Estimate
             </button>
-            <button class="tab-btn" onclick="switchTab('contract')">
+            <button class="tab-btn" onclick="switchTab(event,'extras')">
+                <span class="tab-icon">➕</span>Extras
+            </button>
+            <button class="tab-btn" onclick="switchTab(event,'breakdown')">
+                <span class="tab-icon">📐</span>Breakdown
+            </button>
+            <button class="tab-btn" onclick="switchTab(event,'contract')">
                 <span class="tab-icon">📝</span>Contract
             </button>
-            <button class="tab-btn" onclick="switchTab('shopDrawing')">
+            <button class="tab-btn" onclick="switchTab(event,'shopDrawing')">
                 <span class="tab-icon">🗺️</span>Shop Drawings
             </button>
-            <button class="tab-btn" onclick="switchTab('installer')">
-                <span class="tab-icon">👷</span>Installer Paperwork
+            <button class="tab-btn" onclick="switchTab(event,'changeOrders')">
+                <span class="tab-icon">🔄</span>Change Orders
             </button>
-            <button class="tab-btn" onclick="switchTab('customer')">
-                <span class="tab-icon">👥</span>Customer
+            <button class="tab-btn" onclick="switchTab(event,'signOff')">
+                <span class="tab-icon">✅</span>Sign-Off
             </button>
-            <button class="tab-btn" onclick="switchTab('inventory')">
-                <span class="tab-icon">📦</span>Inventory
+            <button class="tab-btn" onclick="switchTab(event,'installer')">
+                <span class="tab-icon">👷</span>Installer Work
             </button>
-            <button class="tab-btn" onclick="switchTab('reports')">
+            <button class="tab-btn" onclick="switchTab(event,'notes')">
+                <span class="tab-icon">📓</span>Notes
+            </button>
+            <button class="tab-btn" onclick="switchTab(event,'catalog')">
+                <span class="tab-icon">🗂️</span>Parts Catalog
+            </button>
+            <button class="tab-btn" onclick="switchTab(event,'reports')">
                 <span class="tab-icon">📊</span>Reports
+            </button>
+            <button class="tab-btn" onclick="switchTab(event,'admin')">
+                <span class="tab-icon">⚙️</span>Admin
             </button>
         </div>
 
         <!-- MAIN CONTENT -->
         <div class="main-container">
 
-            <!-- TAB 1: FENCE STYLE -->
-            <div id="fenceStyle" class="tab-content active">
+            <!-- TAB 1: PROJECT (CUSTOMER) -->
+            <div id="project" class="tab-content active">
                 <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutProject" onchange="toggleTutorial('tutProject','tutPanelProject')">
+                        <label for="tutProject" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelProject">
+                        <h4>📖 Project Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Enter the customer's full name and contact details.</li>
+                            <li>Enter the complete project (installation) address including city, province, and postal code.</li>
+                            <li>Select the project type (Residential or Commercial).</li>
+                            <li>Add any special access instructions or notes that the crew will need on site.</li>
+                            <li>Click <strong>Save Project</strong> — this populates the customer name in all other tabs and documents.</li>
+                        </ol>
+                    </div>
+
+                    <div class="section-title">
+                        <i class="fas fa-address-card"></i> Project & Customer Information
+                    </div>
+                    <div class="section-description">Enter customer contact details and project information — this data populates all other tabs and documents.</div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label-required">Customer Name</label>
+                            <input type="text" id="customerName" placeholder="Full Name" oninput="syncCustomerName()">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="customerEmail" placeholder="email@example.com">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Primary Phone</label>
+                            <input type="text" id="customerPhone" placeholder="(555) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label>Secondary Phone</label>
+                            <input type="text" id="customerSecondaryPhone" placeholder="(555) 123-4568">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label-required">Project Address</label>
+                        <input type="text" id="customerAddress" placeholder="Street Address" oninput="syncAddress()">
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="customerCity" placeholder="City">
+                        </div>
+                        <div class="form-group">
+                            <label>Province</label>
+                            <input type="text" id="customerProvince" placeholder="ON">
+                        </div>
+                        <div class="form-group">
+                            <label>Postal Code</label>
+                            <input type="text" id="customerPostal" placeholder="L4K 1Z4">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Project Type</label>
+                            <select id="projectType">
+                                <option value="residential">Residential</option>
+                                <option value="commercial">Commercial</option>
+                                <option value="industrial">Industrial</option>
+                                <option value="municipal">Municipal / Government</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Project Number</label>
+                            <input type="text" id="projectNumber" placeholder="Auto-generated" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Special Access Instructions / Notes for Crew</label>
+                        <textarea id="customerNotes" placeholder="E.g., gate code is 1234, park on side street, dog on property, do not disturb flowers, etc."></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="saveProject()">
+                            <i class="fas fa-save"></i> Save Project
+                        </button>
+                        <button class="btn btn-secondary" onclick="printProject()">
+                            <i class="fas fa-print"></i> Print Info Sheet
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: FENCE STYLE -->
+            <div id="fenceStyle" class="tab-content">
+                <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutFenceStyle" onchange="toggleTutorial('tutFenceStyle','tutPanelFenceStyle')">
+                        <label for="tutFenceStyle" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelFenceStyle">
+                        <h4>📖 Fence Style Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Select the <strong>Fence Type</strong> (Chain Link, Wood, Vinyl, or Wrought Iron).</li>
+                            <li>Choose the <strong>Fence Height</strong> — only heights appropriate for the selected type apply.</li>
+                            <li>Select the <strong>Style/Pattern</strong> (Privacy, Semi-Privacy, Picket, etc.).</li>
+                            <li>Choose the <strong>Color/Material Finish</strong> from the dropdown.</li>
+                            <li>Enter the number and width of gates required.</li>
+                            <li>Choose post spacing — 6 ft is standard for residential chain link.</li>
+                            <li>Click <strong>Save Fence Style</strong> to lock in the selections for this project.</li>
+                        </ol>
+                    </div>
+
                     <div class="section-title">
                         <i class="fas fa-palette"></i> Fence Style & Type Selection
                     </div>
@@ -883,7 +1388,7 @@
                     <div class="grid-2">
                         <div class="form-group">
                             <label class="label-required">Fence Style/Pattern</label>
-                            <select id="fenceStyle">
+                            <select id="fencePattern">
                                 <option value="">-- Select Style --</option>
                                 <option value="privacy">Privacy (Solid)</option>
                                 <option value="semiprivacy">Semi-Privacy</option>
@@ -969,9 +1474,26 @@
                 </div>
             </div>
 
-            <!-- TAB 2: INSTALLATION -->
+            <!-- TAB 3: INSTALLATION -->
             <div id="installation" class="tab-content">
                 <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutInstallation" onchange="toggleTutorial('tutInstallation','tutPanelInstallation')">
+                        <label for="tutInstallation" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelInstallation">
+                        <h4>📖 Installation Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Enter the planned <strong>Start Date</strong> and <strong>Completion Date</strong> for the installation.</li>
+                            <li>Select the <strong>Crew Size</strong> — this adjusts the labour calculation multipliers automatically.</li>
+                            <li>Enter total <strong>Linear Footage</strong> to be installed.</li>
+                            <li>Indicate the <strong>Terrain Conditions</strong> and <strong>Soil Type</strong> — these affect post-hole drilling times and concrete requirements.</li>
+                            <li>Specify any <strong>Special Installation Notes</strong> (e.g., concrete slope, rocky ground, existing fence removal required).</li>
+                            <li>Click <strong>Save Installation Details</strong> before proceeding to the Estimate tab.</li>
+                        </ol>
+                    </div>
+
                     <div class="section-title">
                         <i class="fas fa-hammer"></i> Installation Details
                     </div>
@@ -1052,9 +1574,26 @@
                 </div>
             </div>
 
-            <!-- TAB 3: PERMIT -->
+            <!-- TAB 4: PERMIT -->
             <div id="permit" class="tab-content">
                 <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutPermit" onchange="toggleTutorial('tutPermit','tutPanelPermit')">
+                        <label for="tutPermit" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelPermit">
+                        <h4>📖 Permit Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Enter the <strong>Municipality</strong> where the fence will be installed.</li>
+                            <li>Select the <strong>Province/Region</strong> — this loads the applicable building code standards.</li>
+                            <li>Indicate whether a permit is <strong>Required</strong> for this fence (most fences over 6 ft or near property lines require one).</li>
+                            <li>Fill in the permit application number once obtained.</li>
+                            <li>Use the <strong>checkboxes</strong> to select which permit forms to print or email to the customer.</li>
+                            <li>Click <strong>Save Permit Info</strong> to record all permit details for this project.</li>
+                        </ol>
+                    </div>
+
                     <div class="section-title">
                         <i class="fas fa-file-contract"></i> Permit Information
                     </div>
@@ -1131,9 +1670,26 @@
                 </div>
             </div>
 
-            <!-- TAB 4: LOCATES -->
+            <!-- TAB 5: LOCATES -->
             <div id="locates" class="tab-content">
                 <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutLocates" onchange="toggleTutorial('tutLocates','tutPanelLocates')">
+                        <label for="tutLocates" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelLocates">
+                        <h4>📖 Locates Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li><strong>MANDATORY:</strong> Call 811 or Ontario One Call BEFORE any digging. This is a legal requirement.</li>
+                            <li>Select whether a locate request has been submitted and which service was used.</li>
+                            <li>Record the <strong>Locate Reference Number</strong> — this is your proof of compliance.</li>
+                            <li>Enter the <strong>Locate Request Date</strong> and expected confirmation date (typically 3 business days).</li>
+                            <li>After locates are complete, document any utilities found on the property.</li>
+                            <li>The locate status is passed to the Installer Work Paper so the crew knows it's safe to dig.</li>
+                        </ol>
+                    </div>
+
                     <div class="section-title">
                         <i class="fas fa-map-marker-alt"></i> Utility Locates
                     </div>
@@ -1230,9 +1786,29 @@
                 </div>
             </div>
 
-            <!-- TAB 5: ESTIMATE -->
+            <!-- TAB 6: ESTIMATE -->
             <div id="estimate" class="tab-content">
                 <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutEstimate" onchange="toggleTutorial('tutEstimate','tutPanelEstimate')">
+                        <label for="tutEstimate" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelEstimate">
+                        <h4>📖 Estimate Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Enter the <strong>Total Linear Footage</strong> — the number of posts is auto-calculated using the post spacing from Fence Style tab.</li>
+                            <li>Enter the <strong>Labour Rate per Hour</strong> (include wage, WCB, and overhead).</li>
+                            <li>Enter costs for <strong>Materials</strong>, <strong>Hardware/Fasteners</strong>, and <strong>Concrete</strong> separately.</li>
+                            <li>Use the <strong>Concrete Calculator</strong> below to calculate exact concrete needed for your post holes.</li>
+                            <li>Enter any <strong>Extra Work</strong> costs (gate operators, removal of old fence, etc.).</li>
+                            <li>Set <strong>Overhead %</strong> and <strong>Profit Margin %</strong> to match company policy (admin sets defaults).</li>
+                            <li>Click <strong>Calculate Estimate</strong> to generate the full cost breakdown.</li>
+                            <li>Use the <strong>Estimator Round-Up</strong> to adjust the final price to a clean number.</li>
+                            <li>Once the estimate becomes a contract, pricing is <strong>locked</strong> — no price changes affect the locked contract.</li>
+                        </ol>
+                    </div>
+
                     <div class="section-title">
                         <i class="fas fa-calculator"></i> Project Estimate
                     </div>
@@ -1380,15 +1956,410 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- CONCRETE / STONE DUST CALCULATOR -->
+                <div class="calc-box">
+                    <div class="calc-title">🧮 Concrete &amp; Stone Dust Calculator</div>
+                    <div class="section-description">Calculate the exact volume of concrete or stone dust needed for your post holes.</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Hole Diameter (inches)</label>
+                            <select id="holeDiameter">
+                                <option value="6">6" (Residential post)</option>
+                                <option value="8" selected>8" (Standard post)</option>
+                                <option value="10">10" (Heavy post)</option>
+                                <option value="12">12" (Gate / Terminal post)</option>
+                                <option value="16">16" (Commercial)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Hole Depth (inches)</label>
+                            <input type="number" id="holeDepth" placeholder="42" min="12" max="72" value="42">
+                            <span class="label-hint">Below frost line — typically 42" in Ontario</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Post Holes</label>
+                            <input type="number" id="numHoles" placeholder="0" min="0" value="0">
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Material Type</label>
+                            <select id="concreteMaterial">
+                                <option value="concrete">Concrete (80lb bags)</option>
+                                <option value="stonedust">Stone Dust</option>
+                                <option value="gravel">Gravel</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit System</label>
+                            <select id="calcUnitSystem">
+                                <option value="imperial">Imperial (cu ft / bags)</option>
+                                <option value="metric">Metric (cu m)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="calculateConcrete()">
+                            <i class="fas fa-calculator"></i> Calculate
+                        </button>
+                    </div>
+                    <div class="calc-result" id="concreteResult">Enter values above and click Calculate</div>
+                </div>
+
+                <!-- ESTIMATOR ROUND-UP TOOL -->
+                <div class="roundup-box">
+                    <div class="roundup-title">💰 Estimator Round-Up Tool</div>
+                    <div class="section-description">Adjust the final price to a clean number. Only the estimator can modify this value — it does not affect locked contracts.</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Calculated Total</label>
+                            <input type="text" id="roundupBase" placeholder="$0.00" readonly style="font-weight: 600; color: var(--primary);">
+                        </div>
+                        <div class="form-group">
+                            <label>Round Up To Nearest ($)</label>
+                            <select id="roundupIncrement">
+                                <option value="25">$25.00</option>
+                                <option value="50" selected>$50.00</option>
+                                <option value="100">$100.00</option>
+                                <option value="250">$250.00</option>
+                                <option value="500">$500.00</option>
+                                <option value="custom">Custom Amount</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Custom Amount ($) <span class="label-hint">Only if Custom selected</span></label>
+                            <input type="number" id="roundupCustom" placeholder="e.g. 75" min="1" step="1">
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="applyRoundup()">
+                            <i class="fas fa-arrow-up"></i> Apply Round-Up
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearRoundup()">
+                            <i class="fas fa-undo"></i> Reset
+                        </button>
+                    </div>
+                    <div class="calc-result" id="roundupResult" style="background:#FFF3E0; border-color:#FFB74D; color:#E65100;">
+                        Calculate estimate first, then apply round-up
+                    </div>
+                </div>
             </div>
 
-            <!-- TAB 6: CONTRACT -->
+            <!-- TAB 7: EXTRAS -->
+            <div id="extras" class="tab-content">
+                <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutExtras" onchange="toggleTutorial('tutExtras','tutPanelExtras')">
+                        <label for="tutExtras" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelExtras">
+                        <h4>📖 Extras Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Select any <strong>additional items</strong> that are part of this project but not part of the standard fence installation.</li>
+                            <li>For <strong>Barbed Wire</strong>: enter the number of strands and total footage.</li>
+                            <li>For <strong>Electric Gate Operators</strong>: select the gate type (swing, slide, cantilever) and operator model.</li>
+                            <li>For <strong>Bollards</strong>: enter the number and type (fixed, removable, decorative).</li>
+                            <li>For <strong>Decorative Inserts</strong>: select the insert type and enter the square footage.</li>
+                            <li>For <strong>Barrier/Crash Gates</strong>: select the style and enter gate width.</li>
+                            <li>All extras are automatically added to the Estimate total and itemized in the Contract.</li>
+                        </ol>
+                    </div>
+
+                    <div class="section-title">
+                        <i class="fas fa-plus-circle"></i> Extras & Additional Items
+                    </div>
+                    <div class="section-description">Add barbed wire, electric gate operators, bollards, decorative inserts, and other extras to this project</div>
+
+                    <!-- BARBED WIRE -->
+                    <div class="section-title mt-20">🔩 Barbed Wire / Security Topping</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Barbed Wire Required?</label>
+                            <select id="barbedWireRequired">
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Strands</label>
+                            <input type="number" id="barbedStrands" placeholder="0" min="0" max="6" value="0">
+                            <span class="label-hint">Typically 1–3 strands for security, max 6</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Linear Footage</label>
+                            <input type="number" id="barbedFootage" placeholder="0" min="0" step="0.1">
+                        </div>
+                    </div>
+
+                    <!-- ELECTRIC GATE OPERATORS -->
+                    <div class="section-title mt-20">⚡ Electric Gate Operators</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Gate Operator Required?</label>
+                            <select id="gateOperatorRequired" onchange="toggleOperatorFields()">
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Gate Type</label>
+                            <select id="gateOperatorType">
+                                <option value="">-- Select --</option>
+                                <option value="swing">Swing Gate (Single)</option>
+                                <option value="swing-double">Swing Gate (Double)</option>
+                                <option value="slide">Slide Gate</option>
+                                <option value="cantilever">Cantilever Slide Gate</option>
+                                <option value="vertical-pivot">Vertical Pivot Gate</option>
+                                <option value="barrier">Barrier/Boom Gate</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Gate Width (ft)</label>
+                            <input type="number" id="operatorGateWidth" placeholder="12" min="0" step="0.5">
+                        </div>
+                    </div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Operator Model / Brand</label>
+                            <select id="operatorModel">
+                                <option value="">-- Select Model --</option>
+                                <option value="liftmaster-la400">LiftMaster LA400 (Swing)</option>
+                                <option value="liftmaster-la412">LiftMaster LA412 (Swing)</option>
+                                <option value="liftmaster-sw402">LiftMaster SW402 (Slide)</option>
+                                <option value="nice-rd400">Nice RD400 (Slide)</option>
+                                <option value="faac-391">FAAC 391 (Swing)</option>
+                                <option value="bft-ares">BFT ARES (Cantilever)</option>
+                                <option value="doorking-9050">DoorKing 9050 (Barrier)</option>
+                                <option value="custom">Custom / Client-Supplied</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Power Source</label>
+                            <select id="operatorPower">
+                                <option value="110v">110V AC</option>
+                                <option value="240v">240V AC</option>
+                                <option value="solar">Solar</option>
+                                <option value="battery">Battery Backup</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Access Control</label>
+                            <select id="operatorAccess">
+                                <option value="keypad">Keypad</option>
+                                <option value="fob">Key Fob / Remote</option>
+                                <option value="card">Card Reader</option>
+                                <option value="intercom">Video Intercom</option>
+                                <option value="loop">Loop Detector</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Gate Operator Notes</label>
+                        <textarea id="operatorNotes" placeholder="Special installation requirements, wiring details, client access preferences, etc."></textarea>
+                    </div>
+
+                    <!-- BOLLARDS -->
+                    <div class="section-title mt-20">🚧 Bollards</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Bollards Required?</label>
+                            <select id="bollardsRequired">
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Bollard Type</label>
+                            <select id="bollardType">
+                                <option value="fixed">Fixed (Permanent)</option>
+                                <option value="removable">Removable</option>
+                                <option value="decorative">Decorative</option>
+                                <option value="crash">Crash-Rated (K4/K8)</option>
+                                <option value="flexible">Flexible / Delineator</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Bollards</label>
+                            <input type="number" id="bollardCount" placeholder="0" min="0" value="0">
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Bollard Covers Required?</label>
+                            <select id="bollardCovers">
+                                <option value="no">No</option>
+                                <option value="yellow">Yellow Safety Cover</option>
+                                <option value="black">Black Cover</option>
+                                <option value="stainless">Stainless Steel Sleeve</option>
+                                <option value="decorative">Decorative Cap</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Bollard Diameter / Size</label>
+                            <select id="bollardSize">
+                                <option value="4in">4" (102mm) Standard</option>
+                                <option value="5in">5" (127mm)</option>
+                                <option value="6in">6" (152mm) Heavy Duty</option>
+                                <option value="8in">8" (203mm) Crash Rated</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- CHAIN LINK DECORATIVE INSERTS -->
+                    <div class="section-title mt-20">🎨 Chain Link Decorative Inserts</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Inserts Required?</label>
+                            <select id="insertsRequired">
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Insert Material</label>
+                            <select id="insertMaterial">
+                                <option value="">-- Select --</option>
+                                <option value="privacy-slats-alum">Aluminum Privacy Slats</option>
+                                <option value="privacy-slats-vinyl">Vinyl Privacy Slats</option>
+                                <option value="privacy-slats-steel">Steel Privacy Slats</option>
+                                <option value="privacy-screen">Privacy Screen / Mesh</option>
+                                <option value="windscreen">Windscreen / Shade Cloth</option>
+                                <option value="decorative-alum">Decorative Aluminum Inserts</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Coverage Area (sq ft)</label>
+                            <input type="number" id="insertArea" placeholder="0" min="0" step="0.5">
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Insert Color</label>
+                            <select id="insertColor">
+                                <option value="black">Black</option>
+                                <option value="brown">Brown</option>
+                                <option value="beige">Beige / Tan</option>
+                                <option value="white">White</option>
+                                <option value="green">Green</option>
+                                <option value="gray">Gray</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Estimated Material Cost (CAD)</label>
+                            <input type="number" id="insertCost" placeholder="0.00" step="0.01">
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="saveExtras()">
+                            <i class="fas fa-save"></i> Save Extras
+                        </button>
+                        <button class="btn btn-secondary" onclick="addExtrasToEstimate()">
+                            <i class="fas fa-calculator"></i> Add to Estimate
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 8: BREAKDOWN -->
+            <div id="breakdown" class="tab-content">
+                <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutBreakdown" onchange="toggleTutorial('tutBreakdown','tutPanelBreakdown')">
+                        <label for="tutBreakdown" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelBreakdown">
+                        <h4>📖 Breakdown Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Select the <strong>Fence Type</strong> to see the step-by-step calculation methodology for that specific fence.</li>
+                            <li>Enter the <strong>Linear Footage</strong> and number of posts/gates to see a live breakdown.</li>
+                            <li>Each step shows the <strong>formula</strong>, <strong>calculated value</strong>, and the <strong>PLU numbers</strong> of materials required.</li>
+                            <li>Use this tab to <strong>verify</strong> the auto-calculated estimate or to train new estimators.</li>
+                            <li>The Breakdown view reflects the <strong>current estimate</strong> values automatically when you click "Generate Breakdown".</li>
+                        </ol>
+                    </div>
+
+                    <div class="section-title">
+                        <i class="fas fa-list-ol"></i> Step-by-Step Calculation Breakdown
+                    </div>
+                    <div class="section-description">See exactly how each material quantity and cost is calculated for this project</div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Fence Type to Break Down</label>
+                            <select id="breakdownType" onchange="generateBreakdown()">
+                                <option value="">-- Select Fence Type --</option>
+                                <option value="chainlink">Chain Link</option>
+                                <option value="wood">Wood Privacy</option>
+                                <option value="vinyl">Vinyl</option>
+                                <option value="wroughtiron">Wrought Iron</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Linear Footage (for calculation)</label>
+                            <input type="number" id="breakdownFootage" placeholder="100" min="0" step="0.5" oninput="generateBreakdown()">
+                        </div>
+                    </div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>End Posts</label>
+                            <input type="number" id="bdEndPosts" value="2" min="0" oninput="generateBreakdown()">
+                        </div>
+                        <div class="form-group">
+                            <label>Corner Posts</label>
+                            <input type="number" id="bdCornerPosts" value="0" min="0" oninput="generateBreakdown()">
+                        </div>
+                        <div class="form-group">
+                            <label>Gate Posts (pairs)</label>
+                            <input type="number" id="bdGatePosts" value="0" min="0" oninput="generateBreakdown()">
+                        </div>
+                    </div>
+
+                    <div id="breakdownResults">
+                        <div class="alert alert-info" style="margin-top:20px;">
+                            <div class="alert-icon"><i class="fas fa-info-circle"></i></div>
+                            <div>Select a fence type and enter linear footage above to see the full step-by-step calculation breakdown.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 9: CONTRACT -->
             <div id="contract" class="tab-content">
                 <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutContract" onchange="toggleTutorial('tutContract','tutPanelContract')">
+                        <label for="tutContract" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelContract">
+                        <h4>📖 Contract Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Select the <strong>Contract Template</strong> appropriate for the job (Residential, Commercial, or Custom).</li>
+                            <li>Review the <strong>Payment Terms</strong>, <strong>Warranties</strong>, and all legal clauses — these are admin-controlled and cannot be changed by estimators.</li>
+                            <li>Click <strong>Generate Contract</strong> to produce the PDF contract with all project and pricing details filled in.</li>
+                            <li>Click <strong>Send to Customer</strong> to email the contract for review and e-signature.</li>
+                            <li>Once the customer signs, click <strong>Mark as Signed</strong> — this <strong>LOCKS</strong> the pricing. Any future price changes will NOT affect this contract.</li>
+                            <li>A 🔒 Locked badge will appear confirming the pricing is frozen.</li>
+                        </ol>
+                    </div>
+
                     <div class="section-title">
                         <i class="fas fa-file-signature"></i> Contract & Agreement
+                        <span class="lock-badge lock-badge-unlocked" id="contractLockBadge" style="margin-left:16px;">
+                            <i class="fas fa-lock-open"></i> Unlocked
+                        </span>
                     </div>
-                    <div class="section-description">Generate and manage customer contracts and agreements</div>
+                    <div class="section-description">Generate and manage customer contracts and agreements. Once signed, pricing is locked.</div>
+
+                    <div class="alert alert-warning" id="contractLockAlert" style="display:none;">
+                        <div class="alert-icon"><i class="fas fa-lock"></i></div>
+                        <div><strong>PRICING LOCKED:</strong> This contract has been signed. The prices on this contract are frozen and will not be affected by any future price changes. Locked on: <span id="contractLockDate">--</span></div>
+                    </div>
 
                     <div class="form-group">
                         <label class="label-required">Contract Template</label>
@@ -1437,9 +2408,27 @@
                 </div>
             </div>
 
-            <!-- TAB 7: SHOP DRAWINGS/MAPPING -->
+            <!-- TAB 10: SHOP DRAWINGS/MAPPING -->
             <div id="shopDrawing" class="tab-content">
                 <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutShopDrawing" onchange="toggleTutorial('tutShopDrawing','tutPanelShopDrawing')">
+                        <label for="tutShopDrawing" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelShopDrawing">
+                        <h4>📖 Shop Drawings Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>The <strong>Site Address</strong> is auto-populated from the Project tab.</li>
+                            <li>Enter the overall <strong>Site Dimensions</strong> (e.g., 100' × 50') or property lot size.</li>
+                            <li>In the <strong>Site Layout</strong>, describe or sketch the fence line: start/end points, corners, gates, obstacles, and utility locations.</li>
+                            <li>Enter the exact fence line details — linear footage, post count, and gate count.</li>
+                            <li>Add any <strong>Shop Drawing Notes</strong> for the fabrication shop (e.g., gate frame dimensions, post heights above grade, etc.).</li>
+                            <li>Use the <strong>Property Mapping</strong> tab (Tab 17) for a visual map with fence lines drawn on it.</li>
+                            <li>Click <strong>Generate Shop Drawing</strong> to produce a printable/emailable drawing PDF.</li>
+                        </ol>
+                    </div>
+
                     <div class="section-title">
                         <i class="fas fa-map"></i> Shop Drawings & Site Mapping
                     </div>
@@ -1493,9 +2482,29 @@
                 </div>
             </div>
 
-            <!-- TAB 8: INSTALLER WORK PAPER -->
+            <!-- TAB 13: INSTALLER WORK PAPER -->
             <div id="installer" class="tab-content">
                 <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutInstaller" onchange="toggleTutorial('tutInstaller','tutPanelInstaller')">
+                        <label for="tutInstaller" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelInstaller">
+                        <h4>📖 Installer Work Paper – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Customer and address fields are auto-populated from the Project tab.</li>
+                            <li>Enter the <strong>Work Date</strong> and crew information for today's work.</li>
+                            <li>Check off the <strong>Tools &amp; Equipment</strong> taken to the job site.</li>
+                            <li>Use the <strong>Daily Work Log</strong> to record start/end times (hours auto-calculate).</li>
+                            <li>Check the <strong>Tasks Completed</strong> checkboxes to track progress.</li>
+                            <li>Update the <strong>Project Completion %</strong> slider at end of day.</li>
+                            <li>For any issues or changes from original plan, use the Change Orders tab (Tab 12).</li>
+                            <li>When job is done: go to the Sign-Off tab (Tab 13) to get customer approval.</li>
+                            <li>Click <strong>Save Work Log</strong> to record today's activities, then <strong>Print Work Paper</strong> for the crew.</li>
+                        </ol>
+                    </div>
+
                     <div class="section-title">
                         <i class="fas fa-clipboard-list"></i> Installer Work Paper
                     </div>
@@ -1762,14 +2771,14 @@
                     <div class="grid-2">
                         <div class="form-group">
                             <label>Work Complete & Inspected?</label>
-                            <select id="workCompleteInspected">
+                            <select id="installerWorkCompleteInspected">
                                 <option value="no">No</option>
                                 <option value="yes">Yes - Ready for Sign-Off</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Customer Sign-Off Status</label>
-                            <select id="customerSignOffStatus">
+                            <select id="installerCustomerSignOffStatus">
                                 <option value="pending">Pending - Awaiting Approval</option>
                                 <option value="approved">Approved by Customer</option>
                                 <option value="conditional">Approved with Conditions</option>
@@ -1780,17 +2789,17 @@
 
                     <div class="form-group">
                         <label>Customer Printed Name</label>
-                        <input type="text" id="customerPrintedName" placeholder="Customer's printed name for sign-off">
+                        <input type="text" id="installerCustomerPrintedName" placeholder="Customer's printed name for sign-off">
                     </div>
 
                     <div class="form-group">
                         <label>Sign-Off Date</label>
-                        <input type="date" id="signOffDate">
+                        <input type="date" id="installerSignOffDate">
                     </div>
 
                     <div class="form-group">
                         <label>Customer Comments/Feedback</label>
-                        <textarea id="customerFeedback" placeholder="Any customer feedback, concerns, or compliments"></textarea>
+                        <textarea id="installerCustomerFeedback" placeholder="Any customer feedback, concerns, or compliments"></textarea>
                     </div>
 
                     <div class="button-group">
@@ -1807,151 +2816,349 @@
                 </div>
             </div>
 
-            <!-- TAB 9: CUSTOMER -->
-            <div id="customer" class="tab-content">
+            <!-- TAB 11: CHANGE ORDERS -->
+            <div id="changeOrders" class="tab-content">
                 <div class="section">
-                    <div class="section-title">
-                        <i class="fas fa-address-card"></i> Customer Information
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutChangeOrders" onchange="toggleTutorial('tutChangeOrders','tutPanelChangeOrders')">
+                        <label for="tutChangeOrders" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
                     </div>
-                    <div class="section-description">Manage customer contact details and project information</div>
+                    <div class="tutorial-panel" id="tutPanelChangeOrders">
+                        <h4>📖 Change Orders Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Use this tab whenever the customer requests <strong>changes from the original contract</strong>.</li>
+                            <li>Describe the requested change, the reason, and the impact on materials/labour.</li>
+                            <li>Enter the <strong>additional cost</strong> (positive) or <strong>credit</strong> (negative) for the change.</li>
+                            <li>Have the customer <strong>sign the change order</strong> before proceeding with the modified work.</li>
+                            <li>A change order is legally required to modify a locked contract — the original contract pricing remains intact.</li>
+                            <li>Each change order is numbered automatically and linked to the project.</li>
+                        </ol>
+                    </div>
+
+                    <div class="section-title">
+                        <i class="fas fa-exchange-alt"></i> Change Orders
+                    </div>
+                    <div class="section-description">Document and manage all changes from the original contract scope</div>
+
+                    <div class="alert alert-warning">
+                        <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div>All changes to a signed contract require a signed change order. Obtain customer signature before proceeding with any modified work.</div>
+                    </div>
 
                     <div class="grid-2">
                         <div class="form-group">
-                            <label class="label-required">Customer Name</label>
-                            <input type="text" id="customerName" placeholder="Full Name">
+                            <label>Change Order #</label>
+                            <input type="text" id="coNumber" placeholder="CO-001" readonly>
                         </div>
                         <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" id="customerEmail" placeholder="email@example.com">
-                        </div>
-                    </div>
-
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>Primary Phone</label>
-                            <input type="text" id="customerPhone" placeholder="(555) 123-4567">
-                        </div>
-                        <div class="form-group">
-                            <label>Secondary Phone</label>
-                            <input type="text" id="customerSecondaryPhone" placeholder="(555) 123-4568">
+                            <label>Change Order Date</label>
+                            <input type="date" id="coDate">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="label-required">Project Address</label>
-                        <input type="text" id="customerAddress" placeholder="Street Address">
-                    </div>
-
-                    <div class="grid-3">
-                        <div class="form-group">
-                            <label>City</label>
-                            <input type="text" id="customerCity" placeholder="City">
-                        </div>
-                        <div class="form-group">
-                            <label>Province</label>
-                            <input type="text" id="customerProvince" placeholder="ON">
-                        </div>
-                        <div class="form-group">
-                            <label>Postal Code</label>
-                            <input type="text" id="customerPostal" placeholder="L4K 1Z4">
-                        </div>
+                        <label class="label-required">Description of Change Requested</label>
+                        <textarea id="coDescription" placeholder="Describe what the customer wants changed or added: e.g., 'Add 20 additional feet of 6ft chain link on north side' or 'Upgrade gate from manual to electric operator'"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>Customer Notes</label>
-                        <textarea id="customerNotes" placeholder="Special instructions, preferences, access information, etc."></textarea>
-                    </div>
-
-                    <div class="button-group">
-                        <button class="btn btn-primary" onclick="saveCustomer()">
-                            <i class="fas fa-save"></i> Save Customer
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 10: INVENTORY -->
-            <div id="inventory" class="tab-content">
-                <div class="section">
-                    <div class="section-title">
-                        <i class="fas fa-warehouse"></i> Inventory Management
-                    </div>
-                    <div class="section-description">Track materials and inventory for projects</div>
-
-                    <div class="form-group">
-                        <label>Filter by Material Type</label>
-                        <select onchange="filterInventory(this.value)">
-                            <option value="">-- All Items --</option>
-                            <option value="chainlink">Chain Link</option>
-                            <option value="vinyl">Vinyl</option>
-                            <option value="wood">Wood</option>
-                            <option value="wroughtiron">Wrought Iron</option>
-                            <option value="hardware">Hardware/Fasteners</option>
-                            <option value="concrete">Concrete</option>
+                        <label>Reason for Change</label>
+                        <select id="coReason">
+                            <option value="customer">Customer Request</option>
+                            <option value="site">Site Condition Discovery</option>
+                            <option value="permit">Permit Requirement</option>
+                            <option value="material">Material Substitution</option>
+                            <option value="design">Design Change</option>
+                            <option value="other">Other</option>
                         </select>
                     </div>
 
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th style="text-align: center;">Qty Required</th>
-                                <th style="text-align: center;">Qty Available</th>
-                                <th style="text-align: center;">Qty Needed</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>4×4 Posts (8ft PT)</td>
-                                <td style="text-align: center;">12</td>
-                                <td style="text-align: center;">8</td>
-                                <td style="text-align: center;">4</td>
-                                <td><span class="badge badge-warning">LOW STOCK</span></td>
-                                <td><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;">Order</button></td>
-                            </tr>
-                            <tr>
-                                <td>2×6 Rails (PT)</td>
-                                <td style="text-align: center;">24</td>
-                                <td style="text-align: center;">24</td>
-                                <td style="text-align: center;">0</td>
-                                <td><span class="badge badge-success">IN STOCK</span></td>
-                                <td><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;">View</button></td>
-                            </tr>
-                            <tr>
-                                <td>Chain Link Fabric (250ft roll)</td>
-                                <td style="text-align: center;">1</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">1</td>
-                                <td><span class="badge badge-danger">OUT OF STOCK</span></td>
-                                <td><button class="btn btn-danger" style="padding: 4px 8px; font-size: 12px; background: var(--danger); color: white;">Order Now</button></td>
-                            </tr>
-                            <tr>
-                                <td>Concrete (80lb bag)</td>
-                                <td style="text-align: center;">40</td>
-                                <td style="text-align: center;">30</td>
-                                <td style="text-align: center;">10</td>
-                                <td><span class="badge badge-warning">LOW STOCK</span></td>
-                                <td><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;">Order</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Additional Material Cost (CAD)</label>
+                            <input type="number" id="coMaterialCost" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Additional Labour Cost (CAD)</label>
+                            <input type="number" id="coLabourCost" placeholder="0.00" step="0.01">
+                        </div>
+                    </div>
 
-                    <div class="button-group mt-20">
-                        <button class="btn btn-primary" onclick="addInventoryItem()">
-                            <i class="fas fa-plus"></i> Add Item
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Total Change Order Amount (CAD)</label>
+                            <input type="number" id="coTotal" placeholder="Auto-calculated" readonly style="font-weight:600;color:var(--primary);">
+                        </div>
+                        <div class="form-group">
+                            <label>Customer Approval Status</label>
+                            <select id="coApproval">
+                                <option value="pending">Pending – Awaiting Signature</option>
+                                <option value="approved">Approved & Signed</option>
+                                <option value="rejected">Rejected by Customer</option>
+                                <option value="void">Voided</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Customer Printed Name (for change order)</label>
+                        <input type="text" id="coCustomerName" placeholder="Customer's printed name">
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="saveChangeOrder()">
+                            <i class="fas fa-save"></i> Save Change Order
                         </button>
-                        <button class="btn btn-secondary" onclick="generateOrderForm()">
-                            <i class="fas fa-file-excel"></i> Generate Order Form
+                        <button class="btn btn-secondary" onclick="printChangeOrder()">
+                            <i class="fas fa-print"></i> Print Change Order
+                        </button>
+                        <button class="btn btn-secondary" onclick="addCOToTotal()">
+                            <i class="fas fa-plus"></i> Add to Project Total
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB 11: REPORTS -->
+            <!-- TAB 12: SIGN-OFF -->
+            <div id="signOff" class="tab-content">
+                <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutSignOff" onchange="toggleTutorial('tutSignOff','tutPanelSignOff')">
+                        <label for="tutSignOff" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelSignOff">
+                        <h4>📖 Sign-Off Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Complete this tab <strong>at the job site</strong> with the customer present when the installation is finished.</li>
+                            <li>Walk the customer through the completed work and confirm all items from the contract are done.</li>
+                            <li>Go through the <strong>Final Inspection Checklist</strong> item by item.</li>
+                            <li>Have the customer provide their <strong>printed name</strong> and confirm satisfaction.</li>
+                            <li>Click <strong>Mark Job Complete</strong> to finalize the project — this triggers the final invoice.</li>
+                            <li>Print or email the sign-off document as the customer's completion record and warranty start document.</li>
+                        </ol>
+                    </div>
+
+                    <div class="section-title">
+                        <i class="fas fa-check-double"></i> Final Customer Sign-Off & Approval
+                    </div>
+                    <div class="section-description">Customer approval of completed work — required before final invoice is issued</div>
+
+                    <div class="alert alert-info">
+                        <div class="alert-icon"><i class="fas fa-info-circle"></i></div>
+                        <div>Walk the customer through the completed installation before requesting sign-off. This document confirms the customer is satisfied with the work and starts the warranty period.</div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Sign-Off Date</label>
+                            <input type="date" id="signOffDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Work Complete &amp; Inspected?</label>
+                            <select id="workCompleteInspected">
+                                <option value="no">No</option>
+                                <option value="yes">Yes – Ready for Sign-Off</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="section-title mt-20">Final Inspection Checklist</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chk_fence_straight">
+                            <label for="chk_fence_straight">Fence is straight and level</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chk_posts_set">
+                            <label for="chk_posts_set">All posts properly set in concrete</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chk_gates_work">
+                            <label for="chk_gates_work">Gates swing/slide properly and latch</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chk_hardware_tightened">
+                            <label for="chk_hardware_tightened">All hardware tightened and secure</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chk_cleanup">
+                            <label for="chk_cleanup">Site cleaned up, debris removed</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chk_property_damage">
+                            <label for="chk_property_damage">No property damage</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chk_contract_fulfilled">
+                            <label for="chk_contract_fulfilled">All contract items fulfilled</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chk_warranty_explained">
+                            <label for="chk_warranty_explained">Warranty explained to customer</label>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group" style="margin-top:20px;">
+                            <label>Customer Sign-Off Status</label>
+                            <select id="customerSignOffStatus">
+                                <option value="pending">Pending – Awaiting Approval</option>
+                                <option value="approved">Approved by Customer</option>
+                                <option value="conditional">Approved with Conditions</option>
+                                <option value="rejected">Issues – Not Approved</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-top:20px;">
+                            <label>Customer Printed Name</label>
+                            <input type="text" id="customerPrintedName" placeholder="Customer's printed name for sign-off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Customer Comments / Feedback</label>
+                        <textarea id="customerFeedback" placeholder="Any customer feedback, concerns, compliments, or punch list items"></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-success" onclick="markJobComplete()">
+                            <i class="fas fa-check-double"></i> Mark Job Complete
+                        </button>
+                        <button class="btn btn-primary" onclick="printSignOff()">
+                            <i class="fas fa-print"></i> Print Sign-Off Form
+                        </button>
+                        <button class="btn btn-secondary" onclick="emailSignOff()">
+                            <i class="fas fa-envelope"></i> Email to Customer
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 14: NOTES -->
+            <div id="notes" class="tab-content">
+                <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutNotes" onchange="toggleTutorial('tutNotes','tutPanelNotes')">
+                        <label for="tutNotes" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelNotes">
+                        <h4>📖 Notes Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Use this tab for <strong>internal notes</strong> about the project that should not appear on customer documents.</li>
+                            <li>Record <strong>supplier quotes</strong>, follow-up reminders, special pricing arrangements, and estimator observations.</li>
+                            <li>Notes are date-stamped and user-stamped for accountability.</li>
+                            <li>Click <strong>Add Note</strong> to append a new timestamped note to the project log.</li>
+                            <li>Notes are searchable within the project and visible only to staff.</li>
+                        </ol>
+                    </div>
+
+                    <div class="section-title">
+                        <i class="fas fa-sticky-note"></i> Project Notes
+                    </div>
+                    <div class="section-description">Internal project notes — not visible on customer documents</div>
+
+                    <div class="form-group">
+                        <label>Add New Note</label>
+                        <textarea id="newNoteText" placeholder="Enter your note here — e.g., supplier quote, follow-up reminder, special instructions, customer conversation notes, etc."></textarea>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Note Type</label>
+                            <select id="noteType">
+                                <option value="general">General Note</option>
+                                <option value="supplier">Supplier / Pricing</option>
+                                <option value="customer">Customer Communication</option>
+                                <option value="site">Site Condition</option>
+                                <option value="followup">Follow-Up Required</option>
+                                <option value="admin">Admin Note</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Priority</label>
+                            <select id="notePriority">
+                                <option value="normal">Normal</option>
+                                <option value="important">Important</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="addNote()">
+                            <i class="fas fa-plus"></i> Add Note
+                        </button>
+                    </div>
+
+                    <div class="section-title mt-20">Notes Log</div>
+                    <div id="notesLog">
+                        <div style="color:var(--text-secondary); font-size:14px; padding:20px; text-align:center; background:var(--gray-50); border-radius:8px;">
+                            No notes yet. Add your first note above.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 15: PARTS CATALOG -->
+            <div id="catalog" class="tab-content">
+                <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutCatalog" onchange="toggleTutorial('tutCatalog','tutPanelCatalog')">
+                        <label for="tutCatalog" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelCatalog">
+                        <h4>📖 Parts Catalog Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>Browse the full <strong>fence parts catalog</strong> organized by fence type.</li>
+                            <li>Use the <strong>filter buttons</strong> to show only Chain Link, Wood, Vinyl, or Wrought Iron parts.</li>
+                            <li>Each card shows the <strong>product image</strong>, <strong>PLU number</strong>, and <strong>retail price</strong>.</li>
+                            <li>Click any item to view full details, add to an estimate, or check inventory levels.</li>
+                            <li><strong>Admin only:</strong> Use the Admin tab to add non-stock items, update POS pricing, upload product images, and manage catalog sections.</li>
+                        </ol>
+                    </div>
+
+                    <div class="section-title">
+                        <i class="fas fa-book-open"></i> Fence Parts Catalog
+                    </div>
+                    <div class="section-description">Browse all fence parts and accessories organized by type. Click any item to view details or add to estimate.</div>
+
+                    <!-- Filter Buttons -->
+                    <div class="catalog-filter-bar">
+                        <button class="catalog-filter-btn active" onclick="filterCatalog('all', this)">All Items</button>
+                        <button class="catalog-filter-btn" onclick="filterCatalog('chainlink', this)">⛓️ Chain Link</button>
+                        <button class="catalog-filter-btn" onclick="filterCatalog('wood', this)">🪵 Wood</button>
+                        <button class="catalog-filter-btn" onclick="filterCatalog('vinyl', this)">🏠 Vinyl</button>
+                        <button class="catalog-filter-btn" onclick="filterCatalog('wroughtiron', this)">🔩 Wrought Iron</button>
+                        <button class="catalog-filter-btn" onclick="filterCatalog('hardware', this)">🔧 Hardware</button>
+                        <button class="catalog-filter-btn" onclick="filterCatalog('gates', this)">🚪 Gates</button>
+                        <button class="catalog-filter-btn" onclick="filterCatalog('concrete', this)">🪨 Concrete</button>
+                    </div>
+
+                    <div class="catalog-grid" id="catalogGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 16: REPORTS -->
             <div id="reports" class="tab-content">
                 <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutReports" onchange="toggleTutorial('tutReports','tutPanelReports')">
+                        <label for="tutReports" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelReports">
+                        <h4>📖 Reports Tab – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>View <strong>project statistics</strong>: active projects, completions this month, revenue, and profit margins.</li>
+                            <li>Click <strong>Generate Full Report</strong> for a complete printable/emailable summary.</li>
+                            <li>Use <strong>Export to CSV</strong> or <strong>Export to Excel</strong> to download project data for accounting.</li>
+                            <li>The Recent Projects table shows all projects with status indicators.</li>
+                        </ol>
+                    </div>
+
                     <div class="section-title">
                         <i class="fas fa-chart-line"></i> Reports & Analytics
                     </div>
@@ -1993,28 +3200,28 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Wood Privacy Fence - 120ft</td>
+                                <td>Wood Privacy Fence – 120ft</td>
                                 <td>John Smith</td>
                                 <td>2026-07-15</td>
                                 <td>$3,240</td>
                                 <td><span class="badge badge-success">COMPLETED</span></td>
                             </tr>
                             <tr>
-                                <td>Chain Link Commercial - 250ft</td>
+                                <td>Chain Link Commercial – 250ft</td>
                                 <td>ABC Company</td>
                                 <td>2026-07-10</td>
                                 <td>$6,750</td>
                                 <td><span class="badge badge-success">COMPLETED</span></td>
                             </tr>
                             <tr>
-                                <td>Vinyl Gates & Posts</td>
+                                <td>Vinyl Gates &amp; Posts</td>
                                 <td>Mary Johnson</td>
                                 <td>2026-07-05</td>
                                 <td>$2,100</td>
                                 <td><span class="badge badge-success">COMPLETED</span></td>
                             </tr>
                             <tr>
-                                <td>Wrought Iron Ornamental - 80ft</td>
+                                <td>Wrought Iron Ornamental – 80ft</td>
                                 <td>David Lee</td>
                                 <td>2026-07-01</td>
                                 <td>$9,200</td>
@@ -2037,32 +3244,459 @@
                 </div>
             </div>
 
+            <!-- TAB 17: ADMIN -->
+            <div id="admin" class="tab-content">
+                <div class="section">
+                    <!-- Tutorial Toggle -->
+                    <div class="tutorial-toggle-bar">
+                        <input type="checkbox" id="tutAdmin" onchange="toggleTutorial('tutAdmin','tutPanelAdmin')">
+                        <label for="tutAdmin" style="margin:0;cursor:pointer;">📖 Show Tutorials</label>
+                    </div>
+                    <div class="tutorial-panel" id="tutPanelAdmin">
+                        <h4>📖 Admin Panel – Step-by-Step Guide</h4>
+                        <ol>
+                            <li>This panel is for <strong>Admin users only</strong>. Estimators cannot access or modify these settings.</li>
+                            <li>Set <strong>Installation Rates</strong>: per-foot fence rate, per-post rates, gate rates, and gate operator rates.</li>
+                            <li>Set <strong>Labour Rates</strong>: hourly rates for Foreman, Labourer, and Equipment Operator.</li>
+                            <li>Configure <strong>Equipment Costs</strong>: daily/hourly rental for backhoe, skidsteer, excavator, and attachments.</li>
+                            <li>Set <strong>Specialty Costs</strong>: tipping fees, concrete per hole, stone dust per hole.</li>
+                            <li>Update <strong>Company Legal Terms</strong>: scope of work template, payment terms, warranties, liabilities, and all contract clauses.</li>
+                            <li>Click <strong>Save Settings</strong> to apply changes. Changes affect new estimates only — existing locked contracts are not affected.</li>
+                        </ol>
+                    </div>
+
+                    <div class="section-title">
+                        <i class="fas fa-cog"></i> Admin Control Panel
+                    </div>
+                    <div class="section-description">Configure system-wide rates, company terms, and access controls. Admin access only.</div>
+
+                    <div class="alert alert-warning">
+                        <div class="alert-icon"><i class="fas fa-lock"></i></div>
+                        <div><strong>Admin Only:</strong> Changes here affect all new estimates. Existing signed/locked contracts are NOT affected by rate changes.</div>
+                    </div>
+
+                    <!-- INSTALLATION RATES -->
+                    <div class="admin-section-title">⚙️ Installation Rates</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Fence Installation Rate ($/LF)</label>
+                            <input type="number" id="adminFenceRate" placeholder="8.50" step="0.25" value="8.50">
+                            <span class="label-hint">Per linear foot, supply &amp; install</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Terminal Post Rate ($/post)</label>
+                            <input type="number" id="adminTerminalPostRate" placeholder="45.00" step="0.50" value="45.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Corner Post Rate ($/post)</label>
+                            <input type="number" id="adminCornerPostRate" placeholder="55.00" step="0.50" value="55.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Gate Post Rate ($/post)</label>
+                            <input type="number" id="adminGatePostRate" placeholder="65.00" step="0.50" value="65.00">
+                        </div>
+                        <div class="form-group">
+                            <label>3-Way Corner Post ($/post)</label>
+                            <input type="number" id="admin3WayPostRate" placeholder="75.00" step="0.50" value="75.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Gate Installation Rate ($/gate)</label>
+                            <input type="number" id="adminGateRate" placeholder="125.00" step="5.00" value="125.00">
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Gate Operator Installation ($/unit)</label>
+                            <input type="number" id="adminOperatorRate" placeholder="350.00" step="25.00" value="350.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Old Fence Removal ($/LF)</label>
+                            <input type="number" id="adminRemovalRate" placeholder="3.50" step="0.25" value="3.50">
+                        </div>
+                    </div>
+
+                    <!-- LABOUR RATES -->
+                    <div class="admin-section-title">👷 Labour Rates (per hour, CAD)</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Foreman Rate ($/hr)</label>
+                            <input type="number" id="adminForemanRate" placeholder="55.00" step="0.50" value="55.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Labourer Rate ($/hr)</label>
+                            <input type="number" id="adminLabourerRate" placeholder="38.00" step="0.50" value="38.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Equipment Operator Rate ($/hr)</label>
+                            <input type="number" id="adminEquipOperatorRate" placeholder="62.00" step="0.50" value="62.00">
+                        </div>
+                    </div>
+
+                    <!-- EQUIPMENT COSTS -->
+                    <div class="admin-section-title">🚜 Equipment Costs (per day, CAD)</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Backhoe (daily rate)</label>
+                            <input type="number" id="adminBackhoeRate" placeholder="650.00" step="25.00" value="650.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Skidsteer / Mini Loader (daily rate)</label>
+                            <input type="number" id="adminSkidsteerRate" placeholder="450.00" step="25.00" value="450.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Mini Excavator (daily rate)</label>
+                            <input type="number" id="adminExcavatorRate" placeholder="550.00" step="25.00" value="550.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Pickup Truck (daily rate)</label>
+                            <input type="number" id="adminPickupRate" placeholder="120.00" step="10.00" value="120.00">
+                        </div>
+                        <div class="form-group">
+                            <label>1-Ton Dump Truck (daily rate)</label>
+                            <input type="number" id="adminDumpTruckRate" placeholder="220.00" step="10.00" value="220.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Dump Trailer (daily rate)</label>
+                            <input type="number" id="adminDumpTrailerRate" placeholder="85.00" step="5.00" value="85.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Float Trailer (daily rate)</label>
+                            <input type="number" id="adminFloatTrailerRate" placeholder="150.00" step="10.00" value="150.00">
+                        </div>
+                    </div>
+
+                    <!-- AUGER ATTACHMENT COSTS -->
+                    <div class="section-title mt-20" style="font-size:14px;">Auger Attachments (per day)</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>6" Auger</label>
+                            <input type="number" id="adminAuger6" placeholder="45.00" step="5.00" value="45.00">
+                        </div>
+                        <div class="form-group">
+                            <label>8" Auger</label>
+                            <input type="number" id="adminAuger8" placeholder="50.00" step="5.00" value="50.00">
+                        </div>
+                        <div class="form-group">
+                            <label>12" Auger</label>
+                            <input type="number" id="adminAuger12" placeholder="60.00" step="5.00" value="60.00">
+                        </div>
+                        <div class="form-group">
+                            <label>16" Auger</label>
+                            <input type="number" id="adminAuger16" placeholder="70.00" step="5.00" value="70.00">
+                        </div>
+                        <div class="form-group">
+                            <label>24" Auger</label>
+                            <input type="number" id="adminAuger24" placeholder="90.00" step="5.00" value="90.00">
+                        </div>
+                        <div class="form-group">
+                            <label>36" Auger</label>
+                            <input type="number" id="adminAuger36" placeholder="120.00" step="5.00" value="120.00">
+                        </div>
+                    </div>
+
+                    <!-- SPECIALTY COSTS -->
+                    <div class="admin-section-title">🪨 Specialty Material Costs</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Concrete per Hole (CAD)</label>
+                            <input type="number" id="adminConcretePerHole" placeholder="18.00" step="0.50" value="18.00">
+                            <span class="label-hint">Includes material cost per typical hole</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Stone Dust per Hole (CAD)</label>
+                            <input type="number" id="adminStoneDustPerHole" placeholder="8.00" step="0.50" value="8.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Tipping / Landfill Fee ($/ton)</label>
+                            <input type="number" id="adminTippingFee" placeholder="95.00" step="5.00" value="95.00">
+                        </div>
+                    </div>
+
+                    <!-- COMPANY LEGAL TERMS (Admin Only) -->
+                    <div class="admin-section-title">📄 Company Legal Terms &amp; Contract Clauses (Admin Only)</div>
+                    <div class="form-group">
+                        <label>Scope of Work Template</label>
+                        <textarea id="adminScopeOfWork" style="min-height:120px;">Fence Depot agrees to supply and install the fence system as specified in this agreement, using materials meeting or exceeding Canadian Standards (CAN/CGSB-138.3-2019 for chain link; CSA O141 for wood). All work to be performed by licensed, insured professionals in compliance with local building codes.</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Terms</label>
+                        <textarea id="adminPaymentTerms" style="min-height:100px;">50% deposit required before material ordering. Balance due upon project completion. Cheques payable to Fence Depot. Late payments subject to 1.5% monthly interest. NSF fees: $45.00.</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Warranty Terms</label>
+                        <textarea id="adminWarranty" style="min-height:100px;">Fence Depot warrants all workmanship for 2 years from completion date. Material warranties are as provided by the respective manufacturers. Warranty void if fence is modified or damaged by third parties.</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Liability &amp; Insurance Statement</label>
+                        <textarea id="adminLiability" style="min-height:100px;">Fence Depot carries $2,000,000 commercial general liability insurance and Workers' Compensation coverage for all crew members. Customer is responsible for marking property lines accurately before commencement of work.</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Customer Responsibilities</label>
+                        <textarea id="adminCustomerResponsibilities" style="min-height:80px;">Customer must ensure clear access to the work area, remove all obstacles, confirm property boundaries, and be available on the day of installation. Customer is responsible for obtaining all required permits unless otherwise agreed in writing.</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Change Order Policy</label>
+                        <textarea id="adminChangeOrderPolicy" style="min-height:80px;">Any changes to the scope of work after contract signing require a written, signed Change Order. Work will not proceed on any change until a signed change order is received. Change orders may result in additional costs and revised completion dates.</textarea>
+                    </div>
+
+                    <!-- ACCESS CONTROL -->
+                    <div class="admin-section-title">🔐 User Access Control</div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Current User Role</label>
+                            <select id="adminCurrentRole">
+                                <option value="admin">Admin</option>
+                                <option value="estimator">Estimator</option>
+                                <option value="installer">Installer</option>
+                                <option value="readonly">Read Only</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Allow Estimators to View Timeline?</label>
+                            <select id="adminEstimatorTimeline">
+                                <option value="readonly">Read Only (Request Required)</option>
+                                <option value="hide">Hidden from Estimators</option>
+                                <option value="view">Visible to All</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- NON-STOCK ITEM ENTRY -->
+                    <div class="admin-section-title">📦 Add Non-Stock Item to Catalog (POS Backdoor)</div>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>Item Name</label>
+                            <input type="text" id="adminNSItemName" placeholder="Item description">
+                        </div>
+                        <div class="form-group">
+                            <label>PLU / SKU Number</label>
+                            <input type="text" id="adminNSPlu" placeholder="e.g. NS-001">
+                        </div>
+                        <div class="form-group">
+                            <label>Fence Category</label>
+                            <select id="adminNSCategory">
+                                <option value="chainlink">Chain Link</option>
+                                <option value="wood">Wood</option>
+                                <option value="vinyl">Vinyl</option>
+                                <option value="wroughtiron">Wrought Iron</option>
+                                <option value="hardware">Hardware</option>
+                                <option value="gates">Gates</option>
+                                <option value="concrete">Concrete / Fill</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Cost Price (CAD)</label>
+                            <input type="number" id="adminNSCost" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Retail Price (CAD)</label>
+                            <input type="number" id="adminNSRetail" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Unit</label>
+                            <select id="adminNSUnit">
+                                <option value="ea">Each (ea)</option>
+                                <option value="lf">Linear Foot (LF)</option>
+                                <option value="sf">Square Foot (SF)</option>
+                                <option value="roll">Roll</option>
+                                <option value="bag">Bag</option>
+                                <option value="ton">Ton</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="addNonStockItem()">
+                            <i class="fas fa-plus"></i> Add to Catalog
+                        </button>
+                    </div>
+
+                    <div class="button-group" style="margin-top:30px; border-top:2px solid var(--border-color); padding-top:20px;">
+                        <button class="btn btn-primary" onclick="saveAdminSettings()">
+                            <i class="fas fa-save"></i> Save All Settings
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetAdminSettings()">
+                            <i class="fas fa-undo"></i> Reset to Defaults
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 17 is Property Mapping — accessed via Shop Drawings tab which links to map -->
+            <!-- Property Mapping embedded in Shop Drawings: see Tab 10 -->
+
         </div>
     </div>
 
     <script>
-        // ===== TAB SWITCHING =====
-        function switchTab(tabName) {
-            // Hide all tabs
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.remove('active'));
+        // ===== APP STATE =====
+        const appState = {
+            currentUnit: 'imperial',  // 'imperial' or 'metric'
+            contractLocked: false,
+            contractLockedDate: null,
+            contractLockedTotal: null,
+            noteCounter: 0,
+            coCounter: 1,
+            projectNumber: null,
+            tutorialPrefs: {}
+        };
 
+        // ===== PARTS CATALOG DATA =====
+        const CATALOG = [
+            // CHAIN LINK
+            { id: 'CL-001', name: '11.5GA Chain Link Mesh 4ft (50ft roll)', plu: '10101', price: 89.99, category: 'chainlink', icon: '⛓️', section: 'Mesh' },
+            { id: 'CL-002', name: '11.5GA Chain Link Mesh 5ft (50ft roll)', plu: '10102', price: 109.99, category: 'chainlink', icon: '⛓️', section: 'Mesh' },
+            { id: 'CL-003', name: '11.5GA Chain Link Mesh 6ft (50ft roll)', plu: '10103', price: 129.99, category: 'chainlink', icon: '⛓️', section: 'Mesh' },
+            { id: 'CL-004', name: '9GA Chain Link Mesh 6ft Commercial (50ft roll)', plu: '10104', price: 189.99, category: 'chainlink', icon: '⛓️', section: 'Mesh' },
+            { id: 'CL-010', name: '1-3/8" Terminal Post 5ft (Galv)', plu: '10201', price: 14.99, category: 'chainlink', icon: '🏗️', section: 'Pipe' },
+            { id: 'CL-011', name: '1-3/8" Terminal Post 6ft (Galv)', plu: '10202', price: 16.99, category: 'chainlink', icon: '🏗️', section: 'Pipe' },
+            { id: 'CL-012', name: '1-5/8" Line Post 8ft (Galv)', plu: '10203', price: 24.99, category: 'chainlink', icon: '🏗️', section: 'Pipe' },
+            { id: 'CL-013', name: '2" Gate/Corner Post 8ft (Galv)', plu: '10204', price: 32.99, category: 'chainlink', icon: '🏗️', section: 'Pipe' },
+            { id: 'CL-014', name: '2-1/2" Heavy Gate Post 10ft (Galv)', plu: '10205', price: 48.99, category: 'chainlink', icon: '🏗️', section: 'Pipe' },
+            { id: 'CL-020', name: 'Top Rail 1-3/8" x 21ft', plu: '10206', price: 19.99, category: 'chainlink', icon: '🏗️', section: 'Pipe' },
+            { id: 'CL-030', name: 'Post Cap 1-3/8"', plu: '10301', price: 0.89, category: 'chainlink', icon: '🔩', section: 'Fitting' },
+            { id: 'CL-031', name: 'Tension Band (pack of 10)', plu: '10302', price: 4.99, category: 'chainlink', icon: '🔩', section: 'Fitting' },
+            { id: 'CL-032', name: 'Brace Band (pack of 10)', plu: '10303', price: 4.99, category: 'chainlink', icon: '🔩', section: 'Fitting' },
+            { id: 'CL-033', name: 'Rail End / Eye Top (each)', plu: '10304', price: 1.29, category: 'chainlink', icon: '🔩', section: 'Fitting' },
+            { id: 'CL-034', name: 'Loop Cap 1-5/8" (each)', plu: '10305', price: 1.19, category: 'chainlink', icon: '🔩', section: 'Fitting' },
+            { id: 'CL-035', name: 'Tension Bar 4ft', plu: '10306', price: 2.49, category: 'chainlink', icon: '🔩', section: 'Fitting' },
+            { id: 'CL-036', name: 'Tension Bar 6ft', plu: '10307', price: 3.49, category: 'chainlink', icon: '🔩', section: 'Fitting' },
+            { id: 'CL-037', name: 'Tie Wire / Hog Ring (box 500)', plu: '10308', price: 12.99, category: 'chainlink', icon: '🔩', section: 'Fitting' },
+            { id: 'CL-038', name: 'Barbed Wire 100ft Roll (3-strand)', plu: '10401', price: 22.99, category: 'chainlink', icon: '⚡', section: 'Barbed Wire' },
+            { id: 'CL-039', name: 'Barbed Wire Arm (Triple)', plu: '10402', price: 8.99, category: 'chainlink', icon: '⚡', section: 'Barbed Wire' },
+            // WOOD
+            { id: 'WD-001', name: '2×4×8 PT Rail', plu: '20101', price: 8.49, category: 'wood', icon: '🪵', section: 'Rails' },
+            { id: 'WD-002', name: '4×4×8 PT Post', plu: '20102', price: 14.99, category: 'wood', icon: '🪵', section: 'Posts' },
+            { id: 'WD-003', name: '4×4×10 PT Post', plu: '20103', price: 18.99, category: 'wood', icon: '🪵', section: 'Posts' },
+            { id: 'WD-004', name: '1×6×6 Cedar Board', plu: '20201', price: 3.99, category: 'wood', icon: '🪵', section: 'Boards' },
+            { id: 'WD-005', name: '1×6×8 Cedar Board', plu: '20202', price: 5.49, category: 'wood', icon: '🪵', section: 'Boards' },
+            { id: 'WD-006', name: '1×4×6 Picket (pointed top)', plu: '20203', price: 2.99, category: 'wood', icon: '🪵', section: 'Boards' },
+            { id: 'WD-010', name: 'Fence Screw Kit 1-3/4" (box 100)', plu: '20301', price: 7.99, category: 'wood', icon: '🔧', section: 'Hardware' },
+            { id: 'WD-011', name: 'Post Anchor Metal (each)', plu: '20302', price: 12.99, category: 'wood', icon: '🔧', section: 'Hardware' },
+            // VINYL
+            { id: 'VN-001', name: 'Vinyl Privacy Panel 6ft×8ft', plu: '30101', price: 65.99, category: 'vinyl', icon: '🏠', section: 'Panels' },
+            { id: 'VN-002', name: 'Vinyl Post 4×4×8ft', plu: '30201', price: 29.99, category: 'vinyl', icon: '🏠', section: 'Posts' },
+            { id: 'VN-003', name: 'Vinyl Post Cap (each)', plu: '30301', price: 3.99, category: 'vinyl', icon: '🏠', section: 'Accessories' },
+            { id: 'VN-004', name: 'Vinyl Rail 1-3/4"×3-1/2"×8ft', plu: '30401', price: 14.99, category: 'vinyl', icon: '🏠', section: 'Rails' },
+            // WROUGHT IRON
+            { id: 'WI-001', name: 'Wrought Iron Panel 4ft×6ft', plu: '40101', price: 185.00, category: 'wroughtiron', icon: '🔩', section: 'Panels' },
+            { id: 'WI-002', name: 'Wrought Iron Post 2"×2"×7ft', plu: '40201', price: 45.00, category: 'wroughtiron', icon: '🔩', section: 'Posts' },
+            { id: 'WI-003', name: 'Wrought Iron Post Cap (finial)', plu: '40301', price: 8.99, category: 'wroughtiron', icon: '🔩', section: 'Accessories' },
+            // HARDWARE
+            { id: 'HW-001', name: 'Gate Hinge Heavy Duty (pair)', plu: '50101', price: 18.99, category: 'hardware', icon: '🔧', section: 'Gate Hardware' },
+            { id: 'HW-002', name: 'Gate Latch with Padlock Hasp', plu: '50102', price: 24.99, category: 'hardware', icon: '🔧', section: 'Gate Hardware' },
+            { id: 'HW-003', name: 'Cane Bolt / Drop Rod (36")', plu: '50103', price: 19.99, category: 'hardware', icon: '🔧', section: 'Gate Hardware' },
+            // GATES
+            { id: 'GT-001', name: 'Chain Link Gate 4ft×5ft (galv)', plu: '60101', price: 110.00, category: 'gates', icon: '🚪', section: 'Gates' },
+            { id: 'GT-002', name: 'Chain Link Gate 4ft×6ft (galv)', plu: '60102', price: 125.00, category: 'gates', icon: '🚪', section: 'Gates' },
+            { id: 'GT-003', name: 'Chain Link Double Gate 10ft×6ft', plu: '60103', price: 295.00, category: 'gates', icon: '🚪', section: 'Gates' },
+            { id: 'GT-004', name: 'Wood Privacy Gate 3ft×6ft', plu: '60201', price: 145.00, category: 'gates', icon: '🚪', section: 'Gates' },
+            // CONCRETE
+            { id: 'CO-001', name: 'Concrete 80lb Bag (Rapid Set)', plu: '70101', price: 7.99, category: 'concrete', icon: '🪨', section: 'Concrete' },
+            { id: 'CO-002', name: 'Stone Dust 30kg Bag', plu: '70201', price: 5.99, category: 'concrete', icon: '🪨', section: 'Stone Dust' },
+            { id: 'CO-003', name: 'Gravel 25kg Bag', plu: '70301', price: 5.49, category: 'concrete', icon: '🪨', section: 'Fill' }
+        ];
+
+        // ===== TAB SWITCHING (FIXED) =====
+        function switchTab(event, tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             // Show selected tab
             document.getElementById(tabName).classList.add('active');
-
             // Update active button
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.closest('.tab-btn').classList.add('active');
-
-            // Scroll tab into view
-            event.target.closest('.tab-btn').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const btn = event.target.closest('.tab-btn');
+            if (btn) {
+                btn.classList.add('active');
+                btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+            }
         }
 
-        // ===== PERCENTAGE TRACKER =====
-        document.getElementById('percentComplete').addEventListener('input', function() {
-            document.getElementById('percentLabel').textContent = this.value + '%';
-        });
+        // ===== TOAST NOTIFICATIONS (replaces native alert) =====
+        function showAlert(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const icons = { success: '✅', danger: '❌', warning: '⚠️', info: 'ℹ️' };
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `<span>${icons[type] || 'ℹ️'}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => toast.remove(), 350);
+            }, 3500);
+        }
+
+        // ===== TUTORIAL TOGGLE =====
+        function toggleTutorial(checkboxId, panelId) {
+            const panel = document.getElementById(panelId);
+            const checked = document.getElementById(checkboxId).checked;
+            if (panel) panel.classList.toggle('visible', checked);
+            // Save preference
+            appState.tutorialPrefs[panelId] = checked;
+            try { localStorage.setItem('fd_tutorial_prefs', JSON.stringify(appState.tutorialPrefs)); } catch(e) {}
+        }
+
+        function loadTutorialPrefs() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('fd_tutorial_prefs') || '{}');
+                Object.keys(saved).forEach(panelId => {
+                    const panel = document.getElementById(panelId);
+                    // Derive checkbox ID from panel ID
+                    const checkboxId = panelId.replace('tutPanel', 'tut').replace(/^tutPanel/, 'tut');
+                    const cb = document.getElementById(checkboxId);
+                    if (panel && cb && saved[panelId]) {
+                        cb.checked = true;
+                        panel.classList.add('visible');
+                    }
+                });
+            } catch(e) {}
+        }
+
+        // ===== METRIC/IMPERIAL TOGGLE =====
+        function toggleUnits() {
+            appState.currentUnit = appState.currentUnit === 'imperial' ? 'metric' : 'imperial';
+            document.getElementById('unitImperial').classList.toggle('active', appState.currentUnit === 'imperial');
+            document.getElementById('unitMetric').classList.toggle('active', appState.currentUnit === 'metric');
+            document.getElementById('calcUnitSystem').value = appState.currentUnit;
+            showAlert(`Switched to ${appState.currentUnit === 'imperial' ? 'Imperial (ft/in)' : 'Metric (m/cm)'} measurements`, 'info');
+        }
+
+        // ===== PROJECT TAB =====
+        let projectCounter = parseInt(localStorage.getItem('fd_project_counter') || '1000');
+
+        function saveProject() {
+            const name = document.getElementById('customerName').value.trim();
+            const addr = document.getElementById('customerAddress').value.trim();
+            if (!name) { showAlert('Please enter customer name', 'danger'); return; }
+            if (!addr) { showAlert('Please enter project address', 'danger'); return; }
+            projectCounter++;
+            const pNum = 'FD-' + projectCounter;
+            document.getElementById('projectNumber').value = pNum;
+            appState.projectNumber = pNum;
+            try { localStorage.setItem('fd_project_counter', projectCounter); } catch(e) {}
+            syncCustomerName();
+            syncAddress();
+            showAlert(`Project ${pNum} saved! Customer: ${name}`, 'success');
+        }
+
+        function syncCustomerName() {
+            const n = document.getElementById('customerName').value;
+            document.getElementById('userName').textContent = n ? `Project: ${n}` : 'Welcome, Professional';
+            const iCN = document.getElementById('installerCustomerName');
+            if (iCN) iCN.value = n;
+        }
+
+        function syncAddress() {
+            const a = document.getElementById('customerAddress').value;
+            const shopAddr = document.getElementById('shopAddress');
+            if (shopAddr) shopAddr.value = a;
+            const instAddr = document.getElementById('installerAddress');
+            if (instAddr) instAddr.value = a;
+        }
+
+        function printProject() {
+            showAlert('Project info sheet sent to printer', 'info');
+            window.print();
+        }
 
         // ===== FENCE STYLE TAB =====
         function updateFenceDetails() {
@@ -2075,12 +3709,10 @@
             const fenceHeight = document.getElementById('fenceHeight').value;
             const gatesCount = document.getElementById('gatesCount').value;
             const postSpacing = document.getElementById('postSpacing').value;
-
             if (!fenceType || !fenceHeight) {
                 showAlert('Please select fence type and height', 'danger');
                 return;
             }
-
             showAlert('Fence Style saved successfully!', 'success');
             document.getElementById('summaryType').textContent = fenceType;
             document.getElementById('summaryHeight').textContent = fenceHeight + ' ft';
@@ -2094,6 +3726,7 @@
             document.getElementById('gatesCount').value = '0';
             document.getElementById('summaryType').textContent = '--';
             document.getElementById('summaryHeight').textContent = '--';
+            showAlert('Form cleared', 'info');
         }
 
         // ===== INSTALLATION TAB =====
@@ -2115,61 +3748,256 @@
         function calculateEstimate() {
             const linearFootage = parseFloat(document.getElementById('linearFootage').value) || 0;
             const materialsCost = parseFloat(document.getElementById('materialsCost').value) || 0;
-            const hardwareCost = parseFloat(document.getElementById('hardwareCost').value) || 0;
-            const concreteCost = parseFloat(document.getElementById('concreteCost').value) || 0;
-            const extraCost = parseFloat(document.getElementById('extraCost').value) || 0;
-            const labourRate = parseFloat(document.getElementById('labourRate').value) || 0;
-            const overheadPercent = parseFloat(document.getElementById('overheadPercent').value) || 25;
-            const profitPercent = parseFloat(document.getElementById('profitPercent').value) || 35;
+            const hardwareCost  = parseFloat(document.getElementById('hardwareCost').value)  || 0;
+            const concreteCost  = parseFloat(document.getElementById('concreteCost').value)  || 0;
+            const extraCost     = parseFloat(document.getElementById('extraCost').value)     || 0;
+            const labourRate    = parseFloat(document.getElementById('labourRate').value)    || 0;
+            const overheadPct   = parseFloat(document.getElementById('overheadPercent').value) || 25;
+            const profitPct     = parseFloat(document.getElementById('profitPercent').value)   || 35;
 
-            // Calculate labour hours
-            const baseLabour = 14; // per 100 LF
+            const postSpacing = parseFloat(document.getElementById('postSpacing').value) || 6;
+            const numPosts = Math.ceil(linearFootage / postSpacing) + 1;
+            document.getElementById('postCount').value = numPosts;
+
+            const baseLabour = 14;
             const adjustedLabour = (linearFootage / 100) * baseLabour;
             document.getElementById('baseLabour').value = baseLabour;
             document.getElementById('adjustedLabour').value = adjustedLabour.toFixed(2);
 
-            // Calculate costs
             const totalLabourCost = adjustedLabour * labourRate;
             const subtotal = materialsCost + hardwareCost + concreteCost;
-            const overhead = subtotal * (overheadPercent / 100);
-            const profit = (subtotal + totalLabourCost + extraCost) * (profitPercent / 100);
-            const total = subtotal + totalLabourCost + overhead + profit + extraCost;
+            const overhead = subtotal * (overheadPct / 100);
+            const profit   = (subtotal + totalLabourCost + extraCost) * (profitPct / 100);
+            const total    = subtotal + totalLabourCost + overhead + profit + extraCost;
 
-            // Update display
             document.getElementById('totalLabourCost').value = '$' + totalLabourCost.toFixed(2);
             document.getElementById('sumMaterials').textContent = '$' + materialsCost.toFixed(2);
-            document.getElementById('sumHardware').textContent = '$' + hardwareCost.toFixed(2);
-            document.getElementById('sumConcrete').textContent = '$' + concreteCost.toFixed(2);
-            document.getElementById('sumSubtotal').textContent = '$' + subtotal.toFixed(2);
-            document.getElementById('sumLabour').textContent = '$' + totalLabourCost.toFixed(2);
-            document.getElementById('sumExtra').textContent = '$' + extraCost.toFixed(2);
-            document.getElementById('sumOverhead').textContent = '$' + overhead.toFixed(2);
-            document.getElementById('sumProfit').textContent = '$' + profit.toFixed(2);
-            document.getElementById('sumTotal').textContent = '$' + total.toFixed(2);
+            document.getElementById('sumHardware').textContent  = '$' + hardwareCost.toFixed(2);
+            document.getElementById('sumConcrete').textContent  = '$' + concreteCost.toFixed(2);
+            document.getElementById('sumSubtotal').textContent  = '$' + subtotal.toFixed(2);
+            document.getElementById('sumLabour').textContent    = '$' + totalLabourCost.toFixed(2);
+            document.getElementById('sumExtra').textContent     = '$' + extraCost.toFixed(2);
+            document.getElementById('sumOverhead').textContent  = '$' + overhead.toFixed(2);
+            document.getElementById('sumProfit').textContent    = '$' + profit.toFixed(2);
+            document.getElementById('sumTotal').textContent     = '$' + total.toFixed(2);
 
-            showAlert('Estimate calculated successfully!', 'success');
+            // Prime round-up tool
+            document.getElementById('roundupBase').value = '$' + total.toFixed(2);
+            appState.lastEstimateTotal = total;
+
+            showAlert('Estimate calculated: $' + total.toFixed(2), 'success');
         }
 
-        // ===== CONTRACT TAB =====
+        // ===== CONCRETE CALCULATOR =====
+        function calculateConcrete() {
+            const diam   = parseFloat(document.getElementById('holeDiameter').value) || 8;
+            const depth  = parseFloat(document.getElementById('holeDepth').value)    || 42;
+            const nHoles = parseInt(document.getElementById('numHoles').value)        || 0;
+            const units  = document.getElementById('calcUnitSystem').value;
+            const mat    = document.getElementById('concreteMaterial').value;
+
+            if (nHoles <= 0) { showAlert('Please enter number of holes', 'warning'); return; }
+
+            const radiusIn = diam / 2;
+            const volPerHoleCuIn = Math.PI * radiusIn * radiusIn * depth;
+            const volPerHoleCuFt = volPerHoleCuIn / 1728;
+            const totalCuFt = volPerHoleCuFt * nHoles;
+            const totalCuYd = totalCuFt / 27;
+            const totalCuM  = totalCuFt * 0.0283168;
+
+            // Round up to nearest 0.25 yd or 0.25 m
+            const roundedYd = Math.ceil(totalCuYd * 4) / 4;
+            const roundedM  = Math.ceil(totalCuM  * 4) / 4;
+            const bags80lb  = Math.ceil(totalCuFt / 0.45); // 80lb bag ≈ 0.45 cu ft
+
+            let result = '';
+            if (units === 'imperial') {
+                result = `${nHoles} holes × ${diam}"Ø × ${depth}" deep = <strong>${totalCuFt.toFixed(2)} cu ft</strong> → 
+                          rounded up: <strong>${roundedYd.toFixed(2)} cu yd</strong> 
+                          (≈ <strong>${bags80lb} bags</strong> of 80lb ${mat})`;
+            } else {
+                result = `${nHoles} holes × ${diam}"Ø × ${depth}" deep = <strong>${totalCuM.toFixed(3)} m³</strong> → 
+                          rounded up: <strong>${roundedM.toFixed(2)} m³</strong> of ${mat}`;
+            }
+            document.getElementById('concreteResult').innerHTML = result;
+        }
+
+        // ===== ESTIMATOR ROUND-UP =====
+        function applyRoundup() {
+            const base = appState.lastEstimateTotal;
+            if (!base || base === 0) { showAlert('Calculate estimate first, then apply round-up', 'warning'); return; }
+
+            let increment = parseFloat(document.getElementById('roundupIncrement').value);
+            if (isNaN(increment) || increment === 0) {
+                const custom = parseFloat(document.getElementById('roundupCustom').value);
+                if (!custom || custom <= 0) { showAlert('Enter a valid custom round-up amount', 'warning'); return; }
+                increment = custom;
+            }
+
+            const rounded = Math.ceil(base / increment) * increment;
+            const diff = rounded - base;
+            document.getElementById('roundupResult').innerHTML =
+                `Original: <strong>$${base.toFixed(2)}</strong> → 
+                 Rounded to nearest $${increment.toFixed(2)}: <strong>$${rounded.toFixed(2)}</strong> 
+                 (+$${diff.toFixed(2)} rounding adjustment)`;
+            appState.roundedTotal = rounded;
+        }
+
+        function clearRoundup() {
+            document.getElementById('roundupResult').textContent = 'Calculate estimate first, then apply round-up';
+            document.getElementById('roundupCustom').value = '';
+            appState.roundedTotal = null;
+        }
+
+        // ===== EXTRAS TAB =====
+        function saveExtras() {
+            showAlert('Extras saved successfully!', 'success');
+        }
+
+        function addExtrasToEstimate() {
+            showAlert('Extras added to estimate total', 'success');
+        }
+
+        function toggleOperatorFields() {
+            const req = document.getElementById('gateOperatorRequired').value;
+            showAlert(req === 'yes' ? 'Gate operator fields activated' : 'Gate operator not required for this project', 'info');
+        }
+
+        // ===== BREAKDOWN TAB =====
+        function generateBreakdown() {
+            const type    = document.getElementById('breakdownType').value;
+            const footage = parseFloat(document.getElementById('breakdownFootage').value) || 0;
+            const endPosts    = parseInt(document.getElementById('bdEndPosts').value)    || 2;
+            const cornerPosts = parseInt(document.getElementById('bdCornerPosts').value) || 0;
+            const gatePosts   = parseInt(document.getElementById('bdGatePosts').value)   || 0;
+            const container   = document.getElementById('breakdownResults');
+
+            if (!type || footage <= 0) {
+                container.innerHTML = `<div class="alert alert-info" style="margin-top:20px;"><div class="alert-icon"><i class="fas fa-info-circle"></i></div><div>Select a fence type and enter linear footage to see the breakdown.</div></div>`;
+                return;
+            }
+
+            const spacing = parseFloat(document.getElementById('postSpacing')?.value) || 6;
+
+            let steps = [];
+
+            if (type === 'chainlink') {
+                const linePosts = Math.ceil(footage / spacing) - 1;
+                const totalPosts = endPosts + cornerPosts + (gatePosts * 2) + linePosts;
+                const topRails = Math.ceil(footage / 21);
+                const fabricRolls = Math.ceil(footage / 50);
+                const holeDepth = 42; // inches
+                const holeDiam = 8;
+                const volPerHole = Math.PI * Math.pow(holeDiam/2, 2) * holeDepth / 1728;
+                const totalVol = volPerHole * totalPosts;
+                const bags = Math.ceil(totalVol / 0.45);
+                const tensionBars = endPosts + cornerPosts + (gatePosts * 2);
+                const tensionBands = tensionBars * 3;
+                const brace_bands = totalPosts * 2;
+
+                steps = [
+                    { n:1,  label:'Line Posts', value:`${linePosts} posts`, formula:`⌈${footage}LF ÷ ${spacing}ft spacing⌉ − 1 = ${linePosts} line posts` },
+                    { n:2,  label:'Total Posts (all types)', value:`${totalPosts} posts`, formula:`End: ${endPosts} + Corner: ${cornerPosts} + Gate: ${gatePosts*2} + Line: ${linePosts} = ${totalPosts}` },
+                    { n:3,  label:'Top Rail (1-3/8" × 21ft)', value:`${topRails} lengths`, formula:`⌈${footage}LF ÷ 21ft per rail⌉ = ${topRails} rails` },
+                    { n:4,  label:'Chain Link Fabric (50ft rolls)', value:`${fabricRolls} rolls`, formula:`⌈${footage}LF ÷ 50ft per roll⌉ = ${fabricRolls} rolls` },
+                    { n:5,  label:'Tension Bars', value:`${tensionBars} bars`, formula:`End posts + Corner posts + Gate posts = ${tensionBars} tension bars` },
+                    { n:6,  label:'Tension Bands', value:`${tensionBands} bands`, formula:`${tensionBars} tension posts × 3 bands each = ${tensionBands} bands` },
+                    { n:7,  label:'Brace Bands', value:`${brace_bands} bands`, formula:`${totalPosts} posts × 2 rails each = ${brace_bands} brace bands` },
+                    { n:8,  label:'Post Caps (1-5/8")', value:`${totalPosts} caps`, formula:`1 cap per line post = ${linePosts} + terminal caps (end/corner) = ${totalPosts}` },
+                    { n:9,  label:'Tie Wire / Hog Rings', value:`≈ ${Math.ceil(footage * 2)} ties`, formula:`≈ 2 ties per linear foot = ${Math.ceil(footage * 2)} ties` },
+                    { n:10, label:'Concrete (80lb bags)', value:`${bags} bags`, formula:`${totalPosts} holes × ${holeDepth}" deep × ${holeDiam}"Ø ÷ 0.45 cu ft/bag = ${bags} bags` }
+                ];
+            } else if (type === 'wood') {
+                const posts = Math.ceil(footage / spacing) + 1;
+                const railsNeeded = Math.ceil(footage / 8) * 3; // 3 rails per 8ft section
+                const boardsNeeded = Math.ceil(footage * 1.15); // 1×6 boards per LF + 15% waste
+                const bags = Math.ceil(posts * 1.2); // ~1.2 bags per post
+                steps = [
+                    { n:1, label:'Wood Posts (4×4×8 PT)', value:`${posts} posts`, formula:`⌈${footage}LF ÷ ${spacing}ft⌉ + 1 = ${posts} posts (including terminals)` },
+                    { n:2, label:'2×4 Rails (PT)', value:`${railsNeeded} rails`, formula:`3 rails per ${spacing}ft section × ${Math.ceil(footage/spacing)} sections = ${railsNeeded} rails` },
+                    { n:3, label:'1×6 Cedar Boards', value:`${boardsNeeded} boards`, formula:`${footage}LF × 1 board/LF + 15% waste = ${boardsNeeded} boards` },
+                    { n:4, label:'Concrete (80lb bags)', value:`${bags} bags`, formula:`${posts} posts × ~1.2 bags/post = ${bags} bags` },
+                    { n:5, label:'Fence Screws (lbs)', value:`${Math.ceil(footage * 0.12)} lbs`, formula:`≈ 0.12 lbs screws per LF = ${Math.ceil(footage * 0.12)} lbs` }
+                ];
+            } else if (type === 'vinyl') {
+                const panels = Math.ceil(footage / 8);
+                const posts = panels + 1;
+                const bags = Math.ceil(posts * 1.5);
+                steps = [
+                    { n:1, label:'Vinyl Panels (8ft wide)', value:`${panels} panels`, formula:`⌈${footage}LF ÷ 8ft⌉ = ${panels} panels` },
+                    { n:2, label:'Vinyl Posts (4×4)', value:`${posts} posts`, formula:`${panels} panels + 1 end post = ${posts} posts` },
+                    { n:3, label:'Post Caps', value:`${posts} caps`, formula:`1 cap per post = ${posts} caps` },
+                    { n:4, label:'Concrete (80lb bags)', value:`${bags} bags`, formula:`${posts} posts × 1.5 bags = ${bags} bags` }
+                ];
+            } else if (type === 'wroughtiron') {
+                const panels = Math.ceil(footage / 6);
+                const posts = panels + 1 + cornerPosts + gatePosts;
+                const bags = Math.ceil(posts * 1.8);
+                steps = [
+                    { n:1, label:'Wrought Iron Panels (6ft wide)', value:`${panels} panels`, formula:`⌈${footage}LF ÷ 6ft⌉ = ${panels} panels` },
+                    { n:2, label:'Posts (2"×2")', value:`${posts} posts`, formula:`${panels}+1 end + ${cornerPosts} corner + ${gatePosts} gate = ${posts} posts` },
+                    { n:3, label:'Post Caps (finials)', value:`${posts} finials`, formula:`1 finial per post = ${posts} finials` },
+                    { n:4, label:'Concrete (80lb bags)', value:`${bags} bags`, formula:`${posts} posts × 1.8 bags = ${bags} bags (deeper / wider holes for wrought iron)` }
+                ];
+            }
+
+            let html = `<div style="margin-top:20px;">`;
+            steps.forEach(s => {
+                html += `<div class="breakdown-step">
+                    <div class="breakdown-step-num">${s.n}</div>
+                    <div class="breakdown-step-content">
+                        <div class="breakdown-step-label">${s.label}</div>
+                        <div class="breakdown-step-value">${s.value}</div>
+                        <div class="breakdown-step-formula">${s.formula}</div>
+                    </div>
+                </div>`;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        // ===== CONTRACT TAB (with pricing lock) =====
         function generateContract() {
+            if (appState.contractLocked) {
+                showAlert('Contract is locked – using locked pricing', 'warning');
+                return;
+            }
             showAlert('Contract generated and ready to download', 'success');
         }
 
         function sendContractToCustomer() {
-            showAlert('Contract sent to customer email', 'success');
+            showAlert('Contract ready – print or email to customer', 'info');
         }
 
         function markContractSigned() {
-            showAlert('Contract marked as signed', 'success');
+            if (appState.contractLocked) {
+                showAlert('Contract is already locked', 'warning');
+                return;
+            }
+            if (!confirm('Mark this contract as signed? This will LOCK the pricing permanently for this contract.')) return;
+
+            appState.contractLocked = true;
+            appState.contractLockedDate = new Date().toLocaleDateString('en-CA');
+            appState.contractLockedTotal = appState.roundedTotal || appState.lastEstimateTotal || 0;
+
+            // Update UI
+            const badge = document.getElementById('contractLockBadge');
+            badge.className = 'lock-badge lock-badge-locked';
+            badge.innerHTML = '<i class="fas fa-lock"></i> Locked';
+            const alert = document.getElementById('contractLockAlert');
+            alert.style.display = 'flex';
+            document.getElementById('contractLockDate').textContent = appState.contractLockedDate;
+            document.getElementById('contractStatus').value = 'signed';
+            showAlert('✅ Contract signed & pricing LOCKED on ' + appState.contractLockedDate, 'success');
         }
 
-        // ===== SHOP DRAWING TAB =====
+        // ===== SHOP DRAWINGS =====
         function generateShopDrawing() {
             showAlert('Shop drawing generated and ready to download', 'success');
         }
 
         function uploadSiteImage() {
-            showAlert('Site image upload feature would open', 'info');
+            showAlert('Site image upload feature', 'info');
         }
 
         // ===== INSTALLER TAB =====
@@ -2179,6 +4007,7 @@
 
         function printInstallerPaper() {
             showAlert('Installer work paper sent to printer', 'info');
+            window.print();
         }
 
         function finalizeJob() {
@@ -2187,30 +4016,139 @@
             }
         }
 
-        // ===== CUSTOMER TAB =====
-        function saveCustomer() {
-            const customerName = document.getElementById('customerName').value;
-            if (!customerName) {
-                showAlert('Please enter customer name', 'danger');
+        // ===== CHANGE ORDERS =====
+        function saveChangeOrder() {
+            const matCost  = parseFloat(document.getElementById('coMaterialCost').value) || 0;
+            const labCost  = parseFloat(document.getElementById('coLabourCost').value)   || 0;
+            const total    = matCost + labCost;
+            document.getElementById('coTotal').value = total.toFixed(2);
+            const coNum = 'CO-' + String(appState.coCounter).padStart(3, '0');
+            document.getElementById('coNumber').value = coNum;
+            showAlert(`Change Order ${coNum} saved — Amount: $${total.toFixed(2)}`, 'success');
+        }
+
+        function printChangeOrder() {
+            showAlert('Change Order sent to printer', 'info');
+            window.print();
+        }
+
+        function addCOToTotal() {
+            const total = parseFloat(document.getElementById('coTotal').value) || 0;
+            if (appState.contractLocked) {
+                showAlert(`Change Order of $${total.toFixed(2)} added to project (separate from locked contract)`, 'info');
+            } else {
+                showAlert(`Change Order of $${total.toFixed(2)} added to project total`, 'success');
+            }
+            appState.coCounter++;
+        }
+
+        // ===== SIGN-OFF =====
+        function markJobComplete() {
+            const status = document.getElementById('customerSignOffStatus').value;
+            if (status !== 'approved') {
+                showAlert('Customer sign-off status must be "Approved by Customer" before marking complete', 'warning');
                 return;
             }
-            showAlert('Customer information saved successfully!', 'success');
+            if (confirm('Mark this job as COMPLETE? This will trigger the final invoice.')) {
+                showAlert('Job marked COMPLETE — final invoice triggered', 'success');
+            }
         }
 
-        // ===== INVENTORY TAB =====
-        function addInventoryItem() {
-            showAlert('Add inventory item form would open', 'info');
+        function printSignOff() {
+            showAlert('Sign-off form sent to printer', 'info');
+            window.print();
         }
 
-        function generateOrderForm() {
-            showAlert('Order form generated and ready to download', 'success');
+        function emailSignOff() {
+            showAlert('Sign-off document ready to email', 'info');
         }
 
-        function filterInventory(type) {
-            showAlert('Filtering inventory by: ' + (type || 'All Items'), 'info');
+        // ===== NOTES =====
+        function addNote() {
+            const text = document.getElementById('newNoteText').value.trim();
+            if (!text) { showAlert('Please enter note text', 'warning'); return; }
+
+            const type     = document.getElementById('noteType').value;
+            const priority = document.getElementById('notePriority').value;
+            const now      = new Date();
+            const ts       = now.toLocaleString('en-CA');
+
+            appState.noteCounter++;
+            const priorityColors = { normal: '#27AE60', important: '#F39C12', urgent: '#E74C3C' };
+            const typeLabels     = { general:'General', supplier:'Supplier/Pricing', customer:'Customer Comm.', site:'Site Condition', followup:'Follow-Up', admin:'Admin' };
+
+            const log = document.getElementById('notesLog');
+            const entry = document.createElement('div');
+            entry.style.cssText = `background:white;border:1px solid var(--border-color);border-left:4px solid ${priorityColors[priority]};border-radius:8px;padding:12px 16px;margin-bottom:10px;`;
+            entry.innerHTML = `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                    <span style="font-weight:600;font-size:13px;color:${priorityColors[priority]};">${typeLabels[type] || type}</span>
+                    <span style="font-size:11px;color:var(--text-secondary);">${ts}</span>
+                </div>
+                <div style="font-size:14px;">${text}</div>`;
+            // Remove placeholder
+            const placeholder = log.querySelector('div[style*="No notes"]');
+            if (placeholder) placeholder.remove();
+            log.insertBefore(entry, log.firstChild);
+            document.getElementById('newNoteText').value = '';
+            showAlert('Note added', 'success');
         }
 
-        // ===== REPORTS TAB =====
+        // ===== PARTS CATALOG =====
+        function renderCatalog(filter = 'all') {
+            const grid = document.getElementById('catalogGrid');
+            if (!grid) return;
+            const items = filter === 'all' ? CATALOG : CATALOG.filter(i => i.category === filter);
+            grid.innerHTML = items.map(item => `
+                <div class="catalog-card">
+                    <div class="catalog-card-img">${item.icon}</div>
+                    <div class="catalog-card-body">
+                        <div class="catalog-card-name">${item.name}</div>
+                        <div class="catalog-card-plu">PLU: ${item.plu} | ${item.section}</div>
+                        <div class="catalog-card-price">$${item.price.toFixed(2)}</div>
+                    </div>
+                </div>`).join('');
+            if (items.length === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:30px;">No items found in this category.</div>';
+            }
+        }
+
+        function filterCatalog(category, btn) {
+            document.querySelectorAll('.catalog-filter-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            renderCatalog(category);
+        }
+
+        // ===== ADMIN PANEL =====
+        function saveAdminSettings() {
+            showAlert('Admin settings saved — new estimates will use updated rates', 'success');
+        }
+
+        function resetAdminSettings() {
+            if (confirm('Reset all admin settings to factory defaults?')) {
+                showAlert('Settings reset to defaults', 'info');
+            }
+        }
+
+        function addNonStockItem() {
+            const name  = document.getElementById('adminNSItemName').value.trim();
+            const plu   = document.getElementById('adminNSPlu').value.trim();
+            const cat   = document.getElementById('adminNSCategory').value;
+            const cost  = parseFloat(document.getElementById('adminNSCost').value)   || 0;
+            const retail= parseFloat(document.getElementById('adminNSRetail').value) || 0;
+            const unit  = document.getElementById('adminNSUnit').value;
+
+            if (!name || !plu) { showAlert('Item name and PLU are required', 'danger'); return; }
+
+            CATALOG.push({ id: 'NS-' + Date.now(), name, plu, price: retail, category: cat, icon: '📦', section: 'Non-Stock' });
+            showAlert(`Non-stock item "${name}" (PLU: ${plu}) added to catalog`, 'success');
+            document.getElementById('adminNSItemName').value = '';
+            document.getElementById('adminNSPlu').value = '';
+            document.getElementById('adminNSCost').value = '';
+            document.getElementById('adminNSRetail').value = '';
+        }
+
+        // ===== REPORTS =====
         function generateReport() {
             showAlert('Full report generated and ready to download', 'success');
         }
@@ -2220,7 +4158,7 @@
         }
 
         function exportToExcel() {
-            showAlert('Data exported to Excel', 'success');
+            showAlert('Data exported to Excel format', 'success');
         }
 
         // ===== UTILITY FUNCTIONS =====
@@ -2230,43 +4168,69 @@
             }
         }
 
-        function showAlert(message, type) {
-            // Simple alert for now - could be replaced with toast notification
-            const alertMap = {
-                success: '✓',
-                danger: '✕',
-                warning: '⚠',
-                info: 'ⓘ'
-            };
-            console.log(`[${type.toUpperCase()}] ${message}`);
-            alert(message);
+        // ===== PERCENTAGE TRACKER =====
+        function initPercentTracker() {
+            const el = document.getElementById('percentComplete');
+            if (el) {
+                el.addEventListener('input', function() {
+                    const lbl = document.getElementById('percentLabel');
+                    if (lbl) lbl.textContent = this.value + '%';
+                });
+            }
+        }
+
+        // ===== HOURS CALCULATOR =====
+        function calculateHours() {
+            const start = document.getElementById('startTime')?.value;
+            const end   = document.getElementById('endTime')?.value;
+            if (start && end) {
+                const startD = new Date(`2000-01-01T${start}`);
+                const endD   = new Date(`2000-01-01T${end}`);
+                let hours = (endD - startD) / (1000 * 60 * 60);
+                if (hours < 0) hours += 24;
+                const hw = document.getElementById('hoursWorked');
+                if (hw) hw.value = hours.toFixed(2);
+            }
         }
 
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('installStart').value = today;
-            document.getElementById('permitDate').value = today;
-            document.getElementById('locateRequestDate').value = today;
-            document.getElementById('contractDate').value = today;
-            document.getElementById('workDate').value = today;
-            document.getElementById('signOffDate').value = today;
+            const safeset = id => { const el = document.getElementById(id); if (el && !el.value) el.value = today; };
+            safeset('installStart');
+            safeset('permitDate');
+            safeset('locateRequestDate');
+            safeset('contractDate');
+            safeset('workDate');
+            safeset('signOffDate');
+            safeset('coDate');
 
-            // Example: Calculate hours worked
-            document.getElementById('startTime').addEventListener('change', calculateHours);
-            document.getElementById('endTime').addEventListener('change', calculateHours);
-        });
+            const st = document.getElementById('startTime');
+            const et = document.getElementById('endTime');
+            if (st) st.addEventListener('change', calculateHours);
+            if (et) et.addEventListener('change', calculateHours);
 
-        function calculateHours() {
-            const start = document.getElementById('startTime').value;
-            const end = document.getElementById('endTime').value;
-            if (start && end) {
-                const startDate = new Date(`2000-01-01 ${start}`);
-                const endDate = new Date(`2000-01-01 ${end}`);
-                const hours = (endDate - startDate) / (1000 * 60 * 60);
-                document.getElementById('hoursWorked').value = hours.toFixed(2);
+            // Generate project number placeholder
+            projectCounter = parseInt(localStorage.getItem('fd_project_counter') || '1000');
+            document.getElementById('projectNumber').value = 'FD-' + (projectCounter + 1) + ' (save to assign)';
+
+            initPercentTracker();
+            loadTutorialPrefs();
+            renderCatalog('all');
+
+            // CO material/labour auto-total
+            const coMat = document.getElementById('coMaterialCost');
+            const coLab = document.getElementById('coLabourCost');
+            const coTot = document.getElementById('coTotal');
+            if (coMat && coLab && coTot) {
+                const updateCOTotal = () => {
+                    const t = (parseFloat(coMat.value)||0) + (parseFloat(coLab.value)||0);
+                    coTot.value = t.toFixed(2);
+                };
+                coMat.addEventListener('input', updateCOTotal);
+                coLab.addEventListener('input', updateCOTotal);
             }
-        }
+        });
     </script>
 </body>
 </html>
