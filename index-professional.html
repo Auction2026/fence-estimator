@@ -784,6 +784,41 @@
             padding-top: 16px;
             border-top: 1px solid var(--border-color);
         }
+
+        .tutorial-controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 12px;
+        }
+
+        .tutorial-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .tutorial-card {
+            background: #f0f9ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 14px;
+        }
+
+        .tutorial-card h4 {
+            margin-bottom: 8px;
+            color: var(--primary-blue);
+            font-size: 14px;
+        }
+
+        .tutorial-card ul {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
@@ -796,7 +831,6 @@
                     <div class="company-name">Fence Depot Pro</div>
                     <div class="company-tagline">Professional Fencing Estimator</div>
                 </div>
-            </div>
             <div class="header-right">
                 <div class="user-info">
                     <div class="user-name" id="userName">Welcome, Professional</div>
@@ -810,46 +844,137 @@
 
         <!-- TAB NAVIGATION -->
         <div class="tab-navigation" id="tabNavigation">
-            <button class="tab-btn active" onclick="switchTab('fenceStyle')">
-                <span class="tab-icon">🎨</span>Fence Style
+            <button class="tab-btn active" onclick="switchTab('projectInfo', this)">
+                <span class="tab-icon">1️⃣</span>Project Info
             </button>
-            <button class="tab-btn" onclick="switchTab('installation')">
-                <span class="tab-icon">🔧</span>Installation
+            <button class="tab-btn" onclick="switchTab('fenceStyle', this)">
+                <span class="tab-icon">2️⃣</span>Fence Specifications
             </button>
-            <button class="tab-btn" onclick="switchTab('permit')">
-                <span class="tab-icon">📋</span>Permit
+            <button class="tab-btn" onclick="switchTab('fenceLayout', this)">
+                <span class="tab-icon">3️⃣</span>Fence Layout Diagram
             </button>
-            <button class="tab-btn" onclick="switchTab('locates')">
-                <span class="tab-icon">📍</span>Locates
+            <button class="tab-btn" onclick="switchTab('installation', this)">
+                <span class="tab-icon">4️⃣</span>Installation Breakdown
             </button>
-            <button class="tab-btn" onclick="switchTab('estimate')">
-                <span class="tab-icon">💰</span>Estimate
+            <button class="tab-btn" onclick="switchTab('shopDrawing', this)">
+                <span class="tab-icon">5️⃣</span>Shop Drawings
             </button>
-            <button class="tab-btn" onclick="switchTab('contract')">
-                <span class="tab-icon">📝</span>Contract
+            <button class="tab-btn" onclick="switchTab('permit', this)">
+                <span class="tab-icon">6️⃣</span>Permits
             </button>
-            <button class="tab-btn" onclick="switchTab('shopDrawing')">
-                <span class="tab-icon">🗺️</span>Shop Drawings
+            <button class="tab-btn" onclick="switchTab('locates', this)">
+                <span class="tab-icon">7️⃣</span>Locates Sheets
             </button>
-            <button class="tab-btn" onclick="switchTab('installer')">
-                <span class="tab-icon">👷</span>Installer Paperwork
+            <button class="tab-btn" onclick="switchTab('estimate', this)">
+                <span class="tab-icon">8️⃣</span>Estimate/Proposal
             </button>
-            <button class="tab-btn" onclick="switchTab('customer')">
-                <span class="tab-icon">👥</span>Customer
+            <button class="tab-btn" onclick="switchTab('contract', this)">
+                <span class="tab-icon">9️⃣</span>Contract Sheet
             </button>
-            <button class="tab-btn" onclick="switchTab('inventory')">
-                <span class="tab-icon">📦</span>Inventory
+            <button class="tab-btn" onclick="switchTab('extras', this)">
+                <span class="tab-icon">🔟</span>Extras & Special
             </button>
-            <button class="tab-btn" onclick="switchTab('reports')">
-                <span class="tab-icon">📊</span>Reports
+            <button class="tab-btn" onclick="switchTab('installer', this)">
+                <span class="tab-icon">1️⃣1️⃣</span>Crew Breakdown
+            </button>
+            <button class="tab-btn" onclick="switchTab('changeOrder', this)">
+                <span class="tab-icon">1️⃣2️⃣</span>Change Orders
+            </button>
+            <button class="tab-btn" onclick="switchTab('completion', this)">
+                <span class="tab-icon">1️⃣3️⃣</span>Completion Sign-Off
+            </button>
+            <button class="tab-btn" onclick="switchTab('notes', this)">
+                <span class="tab-icon">1️⃣4️⃣</span>Notes & Special Items
+            </button>
+            <button class="tab-btn" onclick="switchTab('admin', this)">
+                <span class="tab-icon">1️⃣5️⃣</span>Admin Backdoor
+            </button>
+            <button class="tab-btn" onclick="switchTab('inventory', this)">
+                <span class="tab-icon">1️⃣6️⃣</span>Fence Parts Catalog
+            </button>
+            <button class="tab-btn" onclick="switchTab('propertyMapping', this)">
+                <span class="tab-icon">1️⃣7️⃣</span>Property Mapping
             </button>
         </div>
 
         <!-- MAIN CONTENT -->
         <div class="main-container">
 
-            <!-- TAB 1: FENCE STYLE -->
-            <div id="fenceStyle" class="tab-content active">
+            <!-- TAB 1: PROJECT INFO -->
+            <div id="projectInfo" class="tab-content active">
+                <div class="section">
+                    <div class="section-title">
+                        <i class="fas fa-address-card"></i> Project Info
+                    </div>
+                    <div class="section-description">Capture customer, property, and timeline details with validation-ready fields</div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label-required">Customer Name</label>
+                            <input type="text" id="customerName" placeholder="Full Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="customerEmail" placeholder="email@example.com">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Primary Phone</label>
+                            <input type="text" id="customerPhone" placeholder="(555) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label>Secondary Phone</label>
+                            <input type="text" id="customerSecondaryPhone" placeholder="(555) 123-4568">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label-required">Project Address</label>
+                        <input type="text" id="customerAddress" placeholder="Street Address">
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="customerCity" placeholder="City">
+                        </div>
+                        <div class="form-group">
+                            <label>Province</label>
+                            <input type="text" id="customerProvince" placeholder="ON">
+                        </div>
+                        <div class="form-group">
+                            <label>Postal Code</label>
+                            <input type="text" id="customerPostal" placeholder="L4K 1Z4">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Target Start Date</label>
+                            <input type="date" id="projectStartDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Target Completion Date</label>
+                            <input type="date" id="projectEndDate">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Property Details / Access Notes</label>
+                        <textarea id="customerNotes" placeholder="Special instructions, preferences, access information, etc."></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="saveCustomer()">
+                            <i class="fas fa-save"></i> Save Project Info
+                        </button>
+                    </div>
+                </div>
+
+            <!-- TAB 2: FENCE SPECIFICATIONS -->
+            <div id="fenceStyle" class="tab-content">
                 <div class="section">
                     <div class="section-title">
                         <i class="fas fa-palette"></i> Fence Style & Type Selection
@@ -883,7 +1008,7 @@
                     <div class="grid-2">
                         <div class="form-group">
                             <label class="label-required">Fence Style/Pattern</label>
-                            <select id="fenceStyle">
+                            <select id="fenceStylePattern">
                                 <option value="">-- Select Style --</option>
                                 <option value="privacy">Privacy (Solid)</option>
                                 <option value="semiprivacy">Semi-Privacy</option>
@@ -1735,7 +1860,7 @@
                     <div class="section-title mt-20">Change Order (If Applicable)</div>
                     <div class="form-group">
                         <label>Customer Approval for Changes</label>
-                        <textarea id="changeOrder" placeholder="Describe any changes from original contract, additional work requested, modifications, etc. Get customer signature on separate form."></textarea>
+                        <textarea id="changeOrderNotes" placeholder="Describe any changes from original contract, additional work requested, modifications, etc. Get customer signature on separate form."></textarea>
                     </div>
 
                     <div class="form-group">
@@ -1807,64 +1932,200 @@
                 </div>
             </div>
 
-            <!-- TAB 9: CUSTOMER -->
-            <div id="customer" class="tab-content">
+            <!-- TAB 3: FENCE LAYOUT DIAGRAM -->
+            <div id="fenceLayout" class="tab-content">
                 <div class="section">
                     <div class="section-title">
-                        <i class="fas fa-address-card"></i> Customer Information
+                        <i class="fas fa-draw-polygon"></i> Fence Layout Diagram
                     </div>
-                    <div class="section-description">Manage customer contact details and project information</div>
+                    <div class="section-description">Record layout lines, gates, dimensions, and reference details</div>
 
                     <div class="grid-2">
                         <div class="form-group">
-                            <label class="label-required">Customer Name</label>
-                            <input type="text" id="customerName" placeholder="Full Name">
+                            <label>Layout Scale</label>
+                            <select id="layoutScale">
+                                <option value="1:50">1:50</option>
+                                <option value="1:100">1:100</option>
+                                <option value="1:200">1:200</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" id="customerEmail" placeholder="email@example.com">
+                            <label>Property Line Reference</label>
+                            <input type="text" id="propertyLineRef" placeholder="Survey plan / legal reference">
+                        </div>
+                    </div>
+
+                    <!-- TAB 10: EXTRAS & SPECIAL REQUIREMENTS -->
+                    <div id="extras" class="tab-content">
+                        <div class="section">
+                            <div class="section-title">
+                                <i class="fas fa-plus-circle"></i> Extras & Special Requirements
+                            </div>
+                            <div class="section-description">Track upgrades, special labour, timeline shifts, and price adjustments</div>
+
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label>Special Item Description</label>
+                                    <input type="text" id="extraDescription" placeholder="e.g. Privacy slats upgrade">
+                                </div>
+                                <div class="form-group">
+                                    <label>Cost Adjustment (CAD)</label>
+                                    <input type="number" id="extraAdjustment" placeholder="0.00" step="0.01">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Special Requirement Notes</label>
+                                <textarea id="extraNotes" placeholder="Materials, labour impact, customer request, and schedule impact"></textarea>
+                            </div>
+
+                            <div class="button-group">
+                                <button class="btn btn-primary" onclick="saveExtras()">
+                                    <i class="fas fa-save"></i> Save Extras
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 12: CHANGE ORDER SHEET -->
+                    <div id="changeOrder" class="tab-content">
+                        <div class="section">
+                            <div class="section-title">
+                                <i class="fas fa-file-signature"></i> Change Order Sheet
+                            </div>
+                            <div class="section-description">Document approved scope, cost, and schedule changes after contract lock</div>
+
+                            <div class="form-group">
+                                <label>Change Description</label>
+                                <textarea id="changeDescription" placeholder="Describe requested change and reason"></textarea>
+                            </div>
+
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label>Material Impact (CAD)</label>
+                                    <input type="number" id="changeMaterialImpact" step="0.01" value="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Labour Impact (CAD)</label>
+                                    <input type="number" id="changeLabourImpact" step="0.01" value="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Timeline Impact (Days)</label>
+                                    <input type="number" id="changeTimelineImpact" step="1" value="0">
+                                </div>
+                            </div>
+
+                            <div class="button-group">
+                                <button class="btn btn-primary" onclick="calculateChangeOrder()">
+                                    <i class="fas fa-calculator"></i> Calculate New Total
+                                </button>
+                            </div>
+
+                            <div class="summary-box">
+                                <div class="summary-item">
+                                    <span class="summary-label">Change Order Total Impact</span>
+                                    <span class="summary-value" id="changeOrderTotalImpact">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 13: COMPLETION SIGN-OFF SHEET -->
+                    <div id="completion" class="tab-content">
+                        <div class="section">
+                            <div class="section-title">
+                                <i class="fas fa-clipboard-check"></i> Completion Sign-Off Sheet
+                            </div>
+                            <div class="section-description">Capture final checklist, customer acceptance, and warranty start details</div>
+
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label>Final Inspection Complete?</label>
+                                    <select id="completionInspection">
+                                        <option value="no">No</option>
+                                        <option value="yes">Yes</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Warranty Start Date</label>
+                                    <input type="date" id="warrantyStartDate">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Outstanding Items</label>
+                                <textarea id="completionOutstanding" placeholder="List unresolved items or leave blank if complete"></textarea>
+                            </div>
+
+                            <div class="button-group">
+                                <button class="btn btn-success" onclick="saveCompletionSignOff()">
+                                    <i class="fas fa-check"></i> Save Sign-Off
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 14: NOTES & SPECIAL ITEMS -->
+                    <div id="notes" class="tab-content">
+                        <div class="section">
+                            <div class="section-title">
+                                <i class="fas fa-sticky-note"></i> Notes & Special Items
+                            </div>
+                            <div class="section-description">Create and reuse categorized notes for estimates, contracts, and crew sheets</div>
+
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label>Note Category</label>
+                                    <select id="noteCategory">
+                                        <option value="site">Site Conditions</option>
+                                        <option value="materials">Materials</option>
+                                        <option value="labor">Labor</option>
+                                        <option value="warranty">Warranty</option>
+                                        <option value="safety">Safety</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Note Title</label>
+                                    <input type="text" id="noteTitle" placeholder="Short title">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Note Text</label>
+                                <textarea id="noteText" placeholder="Enter reusable note content"></textarea>
+                            </div>
+
+                            <div class="button-group">
+                                <button class="btn btn-primary" onclick="saveSpecialNote()">
+                                    <i class="fas fa-save"></i> Save Note
+                                </button>
+                            </div>
                         </div>
                     </div>
 
                     <div class="grid-2">
                         <div class="form-group">
-                            <label>Primary Phone</label>
-                            <input type="text" id="customerPhone" placeholder="(555) 123-4567">
+                            <label>Total Layout Length (ft)</label>
+                            <input type="number" id="layoutLength" min="0" step="0.1" placeholder="0.0">
                         </div>
                         <div class="form-group">
-                            <label>Secondary Phone</label>
-                            <input type="text" id="customerSecondaryPhone" placeholder="(555) 123-4568">
+                            <label>Gate Openings Marked</label>
+                            <input type="number" id="layoutGates" min="0" step="1" placeholder="0">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="label-required">Project Address</label>
-                        <input type="text" id="customerAddress" placeholder="Street Address">
-                    </div>
-
-                    <div class="grid-3">
-                        <div class="form-group">
-                            <label>City</label>
-                            <input type="text" id="customerCity" placeholder="City">
-                        </div>
-                        <div class="form-group">
-                            <label>Province</label>
-                            <input type="text" id="customerProvince" placeholder="ON">
-                        </div>
-                        <div class="form-group">
-                            <label>Postal Code</label>
-                            <input type="text" id="customerPostal" placeholder="L4K 1Z4">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Customer Notes</label>
-                        <textarea id="customerNotes" placeholder="Special instructions, preferences, access information, etc."></textarea>
+                        <label>Diagram Notes</label>
+                        <textarea id="layoutNotes" placeholder="Corner posts, obstacles, utility marks, and dimensions"></textarea>
                     </div>
 
                     <div class="button-group">
-                        <button class="btn btn-primary" onclick="saveCustomer()">
-                            <i class="fas fa-save"></i> Save Customer
+                        <button class="btn btn-primary" onclick="saveFenceLayout()">
+                            <i class="fas fa-save"></i> Save Layout
+                        </button>
+                        <button class="btn btn-secondary" onclick="printLayout()">
+                            <i class="fas fa-print"></i> Print Layout
                         </button>
                     </div>
                 </div>
@@ -1949,13 +2210,50 @@
                 </div>
             </div>
 
-            <!-- TAB 11: REPORTS -->
-            <div id="reports" class="tab-content">
+            <!-- TAB 17: PROPERTY MAPPING -->
+            <div id="propertyMapping" class="tab-content">
+                    <div class="section">
+                        <div class="section-title">
+                            <i class="fas fa-map"></i> Property Mapping
+                        </div>
+                        <div class="section-description">Reference map sheet for layout lines, gate points, and utility marks</div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Map Provider</label>
+                                <select id="mapProvider">
+                                    <option value="googlemaps">Google Maps</option>
+                                    <option value="googleearth">Google Earth</option>
+                                    <option value="municipal">Municipal GIS</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Property Search Address</label>
+                                <input type="text" id="propertyMapAddress" placeholder="Auto-fill from Project Info address">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mapping Notes</label>
+                            <textarea id="propertyMapNotes" placeholder="Fence lines, corners, utilities, obstacles, and gate locations"></textarea>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="savePropertyMapping()">
+                                <i class="fas fa-save"></i> Save Mapping Sheet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 15: ADMIN BACKDOOR -->
+            <div id="admin" class="tab-content">
                 <div class="section">
                     <div class="section-title">
-                        <i class="fas fa-chart-line"></i> Reports & Analytics
+                        <i class="fas fa-user-shield"></i> Admin Backdoor (Settings & Configuration)
                     </div>
-                    <div class="section-description">View project statistics and performance metrics</div>
+                    <div class="section-description">Control labour rates, equipment costs, material pricing, templates, and system settings</div>
 
                     <div class="grid-4">
                         <div class="stat-card">
@@ -1980,7 +2278,7 @@
                         </div>
                     </div>
 
-                    <div class="section-title mt-20">Recent Projects</div>
+                    <div class="section-title mt-20">Recent Changes & Activity</div>
                     <table>
                         <thead>
                             <tr>
@@ -2025,7 +2323,7 @@
 
                     <div class="button-group mt-20">
                         <button class="btn btn-primary" onclick="generateReport()">
-                            <i class="fas fa-file-pdf"></i> Generate Full Report
+                            <i class="fas fa-file-pdf"></i> Generate Admin Report
                         </button>
                         <button class="btn btn-secondary" onclick="exportToCSV()">
                             <i class="fas fa-file-excel"></i> Export to CSV
@@ -2042,7 +2340,7 @@
 
     <script>
         // ===== TAB SWITCHING =====
-        function switchTab(tabName) {
+        function switchTab(tabName, tabButton) {
             // Hide all tabs
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.classList.remove('active'));
@@ -2053,10 +2351,82 @@
             // Update active button
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.closest('.tab-btn').classList.add('active');
+            if (tabButton) {
+                tabButton.classList.add('active');
+                tabButton.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
 
-            // Scroll tab into view
-            event.target.closest('.tab-btn').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        function getTutorialContent(tabId) {
+            const tutorialByTab = {
+                projectInfo: 'Customer/project info powers every later document. Confirm contact + address before continuing.',
+                fenceStyle: 'Fence specs drive materials, labor, and pricing. Select type, height, and finish carefully.',
+                fenceLayout: 'Layout notes define corners, dimensions, and gate openings for installation accuracy.',
+                installation: 'Installation worksheet tracks schedule, crew, and production details used in field execution.',
+                shopDrawing: 'Shop drawing inputs define gate fabrication dimensions, pipe options, and finish requirements.',
+                permit: 'Permit records protect compliance with local setback/height requirements before construction.',
+                locates: 'Locates are safety-critical. Capture utility marks and reference numbers before any digging.',
+                estimate: 'Estimate tab calculates labor, overhead, and final proposal totals in real time.',
+                contract: 'Contract locks approved pricing and formalizes scope, terms, and signatures.',
+                extras: 'Extras tab tracks upgrades or scope changes and their effect on total project cost.',
+                installer: 'Crew breakdown tab captures work log details required for site execution and closeout.',
+                changeOrder: 'Change orders track customer-approved scope/cost/timeline updates after contract lock.',
+                completion: 'Completion sign-off records inspection status, warranty start, and outstanding items.',
+                notes: 'Notes tab stores reusable categorized statements for quick insertion across project docs.',
+                admin: 'Admin controls core rates, pricing, templates, and reporting settings for all estimators.',
+                inventory: 'Parts catalog validates stock status and supports material ordering workflows.',
+                propertyMapping: 'Property mapping ties address, fence lines, gates, and utility references to one map sheet.'
+            };
+            return tutorialByTab[tabId] || 'Review this section carefully before saving.';
+        }
+
+        function initializeTutorials() {
+            const tutorialPrefKey = 'fenceDepotTutorialPrefs';
+            const savedPrefs = JSON.parse(localStorage.getItem(tutorialPrefKey) || '{}');
+
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                const tabSection = tab.querySelector('.section');
+                if (!tabSection) return;
+
+                const controls = document.createElement('div');
+                controls.className = 'tutorial-controls';
+                controls.innerHTML = `
+                    <label class="tutorial-toggle">
+                        <input type="checkbox" class="tab-tutorial-toggle" data-tab-id="${tab.id}">
+                        <span>Show Tutorials / Hide Tutorials</span>
+                    </label>
+                `;
+
+                const tutorialCard = document.createElement('div');
+                tutorialCard.className = 'tutorial-card';
+                tutorialCard.dataset.tabTutorial = tab.id;
+                tutorialCard.innerHTML = `
+                    <h4>Quick Tutorial</h4>
+                    <ul>
+                        <li><strong>What this section is:</strong> ${getTutorialContent(tab.id)}</li>
+                        <li><strong>Why it matters:</strong> Accurate entries keep estimates, contracts, and crew sheets aligned.</li>
+                        <li><strong>What to enter:</strong> Required fields first, then optional detail fields.</li>
+                        <li><strong>Example:</strong> Use complete dimensions, approved dates, and verified customer details.</li>
+                        <li><strong>Common mistake:</strong> Leaving defaults unchanged when project specs are different.</li>
+                        <li><strong>Pro tip:</strong> Save each tab after updates to keep downstream documents accurate.</li>
+                    </ul>
+                `;
+
+                tabSection.insertBefore(tutorialCard, tabSection.firstChild);
+                tabSection.insertBefore(controls, tutorialCard);
+
+                const toggle = controls.querySelector('.tab-tutorial-toggle');
+                const isVisible = savedPrefs[tab.id] !== false;
+                toggle.checked = isVisible;
+                tutorialCard.style.display = isVisible ? 'block' : 'none';
+
+                toggle.addEventListener('change', function() {
+                    const show = this.checked;
+                    tutorialCard.style.display = show ? 'block' : 'none';
+                    savedPrefs[tab.id] = show;
+                    localStorage.setItem(tutorialPrefKey, JSON.stringify(savedPrefs));
+                });
+            });
         }
 
         // ===== PERCENTAGE TRACKER =====
@@ -2111,6 +2481,14 @@
             showAlert('Locate information saved successfully!', 'success');
         }
 
+        function saveFenceLayout() {
+            showAlert('Fence layout saved successfully!', 'success');
+        }
+
+        function printLayout() {
+            showAlert('Fence layout sent to printer', 'info');
+        }
+
         // ===== ESTIMATE TAB =====
         function calculateEstimate() {
             const linearFootage = parseFloat(document.getElementById('linearFootage').value) || 0;
@@ -2163,6 +2541,10 @@
             showAlert('Contract marked as signed', 'success');
         }
 
+        function saveExtras() {
+            showAlert('Extras and special requirements saved', 'success');
+        }
+
         // ===== SHOP DRAWING TAB =====
         function generateShopDrawing() {
             showAlert('Shop drawing generated and ready to download', 'success');
@@ -2187,6 +2569,22 @@
             }
         }
 
+        function calculateChangeOrder() {
+            const material = parseFloat(document.getElementById('changeMaterialImpact').value) || 0;
+            const labour = parseFloat(document.getElementById('changeLabourImpact').value) || 0;
+            const totalImpact = material + labour;
+            document.getElementById('changeOrderTotalImpact').textContent = `$${totalImpact.toFixed(2)}`;
+            showAlert('Change order totals updated', 'success');
+        }
+
+        function saveCompletionSignOff() {
+            showAlert('Completion sign-off saved successfully!', 'success');
+        }
+
+        function saveSpecialNote() {
+            showAlert('Special note saved to notes database', 'success');
+        }
+
         // ===== CUSTOMER TAB =====
         function saveCustomer() {
             const customerName = document.getElementById('customerName').value;
@@ -2208,6 +2606,10 @@
 
         function filterInventory(type) {
             showAlert('Filtering inventory by: ' + (type || 'All Items'), 'info');
+        }
+
+        function savePropertyMapping() {
+            showAlert('Property mapping saved successfully!', 'success');
         }
 
         // ===== REPORTS TAB =====
@@ -2245,16 +2647,39 @@
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('installStart').value = today;
-            document.getElementById('permitDate').value = today;
-            document.getElementById('locateRequestDate').value = today;
-            document.getElementById('contractDate').value = today;
-            document.getElementById('workDate').value = today;
-            document.getElementById('signOffDate').value = today;
+            const dateFields = [
+                'installStart',
+                'permitDate',
+                'locateRequestDate',
+                'contractDate',
+                'workDate',
+                'signOffDate',
+                'projectStartDate',
+                'projectEndDate',
+                'warrantyStartDate'
+            ];
+            dateFields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = today;
+            });
 
             // Example: Calculate hours worked
-            document.getElementById('startTime').addEventListener('change', calculateHours);
-            document.getElementById('endTime').addEventListener('change', calculateHours);
+            const startTime = document.getElementById('startTime');
+            const endTime = document.getElementById('endTime');
+            if (startTime) startTime.addEventListener('change', calculateHours);
+            if (endTime) endTime.addEventListener('change', calculateHours);
+
+            const customerAddress = document.getElementById('customerAddress');
+            const propertyMapAddress = document.getElementById('propertyMapAddress');
+            if (customerAddress && propertyMapAddress) {
+                const syncAddress = () => {
+                    propertyMapAddress.value = customerAddress.value;
+                };
+                syncAddress();
+                customerAddress.addEventListener('input', syncAddress);
+            }
+
+            initializeTutorials();
         });
 
         function calculateHours() {

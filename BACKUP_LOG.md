@@ -3,6 +3,22 @@
 
 ---
 
+## 🔄 LATEST UPDATE (AUG 2026)
+
+- Expanded `index-professional.html` navigation and content to a full **17-tab workflow** matching the professional estimator sequence.
+- Added missing tabs for:
+  - Project Info
+  - Fence Layout Diagram
+  - Extras & Special Requirements
+  - Change Order Sheet
+  - Completion Sign-Off Sheet
+  - Notes & Special Items
+  - Property Mapping
+- Added a reusable **per-tab tutorial toggle system** (`Show Tutorials / Hide Tutorials`) with localStorage persistence (`fenceDepotTutorialPrefs`).
+- Improved tab switching reliability by passing the clicked tab button into `switchTab(tabName, button)`.
+
+---
+
 ## 📋 SESSION SUMMARY
 
 ### **Work Completed Today:**
