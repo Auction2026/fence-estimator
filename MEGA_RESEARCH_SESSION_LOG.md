@@ -536,7 +536,7 @@ Priority: Long-term
 
 ## 🎉 ULTIMATE RESULT
 
-**Your Fence Depot Estimator will become:**
+**Your Fence Depot Fence Estimator will become:**
 
 ✅ **Most advanced fence estimating system in the world**
 ✅ **ONLY Canadian-compliant system**
