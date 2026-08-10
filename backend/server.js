@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 
 const { connectDatabase } = require('./config/database');
 const logger = require('./utils/logger');
@@ -20,10 +21,13 @@ const documentsRoutes = require('./routes/documents');
 
 const app = express();
 app.use(helmet());
-const corsOrigin = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',').filter(Boolean) : '*';
-app.use(cors({ origin: corsOrigin.length ? corsOrigin : '*' }));
+const corsOrigin = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').filter(Boolean)
+  : ['http://localhost:3000', 'http://127.0.0.1:3000'];
+app.use(cors({ origin: corsOrigin }));
 app.use(express.json({ limit: '2mb' }));
 app.use(morgan('combined'));
+app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: true, legacyHeaders: false }));
 
 app.get('/health', (req, res) => res.json({ ok: true }));
 

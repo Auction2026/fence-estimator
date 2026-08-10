@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const { isValidObjectId } = require('mongoose');
 
 function validate(req, res, next) {
   const errors = validationResult(req);
@@ -8,4 +9,8 @@ function validate(req, res, next) {
   return next();
 }
 
-module.exports = { validate };
+function requireObjectId(value) {
+  return typeof value === 'string' && isValidObjectId(value);
+}
+
+module.exports = { validate, requireObjectId };
