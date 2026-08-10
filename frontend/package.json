@@ -1,0 +1,20 @@
+/* ═══════════════════════════════════════════════════════════════
+   FENCE DEPOT ESTIMATOR PRO – frontend/package.json
+   ═══════════════════════════════════════════════════════════════ */
+{
+  "name": "fence-estimator-frontend",
+  "version": "1.0.0",
+  "description": "Fence Depot Estimator Pro – Frontend SPA",
+  "private": true,
+  "scripts": {
+    "start": "npx serve -s . -l 3001",
+    "dev":   "npx serve -s . -l 3001 --no-clipboard"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

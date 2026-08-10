@@ -1,0 +1,95 @@
+/* ═══════════════════════════════════════════════════════════════
+   FENCE DEPOT ESTIMATOR PRO – forms.css
+   Form controls, wizard, labels
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── FORM GRID ──────────────────────────────────────────────── */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px 20px;
+}
+.form-grid label.full { grid-column: 1 / -1; }
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--clr-text);
+}
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+  padding: 8px 10px;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-sm);
+  font-size: .875rem;
+  font-family: var(--font-sans);
+  background: var(--clr-surface);
+  color: var(--clr-text);
+  transition: border-color .15s, box-shadow .15s;
+}
+.form-grid input:focus,
+.form-grid select:focus,
+.form-grid textarea:focus {
+  outline: none;
+  border-color: var(--clr-primary);
+  box-shadow: 0 0 0 3px rgba(26,107,60,.15);
+}
+
+/* ── WIZARD ─────────────────────────────────────────────────── */
+.wizard-steps {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--clr-border);
+}
+.wstep {
+  flex: 1;
+  text-align: center;
+  padding: 10px 6px;
+  font-size: .8rem;
+  font-weight: 600;
+  background: var(--clr-surface);
+  color: var(--clr-text-muted);
+  border-right: 1px solid var(--clr-border);
+  cursor: default;
+}
+.wstep:last-child { border-right: none; }
+.wstep.active  { background: var(--clr-primary); color: #fff; }
+.wstep.done    { background: var(--clr-primary-l); color: var(--clr-primary); }
+
+.wizard-body {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  min-height: 220px;
+}
+.wizard-step        { display: none; }
+.wizard-step.active { display: block; }
+
+/* ── COST SUMMARY ───────────────────────────────────────────── */
+#cost-summary {
+  margin-top: 16px;
+  padding: 14px;
+  background: var(--clr-primary-l);
+  border-radius: var(--radius-md);
+  font-size: .9rem;
+}
+#cost-summary .cost-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+}
+#cost-summary .cost-total {
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-top: 2px solid var(--clr-primary);
+  margin-top: 8px;
+  padding-top: 8px;
+  color: var(--clr-primary);
+}

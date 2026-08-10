@@ -1,0 +1,34 @@
+/* ═══════════════════════════════════════════════════════════════
+   FENCE DEPOT ESTIMATOR PRO – tabs.css
+   Navigation bar & tab-panel visibility
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── NAV BAR ────────────────────────────────────────────────── */
+#main-nav {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+}
+#main-nav::-webkit-scrollbar { display: none; }
+
+.nav-btn {
+  white-space: nowrap;
+  background: transparent;
+  color: rgba(255,255,255,.82);
+  border: none;
+  padding: 8px 14px;
+  font-size: .8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background .15s, color .15s;
+  letter-spacing: .02em;
+}
+.nav-btn:hover  { background: rgba(255,255,255,.12); color: #fff; }
+.nav-btn.active { background: rgba(255,255,255,.22); color: #fff; }
+
+/* ── PANELS ─────────────────────────────────────────────────── */
+.tab-panel          { display: none; }
+.tab-panel.active   { display: block; }

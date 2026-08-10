@@ -1,0 +1,27 @@
+/* ═══════════════════════════════════════════════════════════════
+   FENCE DEPOT ESTIMATOR PRO – print.css
+   Clean print styles for estimates / contracts
+   ═══════════════════════════════════════════════════════════════ */
+@media print {
+  #topbar, #main-nav, .toolbar, .wizard-nav,
+  .btn-row, .btn-primary, .btn-secondary,
+  #toast-container, .modal-overlay { display: none !important; }
+
+  body { background: #fff; color: #000; font-size: 12pt; }
+  #app { margin: 0; padding: 0; max-width: none; }
+  .tab-panel { display: block !important; }
+  .tab-panel:not(.active) { display: none !important; }
+
+  .data-table th { background: #eee !important; color: #000 !important; }
+  .data-table td, .data-table th { border: 1px solid #999; }
+
+  .card { box-shadow: none; border: 1px solid #ccc; }
+  a { text-decoration: none; color: #000; }
+
+  .print-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .print-header h1 { font-size: 18pt; }
+  .print-header p  { font-size: 10pt; color: #555; }
+}
