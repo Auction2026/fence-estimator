@@ -1,5 +1,5 @@
-const crypto = require('crypto');
 const { createCatalogSeed } = require('../models/Product');
+const { hashPassword } = require('../utils/passwords');
 
 function createIdGenerator(start = 1) {
   let next = start;
@@ -20,7 +20,7 @@ function createDatabase() {
         id: 1,
         name: 'Demo Estimator',
         email: 'demo@fencedepot.local',
-        passwordHash: crypto.createHash('sha256').update('DemoPass123!').digest('hex'),
+        passwordHash: hashPassword('DemoPass123!'),
         role: 'admin'
       }
     ],

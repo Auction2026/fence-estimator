@@ -1,12 +1,8 @@
-const crypto = require('crypto');
 const User = require('../models/User');
 const { sendJson } = require('../utils/helpers');
 const { sendValidationErrors } = require('../middleware/validation');
 const { createToken } = require('../middleware/auth');
-
-function hashPassword(password) {
-  return crypto.createHash('sha256').update(password).digest('hex');
-}
+const { hashPassword, verifyPassword } = require('../utils/passwords');
 
 async function register(req, res, context) {
   const { errors, value } = User.validate(context.body);
@@ -32,7 +28,7 @@ async function login(req, res, context) {
   const password = String(context.body.password || '');
   const user = context.db.findUserByEmail(email);
 
-  if (!user || user.passwordHash !== hashPassword(password)) {
+  if (!user || !verifyPassword(password, user.passwordHash)) {
     return sendJson(res, 401, { error: 'Invalid email or password.' });
   }
 
