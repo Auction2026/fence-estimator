@@ -194,10 +194,10 @@ const app = {
       <table class="data-table">
         <thead><tr><th>Item</th><th>Qty</th><th>Unit</th><th>Unit Cost</th><th>Total</th></tr></thead>
         <tbody>
-          <tr><td>Line Posts (${height} ft ${type})</td><td>${posts}</td><td>Each</td><td>$${price.material * 2.5}</td><td>$${(posts * price.material * 2.5).toFixed(2)}</td></tr>
+          <tr><td>Line Posts (${escHtml(height)} ft ${escHtml(type)})</td><td>${posts}</td><td>Each</td><td>$${price.material * 2.5}</td><td>$${(posts * price.material * 2.5).toFixed(2)}</td></tr>
           <tr><td>Fence Panels / Roll</td><td>${panels}</td><td>Panel</td><td>$${(price.material * 8).toFixed(2)}</td><td>$${(panels * price.material * 8).toFixed(2)}</td></tr>
           <tr><td>Terminal Posts</td><td>2</td><td>Each</td><td>$${(price.material * 3.5).toFixed(2)}</td><td>$${(2 * price.material * 3.5).toFixed(2)}</td></tr>
-          <tr><td>Gates (${gates})</td><td>${gates}</td><td>Each</td><td>$120.00</td><td>$${gateCost.toFixed(2)}</td></tr>
+          <tr><td>Gates (${escHtml(String(gates))})</td><td>${gates}</td><td>Each</td><td>$120.00</td><td>$${gateCost.toFixed(2)}</td></tr>
           <tr><td>Hardware / Misc</td><td>1</td><td>Lot</td><td>$${(footage * 0.35).toFixed(2)}</td><td>$${(footage * 0.35).toFixed(2)}</td></tr>
         </tbody>
         <tfoot>
@@ -240,9 +240,9 @@ const app = {
 
     document.getElementById('estimateReview').innerHTML = `
       <div class="summary-box">
-        <div class="summary-row"><span>Customer</span><span>${name}</span></div>
-        <div class="summary-row"><span>Address</span><span>${addr}</span></div>
-        <div class="summary-row"><span>Fence Type</span><span>${type} — ${height} ft</span></div>
+        <div class="summary-row"><span>Customer</span><span>${escHtml(name)}</span></div>
+        <div class="summary-row"><span>Address</span><span>${escHtml(addr)}</span></div>
+        <div class="summary-row"><span>Fence Type</span><span>${escHtml(type)} — ${escHtml(height)} ft</span></div>
         <div class="summary-row"><span>Linear Footage</span><span>${footage} ft</span></div>
         <div class="summary-row"><span>Materials</span><span>$${matCost.toFixed(2)}</span></div>
         <div class="summary-row"><span>Labor</span><span>$${labCost.toFixed(2)}</span></div>
@@ -431,6 +431,20 @@ const app = {
 // ---------------------------------------------------------------------------
 // HELPERS
 // ---------------------------------------------------------------------------
+
+/**
+ * Escape HTML special characters to prevent XSS when inserting user data
+ * into innerHTML.
+ */
+function escHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 function toCamelCase(s) {
   return s.replace(/-([a-z])/g, (_, c) => c.toUpperCase());

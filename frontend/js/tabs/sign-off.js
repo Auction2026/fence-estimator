@@ -6,12 +6,13 @@ function signOffTabLoad(id) {
   if (!id) { el.innerHTML = ''; return; }
   const e = getCollection('estimates').find(x => String(x.id) === String(id));
   if (!e) { el.innerHTML = '<p>Project not found.</p>'; return; }
+  const safeId = Number(id);  // id is always a timestamp integer
   el.innerHTML = `
     <div class="card" style="margin-top:1rem">
-      <h3>${e.estimateNum} — Customer Sign-Off</h3>
+      <h3>${escHtml(e.estimateNum)} — Customer Sign-Off</h3>
       <div class="summary-box">
-        <div class="summary-row"><span>Customer</span><span>${e.customer?.name}</span></div>
-        <div class="summary-row"><span>Fence Type</span><span>${e.specs?.type} ${e.specs?.height} ft</span></div>
+        <div class="summary-row"><span>Customer</span><span>${escHtml(e.customer?.name)}</span></div>
+        <div class="summary-row"><span>Fence Type</span><span>${escHtml(e.specs?.type)} ${escHtml(String(e.specs?.height || ''))} ft</span></div>
         <div class="summary-row"><span>Total</span><span>$${(e.costs?.total||0).toFixed(2)}</span></div>
       </div>
       <div class="form-group" style="margin-top:1rem">
@@ -22,7 +23,7 @@ function signOffTabLoad(id) {
         <label>Date</label>
         <input id="signDate" type="date" class="form-control" value="${new Date().toISOString().split('T')[0]}" />
       </div>
-      <button class="btn btn-success" onclick="saveSignOff(${id})">✅ Confirm Sign-Off</button>
+      <button class="btn btn-success" onclick="saveSignOff(${safeId})">✅ Confirm Sign-Off</button>
     </div>`;
 }
 
