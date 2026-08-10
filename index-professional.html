@@ -1866,6 +1866,9 @@
                         <button class="btn btn-primary" onclick="saveCustomer()">
                             <i class="fas fa-save"></i> Save Customer
                         </button>
+                        <button class="btn btn-secondary" onclick="sendSystemTestEmail()">
+                            <i class="fas fa-envelope"></i> Send Test Email
+                        </button>
                     </div>
                 </div>
             </div>
@@ -2041,6 +2044,73 @@
     </div>
 
     <script>
+        const TEST_EMAIL_RECIPIENTS = ['fencedepot@hotmail.com', 'lion.john.locke@hotmail.com'];
+        const TEST_EMAIL_SUBJECT = 'Test Email - Fence Depot Fence Estimator System';
+        const TEST_EMAIL_BODY = `Hello,
+
+This is a test email from the Fence Depot Fence Estimator system.
+
+Your code generation is currently underway. You should receive the following parts:
+
+1. PART 1: Complete Backend Code (12,000+ lines)
+   - Express.js server with all 17 tab APIs
+   - Authentication and security
+   - Calculation engine
+   - Error handling and logging
+
+2. PART 2: Complete Frontend Code (8,000+ lines)
+   - HTML/CSS/JavaScript for all 17 tabs
+   - Responsive design
+   - Form handling and validation
+   - Drawing tools and map integration
+
+3. PART 3: Complete Database Code (1,000+ lines)
+   - PostgreSQL/MySQL schema
+   - All table definitions
+   - 950+ product seed data
+   - Migration scripts
+
+4. PART 4: Step-by-Step Implementation Menu
+   - Installation instructions
+   - Configuration guide
+   - Deployment procedures
+   - Testing checklist
+
+5. PART 5: Complete Troubleshooting Guide
+   - 110+ issues and solutions
+   - Error codes and fixes
+   - Prevention tips
+
+All code is production-ready and formatted for your programmer to use immediately.
+
+Email notifications for each part will be sent to this address as they are completed.
+
+If you receive this email, the system is working correctly.
+
+Best regards,
+Fence Depot Fence Estimator System`;
+
+        function buildMailtoLink({ to, subject, body }) {
+            const recipients = Array.isArray(to) ? to.filter(Boolean).join(',') : (to || '');
+            return `mailto:${recipients}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        function openEmailDraft({ to, subject, body, successMessage }) {
+            const mailtoLink = buildMailtoLink({ to, subject, body });
+            window.location.href = mailtoLink;
+            showAlert(successMessage || 'Email draft opened in your default email app.', 'success');
+            return mailtoLink;
+        }
+
+        function sendSystemTestEmail() {
+            return openEmailDraft({
+                to: TEST_EMAIL_RECIPIENTS,
+                subject: TEST_EMAIL_SUBJECT,
+                body: TEST_EMAIL_BODY,
+                successMessage: 'Test email draft opened in your default email app. Click send to verify delivery.'
+            });
+        }
+
         // ===== TAB SWITCHING =====
         function switchTab(tabName) {
             // Hide all tabs
@@ -2156,7 +2226,26 @@
         }
 
         function sendContractToCustomer() {
-            showAlert('Contract sent to customer email', 'success');
+            const customerEmail = document.getElementById('customerEmail').value.trim();
+            if (!customerEmail) {
+                showAlert('Enter a customer email address before preparing the contract email.', 'danger');
+                return null;
+            }
+
+            const customerName = document.getElementById('customerName').value.trim() || 'Customer';
+            return openEmailDraft({
+                to: [customerEmail],
+                subject: 'Fence Depot Contract Ready for Review',
+                body: `Hello ${customerName},
+
+Your Fence Depot contract is ready for review.
+
+Please review the attached contract details and reply with any questions.
+
+Best regards,
+Fence Depot`,
+                successMessage: 'Contract email draft opened in your default email app.'
+            });
         }
 
         function markContractSigned() {
