@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fence Depot – Fence Estimator</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/tabs.css" />
+  <link rel="stylesheet" href="css/forms.css" />
+  <link rel="stylesheet" href="css/tables.css" />
+  <link rel="stylesheet" href="css/modals.css" />
+</head>
+<body>
+  <!-- ============================================================
+       HEADER
+  ============================================================ -->
+  <header class="app-header">
+    <div class="header-brand">
+      <img src="assets/logo.png" alt="Fence Depot" class="brand-logo" onerror="this.style.display='none'" />
+      <span class="brand-name">Fence Depot – Fence Estimator</span>
+    </div>
+    <div class="header-actions">
+      <span id="current-user" class="user-badge">Guest</span>
+      <button id="btn-logout" class="btn btn-outline">Logout</button>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       TAB NAVIGATION (17 tabs)
+  ============================================================ -->
+  <nav class="tab-nav" id="tab-nav">
+    <button class="tab-btn active" data-tab="project-info">1. Project Info</button>
+    <button class="tab-btn" data-tab="fence-specs">2. Fence Specs</button>
+    <button class="tab-btn" data-tab="layout">3. Layout</button>
+    <button class="tab-btn" data-tab="materials">4. Materials</button>
+    <button class="tab-btn" data-tab="labor">5. Labor</button>
+    <button class="tab-btn" data-tab="equipment">6. Equipment</button>
+    <button class="tab-btn" data-tab="estimate-summary">7. Estimate Summary</button>
+    <button class="tab-btn" data-tab="contract">8. Contract</button>
+    <button class="tab-btn" data-tab="change-orders">9. Change Orders</button>
+    <button class="tab-btn" data-tab="invoicing">10. Invoicing</button>
+    <button class="tab-btn" data-tab="scheduling">11. Scheduling</button>
+    <button class="tab-btn" data-tab="crew-management">12. Crew Management</button>
+    <button class="tab-btn" data-tab="supplier-orders">13. Supplier Orders</button>
+    <button class="tab-btn" data-tab="project-tracking">14. Project Tracking</button>
+    <button class="tab-btn" data-tab="sign-off">15. Sign-Off</button>
+    <button class="tab-btn" data-tab="reports">16. Reports</button>
+    <button class="tab-btn" data-tab="mapping">17. Mapping</button>
+  </nav>
+
+  <!-- ============================================================
+       TAB CONTENT PANELS
+  ============================================================ -->
+  <main class="tab-content-area" id="tab-content-area">
+
+    <!-- TAB 1: Project Info -->
+    <section class="tab-panel active" id="tab-project-info">
+      <h2>Tab 1 – Project Information</h2>
+      <form id="form-project-info" class="form-grid">
+        <div class="form-group">
+          <label>Estimate #</label>
+          <input type="text" id="estimate-number" placeholder="Auto-generated" readonly />
+        </div>
+        <div class="form-group">
+          <label>Project Date</label>
+          <input type="date" id="project-date" />
+        </div>
+        <div class="form-group">
+          <label>Customer First Name *</label>
+          <input type="text" id="customer-first" required />
+        </div>
+        <div class="form-group">
+          <label>Customer Last Name *</label>
+          <input type="text" id="customer-last" required />
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" id="customer-phone" />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="customer-email" />
+        </div>
+        <div class="form-group full-width">
+          <label>Installation Address *</label>
+          <input type="text" id="install-address" required />
+        </div>
+        <div class="form-group">
+          <label>City *</label>
+          <input type="text" id="install-city" required />
+        </div>
+        <div class="form-group">
+          <label>State</label>
+          <input type="text" id="install-state" value="TX" />
+        </div>
+        <div class="form-group">
+          <label>ZIP Code</label>
+          <input type="text" id="install-zip" />
+        </div>
+        <div class="form-group">
+          <label>Sales Rep</label>
+          <input type="text" id="sales-rep" />
+        </div>
+        <div class="form-group">
+          <label>Job Type</label>
+          <select id="job-type">
+            <option>New Install</option>
+            <option>Repair</option>
+            <option>Replacement</option>
+            <option>Addition</option>
+          </select>
+        </div>
+        <div class="form-group full-width">
+          <label>Notes</label>
+          <textarea id="project-notes" rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-primary" onclick="saveProjectInfo()">Save &amp; Continue →</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- TAB 2: Fence Specs -->
+    <section class="tab-panel" id="tab-fence-specs">
+      <h2>Tab 2 – Fence Specifications</h2>
+      <form id="form-fence-specs" class="form-grid">
+        <div class="form-group">
+          <label>Fence Type *</label>
+          <select id="fence-type" onchange="updateFenceOptions()">
+            <option value="">-- Select --</option>
+            <option value="chain-link">Chain Link</option>
+            <option value="wood-privacy">Wood Privacy</option>
+            <option value="wood-picket">Wood Picket</option>
+            <option value="vinyl">Vinyl</option>
+            <option value="ornamental">Ornamental Iron</option>
+            <option value="aluminum">Aluminum</option>
+            <option value="split-rail">Split Rail</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Height (feet) *</label>
+          <select id="fence-height">
+            <option value="3">3 ft</option>
+            <option value="4">4 ft</option>
+            <option value="5">5 ft</option>
+            <option value="6" selected>6 ft</option>
+            <option value="8">8 ft</option>
+            <option value="10">10 ft</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Gauge / Grade</label>
+          <select id="fence-gauge">
+            <option value="9">9 Gauge (Heavy)</option>
+            <option value="11" selected>11 Gauge (Standard)</option>
+            <option value="11.5">11.5 Gauge (Light)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mesh Size</label>
+          <select id="mesh-size">
+            <option value="2">2" Diamond</option>
+            <option value="2.25">2-1/4" Diamond</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Color / Finish</label>
+          <select id="fence-color">
+            <option value="galvanized">Galvanized (Silver)</option>
+            <option value="black">Black Vinyl Coated</option>
+            <option value="green">Green Vinyl Coated</option>
+            <option value="brown">Brown Vinyl Coated</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Terminal Post Size</label>
+          <select id="terminal-post">
+            <option value="2.5">2-1/2"</option>
+            <option value="3">3"</option>
+            <option value="4">4"</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Line Post Size</label>
+          <select id="line-post">
+            <option value="1.66">1-5/8"</option>
+            <option value="2">2"</option>
+            <option value="2.5">2-1/2"</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Post Spacing (ft)</label>
+          <input type="number" id="post-spacing" value="10" min="4" max="12" />
+        </div>
+        <div class="form-group">
+          <label>Top Rail Size</label>
+          <select id="top-rail">
+            <option value="1.66">1-5/8"</option>
+            <option value="2">2"</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Gates</label>
+          <select id="gates-count">
+            <option value="0">None</option>
+            <option value="1">1 Gate</option>
+            <option value="2">2 Gates</option>
+            <option value="3">3 Gates</option>
+            <option value="4">4+ Gates</option>
+          </select>
+        </div>
+        <div class="form-group" id="gate-width-group">
+          <label>Gate Width (ft)</label>
+          <input type="number" id="gate-width" value="4" min="2" max="20" />
+        </div>
+        <div class="form-group">
+          <label>Barbed Wire</label>
+          <select id="barbed-wire">
+            <option value="none">None</option>
+            <option value="1-strand">1 Strand</option>
+            <option value="2-strand">2 Strand</option>
+            <option value="3-strand">3 Strand</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="goToTab('project-info')">← Back</button>
+          <button type="button" class="btn btn-primary" onclick="saveFenceSpecs()">Save &amp; Continue →</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- TAB 3: Layout -->
+    <section class="tab-panel" id="tab-layout">
+      <h2>Tab 3 – Fence Layout &amp; Measurements</h2>
+      <div class="layout-container">
+        <div class="layout-inputs">
+          <div class="form-group">
+            <label>Total Linear Footage *</label>
+            <input type="number" id="total-footage" min="0" oninput="recalcLayout()" />
+          </div>
+          <div class="form-group">
+            <label>Perimeter Description</label>
+            <textarea id="perimeter-notes" rows="3" placeholder="e.g. North side 120 ft, East side 80 ft..."></textarea>
+          </div>
+          <table class="layout-table" id="layout-sides-table">
+            <thead>
+              <tr><th>Side</th><th>Footage (ft)</th><th>Notes</th><th></th></tr>
+            </thead>
+            <tbody id="layout-sides-body">
+              <tr>
+                <td><input type="text" value="North" /></td>
+                <td><input type="number" class="side-footage" min="0" oninput="sumSides()" /></td>
+                <td><input type="text" placeholder="gate, slope..." /></td>
+                <td><button type="button" onclick="removeRow(this)">✕</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <button type="button" class="btn btn-sm" onclick="addLayoutSide()">+ Add Side</button>
+          <div class="form-group" style="margin-top:1rem">
+            <label>Calculated Total Footage</label>
+            <input type="text" id="calc-footage" readonly />
+          </div>
+          <div class="form-group">
+            <label>Terrain / Difficulty</label>
+            <select id="terrain">
+              <option value="1.0">Flat / Normal</option>
+              <option value="1.1">Slight Slope</option>
+              <option value="1.2">Rocky / Steep</option>
+              <option value="1.3">Very Difficult</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Removal of Old Fence?</label>
+            <select id="fence-removal">
+              <option value="none">No Removal</option>
+              <option value="chain-link">Remove Chain Link</option>
+              <option value="wood">Remove Wood Fence</option>
+              <option value="other">Remove Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="layout-diagram">
+          <canvas id="layout-canvas" width="400" height="400"></canvas>
+          <p class="canvas-hint">Visual diagram of fence layout (drag corners to adjust)</p>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('fence-specs')">← Back</button>
+        <button type="button" class="btn btn-primary" onclick="saveLayout()">Save &amp; Continue →</button>
+      </div>
+    </section>
+
+    <!-- TAB 4: Materials -->
+    <section class="tab-panel" id="tab-materials">
+      <h2>Tab 4 – Materials &amp; Costs</h2>
+      <div id="materials-summary-bar" class="summary-bar"></div>
+      <button type="button" class="btn btn-primary" onclick="calculateMaterials()">🔄 Calculate Materials</button>
+      <table class="data-table" id="materials-table">
+        <thead>
+          <tr>
+            <th>SKU</th><th>Description</th><th>Unit</th>
+            <th>Qty Needed</th><th>Unit Cost</th><th>Total Cost</th><th>Override Qty</th>
+          </tr>
+        </thead>
+        <tbody id="materials-body">
+          <tr><td colspan="7" class="empty-row">Click "Calculate Materials" to generate list</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5"><strong>Materials Subtotal</strong></td>
+            <td id="materials-subtotal">$0.00</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+      <div class="form-group" style="margin-top:1rem">
+        <label>Material Mark-Up %</label>
+        <input type="number" id="material-markup" value="20" min="0" max="100" oninput="applyMarkup()" />
+        <span id="material-total-after-markup"></span>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('layout')">← Back</button>
+        <button type="button" class="btn btn-primary" onclick="saveMaterials()">Save &amp; Continue →</button>
+      </div>
+    </section>
+
+    <!-- TAB 5: Labor -->
+    <section class="tab-panel" id="tab-labor">
+      <h2>Tab 5 – Labor Costs</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Crew Size</label>
+          <input type="number" id="crew-size" value="2" min="1" max="20" oninput="calcLabor()" />
+        </div>
+        <div class="form-group">
+          <label>Hourly Rate / Person ($)</label>
+          <input type="number" id="hourly-rate" value="25" min="0" oninput="calcLabor()" />
+        </div>
+        <div class="form-group">
+          <label>Estimated Hours</label>
+          <input type="number" id="labor-hours" value="8" min="0" oninput="calcLabor()" />
+        </div>
+        <div class="form-group">
+          <label>Labor Total</label>
+          <input type="text" id="labor-total" readonly />
+        </div>
+        <div class="form-group">
+          <label>Labor Mark-Up %</label>
+          <input type="number" id="labor-markup" value="0" min="0" max="100" oninput="calcLabor()" />
+        </div>
+        <div class="form-group">
+          <label>Labor Total with Mark-Up</label>
+          <input type="text" id="labor-total-markup" readonly />
+        </div>
+        <div class="form-group full-width">
+          <label>Labor Notes</label>
+          <textarea id="labor-notes" rows="2"></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('materials')">← Back</button>
+        <button type="button" class="btn btn-primary" onclick="saveLabor()">Save &amp; Continue →</button>
+      </div>
+    </section>
+
+    <!-- TAB 6: Equipment -->
+    <section class="tab-panel" id="tab-equipment">
+      <h2>Tab 6 – Equipment &amp; Rentals</h2>
+      <table class="data-table" id="equipment-table">
+        <thead>
+          <tr><th>Equipment</th><th>Days</th><th>Day Rate ($)</th><th>Total</th><th></th></tr>
+        </thead>
+        <tbody id="equipment-body">
+          <tr>
+            <td><input type="text" value="Post Hole Digger" /></td>
+            <td><input type="number" value="1" min="0" oninput="calcEquipmentRow(this)" /></td>
+            <td><input type="number" value="150" min="0" oninput="calcEquipmentRow(this)" /></td>
+            <td class="row-total">$150.00</td>
+            <td><button type="button" onclick="removeRow(this)">✕</button></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr><td colspan="3"><strong>Equipment Total</strong></td><td id="equipment-total">$150.00</td><td></td></tr>
+        </tfoot>
+      </table>
+      <button type="button" class="btn btn-sm" onclick="addEquipmentRow()">+ Add Equipment</button>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('labor')">← Back</button>
+        <button type="button" class="btn btn-primary" onclick="saveEquipment()">Save &amp; Continue →</button>
+      </div>
+    </section>
+
+    <!-- TAB 7: Estimate Summary -->
+    <section class="tab-panel" id="tab-estimate-summary">
+      <h2>Tab 7 – Estimate Summary</h2>
+      <div id="estimate-summary-content">
+        <table class="summary-table">
+          <tbody>
+            <tr><td>Materials Subtotal</td><td id="sum-materials">$0.00</td></tr>
+            <tr><td>Labor Subtotal</td><td id="sum-labor">$0.00</td></tr>
+            <tr><td>Equipment Subtotal</td><td id="sum-equipment">$0.00</td></tr>
+            <tr class="subtotal-row"><td><strong>Subtotal</strong></td><td id="sum-subtotal"><strong>$0.00</strong></td></tr>
+            <tr>
+              <td>
+                Sales Tax %
+                <input type="number" id="tax-rate" value="8.25" min="0" max="20" style="width:60px" oninput="calcSummary()" />
+              </td>
+              <td id="sum-tax">$0.00</td>
+            </tr>
+            <tr class="total-row"><td><strong>ESTIMATE TOTAL</strong></td><td id="sum-total"><strong>$0.00</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="form-group" style="margin-top:1rem">
+          <label>Profit Margin %</label>
+          <input type="number" id="profit-margin" value="15" min="0" max="100" oninput="calcSummary()" />
+          <span id="sum-profit-amount"></span>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('equipment')">← Back</button>
+        <button type="button" class="btn btn-success" onclick="buildEstimate()">✅ Build Estimate</button>
+        <button type="button" class="btn btn-outline" onclick="printEstimate()">🖨 Print Estimate</button>
+        <button type="button" class="btn btn-primary" onclick="goToTab('contract')">Continue to Contract →</button>
+      </div>
+    </section>
+
+    <!-- TAB 8: Contract -->
+    <section class="tab-panel" id="tab-contract">
+      <h2>Tab 8 – Contract</h2>
+      <div class="contract-status-banner" id="contract-status-banner">
+        <span id="contract-lock-status">🔓 Contract not yet locked</span>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Contract Date</label>
+          <input type="date" id="contract-date" />
+        </div>
+        <div class="form-group">
+          <label>Contract Price (locked)</label>
+          <input type="text" id="contract-price" readonly />
+        </div>
+        <div class="form-group">
+          <label>Deposit Amount ($)</label>
+          <input type="number" id="deposit-amount" min="0" />
+        </div>
+        <div class="form-group">
+          <label>Balance Due</label>
+          <input type="text" id="balance-due" readonly />
+        </div>
+        <div class="form-group">
+          <label>Payment Terms</label>
+          <select id="payment-terms">
+            <option>50% Deposit / 50% on Completion</option>
+            <option>100% on Completion</option>
+            <option>Net 30</option>
+            <option>Custom</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Start Date</label>
+          <input type="date" id="start-date" />
+        </div>
+        <div class="form-group">
+          <label>Estimated Completion</label>
+          <input type="date" id="completion-date" />
+        </div>
+        <div class="form-group full-width">
+          <label>Contract Terms &amp; Conditions</label>
+          <textarea id="contract-terms" rows="6">This agreement is entered into between Fence Depot and the Customer listed above. 
+Once signed, the contract price is LOCKED and cannot be changed without a written Change Order. 
+Any changes to the scope of work must be approved in writing via a Change Order before work begins.
+Customer signature below confirms acceptance of all terms and conditions.</textarea>
+        </div>
+      </div>
+      <div class="signature-area">
+        <canvas id="signature-canvas" width="400" height="150"></canvas>
+        <div>
+          <button type="button" class="btn btn-sm" onclick="clearSignature()">Clear Signature</button>
+          <button type="button" class="btn btn-success" onclick="lockContract()">🔒 Lock &amp; Sign Contract</button>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('estimate-summary')">← Back</button>
+        <button type="button" class="btn btn-outline" onclick="printContract()">🖨 Print Contract</button>
+        <button type="button" class="btn btn-primary" onclick="goToTab('change-orders')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- TAB 9: Change Orders -->
+    <section class="tab-panel" id="tab-change-orders">
+      <h2>Tab 9 – Change Orders</h2>
+      <div id="contract-locked-notice" class="notice-box"></div>
+      <button type="button" class="btn btn-primary" onclick="addChangeOrder()">+ New Change Order</button>
+      <table class="data-table" id="change-orders-table">
+        <thead>
+          <tr>
+            <th>CO #</th><th>Date</th><th>Description</th>
+            <th>Amount</th><th>Status</th><th>Signed</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="change-orders-body">
+          <tr><td colspan="7" class="empty-row">No change orders yet</td></tr>
+        </tbody>
+      </table>
+      <div class="form-group" style="margin-top:1rem">
+        <label>Revised Contract Total</label>
+        <input type="text" id="revised-total" readonly />
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('contract')">← Back</button>
+        <button type="button" class="btn btn-primary" onclick="goToTab('invoicing')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- TAB 10: Invoicing -->
+    <section class="tab-panel" id="tab-invoicing">
+      <h2>Tab 10 – Invoicing</h2>
+      <button type="button" class="btn btn-primary" onclick="generateInvoice()">+ Generate Invoice</button>
+      <table class="data-table" id="invoices-table">
+        <thead>
+          <tr><th>Invoice #</th><th>Date</th><th>Amount</th><th>Paid</th><th>Balance</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="invoices-body">
+          <tr><td colspan="6" class="empty-row">No invoices yet</td></tr>
+        </tbody>
+      </table>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('change-orders')">← Back</button>
+        <button type="button" class="btn btn-primary" onclick="goToTab('scheduling')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- TAB 11: Scheduling -->
+    <section class="tab-panel" id="tab-scheduling">
+      <h2>Tab 11 – Project Scheduling</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Scheduled Start</label>
+          <input type="date" id="sched-start" />
+        </div>
+        <div class="form-group">
+          <label>Scheduled End</label>
+          <input type="date" id="sched-end" />
+        </div>
+        <div class="form-group">
+          <label>Crew Assigned</label>
+          <input type="text" id="sched-crew" />
+        </div>
+        <div class="form-group">
+          <label>Priority</label>
+          <select id="sched-priority">
+            <option>Normal</option>
+            <option>High</option>
+            <option>Rush</option>
+          </select>
+        </div>
+        <div class="form-group full-width">
+          <label>Schedule Notes</label>
+          <textarea id="sched-notes" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="calendar-grid" id="sched-calendar"></div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('invoicing')">← Back</button>
+        <button type="button" class="btn btn-primary" onclick="saveSchedule()">Save Schedule →</button>
+      </div>
+    </section>
+
+    <!-- TAB 12: Crew Management -->
+    <section class="tab-panel" id="tab-crew-management">
+      <h2>Tab 12 – Crew Management</h2>
+      <button type="button" class="btn btn-primary" onclick="addCrewMember()">+ Add Crew Member</button>
+      <table class="data-table" id="crew-table">
+        <thead>
+          <tr><th>Name</th><th>Role</th><th>Rate/hr</th><th>Phone</th><th>Assigned</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="crew-body">
+          <tr><td colspan="6" class="empty-row">No crew members added</td></tr>
+        </tbody>
+      </table>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('scheduling')">← Back</button>
+        <button type="button" class="btn btn-primary" onclick="goToTab('supplier-orders')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- TAB 13: Supplier Orders -->
+    <section class="tab-panel" id="tab-supplier-orders">
+      <h2>Tab 13 – Supplier Orders</h2>
+      <button type="button" class="btn btn-primary" onclick="generatePO()">+ Generate Purchase Order</button>
+      <table class="data-table" id="po-table">
+        <thead>
+          <tr><th>PO #</th><th>Supplier</th><th>Date</th><th>Total</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="po-body">
+          <tr><td colspan="6" class="empty-row">No purchase orders yet</td></tr>
+        </tbody>
+      </table>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('crew-management')">← Back</button>
+        <button type="button" class="btn btn-primary" onclick="goToTab('project-tracking')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- TAB 14: Project Tracking -->
+    <section class="tab-panel" id="tab-project-tracking">
+      <h2>Tab 14 – Project Tracking</h2>
+      <div class="tracking-overview">
+        <div class="tracking-stat"><span id="track-status">Not Started</span><label>Status</label></div>
+        <div class="tracking-stat"><span id="track-pct">0%</span><label>Complete</label></div>
+        <div class="tracking-stat"><span id="track-days-left">–</span><label>Days Left</label></div>
+      </div>
+      <div class="progress-bar-outer"><div class="progress-bar-inner" id="track-progress-bar" style="width:0%"></div></div>
+      <table class="data-table" id="tracking-log-table">
+        <thead>
+          <tr><th>Date</th><th>Note</th><th>Completed By</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="tracking-log-body">
+          <tr><td colspan="4" class="empty-row">No progress notes yet</td></tr>
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-sm" onclick="addTrackingNote()">+ Add Progress Note</button>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('supplier-orders')">← Back</button>
+        <button type="button" class="btn btn-primary" onclick="goToTab('sign-off')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- TAB 15: Sign-Off -->
+    <section class="tab-panel" id="tab-sign-off">
+      <h2>Tab 15 – Project Sign-Off &amp; Completion</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Completion Date</label>
+          <input type="date" id="signoff-date" />
+        </div>
+        <div class="form-group">
+          <label>Final Amount Collected</label>
+          <input type="number" id="final-collected" min="0" />
+        </div>
+        <div class="form-group full-width">
+          <label>Customer Satisfaction (1-5)</label>
+          <input type="range" id="satisfaction" min="1" max="5" value="5" />
+          <span id="satisfaction-display">5 / 5</span>
+        </div>
+        <div class="form-group full-width">
+          <label>Completion Notes</label>
+          <textarea id="signoff-notes" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="signature-area">
+        <p><strong>Customer Final Sign-Off Signature:</strong></p>
+        <canvas id="signoff-signature-canvas" width="400" height="150"></canvas>
+        <div>
+          <button type="button" class="btn btn-sm" onclick="clearSignoffSignature()">Clear</button>
+          <button type="button" class="btn btn-success" onclick="completeProject()">✅ Mark Project Complete</button>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('project-tracking')">← Back</button>
+        <button type="button" class="btn btn-primary" onclick="goToTab('reports')">View Reports →</button>
+      </div>
+    </section>
+
+    <!-- TAB 16: Reports -->
+    <section class="tab-panel" id="tab-reports">
+      <h2>Tab 16 – Reports &amp; Analytics</h2>
+      <div class="reports-grid">
+        <button type="button" class="report-card" onclick="runReport('estimate-pdf')">
+          📄 Estimate PDF
+        </button>
+        <button type="button" class="report-card" onclick="runReport('contract-pdf')">
+          📋 Contract PDF
+        </button>
+        <button type="button" class="report-card" onclick="runReport('invoice-pdf')">
+          💵 Invoice PDF
+        </button>
+        <button type="button" class="report-card" onclick="runReport('materials-list')">
+          🧱 Materials List
+        </button>
+        <button type="button" class="report-card" onclick="runReport('crew-report')">
+          👷 Crew Report
+        </button>
+        <button type="button" class="report-card" onclick="runReport('cost-breakdown')">
+          📊 Cost Breakdown
+        </button>
+        <button type="button" class="report-card" onclick="runReport('profit-loss')">
+          💹 Profit &amp; Loss
+        </button>
+        <button type="button" class="report-card" onclick="runReport('project-history')">
+          📁 Project History
+        </button>
+      </div>
+      <div id="report-output" class="report-output"></div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('sign-off')">← Back</button>
+        <button type="button" class="btn btn-primary" onclick="goToTab('mapping')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- TAB 17: Mapping -->
+    <section class="tab-panel" id="tab-mapping">
+      <h2>Tab 17 – Mapping &amp; Site Location</h2>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Search Address</label>
+          <div style="display:flex;gap:.5rem">
+            <input type="text" id="map-search-input" placeholder="Enter installation address..." />
+            <button type="button" class="btn btn-primary" onclick="searchMapAddress()">Search</button>
+          </div>
+        </div>
+      </div>
+      <div id="map-container" class="map-container">
+        <div id="map" style="width:100%;height:450px;background:#e8f4e8;display:flex;align-items:center;justify-content:center;border-radius:8px">
+          <p style="color:#666">Map loads here when Google Maps API key is configured in .env</p>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:1rem">
+        <label>Site Notes / GPS Coordinates</label>
+        <textarea id="site-notes" rows="3"></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goToTab('reports')">← Back</button>
+        <button type="button" class="btn btn-success" onclick="saveAll()">💾 Save All &amp; Finish</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       STATUS BAR
+  ============================================================ -->
+  <footer class="status-bar" id="status-bar">
+    <span id="status-msg">Ready</span>
+    <span id="autosave-indicator"></span>
+  </footer>
+
+  <!-- ============================================================
+       CHANGE ORDER MODAL
+  ============================================================ -->
+  <div class="modal-overlay" id="co-modal" style="display:none">
+    <div class="modal">
+      <h3>New Change Order</h3>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Description of Change</label>
+          <textarea id="co-description" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Additional Amount ($)</label>
+          <input type="number" id="co-amount" />
+        </div>
+        <div class="form-group">
+          <label>Reason</label>
+          <select id="co-reason">
+            <option>Customer Request</option>
+            <option>Site Conditions</option>
+            <option>Material Upgrade</option>
+            <option>Scope Expansion</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" onclick="closeCOModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="saveChangeOrder()">Save Change Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/tabs.js"></script>
+  <script src="js/materials-calc.js"></script>
+  <script src="js/contract.js"></script>
+  <script src="js/reports.js"></script>
+  <script src="js/tools/drawing.js"></script>
+  <script src="js/tools/signature.js"></script>
+  <script src="js/tools/print.js"></script>
+</body>
+</html>

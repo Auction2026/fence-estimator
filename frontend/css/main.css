@@ -1,0 +1,113 @@
+/* ============================================================
+   MAIN CSS – Fence Depot Fence Estimator
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary:   #1a6b3a;
+  --primary-dk:#145530;
+  --accent:    #f7a800;
+  --danger:    #c0392b;
+  --success:   #27ae60;
+  --text:      #1c1c1c;
+  --text-muted:#666;
+  --bg:        #f5f7f5;
+  --surface:   #ffffff;
+  --border:    #d0d7d0;
+  --radius:    6px;
+  --shadow:    0 2px 8px rgba(0,0,0,.12);
+}
+
+html { font-size: 15px; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ---- Header ---- */
+.app-header {
+  background: var(--primary);
+  color: #fff;
+  padding: .75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+.header-brand { display: flex; align-items: center; gap: .75rem; }
+.brand-logo { height: 38px; }
+.brand-name { font-size: 1.1rem; font-weight: 700; letter-spacing: .02em; }
+.header-actions { display: flex; align-items: center; gap: .75rem; }
+.user-badge { background: rgba(255,255,255,.2); border-radius: 20px; padding: .2rem .75rem; font-size: .85rem; }
+
+/* ---- Status Bar ---- */
+.status-bar {
+  background: #2c2c2c;
+  color: #ccc;
+  font-size: .8rem;
+  padding: .35rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .45rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: .9rem;
+  font-weight: 600;
+  transition: background .15s, opacity .15s;
+  text-decoration: none;
+}
+.btn-primary   { background: var(--primary); color: #fff; }
+.btn-primary:hover   { background: var(--primary-dk); }
+.btn-secondary { background: #ccc; color: var(--text); }
+.btn-secondary:hover { background: #bbb; }
+.btn-success   { background: var(--success); color: #fff; }
+.btn-success:hover   { background: #219a52; }
+.btn-outline   { background: transparent; border: 2px solid #fff; color: #fff; }
+.btn-outline:hover   { background: rgba(255,255,255,.15); }
+.btn-danger    { background: var(--danger); color: #fff; }
+.btn-sm        { padding: .3rem .65rem; font-size: .82rem; }
+
+/* ---- Misc ---- */
+.notice-box    { background: #fff3cd; border: 1px solid #ffc107; border-radius: var(--radius); padding: .6rem 1rem; margin-bottom: 1rem; font-size: .9rem; }
+.summary-bar   { background: var(--primary); color: #fff; padding: .5rem 1rem; border-radius: var(--radius); margin-bottom: 1rem; font-size: .9rem; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.empty-row     { text-align: center; color: var(--text-muted); padding: 1rem !important; }
+
+.tracking-overview { display: flex; gap: 1.5rem; margin-bottom: 1rem; }
+.tracking-stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: .75rem 1.5rem; text-align: center; }
+.tracking-stat span { display: block; font-size: 1.4rem; font-weight: 700; color: var(--primary); }
+.tracking-stat label { font-size: .78rem; color: var(--text-muted); }
+.progress-bar-outer { background: #e0e0e0; border-radius: 20px; height: 12px; margin-bottom: 1rem; }
+.progress-bar-inner { background: var(--success); height: 100%; border-radius: 20px; transition: width .4s; }
+
+.reports-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.report-card  { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; text-align: center; cursor: pointer; font-size: .95rem; font-weight: 600; transition: box-shadow .15s; }
+.report-card:hover { box-shadow: var(--shadow); border-color: var(--primary); color: var(--primary); }
+.report-output { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; min-height: 100px; white-space: pre-wrap; font-family: monospace; font-size: .85rem; }
+
+.map-container { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+
+.layout-container { display: grid; grid-template-columns: 1fr 420px; gap: 1.5rem; }
+.layout-inputs { display: flex; flex-direction: column; gap: .75rem; }
+.layout-table  { width: 100%; border-collapse: collapse; }
+.layout-table th, .layout-table td { padding: .4rem .5rem; border: 1px solid var(--border); font-size: .88rem; }
+.canvas-hint   { font-size: .78rem; color: var(--text-muted); margin-top: .35rem; text-align: center; }
+#layout-canvas { border: 1px solid var(--border); border-radius: var(--radius); display: block; }
+
+.signature-area { margin: 1rem 0; }
+.signature-area canvas { border: 2px dashed var(--border); border-radius: var(--radius); display: block; background: #fafafa; cursor: crosshair; }
+.signature-area > div { margin-top: .5rem; display: flex; gap: .5rem; }
+
+.contract-status-banner { background: #fff3cd; border: 1px solid #ffc107; border-radius: var(--radius); padding: .6rem 1rem; margin-bottom: 1rem; font-weight: 700; }
+
+@media (max-width: 768px) {
+  .layout-container { grid-template-columns: 1fr; }
+  .tracking-overview { flex-wrap: wrap; }
+  .app-header { flex-direction: column; gap: .5rem; text-align: center; }
+}
