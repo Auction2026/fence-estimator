@@ -25,9 +25,14 @@ async function loadInventory(q = '') {
       <td>${App.escHtml(r.reorderPt)}</td>
       <td>${App.escHtml(App.fmtCurrency(r.price))}</td>
       <td>
-        <button class="btn-sm btn-secondary" onclick="adjInventory(${JSON.stringify(String(r.plu))})">Adjust</button>
+        <button class="btn-sm btn-secondary inv-adj-btn" data-plu="${App.escHtml(r.plu)}">Adjust</button>
       </td>
     </tr>`).join('') || '<tr><td colspan="7">No inventory loaded</td></tr>';
+
+  // Attach adjust handlers after render
+  document.querySelectorAll('.inv-adj-btn').forEach(btn => {
+    btn.addEventListener('click', () => adjInventory(btn.dataset.plu));
+  });
 }
 
 document.getElementById('inv-search').addEventListener('input', e => loadInventory(e.target.value));
