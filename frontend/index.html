@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fence Depot - Fence Estimator</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔨</text></svg>" />
+</head>
+<body>
+  <!-- =========================================
+       HEADER
+  ========================================= -->
+  <header class="app-header">
+    <div class="header-brand">
+      <span class="brand-icon">🔨</span>
+      <span class="brand-name">Fence Depot</span>
+      <span class="brand-sub">Estimator Pro</span>
+    </div>
+    <nav class="header-nav">
+      <span id="currentUserDisplay" class="user-badge">Not logged in</span>
+      <button id="logoutBtn" class="btn btn-ghost" onclick="app.logout()" style="display:none">Logout</button>
+    </nav>
+  </header>
+
+  <!-- =========================================
+       LOGIN SCREEN
+  ========================================= -->
+  <div id="loginScreen" class="full-screen-overlay">
+    <div class="login-card">
+      <div class="login-logo">🔨</div>
+      <h1 class="login-title">Fence Depot Estimator</h1>
+      <p class="login-sub">Sign in to continue</p>
+      <form id="loginForm" onsubmit="app.login(event)">
+        <div class="form-group">
+          <label for="loginUsername">Username</label>
+          <input id="loginUsername" type="text" class="form-control" placeholder="Enter username" required />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" class="form-control" placeholder="Enter password" required />
+        </div>
+        <div id="loginError" class="alert alert-error" style="display:none"></div>
+        <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Sign In</button>
+      </form>
+      <p class="login-hint">Demo: admin / admin123</p>
+    </div>
+  </div>
+
+  <!-- =========================================
+       MAIN APP SHELL
+  ========================================= -->
+  <div id="appShell" class="app-shell" style="display:none">
+    <!-- SIDEBAR TAB NAV -->
+    <aside class="sidebar">
+      <ul class="tab-nav" id="tabNav">
+        <li class="tab-item active" data-tab="dashboard"         onclick="app.switchTab('dashboard')">        📊 Dashboard</li>
+        <li class="tab-item"        data-tab="new-estimate"      onclick="app.switchTab('new-estimate')">     ✏️ New Estimate</li>
+        <li class="tab-item"        data-tab="projects"          onclick="app.switchTab('projects')">         📁 Projects</li>
+        <li class="tab-item"        data-tab="materials"         onclick="app.switchTab('materials')">        🧱 Materials</li>
+        <li class="tab-item"        data-tab="pricing"           onclick="app.switchTab('pricing')">          💲 Pricing</li>
+        <li class="tab-item"        data-tab="inventory"         onclick="app.switchTab('inventory')">        📦 Inventory</li>
+        <li class="tab-item"        data-tab="suppliers"         onclick="app.switchTab('suppliers')">        🏪 Suppliers</li>
+        <li class="tab-item"        data-tab="contracts"         onclick="app.switchTab('contracts')">        📝 Contracts</li>
+        <li class="tab-item"        data-tab="change-orders"     onclick="app.switchTab('change-orders')">    🔄 Change Orders</li>
+        <li class="tab-item"        data-tab="sign-off"          onclick="app.switchTab('sign-off')">         ✅ Sign-Off</li>
+        <li class="tab-item"        data-tab="notes"             onclick="app.switchTab('notes')">            📋 Notes</li>
+        <li class="tab-item"        data-tab="map-tool"          onclick="app.switchTab('map-tool')">         🗺️ Map Tool</li>
+        <li class="tab-item"        data-tab="drawing-tool"      onclick="app.switchTab('drawing-tool')">     ✏️ Drawing</li>
+        <li class="tab-item"        data-tab="analytics"         onclick="app.switchTab('analytics')">        📈 Analytics</li>
+        <li class="tab-item"        data-tab="reports"           onclick="app.switchTab('reports')">          🖨️ Reports</li>
+        <li class="tab-item"        data-tab="crew"              onclick="app.switchTab('crew')">             👷 Crew</li>
+        <li class="tab-item"        data-tab="settings"          onclick="app.switchTab('settings')">         ⚙️ Settings</li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+
+      <!-- TAB 1: DASHBOARD -->
+      <section id="tab-dashboard" class="tab-panel active">
+        <div class="page-header">
+          <h2>Dashboard</h2>
+          <button class="btn btn-primary" onclick="app.switchTab('new-estimate')">+ New Estimate</button>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-value" id="statTotalProjects">0</div><div class="stat-label">Total Projects</div></div>
+          <div class="stat-card"><div class="stat-value" id="statOpenEstimates">0</div><div class="stat-label">Open Estimates</div></div>
+          <div class="stat-card"><div class="stat-value" id="statSignedContracts">0</div><div class="stat-label">Signed Contracts</div></div>
+          <div class="stat-card"><div class="stat-value" id="statMonthRevenue">$0</div><div class="stat-label">Month Revenue</div></div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="card">
+            <h3>Recent Projects</h3>
+            <div id="recentProjectsList" class="list-group">
+              <p class="empty-state">No projects yet. <a href="#" onclick="app.switchTab('new-estimate')">Create one →</a></p>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Quick Actions</h3>
+            <div class="quick-actions">
+              <button class="btn btn-outline btn-block" onclick="app.switchTab('new-estimate')">✏️ New Estimate</button>
+              <button class="btn btn-outline btn-block" onclick="app.switchTab('projects')">📁 View Projects</button>
+              <button class="btn btn-outline btn-block" onclick="app.switchTab('inventory')">📦 Check Inventory</button>
+              <button class="btn btn-outline btn-block" onclick="app.switchTab('analytics')">📈 View Analytics</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: NEW ESTIMATE -->
+      <section id="tab-new-estimate" class="tab-panel">
+        <div class="page-header">
+          <h2>New Estimate</h2>
+        </div>
+        <div class="wizard-progress">
+          <div class="wizard-step active" data-step="1">1 Customer</div>
+          <div class="wizard-step"        data-step="2">2 Fence Specs</div>
+          <div class="wizard-step"        data-step="3">3 Materials</div>
+          <div class="wizard-step"        data-step="4">4 Labor</div>
+          <div class="wizard-step"        data-step="5">5 Review</div>
+        </div>
+
+        <!-- Step 1: Customer Info -->
+        <div id="estimate-step-1" class="wizard-panel active">
+          <div class="card">
+            <h3>Customer Information</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Customer Name *</label>
+                <input id="custName" type="text" class="form-control" placeholder="Full name" />
+              </div>
+              <div class="form-group">
+                <label>Phone</label>
+                <input id="custPhone" type="tel" class="form-control" placeholder="(555) 000-0000" />
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input id="custEmail" type="email" class="form-control" placeholder="email@example.com" />
+              </div>
+              <div class="form-group">
+                <label>Job Address *</label>
+                <input id="jobAddress" type="text" class="form-control" placeholder="123 Main St" />
+              </div>
+              <div class="form-group">
+                <label>City</label>
+                <input id="jobCity" type="text" class="form-control" placeholder="City" />
+              </div>
+              <div class="form-group">
+                <label>State</label>
+                <input id="jobState" type="text" class="form-control" placeholder="TX" maxlength="2" />
+              </div>
+            </div>
+            <div class="wizard-nav">
+              <button class="btn btn-primary" onclick="app.estimateNextStep()">Next: Fence Specs →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Fence Specs -->
+        <div id="estimate-step-2" class="wizard-panel">
+          <div class="card">
+            <h3>Fence Specifications</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Fence Type *</label>
+                <select id="fenceType" class="form-control" onchange="app.onFenceTypeChange()">
+                  <option value="">Select type...</option>
+                  <option value="chain-link">Chain Link</option>
+                  <option value="wood-privacy">Wood Privacy</option>
+                  <option value="vinyl">Vinyl</option>
+                  <option value="ornamental">Ornamental Iron</option>
+                  <option value="split-rail">Split Rail</option>
+                  <option value="farm-ranch">Farm & Ranch</option>
+                  <option value="electric">Electric</option>
+                  <option value="barbed-wire">Barbed Wire</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Height</label>
+                <select id="fenceHeight" class="form-control">
+                  <option value="3">3 ft</option>
+                  <option value="4">4 ft</option>
+                  <option value="5">5 ft</option>
+                  <option value="6" selected>6 ft</option>
+                  <option value="8">8 ft</option>
+                  <option value="10">10 ft</option>
+                  <option value="12">12 ft</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Total Linear Footage *</label>
+                <input id="fenceFootage" type="number" class="form-control" placeholder="e.g. 200" min="1" />
+              </div>
+              <div class="form-group">
+                <label>Color / Finish</label>
+                <select id="fenceColor" class="form-control">
+                  <option value="galvanized">Galvanized</option>
+                  <option value="black">Black</option>
+                  <option value="brown">Brown</option>
+                  <option value="green">Green</option>
+                  <option value="natural">Natural Wood</option>
+                  <option value="white">White</option>
+                  <option value="tan">Tan</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Number of Gates</label>
+                <input id="numGates" type="number" class="form-control" value="0" min="0" />
+              </div>
+              <div class="form-group">
+                <label>Terrain</label>
+                <select id="terrain" class="form-control">
+                  <option value="flat">Flat</option>
+                  <option value="slight-slope">Slight Slope</option>
+                  <option value="steep-slope">Steep Slope</option>
+                  <option value="rocky">Rocky</option>
+                </select>
+              </div>
+            </div>
+            <div class="wizard-nav">
+              <button class="btn btn-outline" onclick="app.estimatePrevStep()">← Back</button>
+              <button class="btn btn-primary" onclick="app.estimateNextStep()">Next: Materials →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Materials -->
+        <div id="estimate-step-3" class="wizard-panel">
+          <div class="card">
+            <h3>Materials Breakdown</h3>
+            <div id="materialsBreakdown">
+              <p class="empty-state">Complete Fence Specifications to see materials.</p>
+            </div>
+            <div class="wizard-nav">
+              <button class="btn btn-outline" onclick="app.estimatePrevStep()">← Back</button>
+              <button class="btn btn-primary" onclick="app.estimateNextStep()">Next: Labor →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Labor -->
+        <div id="estimate-step-4" class="wizard-panel">
+          <div class="card">
+            <h3>Labor Costs</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Crew Size</label>
+                <select id="crewSize" class="form-control" onchange="app.recalcLabor()">
+                  <option value="2">2 Person Crew</option>
+                  <option value="3" selected>3 Person Crew</option>
+                  <option value="4">4 Person Crew</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Estimated Days</label>
+                <input id="estimatedDays" type="number" class="form-control" value="1" min="0.5" step="0.5" onchange="app.recalcLabor()" />
+              </div>
+              <div class="form-group">
+                <label>Labor Rate ($/hr/person)</label>
+                <input id="laborRate" type="number" class="form-control" value="25" min="1" onchange="app.recalcLabor()" />
+              </div>
+              <div class="form-group">
+                <label>Hours per Day</label>
+                <input id="hoursPerDay" type="number" class="form-control" value="8" min="1" max="12" onchange="app.recalcLabor()" />
+              </div>
+            </div>
+            <div id="laborSummary" class="summary-box"></div>
+            <div class="wizard-nav">
+              <button class="btn btn-outline" onclick="app.estimatePrevStep()">← Back</button>
+              <button class="btn btn-primary" onclick="app.estimateNextStep()">Next: Review →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: Review -->
+        <div id="estimate-step-5" class="wizard-panel">
+          <div class="card">
+            <h3>Estimate Review</h3>
+            <div id="estimateReview"></div>
+            <div class="wizard-nav">
+              <button class="btn btn-outline" onclick="app.estimatePrevStep()">← Back</button>
+              <button class="btn btn-success" onclick="app.saveEstimate()">💾 Save Estimate</button>
+              <button class="btn btn-outline" onclick="app.printEstimate()">🖨️ Print</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: PROJECTS -->
+      <section id="tab-projects" class="tab-panel">
+        <div class="page-header">
+          <h2>Projects</h2>
+          <div class="header-actions">
+            <input type="search" id="projectSearch" class="form-control search-input" placeholder="Search projects..." oninput="app.filterProjects(this.value)" />
+          </div>
+        </div>
+        <div id="projectsGrid" class="projects-grid">
+          <p class="empty-state">No projects yet. <a href="#" onclick="app.switchTab('new-estimate')">Create your first estimate →</a></p>
+        </div>
+      </section>
+
+      <!-- TAB 4: MATERIALS -->
+      <section id="tab-materials" class="tab-panel">
+        <div class="page-header">
+          <h2>Materials & Costs</h2>
+          <button class="btn btn-primary" onclick="app.addMaterialRow()">+ Add Material</button>
+        </div>
+        <div class="card">
+          <table class="data-table" id="materialsTable">
+            <thead>
+              <tr>
+                <th>SKU</th><th>Description</th><th>Unit</th><th>Cost</th><th>Sell Price</th><th>Markup%</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="materialsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 5: PRICING -->
+      <section id="tab-pricing" class="tab-panel">
+        <div class="page-header">
+          <h2>Pricing Configuration</h2>
+        </div>
+        <div class="card">
+          <h3>Global Markup Settings</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Default Materials Markup (%)</label>
+              <input id="defaultMarkup" type="number" class="form-control" value="35" min="0" max="200" onchange="app.savePricingSettings()" />
+            </div>
+            <div class="form-group">
+              <label>Labor Overhead (%)</label>
+              <input id="laborOverhead" type="number" class="form-control" value="20" min="0" max="200" onchange="app.savePricingSettings()" />
+            </div>
+            <div class="form-group">
+              <label>Tax Rate (%)</label>
+              <input id="taxRate" type="number" class="form-control" value="8.25" min="0" max="20" step="0.01" onchange="app.savePricingSettings()" />
+            </div>
+            <div class="form-group">
+              <label>Minimum Job Charge ($)</label>
+              <input id="minJobCharge" type="number" class="form-control" value="500" min="0" onchange="app.savePricingSettings()" />
+            </div>
+          </div>
+          <div id="pricingSaveStatus" class="save-status"></div>
+        </div>
+        <div class="card">
+          <h3>Fence Type Pricing (per linear foot installed)</h3>
+          <table class="data-table" id="pricingTable">
+            <thead>
+              <tr><th>Fence Type</th><th>Material $/ft</th><th>Labor $/ft</th><th>Total $/ft</th></tr>
+            </thead>
+            <tbody id="pricingTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 6: INVENTORY -->
+      <section id="tab-inventory" class="tab-panel">
+        <div class="page-header">
+          <h2>Inventory</h2>
+          <div class="header-actions">
+            <input type="search" id="inventorySearch" class="form-control search-input" placeholder="Search inventory..." oninput="app.filterInventory(this.value)" />
+            <button class="btn btn-primary" onclick="app.addInventoryItem()">+ Add Item</button>
+          </div>
+        </div>
+        <div class="card">
+          <table class="data-table" id="inventoryTable">
+            <thead>
+              <tr><th>PLU</th><th>Description</th><th>Dept</th><th>UOM</th><th>Cost</th><th>Price</th><th>QOH</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="inventoryTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 7: SUPPLIERS -->
+      <section id="tab-suppliers" class="tab-panel">
+        <div class="page-header">
+          <h2>Suppliers</h2>
+          <button class="btn btn-primary" onclick="app.addSupplier()">+ Add Supplier</button>
+        </div>
+        <div id="suppliersGrid" class="suppliers-grid">
+          <p class="empty-state">No suppliers configured.</p>
+        </div>
+      </section>
+
+      <!-- TAB 8: CONTRACTS -->
+      <section id="tab-contracts" class="tab-panel">
+        <div class="page-header">
+          <h2>Contracts</h2>
+        </div>
+        <div id="contractsList" class="list-view">
+          <p class="empty-state">No contracts yet. Save an estimate to generate a contract.</p>
+        </div>
+      </section>
+
+      <!-- TAB 9: CHANGE ORDERS -->
+      <section id="tab-change-orders" class="tab-panel">
+        <div class="page-header">
+          <h2>Change Orders</h2>
+          <button class="btn btn-primary" onclick="app.newChangeOrder()">+ New Change Order</button>
+        </div>
+        <div id="changeOrdersList" class="list-view">
+          <p class="empty-state">No change orders yet.</p>
+        </div>
+      </section>
+
+      <!-- TAB 10: SIGN-OFF -->
+      <section id="tab-sign-off" class="tab-panel">
+        <div class="page-header">
+          <h2>Customer Sign-Off</h2>
+        </div>
+        <div class="card">
+          <p>Select a project to collect customer sign-off.</p>
+          <div class="form-group">
+            <label>Select Project</label>
+            <select id="signOffProject" class="form-control" onchange="app.loadSignOffProject(this.value)">
+              <option value="">-- Select a project --</option>
+            </select>
+          </div>
+          <div id="signOffContent"></div>
+        </div>
+      </section>
+
+      <!-- TAB 11: NOTES -->
+      <section id="tab-notes" class="tab-panel">
+        <div class="page-header">
+          <h2>Notes — Central Hub</h2>
+          <button class="btn btn-primary" onclick="app.addNote()">+ Add Note</button>
+        </div>
+        <div id="notesList" class="notes-grid">
+          <p class="empty-state">No notes yet.</p>
+        </div>
+      </section>
+
+      <!-- TAB 12: MAP TOOL -->
+      <section id="tab-map-tool" class="tab-panel">
+        <div class="page-header">
+          <h2>Map Tool</h2>
+        </div>
+        <div class="card">
+          <p>Enter an address to load a satellite map for measurement.</p>
+          <div class="form-group map-address-bar">
+            <input id="mapAddress" type="text" class="form-control" placeholder="123 Main St, City, TX" />
+            <button class="btn btn-primary" onclick="app.loadMap()">Load Map</button>
+          </div>
+          <div id="mapContainer" class="map-placeholder">
+            <span>🗺️ Map will appear here</span>
+          </div>
+          <div id="mapMeasurements" class="map-measurements"></div>
+        </div>
+      </section>
+
+      <!-- TAB 13: DRAWING TOOL -->
+      <section id="tab-drawing-tool" class="tab-panel">
+        <div class="page-header">
+          <h2>Drawing Tool</h2>
+        </div>
+        <div class="card">
+          <div class="drawing-toolbar">
+            <button class="btn btn-outline tool-btn active" data-tool="select"   onclick="app.drawing.setTool('select')">↖ Select</button>
+            <button class="btn btn-outline tool-btn"        data-tool="line"     onclick="app.drawing.setTool('line')">/ Line</button>
+            <button class="btn btn-outline tool-btn"        data-tool="rect"     onclick="app.drawing.setTool('rect')">▭ Rect</button>
+            <button class="btn btn-outline tool-btn"        data-tool="text"     onclick="app.drawing.setTool('text')">T Text</button>
+            <button class="btn btn-outline"                                      onclick="app.drawing.undo()">↩ Undo</button>
+            <button class="btn btn-outline"                                      onclick="app.drawing.clear()">🗑 Clear</button>
+            <button class="btn btn-outline"                                      onclick="app.drawing.exportPNG()">⬇ Export</button>
+          </div>
+          <canvas id="drawingCanvas" class="drawing-canvas" width="900" height="600"></canvas>
+          <div id="drawingFootageDisplay" class="drawing-footage"></div>
+        </div>
+      </section>
+
+      <!-- TAB 14: ANALYTICS -->
+      <section id="tab-analytics" class="tab-panel">
+        <div class="page-header">
+          <h2>Analytics</h2>
+        </div>
+        <div class="analytics-grid">
+          <div class="card chart-card">
+            <h3>Revenue by Month</h3>
+            <canvas id="revenueChart"></canvas>
+          </div>
+          <div class="card chart-card">
+            <h3>Estimates by Fence Type</h3>
+            <canvas id="fenceTypeChart"></canvas>
+          </div>
+          <div class="card chart-card">
+            <h3>Job Status Distribution</h3>
+            <canvas id="statusChart"></canvas>
+          </div>
+          <div class="card chart-card">
+            <h3>Top Materials Used</h3>
+            <canvas id="materialsChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 15: REPORTS -->
+      <section id="tab-reports" class="tab-panel">
+        <div class="page-header">
+          <h2>Reports & Printing</h2>
+        </div>
+        <div class="reports-grid">
+          <div class="card report-card" onclick="app.printReport('estimates')">
+            <div class="report-icon">📋</div>
+            <h3>Estimates Report</h3>
+            <p>All estimates with costs and status</p>
+          </div>
+          <div class="card report-card" onclick="app.printReport('contracts')">
+            <div class="report-icon">📝</div>
+            <h3>Contracts Report</h3>
+            <p>Signed and pending contracts</p>
+          </div>
+          <div class="card report-card" onclick="app.printReport('inventory')">
+            <div class="report-icon">📦</div>
+            <h3>Inventory Report</h3>
+            <p>Current stock levels and values</p>
+          </div>
+          <div class="card report-card" onclick="app.printReport('revenue')">
+            <div class="report-icon">💰</div>
+            <h3>Revenue Report</h3>
+            <p>Monthly and yearly revenue summary</p>
+          </div>
+          <div class="card report-card" onclick="app.printReport('materials')">
+            <div class="report-icon">🧱</div>
+            <h3>Materials Usage</h3>
+            <p>Materials used across all projects</p>
+          </div>
+          <div class="card report-card" onclick="app.printReport('crew')">
+            <div class="report-icon">👷</div>
+            <h3>Crew Report</h3>
+            <p>Crew assignments and hours</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 16: CREW -->
+      <section id="tab-crew" class="tab-panel">
+        <div class="page-header">
+          <h2>Crew Management</h2>
+          <button class="btn btn-primary" onclick="app.addCrewMember()">+ Add Crew Member</button>
+        </div>
+        <div id="crewGrid" class="crew-grid">
+          <p class="empty-state">No crew members added yet.</p>
+        </div>
+      </section>
+
+      <!-- TAB 17: SETTINGS -->
+      <section id="tab-settings" class="tab-panel">
+        <div class="page-header">
+          <h2>Settings</h2>
+        </div>
+        <div class="settings-grid">
+          <div class="card">
+            <h3>Company Information</h3>
+            <div class="form-grid">
+              <div class="form-group"><label>Company Name</label><input id="settCompany" type="text" class="form-control" /></div>
+              <div class="form-group"><label>Phone</label><input id="settPhone" type="tel" class="form-control" /></div>
+              <div class="form-group"><label>Email</label><input id="settEmail" type="email" class="form-control" /></div>
+              <div class="form-group"><label>Address</label><input id="settAddress" type="text" class="form-control" /></div>
+              <div class="form-group"><label>License Number</label><input id="settLicense" type="text" class="form-control" /></div>
+              <div class="form-group"><label>Website</label><input id="settWebsite" type="url" class="form-control" /></div>
+            </div>
+            <button class="btn btn-primary" onclick="app.saveCompanySettings()">Save Company Info</button>
+          </div>
+          <div class="card">
+            <h3>API / Backend Connection</h3>
+            <div class="form-group">
+              <label>Backend URL</label>
+              <input id="settApiUrl" type="url" class="form-control" placeholder="http://localhost:3000" />
+            </div>
+            <div id="apiStatus" class="api-status"></div>
+            <button class="btn btn-outline" onclick="app.testConnection()">Test Connection</button>
+            <button class="btn btn-primary" onclick="app.saveApiSettings()">Save</button>
+          </div>
+          <div class="card">
+            <h3>Data Management</h3>
+            <button class="btn btn-outline btn-block" onclick="app.exportData()">⬇ Export All Data (JSON)</button>
+            <button class="btn btn-outline btn-block" onclick="app.importData()">⬆ Import Data (JSON)</button>
+            <button class="btn btn-danger btn-block" onclick="app.clearAllData()">🗑 Clear All Local Data</button>
+          </div>
+        </div>
+      </section>
+
+    </main><!-- /main-content -->
+  </div><!-- /appShell -->
+
+  <!-- MODAL -->
+  <div id="modal" class="modal-overlay" style="display:none" onclick="app.closeModal(event)">
+    <div class="modal-box" id="modalBox">
+      <button class="modal-close" onclick="app.closeModal()">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/tabs/dashboard.js"></script>
+  <script src="js/tabs/new-estimate.js"></script>
+  <script src="js/tabs/projects.js"></script>
+  <script src="js/tabs/materials.js"></script>
+  <script src="js/tabs/pricing.js"></script>
+  <script src="js/tabs/inventory.js"></script>
+  <script src="js/tabs/suppliers.js"></script>
+  <script src="js/tabs/contracts.js"></script>
+  <script src="js/tabs/change-orders.js"></script>
+  <script src="js/tabs/sign-off.js"></script>
+  <script src="js/tabs/notes.js"></script>
+  <script src="js/tabs/analytics.js"></script>
+  <script src="js/tabs/reports.js"></script>
+  <script src="js/tabs/crew.js"></script>
+  <script src="js/tabs/settings.js"></script>
+  <script src="js/tools/drawing.js"></script>
+  <script src="js/tools/map.js"></script>
+  <script src="js/tools/print.js"></script>
+  <script src="js/tools/export.js"></script>
+</body>
+</html>
