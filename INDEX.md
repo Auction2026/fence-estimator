@@ -1,0 +1,13 @@
+# Index
+- `/backend/server.js` - Express app and route wiring.
+- `/backend/models/*.js` - MongoDB models.
+- `/backend/routes/*.js` - API endpoints.
+- `/backend/middleware/*.js` - auth/validation/error handling.
+- `/backend/utils/*.js` - calculations, PDF, logger, helpers.
+- `/frontend/index.html` - 17-tab shell UI.
+- `/frontend/js` - app logic and tabs.
+- `/frontend/css` - styles.
+- `/database/schema.sql` - relational schema.
+- `/database/seed.sql` - inventory seed (950 rows via generate_series).
+- `/docs/PART_4_IMPLEMENTATION_MENU.md` - setup workflow.
+- `/docs/PART_5_TROUBLESHOOTING_GUIDE.md` - issue/solution matrix.
