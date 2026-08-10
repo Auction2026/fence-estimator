@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fence Depot – Fence Estimator</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/tabs.css" />
+  <link rel="stylesheet" href="css/forms.css" />
+  <link rel="stylesheet" href="css/print.css" media="print" />
+</head>
+<body>
+  <!-- ── TOP NAV ──────────────────────────────────────────────── -->
+  <header id="topbar">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Fence Depot" onerror="this.style.display='none'" />
+      <span class="brand-name">Fence Depot</span>
+      <span class="brand-sub">Estimator Pro</span>
+    </div>
+    <nav id="main-nav">
+      <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
+      <button class="nav-btn" data-tab="new-estimate">New Estimate</button>
+      <button class="nav-btn" data-tab="projects">Projects</button>
+      <button class="nav-btn" data-tab="materials">Materials &amp; Costs</button>
+      <button class="nav-btn" data-tab="inventory">Inventory</button>
+      <button class="nav-btn" data-tab="suppliers">Suppliers</button>
+      <button class="nav-btn" data-tab="contracts">Contracts</button>
+      <button class="nav-btn" data-tab="change-orders">Change Orders</button>
+      <button class="nav-btn" data-tab="sign-off">Sign-Off</button>
+      <button class="nav-btn" data-tab="notes">Notes</button>
+      <button class="nav-btn" data-tab="photos">Photos</button>
+      <button class="nav-btn" data-tab="map">Site Map</button>
+      <button class="nav-btn" data-tab="analytics">Analytics</button>
+      <button class="nav-btn" data-tab="pricing-lock">Pricing Lock</button>
+      <button class="nav-btn" data-tab="reports">Reports</button>
+      <button class="nav-btn" data-tab="admin">Admin</button>
+      <button class="nav-btn" data-tab="settings">Settings</button>
+    </nav>
+    <div class="topbar-right">
+      <span id="user-display">Guest</span>
+      <button id="logout-btn" class="btn-sm">Logout</button>
+    </div>
+  </header>
+
+  <!-- ── MAIN CONTENT ──────────────────────────────────────────── -->
+  <main id="app">
+
+    <!-- TAB 1 – DASHBOARD -->
+    <section id="tab-dashboard" class="tab-panel active">
+      <h2>Dashboard</h2>
+      <div class="kpi-row">
+        <div class="kpi-card"><span class="kpi-val" id="kpi-open-estimates">0</span><span class="kpi-label">Open Estimates</span></div>
+        <div class="kpi-card"><span class="kpi-val" id="kpi-active-projects">0</span><span class="kpi-label">Active Projects</span></div>
+        <div class="kpi-card"><span class="kpi-val" id="kpi-contracts-pending">0</span><span class="kpi-label">Pending Contracts</span></div>
+        <div class="kpi-card"><span class="kpi-val" id="kpi-month-revenue">$0</span><span class="kpi-label">Month Revenue</span></div>
+      </div>
+      <div class="dashboard-grid">
+        <div class="card" id="recent-estimates-card">
+          <h3>Recent Estimates</h3>
+          <table class="data-table" id="recent-estimates-table">
+            <thead><tr><th>ID</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th></tr></thead>
+            <tbody id="recent-estimates-body"></tbody>
+          </table>
+        </div>
+        <div class="card" id="recent-projects-card">
+          <h3>Recent Projects</h3>
+          <table class="data-table" id="recent-projects-table">
+            <thead><tr><th>ID</th><th>Customer</th><th>Type</th><th>Status</th></tr></thead>
+            <tbody id="recent-projects-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2 – NEW ESTIMATE (5-step wizard) -->
+    <section id="tab-new-estimate" class="tab-panel">
+      <h2>New Estimate</h2>
+      <div class="wizard-steps">
+        <div class="wstep active" data-step="1">1 Customer</div>
+        <div class="wstep" data-step="2">2 Fence Specs</div>
+        <div class="wstep" data-step="3">3 Gates &amp; Access</div>
+        <div class="wstep" data-step="4">4 Materials</div>
+        <div class="wstep" data-step="5">5 Review &amp; Save</div>
+      </div>
+      <div class="wizard-body">
+        <!-- Step 1 -->
+        <div class="wizard-step active" id="wstep-1">
+          <div class="form-grid">
+            <label>First Name <input type="text" id="est-fname" /></label>
+            <label>Last Name <input type="text" id="est-lname" /></label>
+            <label>Phone <input type="tel" id="est-phone" /></label>
+            <label>Email <input type="email" id="est-email" /></label>
+            <label class="full">Address <input type="text" id="est-address" /></label>
+            <label>City <input type="text" id="est-city" /></label>
+            <label>State <input type="text" id="est-state" maxlength="2" /></label>
+            <label>Zip <input type="text" id="est-zip" maxlength="10" /></label>
+          </div>
+        </div>
+        <!-- Step 2 -->
+        <div class="wizard-step" id="wstep-2">
+          <div class="form-grid">
+            <label>Fence Type
+              <select id="est-fence-type">
+                <option value="">-- Select --</option>
+                <option value="chain-link">Chain Link</option>
+                <option value="wood">Wood Privacy</option>
+                <option value="vinyl">Vinyl Privacy</option>
+                <option value="ornamental">Ornamental Iron</option>
+                <option value="aluminum">Aluminum</option>
+              </select>
+            </label>
+            <label>Height
+              <select id="est-height">
+                <option value="3">3 ft</option>
+                <option value="4">4 ft</option>
+                <option value="5">5 ft</option>
+                <option value="6">6 ft</option>
+                <option value="8">8 ft</option>
+              </select>
+            </label>
+            <label>Total Linear Feet <input type="number" id="est-footage" min="1" /></label>
+            <label>Color / Finish <input type="text" id="est-color" placeholder="e.g. Galvanized, Black, Cedar" /></label>
+            <label class="full">Special Notes <textarea id="est-spec-notes" rows="3"></textarea></label>
+          </div>
+        </div>
+        <!-- Step 3 -->
+        <div class="wizard-step" id="wstep-3">
+          <div class="form-grid">
+            <label>Number of Walk Gates <input type="number" id="est-walk-gates" min="0" value="0" /></label>
+            <label>Number of Drive Gates <input type="number" id="est-drive-gates" min="0" value="0" /></label>
+            <label>Gate Width (ft) <input type="number" id="est-gate-width" min="3" value="4" /></label>
+            <label>Access Control
+              <select id="est-access">
+                <option value="none">None</option>
+                <option value="padlock">Padlock</option>
+                <option value="keypad">Keypad</option>
+                <option value="card">Card Reader</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <!-- Step 4 -->
+        <div class="wizard-step" id="wstep-4">
+          <div id="materials-output">
+            <p class="hint">Click "Calculate Materials" to generate material list.</p>
+            <button class="btn-primary" id="calc-materials-btn">Calculate Materials</button>
+          </div>
+          <table class="data-table" id="materials-table" style="display:none">
+            <thead><tr><th>PLU</th><th>Description</th><th>Qty</th><th>Unit</th><th>Unit Price</th><th>Total</th></tr></thead>
+            <tbody id="materials-body"></tbody>
+            <tfoot><tr><td colspan="5"><strong>Subtotal</strong></td><td id="materials-subtotal">$0.00</td></tr></tfoot>
+          </table>
+          <div id="labor-section" style="display:none">
+            <h4>Labor</h4>
+            <label>Labor Rate ($/ft) <input type="number" id="labor-rate" value="12" step="0.5" /></label>
+            <label>Markup % <input type="number" id="markup-pct" value="20" /></label>
+            <div id="cost-summary"></div>
+          </div>
+        </div>
+        <!-- Step 5 -->
+        <div class="wizard-step" id="wstep-5">
+          <div id="estimate-review"></div>
+          <div class="btn-row">
+            <button class="btn-primary" id="save-estimate-btn">Save Estimate</button>
+            <button class="btn-secondary" id="print-estimate-btn">Print / PDF</button>
+            <button class="btn-secondary" id="email-estimate-btn">Email Estimate</button>
+          </div>
+        </div>
+      </div>
+      <div class="wizard-nav btn-row">
+        <button class="btn-secondary" id="wiz-back-btn" style="display:none">← Back</button>
+        <button class="btn-primary" id="wiz-next-btn">Next →</button>
+      </div>
+    </section>
+
+    <!-- TAB 3 – PROJECTS -->
+    <section id="tab-projects" class="tab-panel">
+      <h2>Projects</h2>
+      <div class="toolbar">
+        <button class="btn-primary" id="new-project-btn">+ New Project</button>
+        <input type="text" id="project-search" placeholder="Search projects…" />
+      </div>
+      <table class="data-table" id="projects-table">
+        <thead><tr><th>ID</th><th>Customer</th><th>Type</th><th>Linear Ft</th><th>Start</th><th>Status</th><th>Total</th><th>Actions</th></tr></thead>
+        <tbody id="projects-body"></tbody>
+      </table>
+    </section>
+
+    <!-- TAB 4 – MATERIALS & COSTS -->
+    <section id="tab-materials" class="tab-panel">
+      <h2>Materials &amp; Costs</h2>
+      <div class="toolbar">
+        <input type="text" id="mat-search" placeholder="Search materials…" />
+        <button class="btn-secondary" id="export-materials-btn">Export CSV</button>
+      </div>
+      <table class="data-table" id="mat-table">
+        <thead><tr><th>PLU</th><th>Description</th><th>Dept</th><th>Unit</th><th>Cost</th><th>Price</th><th>Margin</th></tr></thead>
+        <tbody id="mat-body"></tbody>
+      </table>
+    </section>
+
+    <!-- TAB 5 – INVENTORY -->
+    <section id="tab-inventory" class="tab-panel">
+      <h2>Inventory</h2>
+      <div class="toolbar">
+        <input type="text" id="inv-search" placeholder="Search inventory…" />
+        <button class="btn-primary" id="add-inv-btn">+ Add Item</button>
+        <button class="btn-secondary" id="export-inv-btn">Export CSV</button>
+      </div>
+      <table class="data-table" id="inv-table">
+        <thead><tr><th>PLU</th><th>Description</th><th>Dept</th><th>On Hand</th><th>Reorder Pt</th><th>Unit Price</th><th>Actions</th></tr></thead>
+        <tbody id="inv-body"></tbody>
+      </table>
+    </section>
+
+    <!-- TAB 6 – SUPPLIERS -->
+    <section id="tab-suppliers" class="tab-panel">
+      <h2>Suppliers</h2>
+      <div class="toolbar">
+        <button class="btn-primary" id="add-supplier-btn">+ Add Supplier</button>
+      </div>
+      <table class="data-table" id="suppliers-table">
+        <thead><tr><th>Name</th><th>Contact</th><th>Phone</th><th>Email</th><th>Lead Days</th><th>Actions</th></tr></thead>
+        <tbody id="suppliers-body"></tbody>
+      </table>
+    </section>
+
+    <!-- TAB 7 – CONTRACTS -->
+    <section id="tab-contracts" class="tab-panel">
+      <h2>Contracts</h2>
+      <div class="toolbar">
+        <button class="btn-primary" id="new-contract-btn">+ New Contract</button>
+        <input type="text" id="contract-search" placeholder="Search contracts…" />
+      </div>
+      <table class="data-table" id="contracts-table">
+        <thead><tr><th>Contract #</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="contracts-body"></tbody>
+      </table>
+    </section>
+
+    <!-- TAB 8 – CHANGE ORDERS -->
+    <section id="tab-change-orders" class="tab-panel">
+      <h2>Change Orders</h2>
+      <div class="toolbar">
+        <button class="btn-primary" id="new-co-btn">+ New Change Order</button>
+      </div>
+      <table class="data-table" id="co-table">
+        <thead><tr><th>CO #</th><th>Project</th><th>Date</th><th>Description</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="co-body"></tbody>
+      </table>
+    </section>
+
+    <!-- TAB 9 – SIGN-OFF -->
+    <section id="tab-sign-off" class="tab-panel">
+      <h2>Sign-Off</h2>
+      <div class="toolbar">
+        <input type="text" id="signoff-search" placeholder="Search projects…" />
+      </div>
+      <div id="signoff-list"></div>
+    </section>
+
+    <!-- TAB 10 – NOTES -->
+    <section id="tab-notes" class="tab-panel">
+      <h2>Project Notes</h2>
+      <div class="toolbar">
+        <select id="notes-project-select"><option value="">-- Select Project --</option></select>
+        <button class="btn-primary" id="add-note-btn">+ Add Note</button>
+      </div>
+      <div id="notes-list"></div>
+    </section>
+
+    <!-- TAB 11 – PHOTOS -->
+    <section id="tab-photos" class="tab-panel">
+      <h2>Site Photos</h2>
+      <div class="toolbar">
+        <select id="photos-project-select"><option value="">-- Select Project --</option></select>
+        <label class="btn-primary" for="photo-upload">+ Upload Photo</label>
+        <input type="file" id="photo-upload" accept="image/*" multiple style="display:none" />
+      </div>
+      <div id="photo-grid" class="photo-grid"></div>
+    </section>
+
+    <!-- TAB 12 – SITE MAP -->
+    <section id="tab-map" class="tab-panel">
+      <h2>Site Map / Drawing</h2>
+      <div class="toolbar">
+        <button class="btn-secondary" id="map-clear-btn">Clear</button>
+        <button class="btn-secondary" id="map-undo-btn">Undo</button>
+        <button class="btn-primary" id="map-save-btn">Save Drawing</button>
+        <span id="map-footage-display">Measured: 0 ft</span>
+      </div>
+      <canvas id="site-canvas" width="900" height="600"></canvas>
+    </section>
+
+    <!-- TAB 13 – ANALYTICS -->
+    <section id="tab-analytics" class="tab-panel">
+      <h2>Analytics</h2>
+      <div class="kpi-row">
+        <div class="kpi-card"><span class="kpi-val" id="ana-total-revenue">$0</span><span class="kpi-label">Total Revenue</span></div>
+        <div class="kpi-card"><span class="kpi-val" id="ana-avg-estimate">$0</span><span class="kpi-label">Avg Estimate</span></div>
+        <div class="kpi-card"><span class="kpi-val" id="ana-win-rate">0%</span><span class="kpi-label">Win Rate</span></div>
+        <div class="kpi-card"><span class="kpi-val" id="ana-total-projects">0</span><span class="kpi-label">Total Projects</span></div>
+      </div>
+      <div class="chart-area" id="revenue-chart-area">
+        <canvas id="revenue-chart" height="300"></canvas>
+      </div>
+    </section>
+
+    <!-- TAB 14 – PRICING LOCK -->
+    <section id="tab-pricing-lock" class="tab-panel">
+      <h2>Pricing Lock</h2>
+      <p class="hint">Lock current material prices to an estimate to prevent cost changes from affecting saved estimates.</p>
+      <div class="toolbar">
+        <select id="lock-estimate-select"><option value="">-- Select Estimate --</option></select>
+        <button class="btn-primary" id="lock-prices-btn">Lock Prices</button>
+        <button class="btn-secondary" id="unlock-prices-btn">Unlock</button>
+      </div>
+      <div id="lock-status"></div>
+    </section>
+
+    <!-- TAB 15 – REPORTS -->
+    <section id="tab-reports" class="tab-panel">
+      <h2>Reports</h2>
+      <div class="report-buttons">
+        <button class="btn-secondary rpt-btn" data-report="estimates">Estimates Report</button>
+        <button class="btn-secondary rpt-btn" data-report="projects">Projects Report</button>
+        <button class="btn-secondary rpt-btn" data-report="materials">Materials Usage</button>
+        <button class="btn-secondary rpt-btn" data-report="revenue">Revenue Summary</button>
+      </div>
+      <div id="report-output"></div>
+    </section>
+
+    <!-- TAB 16 – ADMIN -->
+    <section id="tab-admin" class="tab-panel">
+      <h2>Admin Panel</h2>
+      <div class="admin-grid">
+        <div class="card">
+          <h3>Users</h3>
+          <table class="data-table" id="admin-users-table">
+            <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr></thead>
+            <tbody id="admin-users-body"></tbody>
+          </table>
+          <button class="btn-primary" id="add-user-btn">+ Add User</button>
+        </div>
+        <div class="card">
+          <h3>Company Settings</h3>
+          <div class="form-grid">
+            <label>Company Name <input type="text" id="co-name" /></label>
+            <label>Phone <input type="tel" id="co-phone" /></label>
+            <label>License # <input type="text" id="co-license" /></label>
+            <label>Tax Rate % <input type="number" id="co-tax" step="0.1" value="0" /></label>
+            <label class="full"><button class="btn-primary" id="save-co-btn">Save Settings</button></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 17 – SETTINGS -->
+    <section id="tab-settings" class="tab-panel">
+      <h2>Settings</h2>
+      <div class="form-grid">
+        <label>Default Markup % <input type="number" id="set-markup" value="20" /></label>
+        <label>Default Labor Rate ($/ft) <input type="number" id="set-labor" value="12" /></label>
+        <label>Currency Symbol <input type="text" id="set-currency" value="$" maxlength="3" /></label>
+        <label>Date Format
+          <select id="set-date-format">
+            <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+            <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+            <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+          </select>
+        </label>
+        <label>Theme
+          <select id="set-theme">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+        <label class="full"><button class="btn-primary" id="save-settings-btn">Save Settings</button></label>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── MODALS ──────────────────────────────────────────────── -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal" id="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-title">Modal</h3>
+        <button id="modal-close" class="modal-close">✕</button>
+      </div>
+      <div id="modal-body"></div>
+      <div class="btn-row" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <!-- ── SCRIPTS ─────────────────────────────────────────────── -->
+  <script src="js/app.js"></script>
+  <script src="js/tabs/dashboard.js"></script>
+  <script src="js/tabs/estimate.js"></script>
+  <script src="js/tabs/projects.js"></script>
+  <script src="js/tabs/materials.js"></script>
+  <script src="js/tabs/inventory.js"></script>
+  <script src="js/tabs/contracts.js"></script>
+  <script src="js/tabs/change-orders.js"></script>
+  <script src="js/tabs/sign-off.js"></script>
+  <script src="js/tabs/analytics.js"></script>
+  <script src="js/tabs/admin.js"></script>
+  <script src="js/tools/canvas-map.js"></script>
+  <script src="js/tools/print.js"></script>
+</body>
+</html>
