@@ -1,0 +1,165 @@
+:root {
+  color-scheme: light;
+  --bg: #f4f7fb;
+  --surface: #ffffff;
+  --surface-muted: #edf3fb;
+  --border: #d7e0ec;
+  --text: #19324d;
+  --muted: #5e7086;
+  --accent: #0f766e;
+  --accent-dark: #0b5d57;
+  --warning: #b45309;
+  --success: #166534;
+  --danger: #b91c1c;
+  --shadow: 0 12px 30px rgba(15, 35, 59, 0.08);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app-shell {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.topbar, .toolbar, .card, .summary-grid > div, .catalog-table-wrapper, .canvas-wrapper {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.topbar {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin: 0 0 8px;
+}
+
+h1 { margin: 0 0 8px; }
+.subcopy { margin: 0; color: var(--muted); max-width: 72ch; }
+.status-panel {
+  min-width: 220px;
+  display: grid;
+  gap: 12px;
+}
+.status-panel .label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.toolbar {
+  margin-top: 16px;
+  padding: 16px 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font: inherit;
+  cursor: pointer;
+}
+.primary-btn { background: var(--accent); color: white; }
+.primary-btn:hover { background: var(--accent-dark); }
+.secondary-btn { background: var(--surface-muted); color: var(--text); }
+.flash-message { color: var(--muted); min-height: 1.5rem; }
+.tab-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+.tab-nav button {
+  background: var(--surface);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  text-align: left;
+  min-height: 72px;
+}
+.tab-nav button.active {
+  background: #d8f3ef;
+  color: var(--text);
+  border-color: var(--accent);
+}
+.tab-nav button span {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.card { padding: 24px; }
+.card + .card { margin-top: 16px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+}
+input, select, textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+  background: var(--surface);
+}
+textarea { min-height: 120px; resize: vertical; }
+.helper { font-size: 0.85rem; color: var(--muted); }
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+.summary-grid > div {
+  padding: 16px;
+}
+.summary-grid strong {
+  display: block;
+  font-size: 1.3rem;
+  margin-top: 8px;
+}
+.inline-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.catalog-table-wrapper { overflow: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); text-align: left; }
+.canvas-wrapper { padding: 16px; }
+canvas { width: 100%; min-height: 320px; border: 2px dashed var(--border); border-radius: 14px; background: #fff; }
+.notice { padding: 12px 14px; border-radius: 12px; background: #fff7ed; color: var(--warning); }
+.success { background: #ecfdf5; color: var(--success); }
+iframe.map-frame { width: 100%; min-height: 320px; border: 0; border-radius: 14px; background: #f8fafc; }
+@media (max-width: 800px) {
+  .app-shell { padding: 16px; }
+  .topbar { flex-direction: column; }
+  .tab-nav { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+}

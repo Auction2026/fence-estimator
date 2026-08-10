@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Depot Estimator Workspace</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Fence Depot</p>
+        <h1>Estimator Delivery Workspace</h1>
+        <p class="subcopy">17-tab implementation package for project, estimating, contract, catalog, and mapping workflows.</p>
+      </div>
+      <div class="status-panel">
+        <div><span class="label">Mode</span><strong id="app-mode">Loading…</strong></div>
+        <div><span class="label">Project</span><strong id="project-ref">Pending</strong></div>
+      </div>
+    </header>
+
+    <section class="toolbar">
+      <button id="save-all" class="primary-btn">Save Current Tab</button>
+      <button id="recalculate" class="secondary-btn">Recalculate Estimate</button>
+      <span id="flash-message" class="flash-message"></span>
+    </section>
+
+    <nav id="tab-nav" class="tab-nav" aria-label="Estimator workflow tabs"></nav>
+    <main id="tab-panels" class="tab-panels"></main>
+  </div>
+
+  <template id="card-template">
+    <section class="card"></section>
+  </template>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
