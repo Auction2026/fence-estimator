@@ -1388,7 +1388,7 @@
                     <div class="section-title">
                         <i class="fas fa-file-signature"></i> Contract & Agreement
                     </div>
-                    <div class="section-description">Generate and manage customer contracts and agreements</div>
+                    <div class="section-description">Generate contracts and open an email draft in your local email client</div>
 
                     <div class="form-group">
                         <label class="label-required">Contract Template</label>
@@ -2156,7 +2156,21 @@
         }
 
         function sendContractToCustomer() {
-            showAlert('Contract sent to customer email', 'success');
+            const customerEmail = document.getElementById('customerEmail').value.trim();
+            const customerName = document.getElementById('customerName').value.trim();
+
+            if (!customerEmail) {
+                showAlert('Enter customer email first, then click Send to Customer', 'warning');
+                return;
+            }
+
+            const subject = encodeURIComponent('Fence Depot Contract');
+            const greetingName = customerName || 'Customer';
+            const body = encodeURIComponent(
+                `Hi ${greetingName},\n\nYour Fence Depot contract is ready.\nPlease attach the generated contract PDF before sending.\n`
+            );
+            window.location.href = `mailto:${customerEmail}?subject=${subject}&body=${body}`;
+            showAlert('Email draft opened in your email app. This estimator does not send emails directly.', 'info');
         }
 
         function markContractSigned() {
