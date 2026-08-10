@@ -1,0 +1,24 @@
+/* ============================================================
+   MODALS CSS – Fence Depot Fence Estimator
+   ============================================================ */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal {
+  background: var(--surface, #fff);
+  border-radius: var(--radius, 6px);
+  box-shadow: 0 8px 32px rgba(0,0,0,.25);
+  padding: 1.5rem;
+  width: min(520px, 95vw);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal h3 { font-size: 1.1rem; color: var(--primary, #1a6b3a); margin-bottom: 1rem; }
+.modal-actions { display: flex; gap: .75rem; justify-content: flex-end; margin-top: 1rem; border-top: 1px solid var(--border, #d0d7d0); padding-top: .75rem; }

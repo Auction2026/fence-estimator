@@ -1,0 +1,62 @@
+/* ============================================================
+   FORMS CSS – Fence Depot Fence Estimator
+   ============================================================ */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: .9rem 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+.form-group.full-width { grid-column: 1 / -1; }
+
+.form-group label {
+  font-size: .82rem;
+  font-weight: 600;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="date"],
+.form-group select,
+.form-group textarea {
+  border: 1px solid var(--border, #d0d7d0);
+  border-radius: var(--radius, 6px);
+  font-size: .9rem;
+  padding: .45rem .6rem;
+  width: 100%;
+  transition: border-color .15s, box-shadow .15s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary, #1a6b3a);
+  box-shadow: 0 0 0 3px rgba(26,107,58,.15);
+}
+.form-group input[readonly] { background: #f0f0f0; color: #555; }
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  margin-top: .75rem;
+  padding-top: .75rem;
+  border-top: 1px solid var(--border, #d0d7d0);
+}
+
+.summary-table { width: 100%; max-width: 480px; border-collapse: collapse; }
+.summary-table td { padding: .45rem .75rem; border-bottom: 1px solid var(--border, #d0d7d0); font-size: .95rem; }
+.summary-table .subtotal-row td { border-top: 2px solid #999; }
+.summary-table .total-row td { font-size: 1.1rem; background: #f0faf0; }

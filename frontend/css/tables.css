@@ -1,0 +1,20 @@
+/* ============================================================
+   TABLES CSS – Fence Depot Fence Estimator
+   ============================================================ */
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .88rem;
+  margin-top: .75rem;
+  background: var(--surface, #fff);
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  border-radius: var(--radius, 6px);
+  overflow: hidden;
+}
+.data-table thead { background: var(--primary, #1a6b3a); color: #fff; }
+.data-table th { padding: .55rem .75rem; text-align: left; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
+.data-table td { padding: .45rem .75rem; border-bottom: 1px solid var(--border, #d0d7d0); vertical-align: middle; }
+.data-table tbody tr:hover { background: #f6fbf6; }
+.data-table tfoot td { border-top: 2px solid var(--primary, #1a6b3a); font-weight: 700; padding: .55rem .75rem; }
+.data-table td input[type="number"], .data-table td input[type="text"] { width: 100%; border: 1px solid var(--border, #d0d7d0); border-radius: 4px; padding: .3rem .4rem; font-size: .88rem; }

@@ -1,0 +1,44 @@
+/* ============================================================
+   TABS CSS – Fence Depot Fence Estimator
+   ============================================================ */
+
+.tab-nav {
+  background: var(--primary-dk, #145530);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 4px 8px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.tab-btn {
+  background: rgba(255,255,255,.12);
+  border: none;
+  border-radius: 4px 4px 0 0;
+  color: rgba(255,255,255,.85);
+  cursor: pointer;
+  font-size: .78rem;
+  font-weight: 600;
+  padding: .45rem .75rem;
+  transition: background .15s, color .15s;
+  white-space: nowrap;
+}
+.tab-btn:hover  { background: rgba(255,255,255,.22); color: #fff; }
+.tab-btn.active { background: #fff; color: var(--primary, #1a6b3a); }
+
+.tab-content-area { flex: 1; padding: 1.5rem; }
+
+.tab-panel { display: none; animation: fadeIn .2s; }
+.tab-panel.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+.tab-panel h2 {
+  font-size: 1.2rem;
+  color: var(--primary, #1a6b3a);
+  border-bottom: 2px solid var(--primary, #1a6b3a);
+  padding-bottom: .35rem;
+  margin-bottom: 1.25rem;
+}
