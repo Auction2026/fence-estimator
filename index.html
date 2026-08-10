@@ -1390,8 +1390,11 @@
                             </div>
 
                             <button class="btn btn-primary" onclick="generatePDF()" style="width: 100%; margin-top: 30px; padding: 16px; font-size: 16px;">
-                                📄 Generate & Email PDF
+                                📄 Generate PDF Draft
                             </button>
+                            <p style="margin-top: 10px; font-size: 13px; color: #6B7280;">
+                                Email delivery is not automatic in this local app. Use your email client to send the generated file.
+                            </p>
                         </div>
                     </div>
 
@@ -1736,7 +1739,7 @@
         }
 
         function generatePDF() {
-            alert('📄 Estimate PDF generated and email sent to customer!');
+            alert('📄 Estimate PDF generated locally. Email sending is not configured in this app.');
         }
 
         function viewEstimate() {
