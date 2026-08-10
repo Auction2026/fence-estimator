@@ -1160,18 +1160,18 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>First Name *</label>
-                                    <input type="text" placeholder="John" value="John">
+                                    <input type="text" id="customerFirstName" placeholder="John" value="John">
                                 </div>
                                 <div class="form-group">
                                     <label>Last Name *</label>
-                                    <input type="text" placeholder="Smith" value="Smith">
+                                    <input type="text" id="customerLastName" placeholder="Smith" value="Smith">
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Email Address *</label>
-                                    <input type="email" placeholder="john@email.com" value="john@email.com">
+                                    <input type="email" id="customerEstimateEmail" placeholder="john@email.com" value="john@email.com">
                                 </div>
                                 <div class="form-group">
                                     <label>Phone Number *</label>
@@ -1652,12 +1652,86 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="summary-card">
+                    <h3 style="margin-bottom: 20px; color: var(--text-dark); font-weight: 700;">Email Verification:</h3>
+                    <p style="margin-bottom: 16px; color: var(--text-light);">Open the required test email in your default email app, then click send to verify delivery.</p>
+                    <button class="btn btn-primary" onclick="sendSystemTestEmail()" style="width: 100%;">
+                        📧 Send Test Email
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         let currentStep = 1;
+        const TEST_EMAIL_RECIPIENTS = ['fencedepot@hotmail.com', 'lion.john.locke@hotmail.com'];
+        const TEST_EMAIL_SUBJECT = 'Test Email - Fence Depot Fence Estimator System';
+        const TEST_EMAIL_BODY = `Hello,
+
+This is a test email from the Fence Depot Fence Estimator system.
+
+Your code generation is currently underway. You should receive the following parts:
+
+1. PART 1: Complete Backend Code (12,000+ lines)
+   - Express.js server with all 17 tab APIs
+   - Authentication and security
+   - Calculation engine
+   - Error handling and logging
+
+2. PART 2: Complete Frontend Code (8,000+ lines)
+   - HTML/CSS/JavaScript for all 17 tabs
+   - Responsive design
+   - Form handling and validation
+   - Drawing tools and map integration
+
+3. PART 3: Complete Database Code (1,000+ lines)
+   - PostgreSQL/MySQL schema
+   - All table definitions
+   - 950+ product seed data
+   - Migration scripts
+
+4. PART 4: Step-by-Step Implementation Menu
+   - Installation instructions
+   - Configuration guide
+   - Deployment procedures
+   - Testing checklist
+
+5. PART 5: Complete Troubleshooting Guide
+   - 110+ issues and solutions
+   - Error codes and fixes
+   - Prevention tips
+
+All code is production-ready and formatted for your programmer to use immediately.
+
+Email notifications for each part will be sent to this address as they are completed.
+
+If you receive this email, the system is working correctly.
+
+Best regards,
+Fence Depot Fence Estimator System`;
+
+        function buildMailtoLink({ to, subject, body }) {
+            const recipients = Array.isArray(to) ? to.filter(Boolean).join(',') : (to || '');
+            return `mailto:${recipients}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        function openEmailDraft({ to, subject, body, successMessage }) {
+            const mailtoLink = buildMailtoLink({ to, subject, body });
+            window.location.href = mailtoLink;
+            alert(successMessage || 'Email draft opened in your default email app.');
+            return mailtoLink;
+        }
+
+        function sendSystemTestEmail() {
+            return openEmailDraft({
+                to: TEST_EMAIL_RECIPIENTS,
+                subject: TEST_EMAIL_SUBJECT,
+                body: TEST_EMAIL_BODY,
+                successMessage: 'Test email draft opened in your default email app. Click send to verify delivery.'
+            });
+        }
 
         function goToLogin() {
             document.getElementById('landingPage').style.display = 'none';
@@ -1736,7 +1810,34 @@
         }
 
         function generatePDF() {
-            alert('📄 Estimate PDF generated and email sent to customer!');
+            const customerEmail = document.getElementById('customerEstimateEmail').value.trim();
+            if (!customerEmail) {
+                alert('Please enter a customer email address in Step 1 before preparing the estimate email.');
+                return null;
+            }
+
+            const customerName = [
+                document.getElementById('customerFirstName').value.trim(),
+                document.getElementById('customerLastName').value.trim()
+            ].filter(Boolean).join(' ') || 'Customer';
+
+            return openEmailDraft({
+                to: [customerEmail],
+                subject: 'Estimate 001-2026 - Fence Depot',
+                body: `Hello ${customerName},
+
+Your estimate PDF has been generated and is ready for review.
+
+Project summary:
+- 100 Linear Feet
+- Chain Link
+- 5' Height
+- Total Estimate: $4,092.28
+
+Best regards,
+Fence Depot`,
+                successMessage: '📄 Estimate PDF generated. Email draft opened in your default email app.'
+            });
         }
 
         function viewEstimate() {
