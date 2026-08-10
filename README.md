@@ -13,5 +13,6 @@ This repository now contains a baseline full-stack implementation with backend, 
 - `/API_DOCUMENTATION.md`
 - `/DATABASE_SCHEMA.md`
 - `/SETUP_GUIDE.md`
+- `/VIEWING_GUIDE.md`
 - `/docs/PART_4_IMPLEMENTATION_MENU.md`
 - `/docs/PART_5_TROUBLESHOOTING_GUIDE.md`

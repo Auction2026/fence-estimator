@@ -20,7 +20,8 @@ const documentsRoutes = require('./routes/documents');
 
 const app = express();
 app.use(helmet());
-app.use(cors({ origin: process.env.CORS_ORIGIN?.split(',') || '*' }));
+const corsOrigin = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',').filter(Boolean) : '*';
+app.use(cors({ origin: corsOrigin.length ? corsOrigin : '*' }));
 app.use(express.json({ limit: '2mb' }));
 app.use(morgan('combined'));
 
@@ -51,6 +52,7 @@ app.use(errorHandler);
 
 async function start() {
   const port = Number(process.env.PORT || 5000);
+  if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET is required');
   await connectDatabase(process.env.MONGODB_URI);
   app.listen(port, () => logger.info(`Server listening on ${port}`));
 }

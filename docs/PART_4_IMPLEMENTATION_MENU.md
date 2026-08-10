@@ -3,7 +3,8 @@
 ## PRE-INSTALLATION CHECKLIST
 - OS: Linux/macOS/Windows
 - Node.js 20+
-- MongoDB and PostgreSQL
+- MongoDB for application runtime data
+- PostgreSQL optional reference schema/scripts in /database
 - 8GB RAM minimum
 - Stable internet
 
@@ -14,10 +15,11 @@
 - If missing path, reopen terminal.
 
 ## STEP 2: INSTALL DATABASE
-- Install PostgreSQL or MySQL-compatible setup for SQL scripts.
-- Create database `fence_estimator`.
+- Install MongoDB (required runtime database for backend API).
+- Create MongoDB database `fence_estimator`.
 - Create app user with least privilege.
-- Verify connection with CLI login.
+- Verify MongoDB connection with CLI login.
+- Optional: install PostgreSQL only if you plan to use `/database/*.sql` reference scripts.
 
 ## STEP 3: CLONE REPOSITORY
 - Install git.
@@ -59,7 +61,8 @@
 - Verify role-based access.
 
 ## DATA IMPORT
-- Run `seed.sql` for products (950 rows).
+- Runtime MongoDB: import catalog through API/admin tooling.
+- Optional PostgreSQL reference: run `seed.sql` for products (950 rows).
 
 ## GO-LIVE CHECKLIST
 - Final smoke tests

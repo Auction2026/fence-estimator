@@ -11,7 +11,7 @@
   }
 
   tabs.forEach((tab) => {
-    const button = FEUtils.el('button', { class: 'tab-btn', type: 'button' }, `Tab ${tab.id.split('-')[1]}`);
+    const button = FEUtils.el('button', { class: 'tab-btn', type: 'button' }, tab.title);
     button.addEventListener('click', () => activate(tab.id));
     nav.appendChild(button);
   });

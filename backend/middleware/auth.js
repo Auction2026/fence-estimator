@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 
 function auth(requiredRole) {
   return (req, res, next) => {
-    const token = (req.headers.authorization || '').replace('Bearer ', '');
+    const parts = (req.headers.authorization || '').trim().split(/\s+/);
+    const token = parts[0] === 'Bearer' ? (parts[1] || '') : '';
     if (!token) return res.status(401).json({ error: 'Authentication required' });
     try {
       const payload = jwt.verify(token, process.env.JWT_SECRET);

@@ -5,13 +5,15 @@ const User = require('../models/User');
 const { validate } = require('../middleware/validation');
 
 const router = express.Router();
+const ALLOWED_SELF_REGISTER_ROLES = new Set(['estimator', 'crew']);
 
 router.post('/register', [body('name').notEmpty(), body('email').isEmail(), body('password').isLength({ min: 8 }), validate], async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body;
     const existing = await User.findOne({ email });
     if (existing) return res.status(409).json({ error: 'Email already exists' });
-    const user = new User({ name, email, role });
+    const safeRole = ALLOWED_SELF_REGISTER_ROLES.has(role) ? role : 'estimator';
+    const user = new User({ name, email, role: safeRole });
     await user.setPassword(password);
     await user.save();
     return res.status(201).json({ id: user.id, email: user.email, role: user.role });
