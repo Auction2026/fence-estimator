@@ -1,0 +1,33 @@
+@media (min-width: 320px) {
+  .site-header { flex-direction: column; align-items: flex-start; }
+  .tabs { overflow-x: auto; }
+  .tab-btn { white-space: nowrap; }
+}
+
+@media (min-width: 480px) {
+  .site-header { flex-direction: row; }
+  .top-nav { flex-wrap: wrap; }
+}
+
+@media (min-width: 768px) {
+  body { font-size: 16px; }
+  .app-shell { padding: 1.5rem; }
+  .tab-panel { padding: 1.5rem; }
+}
+
+@media (min-width: 1024px) {
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.25rem; }
+  .card-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1200px) {
+  .app-shell { padding: 2rem; }
+  .tabs { gap: 0.65rem; }
+  .tab-btn { padding: 0.6rem 0.85rem; }
+}
+
+@media (min-width: 1440px) {
+  body { font-size: 17px; }
+  .app-shell { max-width: 1500px; }
+}
