@@ -1,0 +1,69 @@
+:root {
+  --primary: #0e9f94;
+  --dark: #1f2a44;
+  --light: #f7fafc;
+  --border: #d9e2ec;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--light);
+  color: #18212f;
+}
+
+.app-header,
+.app-footer {
+  padding: 1rem 1.25rem;
+  background: var(--dark);
+  color: white;
+}
+
+.tab-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.5rem;
+  padding: 1rem;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+
+.tab-nav button {
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 8px;
+  padding: 0.6rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.tab-nav button.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.tab-content {
+  padding: 1rem;
+}
+
+.panel {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+input, select, textarea {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.55rem;
+}
