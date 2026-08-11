@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fence Depot – Fence Estimator</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <!-- ===== HEADER ===== -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🏗️</span>
+        <span class="logo-text">Fence<strong>Depot</strong></span>
+        <span class="logo-tagline">Estimator Pro</span>
+      </div>
+      <nav class="top-nav">
+        <span id="current-project-label" class="project-label">No Project Open</span>
+        <button class="btn btn-sm btn-secondary" id="btn-new-project">+ New Project</button>
+        <button class="btn btn-sm btn-secondary" id="btn-open-project">Open Project</button>
+        <button class="btn btn-sm btn-danger" id="btn-logout">Logout</button>
+        <span class="user-badge" id="user-badge">Not Logged In</span>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== TAB NAVIGATION ===== -->
+  <nav class="tab-nav" id="tab-nav">
+    <button class="tab-btn active" data-tab="tab1">1. Project Info</button>
+    <button class="tab-btn" data-tab="tab2">2. Fence Specs</button>
+    <button class="tab-btn" data-tab="tab3">3. Layout</button>
+    <button class="tab-btn" data-tab="tab4">4. Installation</button>
+    <button class="tab-btn" data-tab="tab5">5. Shop Drawings</button>
+    <button class="tab-btn" data-tab="tab6">6. Permits</button>
+    <button class="tab-btn" data-tab="tab7">7. Utilities</button>
+    <button class="tab-btn" data-tab="tab8">8. Estimate</button>
+    <button class="tab-btn" data-tab="tab9">9. Contract</button>
+    <button class="tab-btn" data-tab="tab10">10. Extras</button>
+    <button class="tab-btn" data-tab="tab11">11. Crew</button>
+    <button class="tab-btn" data-tab="tab12">12. Change Orders</button>
+    <button class="tab-btn" data-tab="tab13">13. Sign-Off</button>
+    <button class="tab-btn" data-tab="tab14">14. Notes 📝</button>
+    <button class="tab-btn" data-tab="tab15">15. Admin</button>
+    <button class="tab-btn" data-tab="tab16">16. Catalog</button>
+    <button class="tab-btn" data-tab="tab17">17. Mapping</button>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="tab-content-area" id="tab-content-area">
+
+    <!-- TAB 1: PROJECT INFORMATION -->
+    <section class="tab-content active" id="tab1">
+      <h2 class="tab-title">Project Information</h2>
+      <p class="tab-subtitle">Enter customer and project details below.</p>
+      <form id="form-project" class="form-grid" autocomplete="off">
+        <div class="form-section">
+          <h3>Customer Details</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cust-name">Customer Name *</label>
+              <input type="text" id="cust-name" name="customerName" placeholder="Full name" required />
+            </div>
+            <div class="form-group">
+              <label for="cust-email">Email *</label>
+              <input type="email" id="cust-email" name="customerEmail" placeholder="email@example.com" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cust-phone">Phone *</label>
+              <input type="tel" id="cust-phone" name="customerPhone" placeholder="(555) 555-5555" required />
+            </div>
+            <div class="form-group">
+              <label for="cust-company">Company (if applicable)</label>
+              <input type="text" id="cust-company" name="customerCompany" placeholder="Company name" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Property Address</h3>
+          <div class="form-row">
+            <div class="form-group form-group-wide">
+              <label for="prop-address">Street Address *</label>
+              <input type="text" id="prop-address" name="address" placeholder="123 Main Street" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prop-city">City *</label>
+              <input type="text" id="prop-city" name="city" placeholder="City" required />
+            </div>
+            <div class="form-group">
+              <label for="prop-province">Province/State *</label>
+              <input type="text" id="prop-province" name="province" placeholder="Province" required />
+            </div>
+            <div class="form-group">
+              <label for="prop-postal">Postal Code *</label>
+              <input type="text" id="prop-postal" name="postalCode" placeholder="A1A 1A1" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Property Information</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prop-size">Property Size</label>
+              <input type="text" id="prop-size" name="propertySize" placeholder='e.g. 50x120 ft' />
+            </div>
+            <div class="form-group">
+              <label for="prop-type">Property Type</label>
+              <select id="prop-type" name="propertyType">
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="industrial">Industrial</option>
+                <option value="agricultural">Agricultural</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group form-group-wide">
+              <label for="proj-notes">Project Notes</label>
+              <textarea id="proj-notes" name="projectNotes" rows="4" placeholder="Enter any special requirements, access notes, or other information..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Estimator Information</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="estimator-name">Estimator Name *</label>
+              <input type="text" id="estimator-name" name="estimatorName" placeholder="Your name" required />
+            </div>
+            <div class="form-group">
+              <label for="estimate-date">Date *</label>
+              <input type="date" id="estimate-date" name="estimateDate" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save Project Info</button>
+          <button type="button" class="btn btn-secondary" id="btn-clear-project">Clear Form</button>
+        </div>
+        <div id="project-msg" class="form-message"></div>
+      </form>
+    </section>
+
+    <!-- TAB 2: FENCE SPECIFICATIONS -->
+    <section class="tab-content" id="tab2">
+      <h2 class="tab-title">Fence Specifications</h2>
+      <form id="form-specs" class="form-grid" autocomplete="off">
+        <div class="form-section">
+          <h3>Fence Type &amp; Material</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fence-type">Fence Type *</label>
+              <select id="fence-type" name="fenceType" required>
+                <option value="">-- Select Type --</option>
+                <option value="chain-link">Chain Link</option>
+                <option value="wood">Wood (Cedar/Pine)</option>
+                <option value="vinyl">Vinyl/PVC</option>
+                <option value="wrought-iron">Wrought Iron</option>
+                <option value="aluminum">Aluminum</option>
+                <option value="split-rail">Split Rail</option>
+                <option value="farm-field">Farm/Field Fence</option>
+                <option value="welded-wire">Welded Wire</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fence-height">Height (ft) *</label>
+              <select id="fence-height" name="height" required>
+                <option value="">-- Select Height --</option>
+                <option value="3">3 ft</option>
+                <option value="4">4 ft</option>
+                <option value="5">5 ft</option>
+                <option value="6">6 ft</option>
+                <option value="7">7 ft</option>
+                <option value="8">8 ft</option>
+                <option value="10">10 ft</option>
+                <option value="12">12 ft</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fence-color">Color</label>
+              <select id="fence-color" name="color">
+                <option value="galvanized">Galvanized (Silver)</option>
+                <option value="black">Black</option>
+                <option value="green">Green</option>
+                <option value="brown">Brown</option>
+                <option value="white">White</option>
+                <option value="custom">Custom</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Dimensions</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="linear-feet">Total Linear Feet *</label>
+              <input type="number" id="linear-feet" name="linearFeet" min="1" placeholder="0" required />
+            </div>
+            <div class="form-group">
+              <label for="num-posts">Number of Posts</label>
+              <input type="number" id="num-posts" name="numberPosts" min="0" placeholder="Auto-calculated" />
+            </div>
+            <div class="form-group">
+              <label for="num-gates">Number of Gates</label>
+              <input type="number" id="num-gates" name="numberGates" min="0" value="0" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Post Specifications</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="post-gauge">Post Gauge</label>
+              <select id="post-gauge" name="postGauge">
+                <option value="17">17 Gauge (Light)</option>
+                <option value="16">16 Gauge</option>
+                <option value="14" selected>14 Gauge (Standard)</option>
+                <option value="13">13 Gauge (Heavy)</option>
+                <option value="11">11 Gauge (Extra Heavy)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="post-diameter">Post Diameter (inches)</label>
+              <select id="post-diameter" name="postDiameter">
+                <option value="1.625">1-5/8"</option>
+                <option value="1.875">1-7/8"</option>
+                <option value="2">2"</option>
+                <option value="2.375" selected>2-3/8"</option>
+                <option value="2.875">2-7/8"</option>
+                <option value="4">4"</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="post-spacing">Post Spacing (ft)</label>
+              <select id="post-spacing" name="postSpacing">
+                <option value="8">8 ft (Standard)</option>
+                <option value="10">10 ft</option>
+                <option value="12">12 ft</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Gate Specifications</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="gate-type">Gate Type</label>
+              <select id="gate-type" name="gateType">
+                <option value="none">None</option>
+                <option value="walk-single">Walk Gate (Single)</option>
+                <option value="walk-double">Walk Gate (Double)</option>
+                <option value="drive-single">Drive Gate (Single)</option>
+                <option value="drive-double">Drive Gate (Double)</option>
+                <option value="cantilever">Cantilever Slide</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="gate-width">Gate Width (ft)</label>
+              <input type="number" id="gate-width" name="gateWidth" min="2" max="40" placeholder="4" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Additional Options</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="barbed-wire" name="barbedWire" />
+                Add Barbed Wire (3 strands)
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="privacy-slats" name="privacySlats" />
+                Privacy Slats (Chain Link)
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="tension-wire" name="tensionWire" />
+                Bottom Tension Wire
+              </label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="install-type">Installation Type</label>
+              <select id="install-type" name="installationType">
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="industrial">Industrial</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="soil-type">Soil Type</label>
+              <select id="soil-type" name="soilType">
+                <option value="normal">Normal (Sandy/Loam)</option>
+                <option value="clay">Clay</option>
+                <option value="rocky">Rocky</option>
+                <option value="frozen">Frozen Ground</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group form-group-wide">
+              <label for="spec-notes">Special Requirements</label>
+              <textarea id="spec-notes" name="specialRequirements" rows="3" placeholder="Any special requirements..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save Specifications</button>
+          <button type="button" class="btn btn-secondary" onclick="switchTab('tab8')">Go to Estimate →</button>
+        </div>
+        <div id="specs-msg" class="form-message"></div>
+      </form>
+    </section>
+
+    <!-- TAB 3: LAYOUT DIAGRAM -->
+    <section class="tab-content" id="tab3">
+      <h2 class="tab-title">Layout Diagram</h2>
+      <div class="canvas-toolbar">
+        <button class="btn btn-sm tool-btn active" data-tool="pen" title="Free Draw">✏️ Pen</button>
+        <button class="btn btn-sm tool-btn" data-tool="line" title="Draw Line">📏 Line</button>
+        <button class="btn btn-sm tool-btn" data-tool="rect" title="Draw Rectangle">⬜ Rect</button>
+        <button class="btn btn-sm tool-btn" data-tool="circle" title="Draw Circle">⭕ Circle</button>
+        <span class="toolbar-sep"></span>
+        <label>Color: <input type="color" id="draw-color" value="#1a3c6e" /></label>
+        <label>Size: <input type="range" id="draw-size" min="1" max="20" value="3" /></label>
+        <span class="toolbar-sep"></span>
+        <button class="btn btn-sm btn-secondary" id="btn-clear-canvas">🗑️ Clear</button>
+        <button class="btn btn-sm btn-primary" id="btn-save-canvas">💾 Save</button>
+        <button class="btn btn-sm btn-secondary" id="btn-download-canvas">⬇️ Download</button>
+        <label>Add Label: <input type="text" id="canvas-label-text" placeholder="Label text" /></label>
+        <button class="btn btn-sm btn-secondary" id="btn-add-label">Add Label</button>
+      </div>
+      <div class="canvas-container">
+        <canvas id="layout-canvas" width="900" height="600">
+          Your browser does not support the canvas element.
+        </canvas>
+      </div>
+      <div class="canvas-info">
+        <p>💡 <strong>Tips:</strong> Draw your property outline first, then add fence lines. Use labels to mark gates, corners, and measurements.</p>
+      </div>
+    </section>
+
+    <!-- TAB 4: INSTALLATION BREAKDOWN -->
+    <section class="tab-content" id="tab4">
+      <h2 class="tab-title">Installation Breakdown</h2>
+      <div class="table-actions">
+        <button class="btn btn-primary" id="btn-add-task">+ Add Task</button>
+        <button class="btn btn-secondary" id="btn-generate-tasks">Generate Standard Tasks</button>
+      </div>
+      <table class="data-table" id="installation-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Task Description</th>
+            <th>Crew</th>
+            <th>Est. Hours</th>
+            <th>Scheduled Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="installation-tbody">
+          <tr class="empty-row">
+            <td colspan="7">No tasks yet. Click "Generate Standard Tasks" or add manually.</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3"><strong>Totals</strong></td>
+            <td id="total-hours"><strong>0</strong></td>
+            <td colspan="3"></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <!-- Add Task Modal -->
+      <div class="modal hidden" id="task-modal">
+        <div class="modal-box">
+          <h3>Add / Edit Task</h3>
+          <div class="form-group">
+            <label for="task-desc">Task Description *</label>
+            <input type="text" id="task-desc" placeholder="e.g. Layout and mark post holes" />
+          </div>
+          <div class="form-group">
+            <label for="task-crew">Crew Member</label>
+            <input type="text" id="task-crew" placeholder="Name or All" />
+          </div>
+          <div class="form-group">
+            <label for="task-hours">Estimated Hours</label>
+            <input type="number" id="task-hours" min="0" step="0.5" value="2" />
+          </div>
+          <div class="form-group">
+            <label for="task-date">Scheduled Date</label>
+            <input type="date" id="task-date" />
+          </div>
+          <div class="form-group">
+            <label for="task-status">Status</label>
+            <select id="task-status">
+              <option value="pending">Pending</option>
+              <option value="in-progress">In Progress</option>
+              <option value="complete">Complete</option>
+            </select>
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-primary" id="btn-save-task">Save Task</button>
+            <button class="btn btn-secondary" id="btn-cancel-task">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: SHOP DRAWINGS -->
+    <section class="tab-content" id="tab5">
+      <h2 class="tab-title">Shop Drawings</h2>
+      <div class="upload-area" id="drawing-upload-area">
+        <div class="upload-box">
+          <span class="upload-icon">📁</span>
+          <p>Drag &amp; drop files here or click to browse</p>
+          <input type="file" id="drawing-file-input" multiple accept=".pdf,.png,.jpg,.jpeg,.dwg,.svg" />
+          <button class="btn btn-primary" onclick="document.getElementById('drawing-file-input').click()">Browse Files</button>
+          <p class="upload-hint">Accepted: PDF, PNG, JPG, DWG, SVG (max 20MB each)</p>
+        </div>
+      </div>
+      <div class="drawing-gallery" id="drawing-gallery">
+        <h3>Uploaded Drawings</h3>
+        <div id="gallery-items" class="gallery-grid">
+          <p class="no-items">No drawings uploaded yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: PERMITS -->
+    <section class="tab-content" id="tab6">
+      <h2 class="tab-title">Permits</h2>
+      <form id="form-permits" class="form-grid">
+        <div class="form-section">
+          <h3>Permit Requirements</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="permit-required">Permit Required?</label>
+              <select id="permit-required" name="permitRequired">
+                <option value="unknown">Unknown - Check with municipality</option>
+                <option value="yes">Yes - Required</option>
+                <option value="no">No - Not Required</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="permit-cost">Permit Cost ($)</label>
+              <input type="number" id="permit-cost" name="permitCost" min="0" step="0.01" value="0" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Permit Checklist</h3>
+          <div class="checklist">
+            <label class="checkbox-label"><input type="checkbox" name="chk-survey" /> Property survey obtained</label>
+            <label class="checkbox-label"><input type="checkbox" name="chk-application" /> Permit application submitted</label>
+            <label class="checkbox-label"><input type="checkbox" name="chk-drawings" /> Shop drawings submitted to municipality</label>
+            <label class="checkbox-label"><input type="checkbox" name="chk-approved" /> Permit APPROVED</label>
+            <label class="checkbox-label"><input type="checkbox" name="chk-posted" /> Permit posted on site</label>
+            <label class="checkbox-label"><input type="checkbox" name="chk-inspection" /> Final inspection booked</label>
+            <label class="checkbox-label"><input type="checkbox" name="chk-passed" /> Inspection PASSED</label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Permit Status Tracking</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="permit-number">Permit Number</label>
+              <input type="text" id="permit-number" name="permitNumber" placeholder="Issued permit number" />
+            </div>
+            <div class="form-group">
+              <label for="permit-status">Status</label>
+              <select id="permit-status" name="permitStatus">
+                <option value="not-started">Not Started</option>
+                <option value="applied">Application Submitted</option>
+                <option value="pending">Pending Review</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected / Revise</option>
+                <option value="complete">Complete</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="permit-submit-date">Submitted Date</label>
+              <input type="date" id="permit-submit-date" name="permitSubmitDate" />
+            </div>
+            <div class="form-group">
+              <label for="permit-approve-date">Approved Date</label>
+              <input type="date" id="permit-approve-date" name="permitApproveDate" />
+            </div>
+            <div class="form-group">
+              <label for="permit-expiry">Permit Expiry</label>
+              <input type="date" id="permit-expiry" name="permitExpiry" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group form-group-wide">
+              <label for="permit-notes">Permit Notes</label>
+              <textarea id="permit-notes" name="permitNotes" rows="3" placeholder="Municipality contact, special conditions, etc."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save Permit Info</button>
+        </div>
+        <div id="permits-msg" class="form-message"></div>
+      </form>
+    </section>
+
+    <!-- TAB 7: UTILITIES LOCATE -->
+    <section class="tab-content" id="tab7">
+      <h2 class="tab-title">Utilities Locate</h2>
+      <div class="alert alert-warning">⚠️ <strong>SAFETY FIRST:</strong> Always call your local utility locate service before digging. In Canada: <strong>1-800-400-2255 (Ontario One Call)</strong>. In USA: <strong>811</strong>.</div>
+      <form id="form-utilities" class="form-grid">
+        <div class="form-section">
+          <h3>Locate Request</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="locate-ticket">Locate Ticket Number</label>
+              <input type="text" id="locate-ticket" name="locateTicket" placeholder="Confirmation number" />
+            </div>
+            <div class="form-group">
+              <label for="locate-date">Request Date</label>
+              <input type="date" id="locate-date" name="locateDate" />
+            </div>
+            <div class="form-group">
+              <label for="locate-expiry">Locate Valid Until</label>
+              <input type="date" id="locate-expiry" name="locateExpiry" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Utilities Identified</h3>
+          <div class="checklist">
+            <label class="checkbox-label"><input type="checkbox" name="util-gas" /> Natural Gas (Orange)</label>
+            <label class="checkbox-label"><input type="checkbox" name="util-electric" /> Electrical (Red)</label>
+            <label class="checkbox-label"><input type="checkbox" name="util-water" /> Water (Blue)</label>
+            <label class="checkbox-label"><input type="checkbox" name="util-sewer" /> Sewer (Green)</label>
+            <label class="checkbox-label"><input type="checkbox" name="util-telecom" /> Telecom/Cable (Orange/Yellow)</label>
+            <label class="checkbox-label"><input type="checkbox" name="util-fiber" /> Fiber Optic (Yellow)</label>
+            <label class="checkbox-label"><input type="checkbox" name="util-none" /> No utilities found in work area</label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Safety Verification</h3>
+          <div class="checklist">
+            <label class="checkbox-label"><input type="checkbox" name="safe-marked" /> All utilities marked on site</label>
+            <label class="checkbox-label"><input type="checkbox" name="safe-crew" /> Crew briefed on utility locations</label>
+            <label class="checkbox-label"><input type="checkbox" name="safe-hand-dig" /> Hand digging zone established (within 1m of marks)</label>
+            <label class="checkbox-label"><input type="checkbox" name="safe-emergency" /> Emergency contact numbers on site</label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Notes</h3>
+          <div class="form-row">
+            <div class="form-group form-group-wide">
+              <label for="utility-notes">Utility Notes</label>
+              <textarea id="utility-notes" name="utilityNotes" rows="4" placeholder="Describe utility locations, depth estimates, special precautions..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save Utility Info</button>
+        </div>
+        <div id="utilities-msg" class="form-message"></div>
+      </form>
+    </section>
+
+    <!-- TAB 8: ESTIMATE -->
+    <section class="tab-content" id="tab8">
+      <h2 class="tab-title">Estimate</h2>
+      <div class="estimate-controls">
+        <button class="btn btn-primary" id="btn-calculate">🔄 Calculate Estimate</button>
+        <button class="btn btn-secondary" id="btn-print-estimate">🖨️ Print Estimate</button>
+        <button class="btn btn-secondary" id="btn-export-estimate-pdf">📄 Export PDF</button>
+      </div>
+
+      <div class="estimate-header-info" id="estimate-header-info">
+        <div class="info-block">
+          <label>Customer:</label><span id="est-customer-name">--</span>
+        </div>
+        <div class="info-block">
+          <label>Address:</label><span id="est-address">--</span>
+        </div>
+        <div class="info-block">
+          <label>Estimate #:</label><span id="est-number">--</span>
+        </div>
+        <div class="info-block">
+          <label>Date:</label><span id="est-date">--</span>
+        </div>
+        <div class="info-block">
+          <label>Valid Until:</label><span id="est-valid">--</span>
+        </div>
+      </div>
+
+      <h3>Cost Breakdown</h3>
+      <table class="data-table estimate-table" id="estimate-table">
+        <thead>
+          <tr>
+            <th>Line Item</th>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Unit</th>
+            <th>Unit Cost</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="estimate-tbody">
+          <tr class="empty-row"><td colspan="6">Click "Calculate Estimate" to generate line items.</td></tr>
+        </tbody>
+        <tfoot id="estimate-tfoot">
+          <tr class="subtotal-row">
+            <td colspan="5"><strong>Subtotal</strong></td>
+            <td id="est-subtotal"><strong>$0.00</strong></td>
+          </tr>
+          <tr>
+            <td colspan="5">Tax (13% HST)</td>
+            <td id="est-tax">$0.00</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="5"><strong>TOTAL</strong></td>
+            <td id="est-total"><strong>$0.00</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="form-section" id="estimate-adjustments">
+        <h3>Adjustments</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="adj-permit">Permit Cost ($)</label>
+            <input type="number" id="adj-permit" value="0" min="0" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="adj-contingency">Contingency (%)</label>
+            <input type="number" id="adj-contingency" value="5" min="0" max="30" step="1" />
+          </div>
+          <div class="form-group">
+            <label for="adj-discount">Discount ($)</label>
+            <input type="number" id="adj-discount" value="0" min="0" step="0.01" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group form-group-wide">
+            <label for="estimate-notes">Estimate Notes</label>
+            <textarea id="estimate-notes" rows="3" placeholder="Notes for customer (appears on estimate document)..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary btn-large" id="btn-create-contract">Create Contract from Estimate →</button>
+      </div>
+    </section>
+
+    <!-- TAB 9: CONTRACT -->
+    <section class="tab-content" id="tab9">
+      <h2 class="tab-title">Contract</h2>
+      <div class="price-lock-banner" id="price-lock-banner">
+        🔒 <strong>PRICE LOCKED</strong> – Contract total is locked. Changes require a Change Order.
+      </div>
+
+      <div class="contract-document" id="contract-document">
+        <div class="contract-header">
+          <h2>FENCE INSTALLATION CONTRACT</h2>
+          <div class="contract-meta">
+            <span>Contract #: <strong id="contract-number">--</strong></span>
+            <span>Date: <strong id="contract-date">--</strong></span>
+          </div>
+        </div>
+
+        <section class="contract-section">
+          <h3>Parties</h3>
+          <div class="contract-parties">
+            <div>
+              <strong>Service Provider:</strong> Fence Depot<br/>
+              <span id="contract-company-address">Address: [Company Address]</span>
+            </div>
+            <div>
+              <strong>Customer:</strong> <span id="contract-customer">--</span><br/>
+              <span id="contract-address">--</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="contract-section">
+          <h3>Scope of Work</h3>
+          <div id="contract-scope" class="contract-text">--</div>
+        </section>
+
+        <section class="contract-section">
+          <h3>Materials</h3>
+          <div id="contract-materials" class="contract-text">--</div>
+        </section>
+
+        <section class="contract-section">
+          <h3>Timeline</h3>
+          <div id="contract-timeline" class="contract-text">--</div>
+        </section>
+
+        <section class="contract-section">
+          <h3>Pricing</h3>
+          <table class="contract-price-table">
+            <tr><td>Contract Total (Tax Included):</td><td><strong id="contract-total">$0.00</strong></td></tr>
+            <tr><td>Deposit Required (30%):</td><td id="contract-deposit">$0.00</td></tr>
+            <tr><td>Balance Due on Completion:</td><td id="contract-balance">$0.00</td></tr>
+          </table>
+        </section>
+
+        <section class="contract-section">
+          <h3>Warranty</h3>
+          <div class="contract-text">
+            <p>Fence Depot warrants all materials and workmanship for <strong>1 year</strong> from the date of completion. Warranty covers defects in materials and installation workmanship. Warranty does not cover damage from acts of nature, misuse, or third-party modifications.</p>
+          </div>
+        </section>
+
+        <section class="contract-section">
+          <h3>Terms &amp; Conditions</h3>
+          <div class="contract-text small-text">
+            <ol>
+              <li>Customer agrees to provide clear and safe access to the work area.</li>
+              <li>Any changes to the scope of work require a written Change Order signed by both parties.</li>
+              <li>Payment is due within 14 days of invoice.</li>
+              <li>Fence Depot is not responsible for underground utilities not identified by the locate service.</li>
+              <li>This contract is governed by the laws of the Province of Ontario, Canada.</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="contract-section signature-section">
+          <h3>Signatures</h3>
+          <div class="signature-grid">
+            <div class="sig-block">
+              <p><strong>Customer Signature</strong></p>
+              <div class="sig-line" id="customer-sig-display"></div>
+              <input type="text" id="customer-signature" placeholder="Type full name to sign" />
+              <button class="btn btn-primary" id="btn-customer-sign">Sign as Customer</button>
+              <p class="sig-date" id="customer-sign-date"></p>
+            </div>
+            <div class="sig-block">
+              <p><strong>Company Representative</strong></p>
+              <div class="sig-line" id="company-sig-display"></div>
+              <input type="text" id="company-signature" placeholder="Type full name to sign" />
+              <button class="btn btn-secondary" id="btn-company-sign">Sign as Representative</button>
+              <p class="sig-date" id="company-sign-date"></p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" id="btn-print-contract">🖨️ Print Contract</button>
+        <button class="btn btn-secondary" id="btn-export-contract">📄 Export PDF</button>
+      </div>
+    </section>
+
+    <!-- TAB 10: EXTRAS / ADD-ONS -->
+    <section class="tab-content" id="tab10">
+      <h2 class="tab-title">Extras / Add-ons</h2>
+      <p>Add optional items not included in the main estimate.</p>
+      <div class="table-actions">
+        <button class="btn btn-primary" id="btn-add-extra">+ Add Extra Item</button>
+      </div>
+      <table class="data-table" id="extras-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Unit</th>
+            <th>Unit Price ($)</th>
+            <th>Total ($)</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="extras-tbody">
+          <tr class="empty-row"><td colspan="7">No extras added yet.</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5"><strong>Extras Total</strong></td>
+            <td id="extras-total"><strong>$0.00</strong></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <!-- Common extras quick-add -->
+      <div class="form-section">
+        <h3>Common Add-ons (Quick Add)</h3>
+        <div class="quick-add-grid">
+          <button class="btn btn-sm btn-secondary quick-add-btn" data-desc="Privacy slats installation" data-unit="lf" data-price="3.50">Privacy Slats</button>
+          <button class="btn btn-sm btn-secondary quick-add-btn" data-desc="Electric gate opener (single)" data-unit="each" data-price="850.00">Gate Opener</button>
+          <button class="btn btn-sm btn-secondary quick-add-btn" data-desc="Post caps (decorative)" data-unit="each" data-price="12.00">Post Caps</button>
+          <button class="btn btn-sm btn-secondary quick-add-btn" data-desc="Extra concrete per post" data-unit="bag" data-price="8.50">Extra Concrete</button>
+          <button class="btn btn-sm btn-secondary quick-add-btn" data-desc="Fence removal (existing)" data-unit="lf" data-price="4.00">Remove Old Fence</button>
+          <button class="btn btn-sm btn-secondary quick-add-btn" data-desc="Staining / painting" data-unit="lf" data-price="5.00">Staining/Painting</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 11: CREW BREAKDOWN -->
+    <section class="tab-content" id="tab11">
+      <h2 class="tab-title">Crew Breakdown</h2>
+      <div class="table-actions">
+        <button class="btn btn-primary" id="btn-add-crew">+ Add Crew Member</button>
+      </div>
+      <table class="data-table" id="crew-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Hourly Rate ($)</th>
+            <th>Scheduled Hours</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Labour Cost ($)</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="crew-tbody">
+          <tr class="empty-row"><td colspan="8">No crew members assigned.</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6"><strong>Total Labour Cost</strong></td>
+            <td id="crew-total-cost"><strong>$0.00</strong></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="form-section">
+        <h3>Crew Schedule Overview</h3>
+        <div id="crew-schedule-view" class="schedule-grid">
+          <p class="no-items">Add crew members to see schedule.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 12: CHANGE ORDERS -->
+    <section class="tab-content" id="tab12">
+      <h2 class="tab-title">Change Orders</h2>
+      <div class="table-actions">
+        <button class="btn btn-primary" id="btn-add-change-order">+ New Change Order</button>
+      </div>
+
+      <table class="data-table" id="change-orders-table">
+        <thead>
+          <tr>
+            <th>CO #</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Material Δ</th>
+            <th>Labour Δ</th>
+            <th>New Total</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="change-orders-tbody">
+          <tr class="empty-row"><td colspan="8">No change orders created.</td></tr>
+        </tbody>
+      </table>
+
+      <!-- Change Order Form -->
+      <div class="modal hidden" id="co-modal">
+        <div class="modal-box modal-lg">
+          <h3>New Change Order</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="co-number">Change Order #</label>
+              <input type="text" id="co-number" placeholder="CO-001" />
+            </div>
+            <div class="form-group">
+              <label for="co-date">Date</label>
+              <input type="date" id="co-date" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="co-description">Description of Change *</label>
+            <textarea id="co-description" rows="3" placeholder="Describe what is changing..."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="co-reason">Reason for Change</label>
+            <textarea id="co-reason" rows="2" placeholder="Why is this change needed..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="co-material-change">Material Cost Change ($)</label>
+              <input type="number" id="co-material-change" value="0" step="0.01" />
+            </div>
+            <div class="form-group">
+              <label for="co-labour-change">Labour Cost Change ($)</label>
+              <input type="number" id="co-labour-change" value="0" step="0.01" />
+            </div>
+            <div class="form-group">
+              <label for="co-timeline">Timeline Change</label>
+              <input type="text" id="co-timeline" placeholder="e.g. +2 days" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>New Contract Total: <strong id="co-new-total">$0.00</strong></label>
+          </div>
+          <h4>Customer Approval</h4>
+          <div class="form-group">
+            <label for="co-customer-sig">Customer Signature (type name)</label>
+            <input type="text" id="co-customer-sig" placeholder="Customer full name" />
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-primary" id="btn-save-co">Save Change Order</button>
+            <button class="btn btn-secondary" id="btn-cancel-co">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 13: SIGN-OFF -->
+    <section class="tab-content" id="tab13">
+      <h2 class="tab-title">Project Sign-Off</h2>
+      <form id="form-signoff" class="form-grid">
+        <div class="form-section">
+          <h3>Project Completion</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="completion-date">Completion Date *</label>
+              <input type="date" id="completion-date" name="completionDate" required />
+            </div>
+            <div class="form-group">
+              <label for="company-rep">Company Representative *</label>
+              <input type="text" id="company-rep" name="companyRep" placeholder="Rep name" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Final Inspection Checklist</h3>
+          <div class="checklist">
+            <label class="checkbox-label"><input type="checkbox" name="insp-fence-plumb" /> Fence posts plumb and properly aligned</label>
+            <label class="checkbox-label"><input type="checkbox" name="insp-concrete" /> Concrete set and cured (48hrs+)</label>
+            <label class="checkbox-label"><input type="checkbox" name="insp-tension" /> Fence fabric/material tensioned properly</label>
+            <label class="checkbox-label"><input type="checkbox" name="insp-gates" /> Gates swing freely and latch correctly</label>
+            <label class="checkbox-label"><input type="checkbox" name="insp-hardware" /> All hardware installed and secure</label>
+            <label class="checkbox-label"><input type="checkbox" name="insp-cleanup" /> Site cleaned – all debris removed</label>
+            <label class="checkbox-label"><input type="checkbox" name="insp-permit" /> Permit inspection passed (if required)</label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Customer Walkthrough</h3>
+          <div class="checklist">
+            <label class="checkbox-label"><input type="checkbox" name="walk-completed" /> Customer walkthrough completed</label>
+            <label class="checkbox-label"><input type="checkbox" name="walk-warranty" /> Warranty explained to customer</label>
+            <label class="checkbox-label"><input type="checkbox" name="walk-maintenance" /> Maintenance instructions provided</label>
+            <label class="checkbox-label"><input type="checkbox" name="walk-satisfied" /> Customer satisfied with work</label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Outstanding Items</h3>
+          <div class="form-row">
+            <div class="form-group form-group-wide">
+              <label for="outstanding-items">Outstanding Items (if any)</label>
+              <textarea id="outstanding-items" name="outstandingItems" rows="3" placeholder="List any items to be completed..."></textarea>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="warranty-start">Warranty Start Date</label>
+              <input type="date" id="warranty-start" name="warrantyStart" />
+            </div>
+            <div class="form-group">
+              <label for="maintenance-date">Next Maintenance Date</label>
+              <input type="date" id="maintenance-date" name="maintenanceDate" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section signature-section">
+          <h3>Signatures</h3>
+          <div class="signature-grid">
+            <div class="sig-block">
+              <p><strong>Customer Acceptance Signature</strong></p>
+              <input type="text" id="signoff-customer-sig" placeholder="Customer full name" />
+              <button type="button" class="btn btn-primary" id="btn-signoff-customer">Sign (Customer)</button>
+              <p class="sig-date" id="signoff-customer-date"></p>
+            </div>
+            <div class="sig-block">
+              <p><strong>Company Representative</strong></p>
+              <input type="text" id="signoff-company-sig" placeholder="Rep full name" />
+              <button type="button" class="btn btn-secondary" id="btn-signoff-company">Sign (Company)</button>
+              <p class="sig-date" id="signoff-company-date"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-large">Complete Project Sign-Off</button>
+          <button type="button" class="btn btn-secondary" id="btn-print-signoff">🖨️ Print Sign-Off</button>
+        </div>
+        <div id="signoff-msg" class="form-message"></div>
+      </form>
+    </section>
+
+    <!-- TAB 14: NOTES -->
+    <section class="tab-content" id="tab14">
+      <h2 class="tab-title">Notes – Central Hub 📝</h2>
+      <p class="tab-subtitle">All project notes in one place. Accessible from every tab.</p>
+      <div class="notes-controls">
+        <button class="btn btn-primary" id="btn-add-note">+ Add Note</button>
+        <select id="note-filter" class="filter-select">
+          <option value="all">All Categories</option>
+          <option value="general">General</option>
+          <option value="customer">Customer</option>
+          <option value="materials">Materials</option>
+          <option value="installation">Installation</option>
+          <option value="permits">Permits</option>
+          <option value="safety">Safety</option>
+          <option value="billing">Billing</option>
+        </select>
+        <input type="search" id="note-search" placeholder="Search notes..." class="search-input" />
+      </div>
+
+      <!-- Note Form -->
+      <div class="note-form-container" id="note-form-container" style="display:none;">
+        <div class="form-section">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="note-title">Title *</label>
+              <input type="text" id="note-title" placeholder="Note title" />
+            </div>
+            <div class="form-group">
+              <label for="note-category">Category</label>
+              <select id="note-category">
+                <option value="general">General</option>
+                <option value="customer">Customer</option>
+                <option value="materials">Materials</option>
+                <option value="installation">Installation</option>
+                <option value="permits">Permits</option>
+                <option value="safety">Safety</option>
+                <option value="billing">Billing</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="note-content">Note Content *</label>
+            <textarea id="note-content" rows="5" placeholder="Write your note here..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" id="btn-save-note">Save Note</button>
+            <button class="btn btn-secondary" id="btn-cancel-note">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="notes-list" class="notes-list">
+        <p class="no-items">No notes yet. Click "+ Add Note" to get started.</p>
+      </div>
+    </section>
+
+    <!-- TAB 15: ADMIN DASHBOARD -->
+    <section class="tab-content" id="tab15">
+      <h2 class="tab-title">Admin Dashboard</h2>
+      <div class="admin-notice">🔐 <strong>Admin Access Required.</strong> This tab is restricted to administrators.</div>
+
+      <div class="admin-grid">
+        <div class="admin-card">
+          <h3>📊 Overview</h3>
+          <div class="stats-grid">
+            <div class="stat-item"><span class="stat-value" id="stat-projects">0</span><span class="stat-label">Total Projects</span></div>
+            <div class="stat-item"><span class="stat-value" id="stat-estimates">0</span><span class="stat-label">Estimates</span></div>
+            <div class="stat-item"><span class="stat-value" id="stat-contracts">0</span><span class="stat-label">Active Contracts</span></div>
+            <div class="stat-item"><span class="stat-value" id="stat-revenue">$0</span><span class="stat-label">Total Revenue</span></div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <h3>👤 User Management</h3>
+          <div class="table-actions">
+            <button class="btn btn-primary btn-sm" id="btn-add-user">+ Add User</button>
+          </div>
+          <table class="data-table" id="users-table">
+            <thead>
+              <tr><th>Username</th><th>Email</th><th>Role</th><th>Created</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="users-tbody">
+              <tr class="empty-row"><td colspan="5">Loading users...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="admin-card">
+          <h3>📈 Reports</h3>
+          <div class="reports-buttons">
+            <button class="btn btn-secondary" id="btn-report-monthly">Monthly Revenue Report</button>
+            <button class="btn btn-secondary" id="btn-report-projects">Projects Summary</button>
+            <button class="btn btn-secondary" id="btn-report-inventory">Inventory Report</button>
+            <button class="btn btn-secondary" id="btn-report-crew">Crew Hours Report</button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <h3>⚙️ System Settings</h3>
+          <form id="form-settings" class="form-grid">
+            <div class="form-group">
+              <label for="set-company-name">Company Name</label>
+              <input type="text" id="set-company-name" placeholder="Fence Depot" />
+            </div>
+            <div class="form-group">
+              <label for="set-tax-rate">Default Tax Rate (%)</label>
+              <input type="number" id="set-tax-rate" value="13" min="0" max="30" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label for="set-labour-rate">Default Labour Rate ($/hr)</label>
+              <input type="number" id="set-labour-rate" value="65" min="0" step="1" />
+            </div>
+            <div class="form-group">
+              <label for="set-maps-key">Google Maps API Key</label>
+              <input type="text" id="set-maps-key" placeholder="Enter API key" />
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Save Settings</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 16: PRODUCT CATALOG -->
+    <section class="tab-content" id="tab16">
+      <h2 class="tab-title">Product Catalog</h2>
+      <p class="tab-subtitle">Browse and search 950+ fence products and materials.</p>
+
+      <div class="catalog-controls">
+        <input type="search" id="catalog-search" placeholder="Search by name, SKU, or description..." class="search-input search-input-lg" />
+        <select id="catalog-category-filter" class="filter-select">
+          <option value="all">All Categories</option>
+          <option value="chain-link">Chain Link</option>
+          <option value="wood">Wood</option>
+          <option value="vinyl">Vinyl/PVC</option>
+          <option value="wrought-iron">Wrought Iron</option>
+          <option value="aluminum">Aluminum</option>
+          <option value="posts">Posts</option>
+          <option value="gates">Gates</option>
+          <option value="hardware">Hardware</option>
+          <option value="concrete">Concrete</option>
+          <option value="tools">Tools</option>
+        </select>
+        <button class="btn btn-primary" id="btn-search-catalog">Search</button>
+      </div>
+
+      <div class="catalog-results">
+        <p class="result-count" id="catalog-result-count">Showing all products</p>
+        <table class="data-table catalog-table" id="catalog-table">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Type</th>
+              <th>Unit Cost</th>
+              <th>Retail Price</th>
+              <th>Supplier</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="catalog-tbody">
+            <tr class="empty-row"><td colspan="8">Loading products...</td></tr>
+          </tbody>
+        </table>
+        <div class="pagination" id="catalog-pagination"></div>
+      </div>
+    </section>
+
+    <!-- TAB 17: MAPPING -->
+    <section class="tab-content" id="tab17">
+      <h2 class="tab-title">Mapping &amp; Property Layout</h2>
+      <div class="map-controls">
+        <input type="text" id="map-address-input" placeholder="Enter property address to search..." class="search-input search-input-lg" />
+        <button class="btn btn-primary" id="btn-map-search">📍 Find Property</button>
+        <button class="btn btn-secondary" id="btn-map-measure">📏 Measure Distance</button>
+        <button class="btn btn-secondary" id="btn-map-export">📷 Export Map Image</button>
+      </div>
+      <div class="map-info-bar">
+        <span>Measured Distance: <strong id="map-distance">--</strong></span>
+        <span>Estimated Area: <strong id="map-area">--</strong></span>
+        <span>Coordinates: <strong id="map-coords">--</strong></span>
+      </div>
+      <div id="google-map" class="map-container">
+        <div class="map-placeholder">
+          <p>🗺️ Google Maps will display here.</p>
+          <p>To enable mapping, add your Google Maps API key in the Admin Settings tab (Tab 15).</p>
+          <p>Address entered: <strong id="map-address-display">None</strong></p>
+        </div>
+      </div>
+      <div class="map-notes">
+        <h3>Location Notes</h3>
+        <textarea id="map-notes" rows="3" placeholder="Notes about the property location, access, landmarks..."></textarea>
+        <button class="btn btn-secondary" id="btn-save-map-notes">Save Notes</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== GLOBAL NOTIFICATION ===== -->
+  <div class="notification hidden" id="global-notification">
+    <span id="notification-message"></span>
+    <button class="notification-close" onclick="hideNotification()">✕</button>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="app-footer">
+    <p>© 2026 Fence Depot – Estimator Pro | All Rights Reserved | <a href="#">Privacy Policy</a></p>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/storage.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/calculations.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/tools/drawing.js"></script>
+  <script src="js/tools/mapping.js"></script>
+  <script src="js/tools/printing.js"></script>
+  <script src="js/tools/export.js"></script>
+  <script src="js/tabs/tab1-project.js"></script>
+  <script src="js/tabs/tab2-specs.js"></script>
+  <script src="js/tabs/tab3-layout.js"></script>
+  <script src="js/tabs/tab4-installation.js"></script>
+  <script src="js/tabs/tab5-drawings.js"></script>
+  <script src="js/tabs/tab6-permits.js"></script>
+  <script src="js/tabs/tab7-utilities.js"></script>
+  <script src="js/tabs/tab8-estimate.js"></script>
+  <script src="js/tabs/tab9-contract.js"></script>
+  <script src="js/tabs/tab10-extras.js"></script>
+  <script src="js/tabs/tab11-crew.js"></script>
+  <script src="js/tabs/tab12-changeorder.js"></script>
+  <script src="js/tabs/tab13-signoff.js"></script>
+  <script src="js/tabs/tab14-notes.js"></script>
+  <script src="js/tabs/tab15-admin.js"></script>
+  <script src="js/tabs/tab16-catalog.js"></script>
+  <script src="js/tabs/tab17-mapping.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

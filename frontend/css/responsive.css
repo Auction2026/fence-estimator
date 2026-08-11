@@ -1,0 +1,450 @@
+/* ============================================================
+   FENCE ESTIMATOR PRO – RESPONSIVE STYLESHEET
+   Mobile-first approach: 320px → 768px → 1024px → 1400px+
+   ============================================================ */
+
+/* ===== MOBILE FIRST BASE (320px+) ===== */
+
+/* Header */
+.header-inner {
+  padding: 0 var(--space-md);
+}
+
+.logo-tagline {
+  display: none;
+}
+
+/* Tab navigation */
+.tab-nav {
+  -webkit-overflow-scrolling: touch;
+}
+
+.tab-btn {
+  font-size: 11px;
+  padding: 0 var(--space-sm);
+}
+
+/* Main content */
+.tab-content-area {
+  padding: var(--space-md);
+}
+
+/* Form layout – stack on mobile */
+.form-row {
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.form-group,
+.form-group-wide {
+  min-width: 100%;
+  width: 100%;
+}
+
+/* Buttons – full width on small screens */
+.form-actions {
+  flex-direction: column;
+}
+
+.form-actions .btn {
+  width: 100%;
+}
+
+/* Tables – horizontal scroll on mobile */
+.data-table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Contract */
+.contract-parties {
+  grid-template-columns: 1fr;
+}
+
+.signature-grid {
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+/* Admin grid */
+.admin-grid {
+  grid-template-columns: 1fr;
+}
+
+/* Stats grid */
+.stats-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Map controls */
+.map-controls {
+  flex-direction: column;
+}
+
+.map-controls .btn,
+.map-controls .search-input-lg {
+  width: 100%;
+}
+
+.map-container {
+  height: 300px;
+}
+
+/* Notes controls */
+.notes-controls {
+  flex-direction: column;
+}
+
+.notes-controls .search-input,
+.notes-controls .filter-select,
+.notes-controls .btn {
+  width: 100%;
+}
+
+/* Catalog controls */
+.catalog-controls {
+  flex-direction: column;
+}
+
+.catalog-controls .search-input-lg,
+.catalog-controls .filter-select,
+.catalog-controls .btn {
+  width: 100%;
+}
+
+/* Estimate controls */
+.estimate-controls {
+  flex-direction: column;
+}
+
+.estimate-controls .btn {
+  width: 100%;
+}
+
+/* Estimate header info */
+.estimate-header-info {
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* Notification */
+.notification {
+  bottom: var(--space-md);
+  right: var(--space-md);
+  left: var(--space-md);
+  max-width: none;
+}
+
+/* Table actions */
+.table-actions {
+  flex-direction: column;
+}
+
+.table-actions .btn {
+  width: 100%;
+}
+
+/* Canvas toolbar */
+.canvas-toolbar {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.canvas-container {
+  overflow-x: auto;
+}
+
+/* Modal */
+.modal {
+  padding: var(--space-sm);
+}
+
+.modal-box {
+  padding: var(--space-md);
+  max-height: 95vh;
+}
+
+/* Quick add grid */
+.quick-add-grid {
+  flex-direction: column;
+}
+
+.quick-add-grid .btn {
+  width: 100%;
+}
+
+/* ===== SMALL TABLET (480px+) ===== */
+@media (min-width: 480px) {
+  .form-actions {
+    flex-direction: row;
+  }
+
+  .form-actions .btn {
+    width: auto;
+  }
+
+  .table-actions {
+    flex-direction: row;
+  }
+
+  .table-actions .btn {
+    width: auto;
+  }
+
+  .estimate-controls {
+    flex-direction: row;
+  }
+
+  .estimate-controls .btn {
+    width: auto;
+  }
+
+  .quick-add-grid {
+    flex-direction: row;
+  }
+
+  .quick-add-grid .btn {
+    width: auto;
+  }
+
+  .map-controls {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .map-controls .btn {
+    width: auto;
+  }
+}
+
+/* ===== TABLET (768px+) ===== */
+@media (min-width: 768px) {
+  .logo-tagline {
+    display: inline;
+  }
+
+  /* Form layout – two columns on tablet */
+  .form-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .form-group {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .form-group-wide {
+    flex: 2;
+    min-width: 300px;
+  }
+
+  /* Tab nav wider */
+  .tab-btn {
+    font-size: var(--font-size-sm);
+    padding: 0 var(--space-md);
+  }
+
+  /* Main content padding */
+  .tab-content-area {
+    padding: var(--space-lg) var(--space-xl);
+  }
+
+  /* Contract parties */
+  .contract-parties {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Signature grid */
+  .signature-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Admin grid - two column */
+  .admin-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Stats */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Notes controls */
+  .notes-controls {
+    flex-direction: row;
+  }
+
+  .notes-controls .search-input,
+  .notes-controls .filter-select {
+    width: auto;
+  }
+
+  .notes-controls .btn {
+    width: auto;
+  }
+
+  /* Catalog controls */
+  .catalog-controls {
+    flex-direction: row;
+  }
+
+  .catalog-controls .search-input-lg,
+  .catalog-controls .filter-select,
+  .catalog-controls .btn {
+    width: auto;
+  }
+
+  /* Map */
+  .map-container {
+    height: 450px;
+  }
+
+  .map-controls {
+    flex-direction: row;
+  }
+
+  .map-controls .search-input-lg {
+    flex: 1;
+  }
+
+  /* Canvas toolbar – allow wrap */
+  .canvas-toolbar {
+    flex-wrap: wrap;
+  }
+
+  /* Notification */
+  .notification {
+    left: auto;
+    max-width: 400px;
+  }
+
+  /* Modal */
+  .modal-box {
+    padding: var(--space-xl);
+  }
+}
+
+/* ===== DESKTOP (1024px+) ===== */
+@media (min-width: 1024px) {
+  /* Tab nav full */
+  .tab-btn {
+    font-size: var(--font-size-sm);
+    padding: 0 var(--space-lg);
+  }
+
+  /* Admin grid – two column */
+  .admin-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Stats grid – four column */
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Map */
+  .map-container {
+    height: 500px;
+  }
+
+  /* Estimate header info */
+  .estimate-header-info {
+    flex-direction: row;
+  }
+
+  /* Content max width */
+  .tab-content-area {
+    padding: var(--space-xl) var(--space-2xl);
+  }
+}
+
+/* ===== WIDE DESKTOP (1400px+) ===== */
+@media (min-width: 1400px) {
+  /* Admin grid – up to 3 columns */
+  .admin-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Gallery – more columns */
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  /* Schedule grid – more columns */
+  .schedule-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  /* Canvas – larger default */
+  #layout-canvas {
+    width: 1100px;
+    height: 700px;
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .app-header,
+  .tab-nav,
+  .form-actions,
+  .table-actions,
+  .estimate-controls,
+  .canvas-toolbar,
+  .catalog-controls,
+  .notes-controls,
+  .map-controls,
+  .app-footer,
+  .notification,
+  #btn-logout,
+  #btn-new-project,
+  #btn-open-project,
+  .btn-danger,
+  .modal {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    font-size: 12px;
+  }
+
+  .tab-content {
+    display: block !important;
+  }
+
+  .tab-content-area {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .contract-document,
+  .form-section,
+  .admin-card,
+  .data-table {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .data-table {
+    display: table;
+    white-space: normal;
+  }
+
+  .tab-title {
+    font-size: 18px;
+  }
+
+  h2, h3 {
+    color: #000 !important;
+  }
+
+  .price-lock-banner {
+    border: 2px solid #000;
+    background: #fff;
+  }
+}
