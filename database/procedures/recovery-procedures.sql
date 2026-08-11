@@ -1,0 +1,3 @@
+-- Recovery procedure notes
+-- Example command:
+-- pg_restore --clean --if-exists --dbname=fence_estimator fence_estimator.backup

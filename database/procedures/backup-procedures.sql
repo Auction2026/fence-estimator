@@ -1,0 +1,3 @@
+-- Backup procedure notes
+-- Example command:
+-- pg_dump --format=custom --file=fence_estimator.backup fence_estimator
