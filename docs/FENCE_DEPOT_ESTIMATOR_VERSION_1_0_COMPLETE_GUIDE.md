@@ -106,6 +106,8 @@ STRIPE_PUBLIC_KEY=your-stripe-public-key
 STRIPE_SECRET_KEY=your-stripe-secret-key
 ```
 
+> ⚠️ **Security warning:** Replace placeholder secrets (especially `JWT_SECRET`) immediately, including local shared environments. Never commit real secrets.
+
 ---
 
 ## PART 3: Project Structure
@@ -4607,17 +4609,31 @@ Dependency summary:
 > Current implementation uses MongoDB + Mongoose (not SQL migrations in this snapshot).
 
 ```javascript
-Schema section not found.
+See PART 8 for full model code in backend/server.js.
 ```
 
 ---
 
 ## PART 22: Database - seed.sql Equivalent (Current Seed Source)
 
-> Current repository seed-like source is frontend inventory data.
+Current repository does not contain a dedicated SQL seed file.
 
-```javascript
-Inventory seed array not found in current repository snapshot.
+Recommended seed datasets for modular expansion:
+- Product catalog records (SKUs, pricing, units, categories)
+- Supplier records
+- Default estimator configuration values
+- Labor rate presets
+
+Example starter JSON seed shape:
+```json
+{
+  "catalogProducts": [
+    {"sku": "CLF-001", "name": "Chain Link Fabric", "unit": "ft", "price": 12.5}
+  ],
+  "suppliers": [
+    {"name": "Fence Depot", "contact": "supplier@example.com"}
+  ]
+}
 ```
 
 ---
@@ -4652,13 +4668,15 @@ No SQL procedure files exist in current snapshot. For current MongoDB runtime, u
 6. Validate persistence, export/print, and API health endpoint.
 
 ### Configuration Details
-- Ensure `JWT_SECRET` is replaced for non-local deployments.
+- Ensure `JWT_SECRET` is replaced before any deployment or team-shared environment use.
 - Ensure `FRONTEND_URL` matches the served origin.
 - Set production mail credentials when enabling email features.
 
 ### Setup Troubleshooting
 - If API returns 401 on all secured routes, check token creation/storage and Authorization header format.
 - If frontend cannot reach backend, verify CORS origin + backend port.
+- Current server code uses open CORS (`app.use(cors())`); for production, restrict with `cors({ origin: process.env.FRONTEND_URL })`.
+- `switchTab` currently relies on the browser global `event`; prefer passing the event object explicitly when refactoring for strict/browser-compat mode.
 
 ---
 
@@ -4680,7 +4698,7 @@ No SQL procedure files exist in current snapshot. For current MongoDB runtime, u
 
 ### Request/Response Guidance
 - Auth endpoints return token + user profile payload.
-- Protected endpoints require an `Authorization` header carrying a valid JWT (****** format).
+- Protected endpoints require an `Authorization` header carrying a valid JWT token.
 - CRUD endpoints return JSON with success/error semantics.
 
 ### Error Codes
@@ -4702,6 +4720,9 @@ Current Mongoose models in backend:
 - `ChangeOrder`
 - `SignOff`
 - `Notes`
+
+Compatibility notes:
+- The current schema/code uses `barchedWire` as a persisted field name. Keep this naming for backward compatibility with existing records, or run a controlled migration before renaming to `barbedWire`.
 
 Relationship overview:
 - Most records reference `projectId` and/or `userId`.
@@ -4754,7 +4775,7 @@ Input Dimensions -> Select Materials -> Apply Pricing -> Compute Totals -> Rende
 
 ### 7) Authentication Flow
 ```text
-Register/Login -> JWT Issued -> Token Stored -> ****** on API -> Middleware Verification
+Register/Login -> JWT Issued -> Token Stored -> Token attached to API request header -> Middleware Verification
 ```
 
 ### 8) Database Relationships
@@ -4900,6 +4921,7 @@ Contract Baseline -> Change Request -> Recalculate Delta -> Approval -> Persist 
 - [ ] Configure production `.env`
 - [ ] Set strong `JWT_SECRET`
 - [ ] Lock down CORS origin
+- [ ] Remove JWT fallback default in code and fail startup if `JWT_SECRET` is missing
 - [ ] Enable HTTPS termination
 - [ ] Confirm MongoDB connectivity and backups
 - [ ] Start backend process manager (PM2/systemd/container)
