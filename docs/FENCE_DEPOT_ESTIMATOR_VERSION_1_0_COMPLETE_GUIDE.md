@@ -1262,12 +1262,12 @@ fence-estimator/
             <form onsubmit="loginUser(event)">
                 <div class="form-group">
                     <label>Email Address</label>
-                    <input type="email" id="email" placeholder="your@email.com" value="john@fencedepot.com" required>
+                    <input type="email" id="email" placeholder="your@email.com" required>
                 </div>
 
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" id="password" placeholder="••••••••" value="password" required>
+                    <input type="password" id="password" placeholder="••••••••" required>
                 </div>
 
                 <button type="submit" class="btn btn-login">LOGIN</button>
@@ -3814,7 +3814,7 @@ Authorization: ******
 
 ### Token Expiry
 
-JWTs expire after **24 hours**. The frontend must re-login to get a new token.
+JWTs expire after **7 days**. The frontend must re-login to get a new token.
 
 ### Frontend Storage
 
