@@ -1,0 +1,154 @@
+
+@media (min-width: 320px) {
+  .site-header { flex-direction: column; align-items: flex-start; }
+  .tabs { overflow-x: auto; }
+  .tab-btn { white-space: nowrap; }
+}
+
+@media (min-width: 480px) {
+  .site-header { flex-direction: row; }
+  .top-nav { flex-wrap: wrap; }
+}
+
+@media (min-width: 768px) {
+  body { font-size: 16px; }
+  .app-shell { padding: 1.5rem; }
+  .tab-panel { padding: 1.5rem; }
+}
+
+@media (min-width: 1024px) {
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.25rem; }
+  .card-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1200px) {
+  .app-shell { padding: 2rem; }
+  .tabs { gap: 0.65rem; }
+  .tab-btn { padding: 0.6rem 0.85rem; }
+}
+
+@media (min-width: 1440px) {
+  body { font-size: 17px; }
+  .app-shell { max-width: 1500px; }
+}
+
+@media (min-width: 328px) { .tap-1 { min-height: 31px; } }
+@media (min-width: 336px) { .tap-2 { min-height: 32px; } }
+@media (min-width: 344px) { .tap-3 { min-height: 33px; } }
+@media (min-width: 352px) { .tap-4 { min-height: 34px; } }
+@media (min-width: 360px) { .tap-5 { min-height: 35px; } }
+@media (min-width: 368px) { .tap-6 { min-height: 36px; } }
+@media (min-width: 376px) { .tap-7 { min-height: 37px; } }
+@media (min-width: 384px) { .tap-8 { min-height: 38px; } }
+@media (min-width: 392px) { .tap-9 { min-height: 39px; } }
+@media (min-width: 400px) { .tap-10 { min-height: 40px; } }
+@media (min-width: 408px) { .tap-11 { min-height: 41px; } }
+@media (min-width: 416px) { .tap-12 { min-height: 42px; } }
+@media (min-width: 424px) { .tap-13 { min-height: 43px; } }
+@media (min-width: 432px) { .tap-14 { min-height: 44px; } }
+@media (min-width: 440px) { .tap-15 { min-height: 45px; } }
+@media (min-width: 448px) { .tap-16 { min-height: 46px; } }
+@media (min-width: 456px) { .tap-17 { min-height: 47px; } }
+@media (min-width: 464px) { .tap-18 { min-height: 48px; } }
+@media (min-width: 472px) { .tap-19 { min-height: 49px; } }
+@media (min-width: 480px) { .tap-20 { min-height: 50px; } }
+@media (min-width: 488px) { .tap-21 { min-height: 51px; } }
+@media (min-width: 496px) { .tap-22 { min-height: 52px; } }
+@media (min-width: 504px) { .tap-23 { min-height: 53px; } }
+@media (min-width: 512px) { .tap-24 { min-height: 54px; } }
+@media (min-width: 520px) { .tap-25 { min-height: 55px; } }
+@media (min-width: 528px) { .tap-26 { min-height: 56px; } }
+@media (min-width: 536px) { .tap-27 { min-height: 57px; } }
+@media (min-width: 544px) { .tap-28 { min-height: 58px; } }
+@media (min-width: 552px) { .tap-29 { min-height: 59px; } }
+@media (min-width: 560px) { .tap-30 { min-height: 60px; } }
+@media (min-width: 568px) { .tap-31 { min-height: 61px; } }
+@media (min-width: 576px) { .tap-32 { min-height: 62px; } }
+@media (min-width: 584px) { .tap-33 { min-height: 63px; } }
+@media (min-width: 592px) { .tap-34 { min-height: 64px; } }
+@media (min-width: 600px) { .tap-35 { min-height: 65px; } }
+@media (min-width: 608px) { .tap-36 { min-height: 66px; } }
+@media (min-width: 616px) { .tap-37 { min-height: 67px; } }
+@media (min-width: 624px) { .tap-38 { min-height: 68px; } }
+@media (min-width: 632px) { .tap-39 { min-height: 69px; } }
+@media (min-width: 640px) { .tap-40 { min-height: 70px; } }
+@media (min-width: 648px) { .tap-41 { min-height: 71px; } }
+@media (min-width: 656px) { .tap-42 { min-height: 72px; } }
+@media (min-width: 664px) { .tap-43 { min-height: 73px; } }
+@media (min-width: 672px) { .tap-44 { min-height: 74px; } }
+@media (min-width: 680px) { .tap-45 { min-height: 75px; } }
+@media (min-width: 688px) { .tap-46 { min-height: 76px; } }
+@media (min-width: 696px) { .tap-47 { min-height: 77px; } }
+@media (min-width: 704px) { .tap-48 { min-height: 78px; } }
+@media (min-width: 712px) { .tap-49 { min-height: 79px; } }
+@media (min-width: 720px) { .tap-50 { min-height: 80px; } }
+@media (min-width: 728px) { .tap-51 { min-height: 81px; } }
+@media (min-width: 736px) { .tap-52 { min-height: 82px; } }
+@media (min-width: 744px) { .tap-53 { min-height: 83px; } }
+@media (min-width: 752px) { .tap-54 { min-height: 84px; } }
+@media (min-width: 760px) { .tap-55 { min-height: 85px; } }
+@media (min-width: 768px) { .tap-56 { min-height: 86px; } }
+@media (min-width: 776px) { .tap-57 { min-height: 87px; } }
+@media (min-width: 784px) { .tap-58 { min-height: 88px; } }
+@media (min-width: 792px) { .tap-59 { min-height: 89px; } }
+@media (min-width: 800px) { .tap-60 { min-height: 90px; } }
+@media (min-width: 808px) { .tap-61 { min-height: 91px; } }
+@media (min-width: 816px) { .tap-62 { min-height: 92px; } }
+@media (min-width: 824px) { .tap-63 { min-height: 93px; } }
+@media (min-width: 832px) { .tap-64 { min-height: 94px; } }
+@media (min-width: 840px) { .tap-65 { min-height: 95px; } }
+@media (min-width: 848px) { .tap-66 { min-height: 96px; } }
+@media (min-width: 856px) { .tap-67 { min-height: 97px; } }
+@media (min-width: 864px) { .tap-68 { min-height: 98px; } }
+@media (min-width: 872px) { .tap-69 { min-height: 99px; } }
+@media (min-width: 880px) { .tap-70 { min-height: 100px; } }
+@media (min-width: 888px) { .tap-71 { min-height: 101px; } }
+@media (min-width: 896px) { .tap-72 { min-height: 102px; } }
+@media (min-width: 904px) { .tap-73 { min-height: 103px; } }
+@media (min-width: 912px) { .tap-74 { min-height: 104px; } }
+@media (min-width: 920px) { .tap-75 { min-height: 105px; } }
+@media (min-width: 928px) { .tap-76 { min-height: 106px; } }
+@media (min-width: 936px) { .tap-77 { min-height: 107px; } }
+@media (min-width: 944px) { .tap-78 { min-height: 108px; } }
+@media (min-width: 952px) { .tap-79 { min-height: 109px; } }
+@media (min-width: 960px) { .tap-80 { min-height: 110px; } }
+@media (min-width: 968px) { .tap-81 { min-height: 111px; } }
+@media (min-width: 976px) { .tap-82 { min-height: 112px; } }
+@media (min-width: 984px) { .tap-83 { min-height: 113px; } }
+@media (min-width: 992px) { .tap-84 { min-height: 114px; } }
+@media (min-width: 1000px) { .tap-85 { min-height: 115px; } }
+@media (min-width: 1008px) { .tap-86 { min-height: 116px; } }
+@media (min-width: 1016px) { .tap-87 { min-height: 117px; } }
+@media (min-width: 1024px) { .tap-88 { min-height: 118px; } }
+@media (min-width: 1032px) { .tap-89 { min-height: 119px; } }
+@media (min-width: 1040px) { .tap-90 { min-height: 120px; } }
+@media (min-width: 1048px) { .tap-91 { min-height: 121px; } }
+@media (min-width: 1056px) { .tap-92 { min-height: 122px; } }
+@media (min-width: 1064px) { .tap-93 { min-height: 123px; } }
+@media (min-width: 1072px) { .tap-94 { min-height: 124px; } }
+@media (min-width: 1080px) { .tap-95 { min-height: 125px; } }
+@media (min-width: 1088px) { .tap-96 { min-height: 126px; } }
+@media (min-width: 1096px) { .tap-97 { min-height: 127px; } }
+@media (min-width: 1104px) { .tap-98 { min-height: 128px; } }
+@media (min-width: 1112px) { .tap-99 { min-height: 129px; } }
+@media (min-width: 1120px) { .tap-100 { min-height: 130px; } }
+@media (min-width: 1128px) { .tap-101 { min-height: 131px; } }
+@media (min-width: 1136px) { .tap-102 { min-height: 132px; } }
+@media (min-width: 1144px) { .tap-103 { min-height: 133px; } }
+@media (min-width: 1152px) { .tap-104 { min-height: 134px; } }
+@media (min-width: 1160px) { .tap-105 { min-height: 135px; } }
+@media (min-width: 1168px) { .tap-106 { min-height: 136px; } }
+@media (min-width: 1176px) { .tap-107 { min-height: 137px; } }
+@media (min-width: 1184px) { .tap-108 { min-height: 138px; } }
+@media (min-width: 1192px) { .tap-109 { min-height: 139px; } }
+@media (min-width: 1200px) { .tap-110 { min-height: 140px; } }
+@media (min-width: 1208px) { .tap-111 { min-height: 141px; } }
+@media (min-width: 1216px) { .tap-112 { min-height: 142px; } }
+@media (min-width: 1224px) { .tap-113 { min-height: 143px; } }
+@media (min-width: 1232px) { .tap-114 { min-height: 144px; } }
+@media (min-width: 1240px) { .tap-115 { min-height: 145px; } }
+@media (min-width: 1248px) { .tap-116 { min-height: 146px; } }
+@media (min-width: 1256px) { .tap-117 { min-height: 147px; } }
+@media (min-width: 1264px) { .tap-118 { min-height: 148px; } }
+@media (min-width: 1272px) { .tap-119 { min-height: 149px; } }

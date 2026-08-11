@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fence Depot estimator single-page application" />
+  <title>Fence Depot Estimator</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="../assets/logo.png" alt="Fence Depot Logo" class="logo" onerror="this.style.display='none'" />
+      <div>
+        <h1>Fence Depot</h1>
+        <p>Fence Estimator Platform</p>
+      </div>
+    </div>
+    <nav class="top-nav" aria-label="Top navigation">
+      <a href="#" aria-current="page">Dashboard</a>
+      <a href="#">Projects</a>
+      <a href="#">Catalog</a>
+      <a href="#">Admin</a>
+    </nav>
+  </header>
+
+  <main class="app-shell">
+    <section class="tabs" role="tablist" aria-label="Estimator tabs">
+      <button class="tab-btn active" data-tab="tab1" role="tab">Project Information</button>
+      <button class="tab-btn" data-tab="tab2" role="tab">Fence Specifications</button>
+      <button class="tab-btn" data-tab="tab3" role="tab">Layout Diagram</button>
+      <button class="tab-btn" data-tab="tab4" role="tab">Installation Breakdown</button>
+      <button class="tab-btn" data-tab="tab5" role="tab">Shop Drawings</button>
+      <button class="tab-btn" data-tab="tab6" role="tab">Permits</button>
+      <button class="tab-btn" data-tab="tab7" role="tab">Utilities Locate</button>
+      <button class="tab-btn" data-tab="tab8" role="tab">Estimate</button>
+      <button class="tab-btn" data-tab="tab9" role="tab">Contract</button>
+      <button class="tab-btn" data-tab="tab10" role="tab">Extras/Add-ons</button>
+      <button class="tab-btn" data-tab="tab11" role="tab">Crew Breakdown</button>
+      <button class="tab-btn" data-tab="tab12" role="tab">Change Orders</button>
+      <button class="tab-btn" data-tab="tab13" role="tab">Sign-Off</button>
+      <button class="tab-btn" data-tab="tab14" role="tab">Notes</button>
+      <button class="tab-btn" data-tab="tab15" role="tab">Admin Dashboard</button>
+      <button class="tab-btn" data-tab="tab16" role="tab">Product Catalog</button>
+      <button class="tab-btn" data-tab="tab17" role="tab">Mapping</button>
+    </section>
+
+    <section id="tab-container" class="tab-container">
+      <article id="tab1" class="tab-panel active">
+        <h2>Project Information</h2>
+        <form id="project-form" class="grid-form">
+          <label>Project Name<input type="text" name="projectName" required /></label>
+          <label>Customer Name<input type="text" name="customerName" required /></label>
+          <label>Email<input type="email" name="email" /></label>
+          <label>Phone<input type="tel" name="phone" /></label>
+          <label>Site Address<input type="text" name="address" /></label>
+          <label>Target Start Date<input type="date" name="startDate" /></label>
+        </form>
+      </article>
+
+      <article id="tab2" class="tab-panel">
+        <h2>Fence Specifications</h2>
+        <form id="spec-form" class="grid-form">
+          <label>Fence Type<select name="fenceType"><option>Chain Link</option><option>Wood</option><option>Vinyl</option><option>Wrought Iron</option></select></label>
+          <label>Height (ft)<input type="number" name="height" min="3" max="12" /></label>
+          <label>Linear Feet<input type="number" name="linearFeet" min="1" /></label>
+          <label>Post Spacing<input type="number" name="postSpacing" step="0.5" /></label>
+          <label>Gate Count<input type="number" name="gates" min="0" /></label>
+          <label>Material Grade<input type="text" name="materialGrade" /></label>
+        </form>
+      </article>
+
+      <article id="tab3" class="tab-panel">
+        <h2>Layout Diagram</h2>
+        <div class="card">
+          <canvas id="layout-canvas" width="900" height="400" aria-label="Fence layout canvas"></canvas>
+          <div class="button-row">
+            <button type="button" data-action="clear-canvas">Clear</button>
+            <button type="button" data-action="save-layout">Save Layout</button>
+          </div>
+        </div>
+      </article>
+
+      <article id="tab4" class="tab-panel"><h2>Installation Breakdown</h2><table><thead><tr><th>Task</th><th>Hours</th><th>Crew</th></tr></thead><tbody id="install-breakdown"><tr><td>Site Prep</td><td>4</td><td>2</td></tr></tbody></table></article>
+      <article id="tab5" class="tab-panel"><h2>Shop Drawings</h2><div class="file-drop"><input type="file" id="drawing-upload" multiple /></div></article>
+      <article id="tab6" class="tab-panel"><h2>Permits</h2><form class="grid-form"><label>Permit Required<select><option>Yes</option><option>No</option></select></label><label>Permit Number<input type="text" /></label><label>Authority<input type="text" /></label></form></article>
+      <article id="tab7" class="tab-panel"><h2>Utilities Locate</h2><form class="grid-form"><label>811 Ticket #<input type="text" /></label><label>Request Date<input type="date" /></label><label>Status<select><option>Open</option><option>Cleared</option></select></label></form></article>
+      <article id="tab8" class="tab-panel"><h2>Estimate</h2><table><thead><tr><th>Category</th><th>Amount</th></tr></thead><tbody id="estimate-summary"><tr><td>Materials</td><td>$0.00</td></tr><tr><td>Labor</td><td>$0.00</td></tr><tr><td>Equipment</td><td>$0.00</td></tr><tr><td>Tax</td><td>$0.00</td></tr><tr><td>Total</td><td>$0.00</td></tr></tbody></table></article>
+      <article id="tab9" class="tab-panel"><h2>Contract</h2><form class="grid-form"><label>Contract Number<input type="text" /></label><label>Scope<textarea rows="4"></textarea></label><label>Price Locked<select><option>No</option><option>Yes</option></select></label></form></article>
+      <article id="tab10" class="tab-panel"><h2>Extras/Add-ons</h2><table><thead><tr><th>Item</th><th>Qty</th><th>Unit</th><th>Total</th></tr></thead><tbody id="extras-table"></tbody></table></article>
+      <article id="tab11" class="tab-panel"><h2>Crew Breakdown</h2><table><thead><tr><th>Role</th><th>Count</th><th>Rate</th></tr></thead><tbody id="crew-table"></tbody></table></article>
+      <article id="tab12" class="tab-panel"><h2>Change Orders</h2><form class="grid-form"><label>Change Description<textarea rows="4"></textarea></label><label>Cost Impact<input type="number" step="0.01" /></label><label>Approval<select><option>Pending</option><option>Approved</option><option>Rejected</option></select></label></form></article>
+      <article id="tab13" class="tab-panel"><h2>Sign-Off</h2><div class="signature-grid"><label>Customer Signature<textarea class="signature-pad" rows="5"></textarea></label><label>Estimator Signature<textarea class="signature-pad" rows="5"></textarea></label></div></article>
+      <article id="tab14" class="tab-panel"><h2>Notes</h2><textarea id="project-notes" rows="10" placeholder="Enter project notes"></textarea></article>
+      <article id="tab15" class="tab-panel"><h2>Admin Dashboard</h2><div class="card-grid"><div class="card">Users: <strong id="admin-users">0</strong></div><div class="card">Open Projects: <strong id="admin-projects">0</strong></div><div class="card">Revenue: <strong id="admin-revenue">$0</strong></div></div></article>
+      <article id="tab16" class="tab-panel"><h2>Product Catalog</h2><div class="grid-form"><label>Search<input id="catalog-search" type="search" placeholder="Search SKU or product" /></label><label>Filter<select id="catalog-filter"><option value="all">All</option><option value="chain-link">Chain Link</option><option value="wood">Wood</option><option value="vinyl">Vinyl</option><option value="wrought-iron">Wrought Iron</option></select></label></div><table><thead><tr><th>SKU</th><th>Name</th><th>Category</th><th>Cost</th><th>Retail</th></tr></thead><tbody id="catalog-table"></tbody></table></article>
+      <article id="tab17" class="tab-panel"><h2>Mapping</h2><div id="map-container" class="map-container" aria-label="Map container"></div></article>
+    </section>
+  </main>
+
+  <footer class="site-footer">&copy; <span id="year"></span> Fence Depot. All rights reserved.</footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/calculations.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/tabs/tab1-project.js"></script>
+  <script src="js/tabs/tab2-specs.js"></script>
+  <script src="js/tabs/tab3-layout.js"></script>
+  <script src="js/tabs/tab4-installation.js"></script>
+  <script src="js/tabs/tab5-drawings.js"></script>
+  <script src="js/tabs/tab6-permits.js"></script>
+  <script src="js/tabs/tab7-utilities.js"></script>
+  <script src="js/tabs/tab8-estimate.js"></script>
+  <script src="js/tabs/tab9-contract.js"></script>
+  <script src="js/tabs/tab10-extras.js"></script>
+  <script src="js/tabs/tab11-crew.js"></script>
+  <script src="js/tabs/tab12-changeorder.js"></script>
+  <script src="js/tabs/tab13-signoff.js"></script>
+  <script src="js/tabs/tab14-notes.js"></script>
+  <script src="js/tabs/tab15-admin.js"></script>
+  <script src="js/tabs/tab16-catalog.js"></script>
+  <script src="js/tabs/tab17-mapping.js"></script>
+  <script src="js/tools/drawing.js"></script>
+  <script src="js/tools/mapping.js"></script>
+  <script src="js/tools/printing.js"></script>
+  <script src="js/tools/export.js"></script>
+</body>
+</html>

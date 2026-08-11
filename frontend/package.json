@@ -1,0 +1,13 @@
+{
+  "name": "fence-estimator-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fence Depot frontend application",
+  "scripts": {
+    "start": "npx serve .",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
