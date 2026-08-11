@@ -6,11 +6,16 @@ const PrintingTool = (() => {
     if (!section) return;
     const w = window.open('', '_blank');
     if (!w) return;
-    w.document.write(`<html><body>${section.outerHTML}</body></html>`);
-    w.document.close();
+    const doc = w.document;
+    const container = doc.createElement('pre');
+    container.textContent = section.innerText || '';
+    container.style.whiteSpace = 'pre-wrap';
+    container.style.fontFamily = 'Arial, sans-serif';
+    container.style.padding = '16px';
+    doc.body.appendChild(container);
+    w.onafterprint = () => w.close();
     w.focus();
-    w.print();
-    w.close();
+    setTimeout(() => w.print(), 100);
   }
   return { printCurrentView, printEstimateSection };
 })();

@@ -6,8 +6,13 @@ const ExportTool = (() => {
     const anchor = document.createElement('a');
     anchor.href = url;
     anchor.download = filename;
+    anchor.style.display = 'none';
+    document.body.appendChild(anchor);
     anchor.click();
-    URL.revokeObjectURL(url);
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+      anchor.remove();
+    }, 150);
   }
 
   function exportEstimateAsJSON(data) {

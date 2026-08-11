@@ -34,9 +34,15 @@ const StorageModule = (() => {
   function startAutoSave() {
     if (autosaveTimer) clearInterval(autosaveTimer);
     autosaveTimer = setInterval(() => {
-      const form = document.getElementById('project-form');
-      if (!form) return;
-      const payload = Object.fromEntries(new FormData(form).entries());
+      const payload = {};
+      document.querySelectorAll('.tab-panel form').forEach((form, index) => {
+        const formName = form.id || `form_${index + 1}`;
+        payload[formName] = Object.fromEntries(new FormData(form).entries());
+      });
+      const rootProjectForm = document.getElementById('project-form');
+      if (rootProjectForm) {
+        payload.project = Object.fromEntries(new FormData(rootProjectForm).entries());
+      }
       saveProjectData(payload);
     }, 15000);
   }

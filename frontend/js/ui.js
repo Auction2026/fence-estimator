@@ -7,7 +7,16 @@ const UIModule = (() => {
   function updateTableContent(tableBodyId, rows = []) {
     const body = document.getElementById(tableBodyId);
     if (!body) return;
-    body.innerHTML = rows.map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join('')}</tr>`).join('');
+    body.replaceChildren();
+    rows.forEach((row) => {
+      const tr = document.createElement('tr');
+      row.forEach((cell) => {
+        const td = document.createElement('td');
+        td.textContent = String(cell ?? '');
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
   }
 
   function notify(message, type = 'success') {

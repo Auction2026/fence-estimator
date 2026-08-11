@@ -2,8 +2,17 @@
 const API = (() => {
   const BASE_URL = '/api';
   const DEFAULT_HEADERS = { 'Content-Type': 'application/json' };
+  class HttpError extends Error {
+    constructor(status, message) {
+      super(message);
+      this.name = 'HttpError';
+      this.status = status;
+    }
+  }
 
   async function request(endpoint, options = {}, retries = 1) {
+    const method = String(options.method || 'GET').toUpperCase();
+    const canRetry = method === 'GET' || method === 'HEAD';
     try {
       const response = await fetch(`${BASE_URL}${endpoint}`, {
         ...options,
@@ -11,11 +20,12 @@ const API = (() => {
       });
       if (!response.ok) {
         const detail = await safeJson(response);
-        throw new Error(detail?.message || `Request failed: ${response.status}`);
+        throw new HttpError(response.status, detail?.message || `Request failed: ${response.status}`);
       }
       return safeJson(response);
     } catch (error) {
-      if (retries > 0) return request(endpoint, options, retries - 1);
+      const isNetworkError = error instanceof TypeError;
+      if (isNetworkError && canRetry && retries > 0) return request(endpoint, options, retries - 1);
       console.error('API error:', error);
       throw error;
     }

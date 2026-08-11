@@ -144,7 +144,7 @@ CREATE INDEX IF NOT EXISTS idx_sign_offs_project_id ON sign_offs(project_id);
 CREATE INDEX IF NOT EXISTS idx_notes_project_id ON notes(project_id);
 CREATE INDEX IF NOT EXISTS idx_inventory_category ON inventory(category);
 
-ALTER TABLE projects ADD CONSTRAINT chk_project_status CHECK (status IN ('draft','active','completed','cancelled'));
+ALTER TABLE projects ADD CONSTRAINT chk_project_status CHECK (status IN ('draft','active','contracted','installed','signed_off','archived','completed','cancelled'));
 ALTER TABLE estimates ADD CONSTRAINT chk_estimate_status CHECK (status IN ('draft','sent','accepted','rejected','expired'));
 ALTER TABLE change_orders ADD CONSTRAINT chk_change_status CHECK (approval_status IN ('pending','approved','rejected'));
 ALTER TABLE sign_offs ADD CONSTRAINT chk_inspection_status CHECK (inspection_status IN ('pending','passed','failed'));

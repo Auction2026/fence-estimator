@@ -29,7 +29,16 @@ const Calculations = (() => {
 
     const body = document.getElementById('estimate-summary');
     if (body) {
-      body.innerHTML = Object.entries(rows).map(([name, amount]) => `<tr><td>${name}</td><td>${currency.format(amount)}</td></tr>`).join('');
+      body.replaceChildren();
+      Object.entries(rows).forEach(([name, amount]) => {
+        const tr = document.createElement('tr');
+        const nameCell = document.createElement('td');
+        const amountCell = document.createElement('td');
+        nameCell.textContent = name;
+        amountCell.textContent = currency.format(amount);
+        tr.append(nameCell, amountCell);
+        body.appendChild(tr);
+      });
     }
 
     return rows;

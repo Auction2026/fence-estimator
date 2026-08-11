@@ -3,7 +3,11 @@ const MappingTool = (() => {
   function init() {
     const map = document.getElementById('map-container');
     if (!map) return;
-    map.innerHTML = '<p style="padding:1rem">Map integration ready. Configure Google Maps key to enable live tiles.</p>';
+    map.replaceChildren();
+    const message = document.createElement('p');
+    message.style.padding = '1rem';
+    message.textContent = 'Map integration ready. Configure Google Maps key to enable live tiles.';
+    map.appendChild(message);
   }
   function setMarker(lat, lng, label = 'Project') {
     const map = document.getElementById('map-container');
