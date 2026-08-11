@@ -1,0 +1,15 @@
+{
+  "name": "fence-estimator-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Frontend assets for the Fence Estimator single-page application.",
+  "scripts": {
+    "start": "http-server . -p 4173 -c-1",
+    "build": "node --input-type=module -e \"import { cpSync, mkdirSync, rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true }); mkdirSync('dist', { recursive: true }); cpSync('css', 'dist/css', { recursive: true }); cpSync('js', 'dist/js', { recursive: true }); console.log('Build complete: dist/');\"",
+    "test": "node --input-type=module -e \"await import('./js/calculations.js'); await import('./js/validation.js'); await import('./js/storage.js'); await import('./js/ui.js'); await import('./js/api.js'); await import('./js/charts.js'); await import('./js/app.js'); console.log('Frontend modules imported successfully.');\""
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
