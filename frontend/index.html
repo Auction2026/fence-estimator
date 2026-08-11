@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fence Depot Estimator Workspace</title>
+    <meta name="description" content="Fence Depot multi-tab estimating, contract, and operations workspace.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div id="loading" class="loading-overlay" aria-hidden="true"><div class="spinner"></div><p>Loading Fence Depot workspace…</p></div>
+    <div class="app-shell">
+        <header class="app-header">
+            <div>
+                <p class="eyebrow">Fence Depot</p>
+                <h1>Estimator & Operations Workspace</h1>
+                <p class="header-copy">A 17-tab frontend shell for sales, estimating, production, and customer sign-off.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" id="saveAllBtn" type="button">Save All</button>
+                <button class="btn btn-secondary" id="clearStorageBtn" type="button">Reset Local Data</button>
+                <button class="btn btn-primary" id="printCurrentTabBtn" type="button">Print Current Tab</button>
+            </div>
+        </header>
+
+        <main class="workspace-layout">
+            <aside class="sidebar">
+                <div class="sidebar-card">
+                    <h2>Navigation</h2>
+                    <p class="sidebar-copy">Move through the full delivery workflow from intake to mapping.</p>
+                    <nav class="tab-nav" aria-label="Application tabs">
+                        <button class="tab-btn" data-tab="project" type="button"><span class="tab-index">01</span><span class="tab-label">Project Info</span></button>
+<button class="tab-btn" data-tab="specs" type="button"><span class="tab-index">02</span><span class="tab-label">Fence Specifications</span></button>
+<button class="tab-btn" data-tab="layout" type="button"><span class="tab-index">03</span><span class="tab-label">Layout Diagram</span></button>
+<button class="tab-btn" data-tab="installation" type="button"><span class="tab-index">04</span><span class="tab-label">Installation Breakdown</span></button>
+<button class="tab-btn" data-tab="drawings" type="button"><span class="tab-index">05</span><span class="tab-label">Shop Drawings</span></button>
+<button class="tab-btn" data-tab="permits" type="button"><span class="tab-index">06</span><span class="tab-label">Permits</span></button>
+<button class="tab-btn" data-tab="utilities" type="button"><span class="tab-index">07</span><span class="tab-label">Utilities Locate</span></button>
+<button class="tab-btn" data-tab="estimate" type="button"><span class="tab-index">08</span><span class="tab-label">Estimate</span></button>
+<button class="tab-btn" data-tab="contract" type="button"><span class="tab-index">09</span><span class="tab-label">Contract</span></button>
+<button class="tab-btn" data-tab="extras" type="button"><span class="tab-index">10</span><span class="tab-label">Extras / Add-ons</span></button>
+<button class="tab-btn" data-tab="crew" type="button"><span class="tab-index">11</span><span class="tab-label">Crew Breakdown</span></button>
+<button class="tab-btn" data-tab="change-orders" type="button"><span class="tab-index">12</span><span class="tab-label">Change Orders</span></button>
+<button class="tab-btn" data-tab="sign-off" type="button"><span class="tab-index">13</span><span class="tab-label">Sign-Off</span></button>
+<button class="tab-btn" data-tab="notes" type="button"><span class="tab-index">14</span><span class="tab-label">Notes Hub</span></button>
+<button class="tab-btn" data-tab="admin" type="button"><span class="tab-index">15</span><span class="tab-label">Admin Dashboard</span></button>
+<button class="tab-btn" data-tab="catalog" type="button"><span class="tab-index">16</span><span class="tab-label">Product Catalog</span></button>
+<button class="tab-btn" data-tab="mapping" type="button"><span class="tab-index">17</span><span class="tab-label">Mapping</span></button>
+                    </nav>
+                </div>
+                <div class="sidebar-card">
+                    <h2>Saved Session</h2>
+                    <dl id="sessionSummary" class="summary-list compact-summary"></dl>
+                </div>
+            </aside>
+
+            <section class="content-shell">
+                <div id="errors" class="error-stack" aria-live="polite"></div>
+                <section id="tab-project" class="tab-content active" data-tab-panel="project">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 01</p>
+                <h1>Project Info</h1>
+                <p>Customer, site, and sales details</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card">
+                <h2>Project Intake</h2>
+                <p class="panel-copy">Capture the core customer and site information used across the estimate workflow.</p>
+                <form id="project-form" class="form-grid"><label class="field" for="customerName"><span>Customer Name</span><input id="customerName" name="customerName" type="text" placeholder="Jordan Smith" ></label><label class="field" for="customerEmail"><span>Customer Email</span><input id="customerEmail" name="customerEmail" type="email" placeholder="customer@example.com" ></label><label class="field" for="customerPhone"><span>Customer Phone</span><input id="customerPhone" name="customerPhone" type="tel" placeholder="(555) 555-5555" ></label><label class="field" for="address"><span>Project Address</span><input id="address" name="address" type="text" placeholder="123 Main Street" ></label><label class="field" for="city"><span>City</span><input id="city" name="city" type="text" placeholder="Hamilton" ></label><label class="field" for="province"><span>Province</span><input id="province" name="province" type="text" placeholder="Ontario" ></label><label class="field" for="postalCode"><span>Postal Code</span><input id="postalCode" name="postalCode" type="text" placeholder="L8P 1A1" ></label><label class="field" for="salesRep"><span>Sales Representative</span><input id="salesRep" name="salesRep" type="text" placeholder="Auction2026" ></label><label class="field" for="projectNumber"><span>Project Number</span><input id="projectNumber" name="projectNumber" type="text" placeholder="FD-2026-001" ></label><label class="field" for="targetInstallDate"><span>Target Install Date</span><input id="targetInstallDate" name="targetInstallDate" type="date" placeholder="" ></label><label class="field" for="propertyType"><span>Property Type</span><select id="propertyType" name="propertyType"><option value="residential">Residential</option><option value="commercial">Commercial</option><option value="industrial">Industrial</option><option value="municipal">Municipal</option></select></label><label class="field" for="leadSource"><span>Lead Source</span><select id="leadSource" name="leadSource"><option value="referral">Referral</option><option value="website">Website</option><option value="walk-in">Walk-In</option><option value="repeat">Repeat Customer</option></select></label><label class="field field-full" for="projectSiteNotes"><span>Site Notes</span><textarea id="projectSiteNotes" name="projectSiteNotes" rows="4" placeholder="Access notes, obstacles, or customer requests"></textarea></label></form>
+            </section>
+            <aside class="panel-card accent-card">
+                <h3>Project Snapshot</h3>
+                <dl id="project-summary" class="summary-list"></dl>
+                <div class="action-row"><button class="btn btn-primary" id="saveProjectBtn" type="button">Save Project Info</button></div>
+            </aside>
+        </div>
+    
+    </section>
+<section id="tab-specs" class="tab-content" data-tab-panel="specs">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 02</p>
+                <h1>Fence Specifications</h1>
+                <p>Fence type, dimensions, and material assumptions</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card">
+                <h2>Fence Specifications</h2>
+                <p class="panel-copy">Build a reusable fence profile for estimating, crew planning, and permitting.</p>
+                <form id="specs-form" class="form-grid"><label class="field" for="fenceType"><span>Fence Type</span><select id="fenceType" name="fenceType"><option value="chain-link">Chain Link</option><option value="ornamental">Ornamental</option><option value="vinyl">Vinyl</option><option value="wood">Wood</option><option value="privacy">Privacy Composite</option></select></label><label class="field" for="height"><span>Fence Height (ft)</span><input id="height" name="height" type="number" placeholder="6" min="3" max="12" step="0.5"></label><label class="field" for="linearFeet"><span>Linear Feet</span><input id="linearFeet" name="linearFeet" type="number" placeholder="120" min="1" step="1"></label><label class="field" for="numberOfPosts"><span>Number of Posts</span><input id="numberOfPosts" name="numberOfPosts" type="number" placeholder="18" min="0" step="1"></label><label class="field" for="numberOfGates"><span>Number of Gates</span><input id="numberOfGates" name="numberOfGates" type="number" placeholder="1" min="0" step="1"></label><label class="field" for="gateWidth"><span>Gate Width (ft)</span><input id="gateWidth" name="gateWidth" type="number" placeholder="4" min="0" step="0.5"></label><label class="field" for="color"><span>Color</span><select id="color" name="color"><option value="galvanized">Galvanized</option><option value="black">Black</option><option value="white">White</option><option value="bronze">Bronze</option></select></label><label class="field" for="postDepth"><span>Post Depth</span><select id="postDepth" name="postDepth"><option value="36">36 inches</option><option value="42">42 inches</option><option value="48">48 inches</option></select></label><label class="field" for="cornerPosts"><span>Corner Posts</span><input id="cornerPosts" name="cornerPosts" type="number" placeholder="4" min="0" step="1"></label><label class="field" for="endPosts"><span>End Posts</span><input id="endPosts" name="endPosts" type="number" placeholder="2" min="0" step="1"></label><label class="field" for="linePosts"><span>Line Posts</span><input id="linePosts" name="linePosts" type="number" placeholder="12" min="0" step="1"></label><label class="field" for="markupPercent"><span>Markup %</span><input id="markupPercent" name="markupPercent" type="number" placeholder="35" min="0" max="200" step="1"></label><label class="field field-full" for="specNotes"><span>Specification Notes</span><textarea id="specNotes" name="specNotes" rows="4" placeholder="Pool code, privacy slats, custom hardware, etc."></textarea></label></form>
+            </section>
+            <aside class="panel-card">
+                <h3>Material Assumptions</h3>
+                <ul class="check-list">
+                    <li>Posts spaced at 8 ft on center by default.</li>
+                    <li>Concrete allowance includes 10% waste factor.</li>
+                    <li>Hardware includes bands, rails, caps, and ties.</li>
+                    <li>Markup and tax are adjustable before contract generation.</li>
+                </ul>
+                <div class="action-row"><button class="btn btn-primary" id="saveSpecsBtn" type="button">Save Fence Specs</button></div>
+            </aside>
+        </div>
+    
+    </section>
+<section id="tab-layout" class="tab-content" data-tab-panel="layout">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 03</p>
+                <h1>Layout Diagram</h1>
+                <p>Canvas-based field sketch and measurement notes</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card wide-card">
+                <div class="panel-header-row"><h2>Layout Diagram Canvas</h2><div class="action-row compact"><button class="btn btn-secondary" id="drawingClearBtn" type="button">Clear</button><button class="btn btn-secondary" id="drawingUndoBtn" type="button">Undo</button><button class="btn btn-primary" id="drawingExportBtn" type="button">Export Layout</button></div></div>
+                <canvas id="layoutCanvas" width="960" height="460" aria-label="Fence layout drawing canvas"></canvas>
+                <p class="panel-copy small-copy">Click to add points. Double-click to close a run. Use the export button to save sketch coordinates into local storage.</p>
+            </section>
+            <aside class="panel-card">
+                <h3>Measurement Notes</h3>
+                <form id="layout-form" class="form-grid">
+                    <label class="field field-full" for="layoutReference"><span>Reference Description</span><input id="layoutReference" name="layoutReference" type="text" placeholder="Rear lot line with single gate on east side"></label>
+                    <label class="field field-full" for="layoutObstacles"><span>Obstacles / Easements</span><textarea id="layoutObstacles" name="layoutObstacles" rows="6" placeholder="Hydro meter, retaining wall, tree roots, buried drain tile"></textarea></label>
+                    <label class="field field-full" for="layoutAccess"><span>Equipment Access</span><textarea id="layoutAccess" name="layoutAccess" rows="4" placeholder="Mini skid steer access through 10 ft driveway gate"></textarea></label>
+                </form>
+            </aside>
+        </div>
+    
+    </section>
+<section id="tab-installation" class="tab-content" data-tab-panel="installation">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 04</p>
+                <h1>Installation Breakdown</h1>
+                <p>Labor phases, crew hours, and staging tasks</p>
+            </div>
+        </header>
+        
+        <section class="panel-card">
+            <div class="panel-header-row"><h2>Installation Breakdown</h2><button class="btn btn-primary" id="addInstallationRowBtn" type="button">Add Phase</button></div>
+            <div class="table-shell">
+                <table id="installationTable">
+                    <thead><tr><th>Phase</th><th>Assigned Crew</th><th>Hours</th><th>Equipment</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Layout + Marking</td><td>Lead Installer</td><td>2.0</td><td>Laser + Paint</td><td>Pending</td></tr>
+                        <tr><td>Post Holes</td><td>2-Person Crew</td><td>4.5</td><td>Auger</td><td>Pending</td></tr>
+                        <tr><td>Set Posts</td><td>2-Person Crew</td><td>3.5</td><td>Concrete Mixer</td><td>Pending</td></tr>
+                        <tr><td>Fabric / Panel Install</td><td>3-Person Crew</td><td>5.0</td><td>Stretch Bar Tools</td><td>Pending</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    
+    </section>
+<section id="tab-drawings" class="tab-content" data-tab-panel="drawings">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 05</p>
+                <h1>Shop Drawings</h1>
+                <p>Document uploads and approval checkpoints</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card">
+                <h2>Shop Drawings Upload</h2>
+                <div class="upload-zone" id="shopDrawingsDropZone">
+                    <p>Drop PDFs, images, and sketches here or use the file picker.</p>
+                    <input id="shopDrawingsFiles" name="shopDrawingsFiles" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.svg,.dwg">
+                </div>
+                <ul id="shopDrawingsList" class="file-list"></ul>
+            </section>
+            <aside class="panel-card accent-card">
+                <h3>Approval Flow</h3>
+                <ol class="ordered-list">
+                    <li>Collect site measurements and sketch.</li>
+                    <li>Upload supplier, permit, or engineering drawings.</li>
+                    <li>Record revision date and reviewer notes.</li>
+                    <li>Share final set with customer before install.</li>
+                </ol>
+            </aside>
+        </div>
+    
+    </section>
+<section id="tab-permits" class="tab-content" data-tab-panel="permits">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 06</p>
+                <h1>Permits</h1>
+                <p>Permit requirements, contacts, and due dates</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card">
+                <h2>Permits</h2>
+                <form id="permits-form" class="form-grid">
+                    <label class="field" for="permitRequired"><span>Permit Required</span><select id="permitRequired" name="permitRequired"><option value="yes">Yes</option><option value="no">No</option><option value="unknown">Unknown</option></select></label>
+                    <label class="field" for="permitType"><span>Permit Type</span><input id="permitType" name="permitType" type="text" placeholder="Residential fence permit"></label>
+                    <label class="field" for="permitAuthority"><span>Authority</span><input id="permitAuthority" name="permitAuthority" type="text" placeholder="City of Hamilton"></label>
+                    <label class="field" for="permitFee"><span>Estimated Fee</span><input id="permitFee" name="permitFee" type="number" min="0" step="1" placeholder="150"></label>
+                    <label class="field" for="permitDueDate"><span>Submission Date</span><input id="permitDueDate" name="permitDueDate" type="date"></label>
+                    <label class="field" for="permitStatus"><span>Status</span><select id="permitStatus" name="permitStatus"><option value="draft">Draft</option><option value="submitted">Submitted</option><option value="approved">Approved</option><option value="waived">Waived</option></select></label>
+                    <label class="field field-full" for="permitNotes"><span>Permit Notes</span><textarea id="permitNotes" name="permitNotes" rows="5" placeholder="Fence height limitations, pool barrier requirements, heritage notes"></textarea></label>
+                </form>
+            </section>
+            <aside class="panel-card"><h3>Checklist</h3><ul class="check-list"><li>Verify zoning setbacks.</li><li>Confirm corner-lot sightline restrictions.</li><li>Document permit number before mobilization.</li><li>Upload stamped drawing when required.</li></ul></aside>
+        </div>
+    
+    </section>
+<section id="tab-utilities" class="tab-content" data-tab-panel="utilities">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 07</p>
+                <h1>Utilities Locate</h1>
+                <p>Utility locate scheduling and responses</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card">
+                <h2>Utilities Locate</h2>
+                <form id="utilities-form" class="form-grid">
+                    <label class="field" for="locateTicket"><span>Ticket Number</span><input id="locateTicket" name="locateTicket" type="text" placeholder="ON1CALL-2026-1044"></label>
+                    <label class="field" for="locateRequestedDate"><span>Requested Date</span><input id="locateRequestedDate" name="locateRequestedDate" type="date"></label>
+                    <label class="field" for="locateStatus"><span>Status</span><select id="locateStatus" name="locateStatus"><option value="requested">Requested</option><option value="scheduled">Scheduled</option><option value="complete">Complete</option><option value="hold">Hold</option></select></label>
+                    <label class="field" for="locateExpiry"><span>Expiry Date</span><input id="locateExpiry" name="locateExpiry" type="date"></label>
+                    <label class="field field-full" for="locateResults"><span>Locate Results</span><textarea id="locateResults" name="locateResults" rows="6" placeholder="Hydro west edge, gas main in front yard, comms clear"></textarea></label>
+                </form>
+            </section>
+            <aside class="panel-card accent-card"><h3>Safety Reminders</h3><ul class="check-list"><li>Keep locate marks visible during excavation.</li><li>Re-request locate if work shifts outside marked corridor.</li><li>Pause install if unidentified utilities are found.</li></ul></aside>
+        </div>
+    
+    </section>
+<section id="tab-estimate" class="tab-content" data-tab-panel="estimate">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 08</p>
+                <h1>Estimate</h1>
+                <p>Live cost summary and approval snapshot</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card wide-card">
+                <div class="panel-header-row"><h2>Estimate Summary</h2><div class="action-row compact"><button class="btn btn-primary" id="calculateEstimateBtn" type="button">Calculate Estimate</button><button class="btn btn-secondary" id="exportEstimateBtn" type="button">Export CSV</button><button class="btn btn-secondary" id="printEstimateBtn" type="button">Print</button></div></div>
+                <div id="estimateCards" class="estimate-card-grid"></div>
+                <div class="table-shell">
+                    <table id="estimateBreakdownTable">
+                        <thead><tr><th>Category</th><th>Amount</th><th>Notes</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+            <aside class="panel-card">
+                <h3>Pricing Controls</h3>
+                <form id="estimate-controls-form" class="form-grid">
+                    <label class="field" for="taxRate"><span>Tax Rate %</span><input id="taxRate" name="taxRate" type="number" value="13" min="0" max="100" step="0.1"></label>
+                    <label class="field" for="contingencyRate"><span>Contingency %</span><input id="contingencyRate" name="contingencyRate" type="number" value="10" min="0" max="100" step="0.1"></label>
+                    <label class="field" for="laborRate"><span>Labor Rate</span><input id="laborRate" name="laborRate" type="number" value="65" min="0" step="1"></label>
+                    <label class="field" for="permitAllowance"><span>Permit Allowance</span><input id="permitAllowance" name="permitAllowance" type="number" value="150" min="0" step="1"></label>
+                    <label class="field" for="utilityAllowance"><span>Utility Allowance</span><input id="utilityAllowance" name="utilityAllowance" type="number" value="100" min="0" step="1"></label>
+                </form>
+            </aside>
+        </div>
+    
+    </section>
+<section id="tab-contract" class="tab-content" data-tab-panel="contract">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 09</p>
+                <h1>Contract</h1>
+                <p>Price lock, acceptance, and payment schedule</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card">
+                <h2>Contract & Price Lock</h2>
+                <form id="contract-form" class="form-grid">
+                    <label class="field" for="priceLockDays"><span>Price Lock (days)</span><input id="priceLockDays" name="priceLockDays" type="number" min="1" step="1" value="14"></label>
+                    <label class="field" for="depositPercent"><span>Deposit %</span><input id="depositPercent" name="depositPercent" type="number" min="0" max="100" step="1" value="30"></label>
+                    <label class="field" for="paymentTerms"><span>Payment Terms</span><input id="paymentTerms" name="paymentTerms" type="text" value="30% deposit, balance on completion"></label>
+                    <label class="field" for="contractStatus"><span>Status</span><select id="contractStatus" name="contractStatus"><option value="draft">Draft</option><option value="issued">Issued</option><option value="signed">Signed</option><option value="expired">Expired</option></select></label>
+                    <label class="field field-full" for="scopeOfWork"><span>Scope of Work</span><textarea id="scopeOfWork" name="scopeOfWork" rows="6" placeholder="Install approximately 120 linear feet of 6 ft black chain link fence..."></textarea></label>
+                </form>
+            </section>
+            <aside class="panel-card accent-card"><h3>Contract Actions</h3><div class="action-column"><button class="btn btn-primary" id="generateContractBtn" type="button">Generate Contract Summary</button><button class="btn btn-secondary" id="printContractBtn" type="button">Print Contract</button></div><div id="contractPreview" class="callout-box"></div></aside>
+        </div>
+    
+    </section>
+<section id="tab-extras" class="tab-content" data-tab-panel="extras">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 10</p>
+                <h1>Extras / Add-ons</h1>
+                <p>Optional upgrades and service bundles</p>
+            </div>
+        </header>
+        
+        <section class="panel-card">
+            <div class="panel-header-row"><h2>Extras & Add-ons</h2><button class="btn btn-primary" id="addExtraRowBtn" type="button">Add Extra</button></div>
+            <div class="table-shell">
+                <table id="extrasTable">
+                    <thead><tr><th>Option</th><th>Description</th><th>Unit Price</th><th>Qty</th><th>Total</th></tr></thead>
+                    <tbody>
+                        <tr><td>Privacy Slats</td><td>Black UV stabilized slats</td><td>12.00</td><td>10</td><td>120.00</td></tr>
+                        <tr><td>Double Drive Gate</td><td>12 ft custom framed gate</td><td>1450.00</td><td>1</td><td>1450.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    
+    </section>
+<section id="tab-crew" class="tab-content" data-tab-panel="crew">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 11</p>
+                <h1>Crew Breakdown</h1>
+                <p>Crew assignments, dates, and equipment</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card">
+                <h2>Crew Breakdown</h2>
+                <div class="table-shell">
+                    <table id="crewTable">
+                        <thead><tr><th>Role</th><th>Name</th><th>Day Rate</th><th>Assigned Date</th><th>Notes</th></tr></thead>
+                        <tbody>
+                            <tr><td>Project Lead</td><td>Open</td><td>420.00</td><td></td><td>Coordinates field operations</td></tr>
+                            <tr><td>Installer</td><td>Open</td><td>300.00</td><td></td><td>Fence installation labor</td></tr>
+                            <tr><td>Laborer</td><td>Open</td><td>220.00</td><td></td><td>Cleanup and material handling</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <aside class="panel-card"><h3>Equipment Pool</h3><ul class="check-list"><li>Mini skid steer</li><li>1-man auger</li><li>Laser level</li><li>Core drill</li><li>Concrete mixer</li></ul></aside>
+        </div>
+    
+    </section>
+<section id="tab-change-orders" class="tab-content" data-tab-panel="change-orders">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 12</p>
+                <h1>Change Orders</h1>
+                <p>Scope revisions and cost deltas</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card">
+                <div class="panel-header-row"><h2>Change Orders</h2><button class="btn btn-primary" id="addChangeOrderBtn" type="button">Add Change Order</button></div>
+                <div class="table-shell">
+                    <table id="changeOrdersTable">
+                        <thead><tr><th>Date</th><th>Reason</th><th>Scope Change</th><th>Cost Change</th><th>Status</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+            <aside class="panel-card accent-card">
+                <h3>Change Order Draft</h3>
+                <form id="change-order-form" class="form-grid">
+                    <label class="field" for="changeOrderDate"><span>Date</span><input id="changeOrderDate" name="changeOrderDate" type="date"></label>
+                    <label class="field" for="changeOrderCost"><span>Cost Change</span><input id="changeOrderCost" name="changeOrderCost" type="number" step="1" value="0"></label>
+                    <label class="field field-full" for="changeOrderReason"><span>Reason</span><textarea id="changeOrderReason" name="changeOrderReason" rows="3" placeholder="Customer requested rear section extension"></textarea></label>
+                    <label class="field field-full" for="changeOrderScope"><span>Scope Change</span><textarea id="changeOrderScope" name="changeOrderScope" rows="4" placeholder="Add 18 linear feet and one terminal post"></textarea></label>
+                </form>
+            </aside>
+        </div>
+    
+    </section>
+<section id="tab-sign-off" class="tab-content" data-tab-panel="sign-off">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 13</p>
+                <h1>Sign-Off</h1>
+                <p>Internal and customer approval checkpoints</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card">
+                <h2>Sign-Off Checklist</h2>
+                <form id="signoff-form" class="check-form">
+                    <label><input id="signOffSales" type="checkbox"> Sales reviewed scope and pricing</label>
+                    <label><input id="signOffOps" type="checkbox"> Operations reviewed layout and crew plan</label>
+                    <label><input id="signOffCustomer" type="checkbox"> Customer approved estimate and contract</label>
+                    <label><input id="signOffPermits" type="checkbox"> Permit and utility requirements cleared</label>
+                    <label><input id="signOffMaterials" type="checkbox"> Material availability confirmed</label>
+                </form>
+            </section>
+            <aside class="panel-card accent-card"><h3>Signature Block</h3><label class="field field-full" for="customerSignature"><span>Customer Signature / Initials</span><input id="customerSignature" name="customerSignature" type="text" placeholder="Type initials or capture on tablet"></label><label class="field field-full" for="signOffNotes"><span>Approval Notes</span><textarea id="signOffNotes" name="signOffNotes" rows="6" placeholder="Any conditions or exclusions confirmed during sign-off"></textarea></label></aside>
+        </div>
+    
+    </section>
+<section id="tab-notes" class="tab-content" data-tab-panel="notes">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 14</p>
+                <h1>Notes Hub</h1>
+                <p>Shared notes, call logs, and reminders</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card">
+                <div class="panel-header-row"><h2>Notes Hub</h2><button class="btn btn-primary" id="saveNoteBtn" type="button">Save Note</button></div>
+                <label class="field field-full" for="projectNoteEntry"><span>New Note</span><textarea id="projectNoteEntry" rows="6" placeholder="Customer prefers west-side gate to swing inward. Follow up Friday afternoon."></textarea></label>
+                <ul id="notesList" class="notes-list"></ul>
+            </section>
+            <aside class="panel-card"><h3>Suggested Note Types</h3><ul class="check-list"><li>Customer communication</li><li>Supplier updates</li><li>Permit / locate reminders</li><li>Site condition observations</li></ul></aside>
+        </div>
+    
+    </section>
+<section id="tab-admin" class="tab-content" data-tab-panel="admin">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 15</p>
+                <h1>Admin Dashboard</h1>
+                <p>Operational metrics and queue health</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid three-column stats-layout">
+            <article class="metric-card"><span>Open Estimates</span><strong id="metricOpenEstimates">0</strong><small>Ready for follow-up</small></article>
+            <article class="metric-card"><span>Pending Permits</span><strong id="metricPendingPermits">0</strong><small>Submission or approval needed</small></article>
+            <article class="metric-card"><span>Locate Holds</span><strong id="metricLocateHolds">0</strong><small>Awaiting utility clearance</small></article>
+            <article class="metric-card"><span>Signed Contracts</span><strong id="metricSignedContracts">0</strong><small>Ready for scheduling</small></article>
+            <article class="metric-card"><span>Change Orders</span><strong id="metricChangeOrders">0</strong><small>Need customer approval</small></article>
+            <article class="metric-card"><span>Catalog SKUs</span><strong id="metricCatalogSkus">952</strong><small>Seed data reference</small></article>
+        </div>
+        <section class="panel-card"><h2>Admin Queue</h2><div class="table-shell"><table id="adminQueueTable"><thead><tr><th>Queue</th><th>Owner</th><th>Priority</th><th>Next Action</th></tr></thead><tbody><tr><td>Permits</td><td>Office Admin</td><td>High</td><td>Submit City of Hamilton permit package</td></tr><tr><td>Supplier Callbacks</td><td>Purchasing</td><td>Medium</td><td>Confirm black chain link fabric lead time</td></tr><tr><td>Final Review</td><td>Sales Lead</td><td>High</td><td>Approve contract and payment schedule</td></tr></tbody></table></div></section>
+    
+    </section>
+<section id="tab-catalog" class="tab-content" data-tab-panel="catalog">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 16</p>
+                <h1>Product Catalog</h1>
+                <p>Searchable product references and pricing</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card wide-card">
+                <div class="panel-header-row"><h2>Product Catalog</h2><div class="action-row compact"><input id="catalogSearchInput" class="inline-input" type="search" placeholder="Search product name or SKU"><button class="btn btn-primary" id="catalogSearchBtn" type="button">Search</button></div></div>
+                <div class="table-shell"><table id="catalogTable"><thead><tr><th>SKU</th><th>Name</th><th>Category</th><th>Unit</th><th>Price</th></tr></thead><tbody></tbody></table></div>
+            </section>
+            <aside class="panel-card"><h3>Categories</h3><ul class="check-list"><li>Chain Link</li><li>Wood</li><li>Vinyl</li><li>Ornamental</li><li>Gates</li><li>Hardware</li></ul></aside>
+        </div>
+    
+    </section>
+<section id="tab-mapping" class="tab-content" data-tab-panel="mapping">
+        <header class="tab-panel-header">
+            <div>
+                <p class="eyebrow">Tab 17</p>
+                <h1>Mapping</h1>
+                <p>Property mapping and route planning</p>
+            </div>
+        </header>
+        
+        <div class="panel-grid two-column">
+            <section class="panel-card wide-card">
+                <div class="panel-header-row"><h2>Mapping Workspace</h2><div class="action-row compact"><button class="btn btn-secondary" id="mappingGeocodeBtn" type="button">Load Address</button><button class="btn btn-primary" id="mappingRouteBtn" type="button">Route Crew</button></div></div>
+                <div id="mapContainer" class="map-shell" role="img" aria-label="Property mapping surface"></div>
+            </section>
+            <aside class="panel-card accent-card">
+                <h3>Mapping Notes</h3>
+                <form id="mapping-form" class="form-grid">
+                    <label class="field field-full" for="mapAddress"><span>Map Address</span><input id="mapAddress" name="mapAddress" type="text" placeholder="123 Main Street, Hamilton, ON"></label>
+                    <label class="field field-full" for="mapDirections"><span>Crew Directions</span><textarea id="mapDirections" name="mapDirections" rows="7" placeholder="Enter laneway access, parking, and staging directions"></textarea></label>
+                </form>
+                <div id="mappingSummary" class="callout-box"></div>
+            </aside>
+        </div>
+    
+    </section>
+            </section>
+        </main>
+    </div>
+    <script src="js/api.js" defer></script>
+<script src="js/calculations.js" defer></script>
+<script src="js/validation.js" defer></script>
+<script src="js/storage.js" defer></script>
+<script src="js/ui.js" defer></script>
+<script src="js/tabs/tab1-project.js" defer></script>
+<script src="js/tabs/tab2-specs.js" defer></script>
+<script src="js/tabs/tab3-layout.js" defer></script>
+<script src="js/tabs/tab4-installation.js" defer></script>
+<script src="js/tabs/tab5-drawings.js" defer></script>
+<script src="js/tabs/tab6-permits.js" defer></script>
+<script src="js/tabs/tab7-utilities.js" defer></script>
+<script src="js/tabs/tab8-estimate.js" defer></script>
+<script src="js/tabs/tab9-contract.js" defer></script>
+<script src="js/tabs/tab10-extras.js" defer></script>
+<script src="js/tabs/tab11-crew.js" defer></script>
+<script src="js/tabs/tab12-change-orders.js" defer></script>
+<script src="js/tabs/tab13-sign-off.js" defer></script>
+<script src="js/tabs/tab14-notes.js" defer></script>
+<script src="js/tabs/tab15-admin.js" defer></script>
+<script src="js/tabs/tab16-catalog.js" defer></script>
+<script src="js/tabs/tab17-mapping.js" defer></script>
+<script src="js/tools/drawing.js" defer></script>
+<script src="js/tools/mapping.js" defer></script>
+<script src="js/tools/printing.js" defer></script>
+<script src="js/tools/export.js" defer></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>
