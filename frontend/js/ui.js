@@ -101,7 +101,7 @@ const UI = (() => {
     cells.forEach(cell => {
       const td = document.createElement('td');
       if (typeof cell === 'string' || typeof cell === 'number') {
-        td.innerHTML = String(cell);
+        td.textContent = String(cell);
       } else if (cell && typeof cell === 'object') {
         if (cell.html) td.innerHTML = cell.html;
         if (cell.text) td.textContent = cell.text;

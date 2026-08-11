@@ -4,6 +4,10 @@
 const Tab9Contract = (() => {
   let state;
 
+  function escHtml(str) {
+    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
   function init(appState) {
     state = appState;
     document.addEventListener('tabActivated', (e) => {
@@ -33,11 +37,11 @@ const Tab9Contract = (() => {
     UI.setText('contract-deposit', Calculations.formatCurrency(c.depositAmount));
     UI.setText('contract-balance', Calculations.formatCurrency(c.finalBalance));
     if (c.customerSignature) {
-      UI.setHTML('customer-sig-display', `<em>${c.customerSignature}</em>`);
+      UI.setHTML('customer-sig-display', '<em>' + escHtml(c.customerSignature) + '</em>');
       UI.setText('customer-sign-date', `Signed: ${UI.formatDate(c.customerSignDate)}`);
     }
     if (c.companySignature) {
-      UI.setHTML('company-sig-display', `<em>${c.companySignature}</em>`);
+      UI.setHTML('company-sig-display', '<em>' + escHtml(c.companySignature) + '</em>');
       UI.setText('company-sign-date', `Signed: ${UI.formatDate(c.companySignDate)}`);
     }
   }
@@ -49,7 +53,7 @@ const Tab9Contract = (() => {
     c.customerSignature = name;
     c.customerSignDate = new Date().toISOString();
     Storage.saveContract(c);
-    UI.setHTML('customer-sig-display', `<em>${name}</em>`);
+    UI.setHTML('customer-sig-display', '<em>' + escHtml(name) + '</em>');
     UI.setText('customer-sign-date', `Signed: ${new Date().toLocaleDateString()}`);
     UI.showNotification('Customer signature recorded', 'success');
   }
@@ -61,7 +65,7 @@ const Tab9Contract = (() => {
     c.companySignature = name;
     c.companySignDate = new Date().toISOString();
     Storage.saveContract(c);
-    UI.setHTML('company-sig-display', `<em>${name}</em>`);
+    UI.setHTML('company-sig-display', '<em>' + escHtml(name) + '</em>');
     UI.setText('company-sign-date', `Signed: ${new Date().toLocaleDateString()}`);
     UI.showNotification('Company signature recorded', 'success');
   }

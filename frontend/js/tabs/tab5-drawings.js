@@ -43,13 +43,33 @@ const Tab5Drawings = (() => {
     if (isImage) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        item.innerHTML = `<img src="${e.target.result}" alt="${file.name}" />
-          <div class="gallery-item-info"><strong>${file.name}</strong><br/>${(file.size/1024).toFixed(0)} KB</div>`;
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.alt = file.name;
+        const info = document.createElement('div');
+        info.className = 'gallery-item-info';
+        const strong = document.createElement('strong');
+        strong.textContent = file.name;
+        info.appendChild(strong);
+        info.appendChild(document.createElement('br'));
+        info.appendChild(document.createTextNode((file.size / 1024).toFixed(0) + ' KB'));
+        item.appendChild(img);
+        item.appendChild(info);
       };
       reader.readAsDataURL(file);
     } else {
-      item.innerHTML = `<div style="padding:2rem;text-align:center;font-size:2rem;">📄</div>
-        <div class="gallery-item-info"><strong>${file.name}</strong><br/>${(file.size/1024).toFixed(0)} KB</div>`;
+      const icon = document.createElement('div');
+      icon.style.cssText = 'padding:2rem;text-align:center;font-size:2rem;';
+      icon.textContent = '📄';
+      const info = document.createElement('div');
+      info.className = 'gallery-item-info';
+      const strong = document.createElement('strong');
+      strong.textContent = file.name;
+      info.appendChild(strong);
+      info.appendChild(document.createElement('br'));
+      info.appendChild(document.createTextNode((file.size / 1024).toFixed(0) + ' KB'));
+      item.appendChild(icon);
+      item.appendChild(info);
     }
     gallery.appendChild(item);
   }

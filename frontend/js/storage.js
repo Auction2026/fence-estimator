@@ -222,8 +222,10 @@ const Storage = (() => {
   }
 
   function nextChangeOrderNumber() {
-    const cos = loadChangeOrders();
-    return `CO-${String(cos.length + 1).padStart(3, '0')}`;
+    const key = 'co_seq';
+    const seq = get(key, 0) + 1;
+    set(key, seq);
+    return `CO-${String(seq).padStart(3, '0')}`;
   }
 
   return {

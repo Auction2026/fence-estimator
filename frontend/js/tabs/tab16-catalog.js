@@ -84,13 +84,21 @@ const Tab16Catalog = (() => {
     if (filtered.length === 0) { UI.setTableEmpty('catalog-tbody', 'No products match your search.', 8); renderPagination(); return; }
     tbody.innerHTML = '';
     pageItems.forEach(p => {
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-sm btn-primary';
+      btn.textContent = '+ Add';
+      btn.addEventListener('click', () => Tab16Catalog.addToEstimate(p.sku));
+      const btnCell = { html: '' };
       UI.appendRow('catalog-tbody', [
         p.sku, p.name, p.category, p.type || 'Material',
         Calculations.formatCurrency(p.unit_cost),
         Calculations.formatCurrency(p.retail_price),
         p.supplier || '--',
-        `<button class="btn btn-sm btn-primary" onclick="Tab16Catalog.addToEstimate('${p.sku}')">+ Add</button>`
+        btnCell
       ]);
+      // Attach button to last row's last cell
+      const lastRow = document.getElementById('catalog-tbody').lastElementChild;
+      if (lastRow) lastRow.lastElementChild.appendChild(btn);
     });
     renderPagination();
   }
