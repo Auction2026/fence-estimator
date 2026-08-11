@@ -1,0 +1,13 @@
+BEGIN;
+SET search_path TO public;
+CREATE INDEX IF NOT EXISTS idx_projects_user_id ON projects (user_id);
+CREATE INDEX IF NOT EXISTS idx_projects_status ON projects (status);
+CREATE INDEX IF NOT EXISTS idx_fence_specs_project_id ON fence_specs (project_id);
+CREATE INDEX IF NOT EXISTS idx_estimates_project_id ON estimates (project_id);
+CREATE INDEX IF NOT EXISTS idx_estimate_line_items_estimate_id ON estimate_line_items (estimate_id);
+CREATE INDEX IF NOT EXISTS idx_inventory_category ON inventory (category);
+CREATE INDEX IF NOT EXISTS idx_inventory_sku ON inventory (sku);
+CREATE INDEX IF NOT EXISTS idx_notes_project_id ON notes (project_id);
+CREATE INDEX IF NOT EXISTS idx_change_orders_project_id ON change_orders (project_id);
+INSERT INTO schema_migrations (version, description) VALUES ('002', 'Add Fence Depot performance indexes') ON CONFLICT (version) DO NOTHING;
+COMMIT;
