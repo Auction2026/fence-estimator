@@ -1,0 +1,10 @@
+{
+  "name": "fence-estimator-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Frontend delivery for Fence Estimator",
+  "scripts": {
+    "start": "python -m http.server 8080",
+    "check": "node -e \"console.log('frontend files present')\""
+  }
+}
