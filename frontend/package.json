@@ -1,0 +1,18 @@
+{
+  "name": "fence-depot-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fence Depot fence estimator frontend SPA",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=8080 --open=index.html --watch=.",
+    "start": "http-server . -p 8080 -c-1",
+    "serve": "node -e \"const express=require('express');const path=require('path');const app=express();const port=process.env.PORT||8080;app.use(express.static(path.resolve('.')));app.listen(port,()=>console.log('Fence Depot frontend running on http://localhost:'+port));\"",
+    "test": "node -e \"console.log('No frontend test runner configured');\""
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  }
+}
