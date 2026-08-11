@@ -1,0 +1,2252 @@
+:root {
+  --primary: #1B5E20;
+  --primary-light: #4CAF50;
+  --secondary: #0D47A1;
+  --accent: #FF6F00;
+  --success: #2E7D32;
+  --danger: #C62828;
+  --warning: #F57F17;
+  --bg: #F5F5F5;
+  --text: #212121;
+  --text-light: #757575;
+  --border: #E0E0E0;
+  --white: #FFFFFF;
+  --shadow: 0 2px 4px rgba(0,0,0,0.1);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-lg: 18px;
+  --transition: all 0.25s ease;
+  --font-sans: "Inter", Arial, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.5; }
+body { overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+img, canvas { max-width: 100%; }
+
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--white); padding: 1.25rem 1.75rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; box-shadow: var(--shadow); }
+.header-brand { display: flex; align-items: center; gap: 1rem; }
+.logo { width: 64px; height: 64px; border-radius: 18px; background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.28); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; }
+.brand-name { font-size: 1.75rem; font-weight: 800; letter-spacing: 0.08em; }
+.brand-subtitle { font-size: 0.95rem; opacity: 0.92; }
+.header-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+.tab-nav { display: flex; gap: 0.25rem; padding: 0.6rem 1rem; overflow-x: auto; background: var(--white); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 30; }
+.tab-nav::-webkit-scrollbar { height: 8px; }
+.tab-nav::-webkit-scrollbar-thumb { background: rgba(27,94,32,0.2); border-radius: 999px; }
+.tab-btn { border: none; border-radius: 999px; padding: 0.8rem 1rem; background: transparent; color: var(--text-light); display: inline-flex; align-items: center; gap: 0.55rem; white-space: nowrap; transition: var(--transition); }
+.tab-btn:hover { background: rgba(76,175,80,0.14); color: var(--primary); }
+.tab-btn.active { background: var(--primary); color: var(--white); box-shadow: var(--shadow); }
+.tab-index { display: inline-flex; width: 1.8rem; height: 1.8rem; border-radius: 999px; align-items: center; justify-content: center; background: rgba(255,255,255,0.18); font-size: 0.78rem; font-weight: 700; }
+
+.tab-content { flex: 1; padding: 1.5rem; }
+.tab-pane { display: none; animation: fadeIn 0.2s ease-in-out; }
+.tab-pane.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.section-header { margin-bottom: 1.5rem; }
+.section-header h1 { font-size: 1.8rem; margin-bottom: 0.35rem; }
+.section-header p { color: var(--text-light); }
+
+.row { display: flex; flex-wrap: wrap; gap: 1rem; }
+.col { flex: 1 1 0; min-width: 0; }
+.col-1 { flex: 0 0 calc(8.333% - 1rem); }
+.col-2 { flex: 0 0 calc(16.666% - 1rem); }
+.col-3 { flex: 0 0 calc(25% - 1rem); }
+.col-4 { flex: 0 0 calc(33.333% - 1rem); }
+.col-5 { flex: 0 0 calc(41.666% - 1rem); }
+.col-6 { flex: 0 0 calc(50% - 1rem); }
+.col-7 { flex: 0 0 calc(58.333% - 1rem); }
+.col-8 { flex: 0 0 calc(66.666% - 1rem); }
+.col-12 { flex: 0 0 calc(100% - 1rem); }
+
+.card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.card-header { padding: 1rem 1.25rem; font-weight: 700; border-bottom: 1px solid var(--border); background: linear-gradient(180deg, rgba(76,175,80,0.12), rgba(76,175,80,0.03)); }
+.card-body { padding: 1.25rem; }
+.card-footer { padding: 1rem 1.25rem; border-top: 1px solid var(--border); background: rgba(245,245,245,0.9); }
+.nested-card { height: 100%; }
+
+.form-group { margin-bottom: 1rem; }
+.form-label { display: block; margin-bottom: 0.4rem; font-weight: 600; }
+.form-control, select, textarea { width: 100%; padding: 0.72rem 0.85rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--white); transition: var(--transition); }
+.form-control:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(76,175,80,0.18); }
+textarea { resize: vertical; min-height: 110px; }
+input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); }
+.is-invalid { border-color: var(--danger) !important; box-shadow: 0 0 0 3px rgba(198,40,40,0.12) !important; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.72rem 1rem; border: 1px solid transparent; border-radius: 999px; font-weight: 700; transition: var(--transition); }
+.btn-primary { background: var(--primary); color: var(--white); }
+.btn-primary:hover { background: #154c1a; }
+.btn-secondary { background: var(--secondary); color: var(--white); }
+.btn-secondary:hover { background: #0a3d8d; }
+.btn-success { background: var(--success); color: var(--white); }
+.btn-success:hover { background: #25692d; }
+.btn-danger { background: var(--danger); color: var(--white); }
+.btn-danger:hover { background: #ab2020; }
+.btn-warning { background: var(--warning); color: var(--white); }
+.btn-warning:hover { background: #c66511; }
+.btn-sm { padding: 0.48rem 0.78rem; font-size: 0.85rem; }
+.btn-lg { padding: 0.95rem 1.3rem; font-size: 1rem; }
+
+.table-responsive { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { padding: 0.8rem; border-bottom: 1px solid var(--border); vertical-align: top; text-align: left; }
+.table th { background: rgba(13,71,161,0.08); font-weight: 700; }
+.table-striped tbody tr:nth-child(even) { background: rgba(245,245,245,0.65); }
+.table-hover tbody tr:hover { background: rgba(76,175,80,0.08); }
+
+.alert { padding: 0.9rem 1rem; border-radius: var(--radius-sm); border: 1px solid transparent; }
+.alert-success { background: rgba(46,125,50,0.1); border-color: rgba(46,125,50,0.25); color: var(--success); }
+.alert-danger { background: rgba(198,40,40,0.1); border-color: rgba(198,40,40,0.25); color: var(--danger); }
+.alert-warning { background: rgba(245,127,23,0.1); border-color: rgba(245,127,23,0.25); color: var(--warning); }
+.alert-info { background: rgba(13,71,161,0.08); border-color: rgba(13,71,161,0.2); color: var(--secondary); }
+.badge { display: inline-flex; align-items: center; justify-content: center; padding: 0.4rem 0.7rem; border-radius: 999px; font-weight: 700; font-size: 0.82rem; }
+.badge-primary { background: rgba(13,71,161,0.12); color: var(--secondary); }
+.badge-success { background: rgba(46,125,50,0.12); color: var(--success); }
+.badge-danger { background: rgba(198,40,40,0.12); color: var(--danger); }
+
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.46); display: none; align-items: center; justify-content: center; padding: 1rem; z-index: 80; }
+.modal.is-visible { display: flex; }
+.modal-dialog { width: min(720px, 100%); }
+.modal-content { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: 0 16px 42px rgba(0,0,0,0.2); }
+.modal-header, .modal-footer { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.modal-footer { border-bottom: none; border-top: 1px solid var(--border); }
+.modal-body { padding: 1.25rem; }
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 1rem; }
+.p-4 { padding: 1.5rem; }
+.d-flex { display: flex; }
+.d-none { display: none !important; }
+.w-100 { width: 100%; }
+.fw-bold { font-weight: 700; }
+.align-end { align-items: flex-end; }
+.actions-inline { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.inline-input { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+.small-text { font-size: 0.85rem; color: var(--text-light); }
+
+.canvas-toolbar { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; padding: 1rem; background: rgba(245,245,245,0.9); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.drawing-board-wrap { border: 1px solid var(--border); border-radius: var(--radius); overflow: auto; background: #fafafa; }
+#layoutCanvas { display: block; background: repeating-linear-gradient(0deg,#fff 0,#fff 23px,#f3f3f3 24px), repeating-linear-gradient(90deg,#fff 0,#fff 23px,#f3f3f3 24px); }
+.legend-row { display: grid; grid-template-columns: 20px 1fr 1.3fr; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem; }
+.legend-swatch { width: 16px; height: 16px; border-radius: 4px; background: linear-gradient(135deg, var(--primary), var(--accent)); }
+
+.estimate-display { display: flex; flex-direction: column; gap: 1rem; }
+.estimate-summary-grid, .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+.summary-card, .stat-card, .metric-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1rem; display: flex; flex-direction: column; gap: 0.35rem; }
+.summary-card strong, .stat-card strong, .metric-card strong { font-size: 1.45rem; }
+.totals-panel { max-width: 460px; margin-left: auto; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.totals-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.9rem 1rem; border-bottom: 1px solid var(--border); }
+.totals-row:last-child { border-bottom: none; }
+.grand-total { background: linear-gradient(135deg, rgba(255,111,0,0.14), rgba(255,111,0,0.05)); font-size: 1.05rem; }
+
+.contract-display { overflow: hidden; }
+.contract-header-bar { display: flex; justify-content: space-between; align-items: center; }
+.contract-grid, .signature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem; }
+.contract-clause { padding: 0.9rem 1rem; border-left: 4px solid var(--primary); background: rgba(76,175,80,0.06); border-radius: var(--radius-sm); margin-top: 0.75rem; }
+.signature-box { min-height: 90px; }
+.price-locked { background: linear-gradient(135deg, #d4af37, #ffcf4d); color: #4a3600; padding: 0.45rem 0.75rem; border-radius: 999px; font-weight: 800; box-shadow: 0 4px 10px rgba(212,175,55,0.35); }
+
+.upload-dropzone { border: 2px dashed rgba(27,94,32,0.35); border-radius: var(--radius); padding: 2rem; text-align: center; background: rgba(76,175,80,0.05); }
+.preview-panel { margin-top: 1rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: #fafafa; min-height: 180px; padding: 1rem; }
+.checkbox-row { display: flex; align-items: flex-start; gap: 0.65rem; margin-bottom: 0.85rem; }
+.checkbox-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0.75rem; }
+.notes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+.note-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.note-card-header, .note-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+
+.map-placeholder { position: relative; min-height: 340px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: linear-gradient(135deg, rgba(13,71,161,0.1), rgba(76,175,80,0.12)); }
+.map-placeholder-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.45) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.45) 1px, transparent 1px); background-size: 42px 42px; }
+.map-crosshair { position: absolute; top: 50%; left: 50%; width: 24px; height: 24px; transform: translate(-50%, -50%); border: 2px solid var(--accent); border-radius: 999px; box-shadow: 0 0 0 10px rgba(255,111,0,0.12); }
+.map-placeholder-copy { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; background: rgba(255,255,255,0.9); border-radius: var(--radius-sm); padding: 0.8rem 1rem; }
+
+.footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 1.5rem; border-top: 1px solid var(--border); background: var(--white); color: var(--text-light); }
+.notification-container { position: fixed; top: 1rem; right: 1rem; display: flex; flex-direction: column; gap: 0.75rem; z-index: 100; }
+.toast { min-width: 260px; max-width: 360px; background: var(--white); color: var(--text); border-left: 4px solid var(--primary); border-radius: var(--radius-sm); box-shadow: 0 12px 24px rgba(0,0,0,0.14); padding: 0.9rem 1rem; }
+.toast-success { border-left-color: var(--success); }
+.toast-danger { border-left-color: var(--danger); }
+.toast-warning { border-left-color: var(--warning); }
+.toast-info { border-left-color: var(--secondary); }
+.loading-spinner { width: 34px; height: 34px; border: 3px solid rgba(76,175,80,0.18); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.gap-0 { gap: 0.00rem; }
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.50rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1.00rem; }
+.gap-5 { gap: 1.25rem; }
+.gap-6 { gap: 1.50rem; }
+.gap-7 { gap: 1.75rem; }
+.gap-8 { gap: 2.00rem; }
+.gap-9 { gap: 2.25rem; }
+.gap-10 { gap: 2.50rem; }
+.gap-11 { gap: 2.75rem; }
+.gap-12 { gap: 3.00rem; }
+.gap-13 { gap: 3.25rem; }
+.gap-14 { gap: 3.50rem; }
+.gap-15 { gap: 3.75rem; }
+.gap-16 { gap: 4.00rem; }
+.gap-17 { gap: 4.25rem; }
+.gap-18 { gap: 4.50rem; }
+.gap-19 { gap: 4.75rem; }
+.gap-20 { gap: 5.00rem; }
+.gap-21 { gap: 5.25rem; }
+.gap-22 { gap: 5.50rem; }
+.gap-23 { gap: 5.75rem; }
+.gap-24 { gap: 6.00rem; }
+.gap-25 { gap: 6.25rem; }
+.gap-26 { gap: 6.50rem; }
+.gap-27 { gap: 6.75rem; }
+.gap-28 { gap: 7.00rem; }
+.gap-29 { gap: 7.25rem; }
+.gap-30 { gap: 7.50rem; }
+.gap-31 { gap: 7.75rem; }
+.gap-32 { gap: 8.00rem; }
+.gap-33 { gap: 8.25rem; }
+.gap-34 { gap: 8.50rem; }
+.gap-35 { gap: 8.75rem; }
+.gap-36 { gap: 9.00rem; }
+.gap-37 { gap: 9.25rem; }
+.gap-38 { gap: 9.50rem; }
+.gap-39 { gap: 9.75rem; }
+.gap-40 { gap: 10.00rem; }
+.gap-41 { gap: 10.25rem; }
+.gap-42 { gap: 10.50rem; }
+.gap-43 { gap: 10.75rem; }
+.gap-44 { gap: 11.00rem; }
+.gap-45 { gap: 11.25rem; }
+.gap-46 { gap: 11.50rem; }
+.gap-47 { gap: 11.75rem; }
+.gap-48 { gap: 12.00rem; }
+.gap-49 { gap: 12.25rem; }
+.gap-50 { gap: 12.50rem; }
+.gap-51 { gap: 12.75rem; }
+.gap-52 { gap: 13.00rem; }
+.gap-53 { gap: 13.25rem; }
+.gap-54 { gap: 13.50rem; }
+.gap-55 { gap: 13.75rem; }
+.gap-56 { gap: 14.00rem; }
+.gap-57 { gap: 14.25rem; }
+.gap-58 { gap: 14.50rem; }
+.gap-59 { gap: 14.75rem; }
+.gap-60 { gap: 15.00rem; }
+.gap-61 { gap: 15.25rem; }
+.gap-62 { gap: 15.50rem; }
+.gap-63 { gap: 15.75rem; }
+.gap-64 { gap: 16.00rem; }
+.gap-65 { gap: 16.25rem; }
+.gap-66 { gap: 16.50rem; }
+.gap-67 { gap: 16.75rem; }
+.gap-68 { gap: 17.00rem; }
+.gap-69 { gap: 17.25rem; }
+.gap-70 { gap: 17.50rem; }
+.gap-71 { gap: 17.75rem; }
+.gap-72 { gap: 18.00rem; }
+.gap-73 { gap: 18.25rem; }
+.gap-74 { gap: 18.50rem; }
+.gap-75 { gap: 18.75rem; }
+.gap-76 { gap: 19.00rem; }
+.gap-77 { gap: 19.25rem; }
+.gap-78 { gap: 19.50rem; }
+.gap-79 { gap: 19.75rem; }
+.gap-80 { gap: 20.00rem; }
+.gap-81 { gap: 20.25rem; }
+.gap-82 { gap: 20.50rem; }
+.gap-83 { gap: 20.75rem; }
+.gap-84 { gap: 21.00rem; }
+.gap-85 { gap: 21.25rem; }
+.gap-86 { gap: 21.50rem; }
+.gap-87 { gap: 21.75rem; }
+.gap-88 { gap: 22.00rem; }
+.gap-89 { gap: 22.25rem; }
+.gap-90 { gap: 22.50rem; }
+.gap-91 { gap: 22.75rem; }
+.gap-92 { gap: 23.00rem; }
+.gap-93 { gap: 23.25rem; }
+.gap-94 { gap: 23.50rem; }
+.gap-95 { gap: 23.75rem; }
+.gap-96 { gap: 24.00rem; }
+.gap-97 { gap: 24.25rem; }
+.gap-98 { gap: 24.50rem; }
+.gap-99 { gap: 24.75rem; }
+.gap-100 { gap: 25.00rem; }
+.rounded-0 { border-radius: 0px; }
+.rounded-1 { border-radius: 1px; }
+.rounded-2 { border-radius: 2px; }
+.rounded-3 { border-radius: 3px; }
+.rounded-4 { border-radius: 4px; }
+.rounded-5 { border-radius: 5px; }
+.rounded-6 { border-radius: 6px; }
+.rounded-7 { border-radius: 7px; }
+.rounded-8 { border-radius: 8px; }
+.rounded-9 { border-radius: 9px; }
+.rounded-10 { border-radius: 10px; }
+.rounded-11 { border-radius: 11px; }
+.rounded-12 { border-radius: 12px; }
+.rounded-13 { border-radius: 13px; }
+.rounded-14 { border-radius: 14px; }
+.rounded-15 { border-radius: 15px; }
+.rounded-16 { border-radius: 16px; }
+.rounded-17 { border-radius: 17px; }
+.rounded-18 { border-radius: 18px; }
+.rounded-19 { border-radius: 19px; }
+.rounded-20 { border-radius: 20px; }
+.rounded-21 { border-radius: 21px; }
+.rounded-22 { border-radius: 22px; }
+.rounded-23 { border-radius: 23px; }
+.rounded-24 { border-radius: 24px; }
+.rounded-25 { border-radius: 25px; }
+.rounded-26 { border-radius: 26px; }
+.rounded-27 { border-radius: 27px; }
+.rounded-28 { border-radius: 28px; }
+.rounded-29 { border-radius: 29px; }
+.rounded-30 { border-radius: 30px; }
+.rounded-31 { border-radius: 31px; }
+.rounded-32 { border-radius: 32px; }
+.rounded-33 { border-radius: 33px; }
+.rounded-34 { border-radius: 34px; }
+.rounded-35 { border-radius: 35px; }
+.rounded-36 { border-radius: 36px; }
+.rounded-37 { border-radius: 37px; }
+.rounded-38 { border-radius: 38px; }
+.rounded-39 { border-radius: 39px; }
+.rounded-40 { border-radius: 40px; }
+.rounded-41 { border-radius: 41px; }
+.rounded-42 { border-radius: 42px; }
+.rounded-43 { border-radius: 43px; }
+.rounded-44 { border-radius: 44px; }
+.rounded-45 { border-radius: 45px; }
+.rounded-46 { border-radius: 46px; }
+.rounded-47 { border-radius: 47px; }
+.rounded-48 { border-radius: 48px; }
+.rounded-49 { border-radius: 49px; }
+.rounded-50 { border-radius: 50px; }
+.rounded-51 { border-radius: 51px; }
+.rounded-52 { border-radius: 52px; }
+.rounded-53 { border-radius: 53px; }
+.rounded-54 { border-radius: 54px; }
+.rounded-55 { border-radius: 55px; }
+.rounded-56 { border-radius: 56px; }
+.rounded-57 { border-radius: 57px; }
+.rounded-58 { border-radius: 58px; }
+.rounded-59 { border-radius: 59px; }
+.rounded-60 { border-radius: 60px; }
+.rounded-61 { border-radius: 61px; }
+.rounded-62 { border-radius: 62px; }
+.rounded-63 { border-radius: 63px; }
+.rounded-64 { border-radius: 64px; }
+.rounded-65 { border-radius: 65px; }
+.rounded-66 { border-radius: 66px; }
+.rounded-67 { border-radius: 67px; }
+.rounded-68 { border-radius: 68px; }
+.rounded-69 { border-radius: 69px; }
+.rounded-70 { border-radius: 70px; }
+.rounded-71 { border-radius: 71px; }
+.rounded-72 { border-radius: 72px; }
+.rounded-73 { border-radius: 73px; }
+.rounded-74 { border-radius: 74px; }
+.rounded-75 { border-radius: 75px; }
+.rounded-76 { border-radius: 76px; }
+.rounded-77 { border-radius: 77px; }
+.rounded-78 { border-radius: 78px; }
+.rounded-79 { border-radius: 79px; }
+.rounded-80 { border-radius: 80px; }
+.shadow-level-0 { box-shadow: 0 1px 2px rgba(0,0,0,0.050); }
+.shadow-level-1 { box-shadow: 0 1px 2px rgba(0,0,0,0.053); }
+.shadow-level-2 { box-shadow: 0 1px 2px rgba(0,0,0,0.056); }
+.shadow-level-3 { box-shadow: 0 1px 2px rgba(0,0,0,0.059); }
+.shadow-level-4 { box-shadow: 0 1px 2px rgba(0,0,0,0.062); }
+.shadow-level-5 { box-shadow: 0 1px 2px rgba(0,0,0,0.065); }
+.shadow-level-6 { box-shadow: 0 1px 3px rgba(0,0,0,0.068); }
+.shadow-level-7 { box-shadow: 0 1px 3px rgba(0,0,0,0.071); }
+.shadow-level-8 { box-shadow: 0 2px 4px rgba(0,0,0,0.074); }
+.shadow-level-9 { box-shadow: 0 2px 4px rgba(0,0,0,0.077); }
+.shadow-level-10 { box-shadow: 0 2px 5px rgba(0,0,0,0.080); }
+.shadow-level-11 { box-shadow: 0 2px 5px rgba(0,0,0,0.083); }
+.shadow-level-12 { box-shadow: 0 3px 6px rgba(0,0,0,0.086); }
+.shadow-level-13 { box-shadow: 0 3px 6px rgba(0,0,0,0.089); }
+.shadow-level-14 { box-shadow: 0 3px 7px rgba(0,0,0,0.092); }
+.shadow-level-15 { box-shadow: 0 3px 7px rgba(0,0,0,0.095); }
+.shadow-level-16 { box-shadow: 0 4px 8px rgba(0,0,0,0.098); }
+.shadow-level-17 { box-shadow: 0 4px 8px rgba(0,0,0,0.101); }
+.shadow-level-18 { box-shadow: 0 4px 9px rgba(0,0,0,0.104); }
+.shadow-level-19 { box-shadow: 0 4px 9px rgba(0,0,0,0.107); }
+.shadow-level-20 { box-shadow: 0 5px 10px rgba(0,0,0,0.110); }
+.shadow-level-21 { box-shadow: 0 5px 10px rgba(0,0,0,0.113); }
+.shadow-level-22 { box-shadow: 0 5px 11px rgba(0,0,0,0.116); }
+.shadow-level-23 { box-shadow: 0 5px 11px rgba(0,0,0,0.119); }
+.shadow-level-24 { box-shadow: 0 6px 12px rgba(0,0,0,0.122); }
+.shadow-level-25 { box-shadow: 0 6px 12px rgba(0,0,0,0.125); }
+.shadow-level-26 { box-shadow: 0 6px 13px rgba(0,0,0,0.128); }
+.shadow-level-27 { box-shadow: 0 6px 13px rgba(0,0,0,0.131); }
+.shadow-level-28 { box-shadow: 0 7px 14px rgba(0,0,0,0.134); }
+.shadow-level-29 { box-shadow: 0 7px 14px rgba(0,0,0,0.137); }
+.shadow-level-30 { box-shadow: 0 7px 15px rgba(0,0,0,0.140); }
+.shadow-level-31 { box-shadow: 0 7px 15px rgba(0,0,0,0.143); }
+.shadow-level-32 { box-shadow: 0 8px 16px rgba(0,0,0,0.146); }
+.shadow-level-33 { box-shadow: 0 8px 16px rgba(0,0,0,0.149); }
+.shadow-level-34 { box-shadow: 0 8px 17px rgba(0,0,0,0.152); }
+.shadow-level-35 { box-shadow: 0 8px 17px rgba(0,0,0,0.155); }
+.shadow-level-36 { box-shadow: 0 9px 18px rgba(0,0,0,0.158); }
+.shadow-level-37 { box-shadow: 0 9px 18px rgba(0,0,0,0.161); }
+.shadow-level-38 { box-shadow: 0 9px 19px rgba(0,0,0,0.164); }
+.shadow-level-39 { box-shadow: 0 9px 19px rgba(0,0,0,0.167); }
+.shadow-level-40 { box-shadow: 0 10px 20px rgba(0,0,0,0.170); }
+.shadow-level-41 { box-shadow: 0 10px 20px rgba(0,0,0,0.173); }
+.shadow-level-42 { box-shadow: 0 10px 21px rgba(0,0,0,0.176); }
+.shadow-level-43 { box-shadow: 0 10px 21px rgba(0,0,0,0.179); }
+.shadow-level-44 { box-shadow: 0 11px 22px rgba(0,0,0,0.182); }
+.shadow-level-45 { box-shadow: 0 11px 22px rgba(0,0,0,0.185); }
+.shadow-level-46 { box-shadow: 0 11px 23px rgba(0,0,0,0.188); }
+.shadow-level-47 { box-shadow: 0 11px 23px rgba(0,0,0,0.191); }
+.shadow-level-48 { box-shadow: 0 12px 24px rgba(0,0,0,0.194); }
+.shadow-level-49 { box-shadow: 0 12px 24px rgba(0,0,0,0.197); }
+.shadow-level-50 { box-shadow: 0 12px 25px rgba(0,0,0,0.200); }
+.shadow-level-51 { box-shadow: 0 12px 25px rgba(0,0,0,0.203); }
+.shadow-level-52 { box-shadow: 0 13px 26px rgba(0,0,0,0.206); }
+.shadow-level-53 { box-shadow: 0 13px 26px rgba(0,0,0,0.209); }
+.shadow-level-54 { box-shadow: 0 13px 27px rgba(0,0,0,0.212); }
+.shadow-level-55 { box-shadow: 0 13px 27px rgba(0,0,0,0.215); }
+.shadow-level-56 { box-shadow: 0 14px 28px rgba(0,0,0,0.218); }
+.shadow-level-57 { box-shadow: 0 14px 28px rgba(0,0,0,0.221); }
+.shadow-level-58 { box-shadow: 0 14px 29px rgba(0,0,0,0.224); }
+.shadow-level-59 { box-shadow: 0 14px 29px rgba(0,0,0,0.227); }
+.shadow-level-60 { box-shadow: 0 15px 30px rgba(0,0,0,0.230); }
+.text-scale-1 { font-size: 0.66rem; }
+.text-scale-2 { font-size: 0.67rem; }
+.text-scale-3 { font-size: 0.68rem; }
+.text-scale-4 { font-size: 0.69rem; }
+.text-scale-5 { font-size: 0.70rem; }
+.text-scale-6 { font-size: 0.71rem; }
+.text-scale-7 { font-size: 0.72rem; }
+.text-scale-8 { font-size: 0.73rem; }
+.text-scale-9 { font-size: 0.74rem; }
+.text-scale-10 { font-size: 0.75rem; }
+.text-scale-11 { font-size: 0.76rem; }
+.text-scale-12 { font-size: 0.77rem; }
+.text-scale-13 { font-size: 0.78rem; }
+.text-scale-14 { font-size: 0.79rem; }
+.text-scale-15 { font-size: 0.80rem; }
+.text-scale-16 { font-size: 0.81rem; }
+.text-scale-17 { font-size: 0.82rem; }
+.text-scale-18 { font-size: 0.83rem; }
+.text-scale-19 { font-size: 0.84rem; }
+.text-scale-20 { font-size: 0.85rem; }
+.text-scale-21 { font-size: 0.86rem; }
+.text-scale-22 { font-size: 0.87rem; }
+.text-scale-23 { font-size: 0.88rem; }
+.text-scale-24 { font-size: 0.89rem; }
+.text-scale-25 { font-size: 0.90rem; }
+.text-scale-26 { font-size: 0.91rem; }
+.text-scale-27 { font-size: 0.92rem; }
+.text-scale-28 { font-size: 0.93rem; }
+.text-scale-29 { font-size: 0.94rem; }
+.text-scale-30 { font-size: 0.95rem; }
+.text-scale-31 { font-size: 0.96rem; }
+.text-scale-32 { font-size: 0.97rem; }
+.text-scale-33 { font-size: 0.98rem; }
+.text-scale-34 { font-size: 0.99rem; }
+.text-scale-35 { font-size: 1.00rem; }
+.text-scale-36 { font-size: 1.01rem; }
+.text-scale-37 { font-size: 1.02rem; }
+.text-scale-38 { font-size: 1.03rem; }
+.text-scale-39 { font-size: 1.04rem; }
+.text-scale-40 { font-size: 1.05rem; }
+.text-scale-41 { font-size: 1.06rem; }
+.text-scale-42 { font-size: 1.07rem; }
+.text-scale-43 { font-size: 1.08rem; }
+.text-scale-44 { font-size: 1.09rem; }
+.text-scale-45 { font-size: 1.10rem; }
+.text-scale-46 { font-size: 1.11rem; }
+.text-scale-47 { font-size: 1.12rem; }
+.text-scale-48 { font-size: 1.13rem; }
+.text-scale-49 { font-size: 1.14rem; }
+.text-scale-50 { font-size: 1.15rem; }
+.text-scale-51 { font-size: 1.16rem; }
+.text-scale-52 { font-size: 1.17rem; }
+.text-scale-53 { font-size: 1.18rem; }
+.text-scale-54 { font-size: 1.19rem; }
+.text-scale-55 { font-size: 1.20rem; }
+.text-scale-56 { font-size: 1.21rem; }
+.text-scale-57 { font-size: 1.22rem; }
+.text-scale-58 { font-size: 1.23rem; }
+.text-scale-59 { font-size: 1.24rem; }
+.text-scale-60 { font-size: 1.25rem; }
+.text-scale-61 { font-size: 1.26rem; }
+.text-scale-62 { font-size: 1.27rem; }
+.text-scale-63 { font-size: 1.28rem; }
+.text-scale-64 { font-size: 1.29rem; }
+.text-scale-65 { font-size: 1.30rem; }
+.text-scale-66 { font-size: 1.31rem; }
+.text-scale-67 { font-size: 1.32rem; }
+.text-scale-68 { font-size: 1.33rem; }
+.text-scale-69 { font-size: 1.34rem; }
+.text-scale-70 { font-size: 1.35rem; }
+.text-scale-71 { font-size: 1.36rem; }
+.text-scale-72 { font-size: 1.37rem; }
+.text-scale-73 { font-size: 1.38rem; }
+.text-scale-74 { font-size: 1.39rem; }
+.text-scale-75 { font-size: 1.40rem; }
+.text-scale-76 { font-size: 1.41rem; }
+.text-scale-77 { font-size: 1.42rem; }
+.text-scale-78 { font-size: 1.43rem; }
+.text-scale-79 { font-size: 1.44rem; }
+.text-scale-80 { font-size: 1.45rem; }
+.text-scale-81 { font-size: 1.46rem; }
+.text-scale-82 { font-size: 1.47rem; }
+.text-scale-83 { font-size: 1.48rem; }
+.text-scale-84 { font-size: 1.49rem; }
+.text-scale-85 { font-size: 1.50rem; }
+.text-scale-86 { font-size: 1.51rem; }
+.text-scale-87 { font-size: 1.52rem; }
+.text-scale-88 { font-size: 1.53rem; }
+.text-scale-89 { font-size: 1.54rem; }
+.text-scale-90 { font-size: 1.55rem; }
+.text-scale-91 { font-size: 1.56rem; }
+.text-scale-92 { font-size: 1.57rem; }
+.text-scale-93 { font-size: 1.58rem; }
+.text-scale-94 { font-size: 1.59rem; }
+.text-scale-95 { font-size: 1.60rem; }
+.text-scale-96 { font-size: 1.61rem; }
+.text-scale-97 { font-size: 1.62rem; }
+.text-scale-98 { font-size: 1.63rem; }
+.text-scale-99 { font-size: 1.64rem; }
+.text-scale-100 { font-size: 1.65rem; }
+.text-scale-101 { font-size: 1.66rem; }
+.text-scale-102 { font-size: 1.67rem; }
+.text-scale-103 { font-size: 1.68rem; }
+.text-scale-104 { font-size: 1.69rem; }
+.text-scale-105 { font-size: 1.70rem; }
+.text-scale-106 { font-size: 1.71rem; }
+.text-scale-107 { font-size: 1.72rem; }
+.text-scale-108 { font-size: 1.73rem; }
+.text-scale-109 { font-size: 1.74rem; }
+.text-scale-110 { font-size: 1.75rem; }
+.text-scale-111 { font-size: 1.76rem; }
+.text-scale-112 { font-size: 1.77rem; }
+.text-scale-113 { font-size: 1.78rem; }
+.text-scale-114 { font-size: 1.79rem; }
+.text-scale-115 { font-size: 1.80rem; }
+.text-scale-116 { font-size: 1.81rem; }
+.text-scale-117 { font-size: 1.82rem; }
+.text-scale-118 { font-size: 1.83rem; }
+.text-scale-119 { font-size: 1.84rem; }
+.text-scale-120 { font-size: 1.85rem; }
+.opacity-0 { opacity: 0.00; }
+.opacity-1 { opacity: 0.01; }
+.opacity-2 { opacity: 0.02; }
+.opacity-3 { opacity: 0.03; }
+.opacity-4 { opacity: 0.04; }
+.opacity-5 { opacity: 0.05; }
+.opacity-6 { opacity: 0.06; }
+.opacity-7 { opacity: 0.07; }
+.opacity-8 { opacity: 0.08; }
+.opacity-9 { opacity: 0.09; }
+.opacity-10 { opacity: 0.10; }
+.opacity-11 { opacity: 0.11; }
+.opacity-12 { opacity: 0.12; }
+.opacity-13 { opacity: 0.13; }
+.opacity-14 { opacity: 0.14; }
+.opacity-15 { opacity: 0.15; }
+.opacity-16 { opacity: 0.16; }
+.opacity-17 { opacity: 0.17; }
+.opacity-18 { opacity: 0.18; }
+.opacity-19 { opacity: 0.19; }
+.opacity-20 { opacity: 0.20; }
+.opacity-21 { opacity: 0.21; }
+.opacity-22 { opacity: 0.22; }
+.opacity-23 { opacity: 0.23; }
+.opacity-24 { opacity: 0.24; }
+.opacity-25 { opacity: 0.25; }
+.opacity-26 { opacity: 0.26; }
+.opacity-27 { opacity: 0.27; }
+.opacity-28 { opacity: 0.28; }
+.opacity-29 { opacity: 0.29; }
+.opacity-30 { opacity: 0.30; }
+.opacity-31 { opacity: 0.31; }
+.opacity-32 { opacity: 0.32; }
+.opacity-33 { opacity: 0.33; }
+.opacity-34 { opacity: 0.34; }
+.opacity-35 { opacity: 0.35; }
+.opacity-36 { opacity: 0.36; }
+.opacity-37 { opacity: 0.37; }
+.opacity-38 { opacity: 0.38; }
+.opacity-39 { opacity: 0.39; }
+.opacity-40 { opacity: 0.40; }
+.opacity-41 { opacity: 0.41; }
+.opacity-42 { opacity: 0.42; }
+.opacity-43 { opacity: 0.43; }
+.opacity-44 { opacity: 0.44; }
+.opacity-45 { opacity: 0.45; }
+.opacity-46 { opacity: 0.46; }
+.opacity-47 { opacity: 0.47; }
+.opacity-48 { opacity: 0.48; }
+.opacity-49 { opacity: 0.49; }
+.opacity-50 { opacity: 0.50; }
+.opacity-51 { opacity: 0.51; }
+.opacity-52 { opacity: 0.52; }
+.opacity-53 { opacity: 0.53; }
+.opacity-54 { opacity: 0.54; }
+.opacity-55 { opacity: 0.55; }
+.opacity-56 { opacity: 0.56; }
+.opacity-57 { opacity: 0.57; }
+.opacity-58 { opacity: 0.58; }
+.opacity-59 { opacity: 0.59; }
+.opacity-60 { opacity: 0.60; }
+.opacity-61 { opacity: 0.61; }
+.opacity-62 { opacity: 0.62; }
+.opacity-63 { opacity: 0.63; }
+.opacity-64 { opacity: 0.64; }
+.opacity-65 { opacity: 0.65; }
+.opacity-66 { opacity: 0.66; }
+.opacity-67 { opacity: 0.67; }
+.opacity-68 { opacity: 0.68; }
+.opacity-69 { opacity: 0.69; }
+.opacity-70 { opacity: 0.70; }
+.opacity-71 { opacity: 0.71; }
+.opacity-72 { opacity: 0.72; }
+.opacity-73 { opacity: 0.73; }
+.opacity-74 { opacity: 0.74; }
+.opacity-75 { opacity: 0.75; }
+.opacity-76 { opacity: 0.76; }
+.opacity-77 { opacity: 0.77; }
+.opacity-78 { opacity: 0.78; }
+.opacity-79 { opacity: 0.79; }
+.opacity-80 { opacity: 0.80; }
+.opacity-81 { opacity: 0.81; }
+.opacity-82 { opacity: 0.82; }
+.opacity-83 { opacity: 0.83; }
+.opacity-84 { opacity: 0.84; }
+.opacity-85 { opacity: 0.85; }
+.opacity-86 { opacity: 0.86; }
+.opacity-87 { opacity: 0.87; }
+.opacity-88 { opacity: 0.88; }
+.opacity-89 { opacity: 0.89; }
+.opacity-90 { opacity: 0.90; }
+.opacity-91 { opacity: 0.91; }
+.opacity-92 { opacity: 0.92; }
+.opacity-93 { opacity: 0.93; }
+.opacity-94 { opacity: 0.94; }
+.opacity-95 { opacity: 0.95; }
+.opacity-96 { opacity: 0.96; }
+.opacity-97 { opacity: 0.97; }
+.opacity-98 { opacity: 0.98; }
+.opacity-99 { opacity: 0.99; }
+.opacity-100 { opacity: 1.00; }
+.border-tone-0 { border-color: rgba(27,94,32,0.050); }
+.border-tone-1 { border-color: rgba(27,94,32,0.065); }
+.border-tone-2 { border-color: rgba(27,94,32,0.080); }
+.border-tone-3 { border-color: rgba(27,94,32,0.095); }
+.border-tone-4 { border-color: rgba(27,94,32,0.110); }
+.border-tone-5 { border-color: rgba(27,94,32,0.125); }
+.border-tone-6 { border-color: rgba(27,94,32,0.140); }
+.border-tone-7 { border-color: rgba(27,94,32,0.155); }
+.border-tone-8 { border-color: rgba(27,94,32,0.170); }
+.border-tone-9 { border-color: rgba(27,94,32,0.185); }
+.border-tone-10 { border-color: rgba(27,94,32,0.200); }
+.border-tone-11 { border-color: rgba(27,94,32,0.215); }
+.border-tone-12 { border-color: rgba(27,94,32,0.230); }
+.border-tone-13 { border-color: rgba(27,94,32,0.245); }
+.border-tone-14 { border-color: rgba(27,94,32,0.260); }
+.border-tone-15 { border-color: rgba(27,94,32,0.275); }
+.border-tone-16 { border-color: rgba(27,94,32,0.290); }
+.border-tone-17 { border-color: rgba(27,94,32,0.305); }
+.border-tone-18 { border-color: rgba(27,94,32,0.320); }
+.border-tone-19 { border-color: rgba(27,94,32,0.335); }
+.border-tone-20 { border-color: rgba(27,94,32,0.350); }
+.border-tone-21 { border-color: rgba(27,94,32,0.365); }
+.border-tone-22 { border-color: rgba(27,94,32,0.380); }
+.border-tone-23 { border-color: rgba(27,94,32,0.395); }
+.border-tone-24 { border-color: rgba(27,94,32,0.410); }
+.border-tone-25 { border-color: rgba(27,94,32,0.425); }
+.border-tone-26 { border-color: rgba(27,94,32,0.440); }
+.border-tone-27 { border-color: rgba(27,94,32,0.455); }
+.border-tone-28 { border-color: rgba(27,94,32,0.470); }
+.border-tone-29 { border-color: rgba(27,94,32,0.485); }
+.border-tone-30 { border-color: rgba(27,94,32,0.500); }
+.border-tone-31 { border-color: rgba(27,94,32,0.515); }
+.border-tone-32 { border-color: rgba(27,94,32,0.530); }
+.border-tone-33 { border-color: rgba(27,94,32,0.545); }
+.border-tone-34 { border-color: rgba(27,94,32,0.560); }
+.border-tone-35 { border-color: rgba(27,94,32,0.575); }
+.border-tone-36 { border-color: rgba(27,94,32,0.590); }
+.border-tone-37 { border-color: rgba(27,94,32,0.605); }
+.border-tone-38 { border-color: rgba(27,94,32,0.620); }
+.border-tone-39 { border-color: rgba(27,94,32,0.635); }
+.border-tone-40 { border-color: rgba(27,94,32,0.650); }
+.border-tone-41 { border-color: rgba(27,94,32,0.665); }
+.border-tone-42 { border-color: rgba(27,94,32,0.680); }
+.border-tone-43 { border-color: rgba(27,94,32,0.695); }
+.border-tone-44 { border-color: rgba(27,94,32,0.710); }
+.border-tone-45 { border-color: rgba(27,94,32,0.725); }
+.border-tone-46 { border-color: rgba(27,94,32,0.740); }
+.border-tone-47 { border-color: rgba(27,94,32,0.755); }
+.border-tone-48 { border-color: rgba(27,94,32,0.770); }
+.border-tone-49 { border-color: rgba(27,94,32,0.785); }
+.border-tone-50 { border-color: rgba(27,94,32,0.800); }
+.mtx-0 { margin-top: 0.00rem; margin-bottom: 0.00rem; }
+.mrx-0 { margin-left: 0.00rem; margin-right: 0.00rem; }
+.ptx-0 { padding-top: 0.00rem; padding-bottom: 0.00rem; }
+.prx-0 { padding-left: 0.00rem; padding-right: 0.00rem; }
+.mtx-1 { margin-top: 0.25rem; margin-bottom: 0.25rem; }
+.mrx-1 { margin-left: 0.25rem; margin-right: 0.25rem; }
+.ptx-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.prx-1 { padding-left: 0.25rem; padding-right: 0.25rem; }
+.mtx-2 { margin-top: 0.50rem; margin-bottom: 0.50rem; }
+.mrx-2 { margin-left: 0.50rem; margin-right: 0.50rem; }
+.ptx-2 { padding-top: 0.50rem; padding-bottom: 0.50rem; }
+.prx-2 { padding-left: 0.50rem; padding-right: 0.50rem; }
+.mtx-3 { margin-top: 0.75rem; margin-bottom: 0.75rem; }
+.mrx-3 { margin-left: 0.75rem; margin-right: 0.75rem; }
+.ptx-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.prx-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.mtx-4 { margin-top: 1.00rem; margin-bottom: 1.00rem; }
+.mrx-4 { margin-left: 1.00rem; margin-right: 1.00rem; }
+.ptx-4 { padding-top: 1.00rem; padding-bottom: 1.00rem; }
+.prx-4 { padding-left: 1.00rem; padding-right: 1.00rem; }
+.mtx-5 { margin-top: 1.25rem; margin-bottom: 1.25rem; }
+.mrx-5 { margin-left: 1.25rem; margin-right: 1.25rem; }
+.ptx-5 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+.prx-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+.mtx-6 { margin-top: 1.50rem; margin-bottom: 1.50rem; }
+.mrx-6 { margin-left: 1.50rem; margin-right: 1.50rem; }
+.ptx-6 { padding-top: 1.50rem; padding-bottom: 1.50rem; }
+.prx-6 { padding-left: 1.50rem; padding-right: 1.50rem; }
+.mtx-7 { margin-top: 1.75rem; margin-bottom: 1.75rem; }
+.mrx-7 { margin-left: 1.75rem; margin-right: 1.75rem; }
+.ptx-7 { padding-top: 1.75rem; padding-bottom: 1.75rem; }
+.prx-7 { padding-left: 1.75rem; padding-right: 1.75rem; }
+.mtx-8 { margin-top: 2.00rem; margin-bottom: 2.00rem; }
+.mrx-8 { margin-left: 2.00rem; margin-right: 2.00rem; }
+.ptx-8 { padding-top: 2.00rem; padding-bottom: 2.00rem; }
+.prx-8 { padding-left: 2.00rem; padding-right: 2.00rem; }
+.mtx-9 { margin-top: 2.25rem; margin-bottom: 2.25rem; }
+.mrx-9 { margin-left: 2.25rem; margin-right: 2.25rem; }
+.ptx-9 { padding-top: 2.25rem; padding-bottom: 2.25rem; }
+.prx-9 { padding-left: 2.25rem; padding-right: 2.25rem; }
+.mtx-10 { margin-top: 2.50rem; margin-bottom: 2.50rem; }
+.mrx-10 { margin-left: 2.50rem; margin-right: 2.50rem; }
+.ptx-10 { padding-top: 2.50rem; padding-bottom: 2.50rem; }
+.prx-10 { padding-left: 2.50rem; padding-right: 2.50rem; }
+.mtx-11 { margin-top: 2.75rem; margin-bottom: 2.75rem; }
+.mrx-11 { margin-left: 2.75rem; margin-right: 2.75rem; }
+.ptx-11 { padding-top: 2.75rem; padding-bottom: 2.75rem; }
+.prx-11 { padding-left: 2.75rem; padding-right: 2.75rem; }
+.mtx-12 { margin-top: 3.00rem; margin-bottom: 3.00rem; }
+.mrx-12 { margin-left: 3.00rem; margin-right: 3.00rem; }
+.ptx-12 { padding-top: 3.00rem; padding-bottom: 3.00rem; }
+.prx-12 { padding-left: 3.00rem; padding-right: 3.00rem; }
+.mtx-13 { margin-top: 3.25rem; margin-bottom: 3.25rem; }
+.mrx-13 { margin-left: 3.25rem; margin-right: 3.25rem; }
+.ptx-13 { padding-top: 3.25rem; padding-bottom: 3.25rem; }
+.prx-13 { padding-left: 3.25rem; padding-right: 3.25rem; }
+.mtx-14 { margin-top: 3.50rem; margin-bottom: 3.50rem; }
+.mrx-14 { margin-left: 3.50rem; margin-right: 3.50rem; }
+.ptx-14 { padding-top: 3.50rem; padding-bottom: 3.50rem; }
+.prx-14 { padding-left: 3.50rem; padding-right: 3.50rem; }
+.mtx-15 { margin-top: 3.75rem; margin-bottom: 3.75rem; }
+.mrx-15 { margin-left: 3.75rem; margin-right: 3.75rem; }
+.ptx-15 { padding-top: 3.75rem; padding-bottom: 3.75rem; }
+.prx-15 { padding-left: 3.75rem; padding-right: 3.75rem; }
+.mtx-16 { margin-top: 4.00rem; margin-bottom: 4.00rem; }
+.mrx-16 { margin-left: 4.00rem; margin-right: 4.00rem; }
+.ptx-16 { padding-top: 4.00rem; padding-bottom: 4.00rem; }
+.prx-16 { padding-left: 4.00rem; padding-right: 4.00rem; }
+.mtx-17 { margin-top: 4.25rem; margin-bottom: 4.25rem; }
+.mrx-17 { margin-left: 4.25rem; margin-right: 4.25rem; }
+.ptx-17 { padding-top: 4.25rem; padding-bottom: 4.25rem; }
+.prx-17 { padding-left: 4.25rem; padding-right: 4.25rem; }
+.mtx-18 { margin-top: 4.50rem; margin-bottom: 4.50rem; }
+.mrx-18 { margin-left: 4.50rem; margin-right: 4.50rem; }
+.ptx-18 { padding-top: 4.50rem; padding-bottom: 4.50rem; }
+.prx-18 { padding-left: 4.50rem; padding-right: 4.50rem; }
+.mtx-19 { margin-top: 4.75rem; margin-bottom: 4.75rem; }
+.mrx-19 { margin-left: 4.75rem; margin-right: 4.75rem; }
+.ptx-19 { padding-top: 4.75rem; padding-bottom: 4.75rem; }
+.prx-19 { padding-left: 4.75rem; padding-right: 4.75rem; }
+.mtx-20 { margin-top: 5.00rem; margin-bottom: 5.00rem; }
+.mrx-20 { margin-left: 5.00rem; margin-right: 5.00rem; }
+.ptx-20 { padding-top: 5.00rem; padding-bottom: 5.00rem; }
+.prx-20 { padding-left: 5.00rem; padding-right: 5.00rem; }
+.mtx-21 { margin-top: 5.25rem; margin-bottom: 5.25rem; }
+.mrx-21 { margin-left: 5.25rem; margin-right: 5.25rem; }
+.ptx-21 { padding-top: 5.25rem; padding-bottom: 5.25rem; }
+.prx-21 { padding-left: 5.25rem; padding-right: 5.25rem; }
+.mtx-22 { margin-top: 5.50rem; margin-bottom: 5.50rem; }
+.mrx-22 { margin-left: 5.50rem; margin-right: 5.50rem; }
+.ptx-22 { padding-top: 5.50rem; padding-bottom: 5.50rem; }
+.prx-22 { padding-left: 5.50rem; padding-right: 5.50rem; }
+.mtx-23 { margin-top: 5.75rem; margin-bottom: 5.75rem; }
+.mrx-23 { margin-left: 5.75rem; margin-right: 5.75rem; }
+.ptx-23 { padding-top: 5.75rem; padding-bottom: 5.75rem; }
+.prx-23 { padding-left: 5.75rem; padding-right: 5.75rem; }
+.mtx-24 { margin-top: 6.00rem; margin-bottom: 6.00rem; }
+.mrx-24 { margin-left: 6.00rem; margin-right: 6.00rem; }
+.ptx-24 { padding-top: 6.00rem; padding-bottom: 6.00rem; }
+.prx-24 { padding-left: 6.00rem; padding-right: 6.00rem; }
+.mtx-25 { margin-top: 6.25rem; margin-bottom: 6.25rem; }
+.mrx-25 { margin-left: 6.25rem; margin-right: 6.25rem; }
+.ptx-25 { padding-top: 6.25rem; padding-bottom: 6.25rem; }
+.prx-25 { padding-left: 6.25rem; padding-right: 6.25rem; }
+.mtx-26 { margin-top: 6.50rem; margin-bottom: 6.50rem; }
+.mrx-26 { margin-left: 6.50rem; margin-right: 6.50rem; }
+.ptx-26 { padding-top: 6.50rem; padding-bottom: 6.50rem; }
+.prx-26 { padding-left: 6.50rem; padding-right: 6.50rem; }
+.mtx-27 { margin-top: 6.75rem; margin-bottom: 6.75rem; }
+.mrx-27 { margin-left: 6.75rem; margin-right: 6.75rem; }
+.ptx-27 { padding-top: 6.75rem; padding-bottom: 6.75rem; }
+.prx-27 { padding-left: 6.75rem; padding-right: 6.75rem; }
+.mtx-28 { margin-top: 7.00rem; margin-bottom: 7.00rem; }
+.mrx-28 { margin-left: 7.00rem; margin-right: 7.00rem; }
+.ptx-28 { padding-top: 7.00rem; padding-bottom: 7.00rem; }
+.prx-28 { padding-left: 7.00rem; padding-right: 7.00rem; }
+.mtx-29 { margin-top: 7.25rem; margin-bottom: 7.25rem; }
+.mrx-29 { margin-left: 7.25rem; margin-right: 7.25rem; }
+.ptx-29 { padding-top: 7.25rem; padding-bottom: 7.25rem; }
+.prx-29 { padding-left: 7.25rem; padding-right: 7.25rem; }
+.mtx-30 { margin-top: 7.50rem; margin-bottom: 7.50rem; }
+.mrx-30 { margin-left: 7.50rem; margin-right: 7.50rem; }
+.ptx-30 { padding-top: 7.50rem; padding-bottom: 7.50rem; }
+.prx-30 { padding-left: 7.50rem; padding-right: 7.50rem; }
+.mtx-31 { margin-top: 7.75rem; margin-bottom: 7.75rem; }
+.mrx-31 { margin-left: 7.75rem; margin-right: 7.75rem; }
+.ptx-31 { padding-top: 7.75rem; padding-bottom: 7.75rem; }
+.prx-31 { padding-left: 7.75rem; padding-right: 7.75rem; }
+.mtx-32 { margin-top: 8.00rem; margin-bottom: 8.00rem; }
+.mrx-32 { margin-left: 8.00rem; margin-right: 8.00rem; }
+.ptx-32 { padding-top: 8.00rem; padding-bottom: 8.00rem; }
+.prx-32 { padding-left: 8.00rem; padding-right: 8.00rem; }
+.mtx-33 { margin-top: 8.25rem; margin-bottom: 8.25rem; }
+.mrx-33 { margin-left: 8.25rem; margin-right: 8.25rem; }
+.ptx-33 { padding-top: 8.25rem; padding-bottom: 8.25rem; }
+.prx-33 { padding-left: 8.25rem; padding-right: 8.25rem; }
+.mtx-34 { margin-top: 8.50rem; margin-bottom: 8.50rem; }
+.mrx-34 { margin-left: 8.50rem; margin-right: 8.50rem; }
+.ptx-34 { padding-top: 8.50rem; padding-bottom: 8.50rem; }
+.prx-34 { padding-left: 8.50rem; padding-right: 8.50rem; }
+.mtx-35 { margin-top: 8.75rem; margin-bottom: 8.75rem; }
+.mrx-35 { margin-left: 8.75rem; margin-right: 8.75rem; }
+.ptx-35 { padding-top: 8.75rem; padding-bottom: 8.75rem; }
+.prx-35 { padding-left: 8.75rem; padding-right: 8.75rem; }
+.mtx-36 { margin-top: 9.00rem; margin-bottom: 9.00rem; }
+.mrx-36 { margin-left: 9.00rem; margin-right: 9.00rem; }
+.ptx-36 { padding-top: 9.00rem; padding-bottom: 9.00rem; }
+.prx-36 { padding-left: 9.00rem; padding-right: 9.00rem; }
+.mtx-37 { margin-top: 9.25rem; margin-bottom: 9.25rem; }
+.mrx-37 { margin-left: 9.25rem; margin-right: 9.25rem; }
+.ptx-37 { padding-top: 9.25rem; padding-bottom: 9.25rem; }
+.prx-37 { padding-left: 9.25rem; padding-right: 9.25rem; }
+.mtx-38 { margin-top: 9.50rem; margin-bottom: 9.50rem; }
+.mrx-38 { margin-left: 9.50rem; margin-right: 9.50rem; }
+.ptx-38 { padding-top: 9.50rem; padding-bottom: 9.50rem; }
+.prx-38 { padding-left: 9.50rem; padding-right: 9.50rem; }
+.mtx-39 { margin-top: 9.75rem; margin-bottom: 9.75rem; }
+.mrx-39 { margin-left: 9.75rem; margin-right: 9.75rem; }
+.ptx-39 { padding-top: 9.75rem; padding-bottom: 9.75rem; }
+.prx-39 { padding-left: 9.75rem; padding-right: 9.75rem; }
+.mtx-40 { margin-top: 10.00rem; margin-bottom: 10.00rem; }
+.mrx-40 { margin-left: 10.00rem; margin-right: 10.00rem; }
+.ptx-40 { padding-top: 10.00rem; padding-bottom: 10.00rem; }
+.prx-40 { padding-left: 10.00rem; padding-right: 10.00rem; }
+.mtx-41 { margin-top: 10.25rem; margin-bottom: 10.25rem; }
+.mrx-41 { margin-left: 10.25rem; margin-right: 10.25rem; }
+.ptx-41 { padding-top: 10.25rem; padding-bottom: 10.25rem; }
+.prx-41 { padding-left: 10.25rem; padding-right: 10.25rem; }
+.mtx-42 { margin-top: 10.50rem; margin-bottom: 10.50rem; }
+.mrx-42 { margin-left: 10.50rem; margin-right: 10.50rem; }
+.ptx-42 { padding-top: 10.50rem; padding-bottom: 10.50rem; }
+.prx-42 { padding-left: 10.50rem; padding-right: 10.50rem; }
+.mtx-43 { margin-top: 10.75rem; margin-bottom: 10.75rem; }
+.mrx-43 { margin-left: 10.75rem; margin-right: 10.75rem; }
+.ptx-43 { padding-top: 10.75rem; padding-bottom: 10.75rem; }
+.prx-43 { padding-left: 10.75rem; padding-right: 10.75rem; }
+.mtx-44 { margin-top: 11.00rem; margin-bottom: 11.00rem; }
+.mrx-44 { margin-left: 11.00rem; margin-right: 11.00rem; }
+.ptx-44 { padding-top: 11.00rem; padding-bottom: 11.00rem; }
+.prx-44 { padding-left: 11.00rem; padding-right: 11.00rem; }
+.mtx-45 { margin-top: 11.25rem; margin-bottom: 11.25rem; }
+.mrx-45 { margin-left: 11.25rem; margin-right: 11.25rem; }
+.ptx-45 { padding-top: 11.25rem; padding-bottom: 11.25rem; }
+.prx-45 { padding-left: 11.25rem; padding-right: 11.25rem; }
+.mtx-46 { margin-top: 11.50rem; margin-bottom: 11.50rem; }
+.mrx-46 { margin-left: 11.50rem; margin-right: 11.50rem; }
+.ptx-46 { padding-top: 11.50rem; padding-bottom: 11.50rem; }
+.prx-46 { padding-left: 11.50rem; padding-right: 11.50rem; }
+.mtx-47 { margin-top: 11.75rem; margin-bottom: 11.75rem; }
+.mrx-47 { margin-left: 11.75rem; margin-right: 11.75rem; }
+.ptx-47 { padding-top: 11.75rem; padding-bottom: 11.75rem; }
+.prx-47 { padding-left: 11.75rem; padding-right: 11.75rem; }
+.mtx-48 { margin-top: 12.00rem; margin-bottom: 12.00rem; }
+.mrx-48 { margin-left: 12.00rem; margin-right: 12.00rem; }
+.ptx-48 { padding-top: 12.00rem; padding-bottom: 12.00rem; }
+.prx-48 { padding-left: 12.00rem; padding-right: 12.00rem; }
+.mtx-49 { margin-top: 12.25rem; margin-bottom: 12.25rem; }
+.mrx-49 { margin-left: 12.25rem; margin-right: 12.25rem; }
+.ptx-49 { padding-top: 12.25rem; padding-bottom: 12.25rem; }
+.prx-49 { padding-left: 12.25rem; padding-right: 12.25rem; }
+.mtx-50 { margin-top: 12.50rem; margin-bottom: 12.50rem; }
+.mrx-50 { margin-left: 12.50rem; margin-right: 12.50rem; }
+.ptx-50 { padding-top: 12.50rem; padding-bottom: 12.50rem; }
+.prx-50 { padding-left: 12.50rem; padding-right: 12.50rem; }
+.mtx-51 { margin-top: 12.75rem; margin-bottom: 12.75rem; }
+.mrx-51 { margin-left: 12.75rem; margin-right: 12.75rem; }
+.ptx-51 { padding-top: 12.75rem; padding-bottom: 12.75rem; }
+.prx-51 { padding-left: 12.75rem; padding-right: 12.75rem; }
+.mtx-52 { margin-top: 13.00rem; margin-bottom: 13.00rem; }
+.mrx-52 { margin-left: 13.00rem; margin-right: 13.00rem; }
+.ptx-52 { padding-top: 13.00rem; padding-bottom: 13.00rem; }
+.prx-52 { padding-left: 13.00rem; padding-right: 13.00rem; }
+.mtx-53 { margin-top: 13.25rem; margin-bottom: 13.25rem; }
+.mrx-53 { margin-left: 13.25rem; margin-right: 13.25rem; }
+.ptx-53 { padding-top: 13.25rem; padding-bottom: 13.25rem; }
+.prx-53 { padding-left: 13.25rem; padding-right: 13.25rem; }
+.mtx-54 { margin-top: 13.50rem; margin-bottom: 13.50rem; }
+.mrx-54 { margin-left: 13.50rem; margin-right: 13.50rem; }
+.ptx-54 { padding-top: 13.50rem; padding-bottom: 13.50rem; }
+.prx-54 { padding-left: 13.50rem; padding-right: 13.50rem; }
+.mtx-55 { margin-top: 13.75rem; margin-bottom: 13.75rem; }
+.mrx-55 { margin-left: 13.75rem; margin-right: 13.75rem; }
+.ptx-55 { padding-top: 13.75rem; padding-bottom: 13.75rem; }
+.prx-55 { padding-left: 13.75rem; padding-right: 13.75rem; }
+.mtx-56 { margin-top: 14.00rem; margin-bottom: 14.00rem; }
+.mrx-56 { margin-left: 14.00rem; margin-right: 14.00rem; }
+.ptx-56 { padding-top: 14.00rem; padding-bottom: 14.00rem; }
+.prx-56 { padding-left: 14.00rem; padding-right: 14.00rem; }
+.mtx-57 { margin-top: 14.25rem; margin-bottom: 14.25rem; }
+.mrx-57 { margin-left: 14.25rem; margin-right: 14.25rem; }
+.ptx-57 { padding-top: 14.25rem; padding-bottom: 14.25rem; }
+.prx-57 { padding-left: 14.25rem; padding-right: 14.25rem; }
+.mtx-58 { margin-top: 14.50rem; margin-bottom: 14.50rem; }
+.mrx-58 { margin-left: 14.50rem; margin-right: 14.50rem; }
+.ptx-58 { padding-top: 14.50rem; padding-bottom: 14.50rem; }
+.prx-58 { padding-left: 14.50rem; padding-right: 14.50rem; }
+.mtx-59 { margin-top: 14.75rem; margin-bottom: 14.75rem; }
+.mrx-59 { margin-left: 14.75rem; margin-right: 14.75rem; }
+.ptx-59 { padding-top: 14.75rem; padding-bottom: 14.75rem; }
+.prx-59 { padding-left: 14.75rem; padding-right: 14.75rem; }
+.mtx-60 { margin-top: 15.00rem; margin-bottom: 15.00rem; }
+.mrx-60 { margin-left: 15.00rem; margin-right: 15.00rem; }
+.ptx-60 { padding-top: 15.00rem; padding-bottom: 15.00rem; }
+.prx-60 { padding-left: 15.00rem; padding-right: 15.00rem; }
+.surface-variant-1 { background: rgba(7, 11, 13, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-1:hover { background: rgba(7, 11, 13, 0.14); }}
+.surface-variant-2 { background: rgba(14, 22, 26, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-2:hover { background: rgba(14, 22, 26, 0.14); }}
+.surface-variant-3 { background: rgba(21, 33, 39, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-3:hover { background: rgba(21, 33, 39, 0.14); }}
+.surface-variant-4 { background: rgba(28, 44, 52, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-4:hover { background: rgba(28, 44, 52, 0.14); }}
+.surface-variant-5 { background: rgba(35, 55, 65, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-5:hover { background: rgba(35, 55, 65, 0.14); }}
+.surface-variant-6 { background: rgba(42, 66, 78, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-6:hover { background: rgba(42, 66, 78, 0.14); }}
+.surface-variant-7 { background: rgba(49, 77, 91, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-7:hover { background: rgba(49, 77, 91, 0.14); }}
+.surface-variant-8 { background: rgba(56, 88, 104, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-8:hover { background: rgba(56, 88, 104, 0.14); }}
+.surface-variant-9 { background: rgba(63, 99, 117, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-9:hover { background: rgba(63, 99, 117, 0.14); }}
+.surface-variant-10 { background: rgba(70, 110, 130, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-10:hover { background: rgba(70, 110, 130, 0.14); }}
+.surface-variant-11 { background: rgba(77, 121, 143, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-11:hover { background: rgba(77, 121, 143, 0.14); }}
+.surface-variant-12 { background: rgba(84, 132, 156, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-12:hover { background: rgba(84, 132, 156, 0.14); }}
+.surface-variant-13 { background: rgba(91, 143, 169, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-13:hover { background: rgba(91, 143, 169, 0.14); }}
+.surface-variant-14 { background: rgba(98, 154, 182, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-14:hover { background: rgba(98, 154, 182, 0.14); }}
+.surface-variant-15 { background: rgba(105, 165, 195, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-15:hover { background: rgba(105, 165, 195, 0.14); }}
+.surface-variant-16 { background: rgba(112, 176, 208, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-16:hover { background: rgba(112, 176, 208, 0.14); }}
+.surface-variant-17 { background: rgba(119, 187, 221, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-17:hover { background: rgba(119, 187, 221, 0.14); }}
+.surface-variant-18 { background: rgba(126, 198, 234, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-18:hover { background: rgba(126, 198, 234, 0.14); }}
+.surface-variant-19 { background: rgba(133, 209, 247, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-19:hover { background: rgba(133, 209, 247, 0.14); }}
+.surface-variant-20 { background: rgba(140, 220, 5, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-20:hover { background: rgba(140, 220, 5, 0.14); }}
+.surface-variant-21 { background: rgba(147, 231, 18, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-21:hover { background: rgba(147, 231, 18, 0.14); }}
+.surface-variant-22 { background: rgba(154, 242, 31, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-22:hover { background: rgba(154, 242, 31, 0.14); }}
+.surface-variant-23 { background: rgba(161, 253, 44, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-23:hover { background: rgba(161, 253, 44, 0.14); }}
+.surface-variant-24 { background: rgba(168, 9, 57, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-24:hover { background: rgba(168, 9, 57, 0.14); }}
+.surface-variant-25 { background: rgba(175, 20, 70, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-25:hover { background: rgba(175, 20, 70, 0.14); }}
+.surface-variant-26 { background: rgba(182, 31, 83, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-26:hover { background: rgba(182, 31, 83, 0.14); }}
+.surface-variant-27 { background: rgba(189, 42, 96, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-27:hover { background: rgba(189, 42, 96, 0.14); }}
+.surface-variant-28 { background: rgba(196, 53, 109, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-28:hover { background: rgba(196, 53, 109, 0.14); }}
+.surface-variant-29 { background: rgba(203, 64, 122, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-29:hover { background: rgba(203, 64, 122, 0.14); }}
+.surface-variant-30 { background: rgba(210, 75, 135, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-30:hover { background: rgba(210, 75, 135, 0.14); }}
+.surface-variant-31 { background: rgba(217, 86, 148, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-31:hover { background: rgba(217, 86, 148, 0.14); }}
+.surface-variant-32 { background: rgba(224, 97, 161, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-32:hover { background: rgba(224, 97, 161, 0.14); }}
+.surface-variant-33 { background: rgba(231, 108, 174, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-33:hover { background: rgba(231, 108, 174, 0.14); }}
+.surface-variant-34 { background: rgba(238, 119, 187, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-34:hover { background: rgba(238, 119, 187, 0.14); }}
+.surface-variant-35 { background: rgba(245, 130, 200, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-35:hover { background: rgba(245, 130, 200, 0.14); }}
+.surface-variant-36 { background: rgba(252, 141, 213, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-36:hover { background: rgba(252, 141, 213, 0.14); }}
+.surface-variant-37 { background: rgba(4, 152, 226, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-37:hover { background: rgba(4, 152, 226, 0.14); }}
+.surface-variant-38 { background: rgba(11, 163, 239, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-38:hover { background: rgba(11, 163, 239, 0.14); }}
+.surface-variant-39 { background: rgba(18, 174, 252, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-39:hover { background: rgba(18, 174, 252, 0.14); }}
+.surface-variant-40 { background: rgba(25, 185, 10, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-40:hover { background: rgba(25, 185, 10, 0.14); }}
+.surface-variant-41 { background: rgba(32, 196, 23, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-41:hover { background: rgba(32, 196, 23, 0.14); }}
+.surface-variant-42 { background: rgba(39, 207, 36, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-42:hover { background: rgba(39, 207, 36, 0.14); }}
+.surface-variant-43 { background: rgba(46, 218, 49, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-43:hover { background: rgba(46, 218, 49, 0.14); }}
+.surface-variant-44 { background: rgba(53, 229, 62, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-44:hover { background: rgba(53, 229, 62, 0.14); }}
+.surface-variant-45 { background: rgba(60, 240, 75, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-45:hover { background: rgba(60, 240, 75, 0.14); }}
+.surface-variant-46 { background: rgba(67, 251, 88, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-46:hover { background: rgba(67, 251, 88, 0.14); }}
+.surface-variant-47 { background: rgba(74, 7, 101, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-47:hover { background: rgba(74, 7, 101, 0.14); }}
+.surface-variant-48 { background: rgba(81, 18, 114, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-48:hover { background: rgba(81, 18, 114, 0.14); }}
+.surface-variant-49 { background: rgba(88, 29, 127, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-49:hover { background: rgba(88, 29, 127, 0.14); }}
+.surface-variant-50 { background: rgba(95, 40, 140, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-50:hover { background: rgba(95, 40, 140, 0.14); }}
+.surface-variant-51 { background: rgba(102, 51, 153, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-51:hover { background: rgba(102, 51, 153, 0.14); }}
+.surface-variant-52 { background: rgba(109, 62, 166, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-52:hover { background: rgba(109, 62, 166, 0.14); }}
+.surface-variant-53 { background: rgba(116, 73, 179, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-53:hover { background: rgba(116, 73, 179, 0.14); }}
+.surface-variant-54 { background: rgba(123, 84, 192, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-54:hover { background: rgba(123, 84, 192, 0.14); }}
+.surface-variant-55 { background: rgba(130, 95, 205, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-55:hover { background: rgba(130, 95, 205, 0.14); }}
+.surface-variant-56 { background: rgba(137, 106, 218, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-56:hover { background: rgba(137, 106, 218, 0.14); }}
+.surface-variant-57 { background: rgba(144, 117, 231, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-57:hover { background: rgba(144, 117, 231, 0.14); }}
+.surface-variant-58 { background: rgba(151, 128, 244, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-58:hover { background: rgba(151, 128, 244, 0.14); }}
+.surface-variant-59 { background: rgba(158, 139, 2, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-59:hover { background: rgba(158, 139, 2, 0.14); }}
+.surface-variant-60 { background: rgba(165, 150, 15, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-60:hover { background: rgba(165, 150, 15, 0.14); }}
+.surface-variant-61 { background: rgba(172, 161, 28, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-61:hover { background: rgba(172, 161, 28, 0.14); }}
+.surface-variant-62 { background: rgba(179, 172, 41, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-62:hover { background: rgba(179, 172, 41, 0.14); }}
+.surface-variant-63 { background: rgba(186, 183, 54, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-63:hover { background: rgba(186, 183, 54, 0.14); }}
+.surface-variant-64 { background: rgba(193, 194, 67, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-64:hover { background: rgba(193, 194, 67, 0.14); }}
+.surface-variant-65 { background: rgba(200, 205, 80, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-65:hover { background: rgba(200, 205, 80, 0.14); }}
+.surface-variant-66 { background: rgba(207, 216, 93, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-66:hover { background: rgba(207, 216, 93, 0.14); }}
+.surface-variant-67 { background: rgba(214, 227, 106, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-67:hover { background: rgba(214, 227, 106, 0.14); }}
+.surface-variant-68 { background: rgba(221, 238, 119, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-68:hover { background: rgba(221, 238, 119, 0.14); }}
+.surface-variant-69 { background: rgba(228, 249, 132, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-69:hover { background: rgba(228, 249, 132, 0.14); }}
+.surface-variant-70 { background: rgba(235, 5, 145, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-70:hover { background: rgba(235, 5, 145, 0.14); }}
+.surface-variant-71 { background: rgba(242, 16, 158, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-71:hover { background: rgba(242, 16, 158, 0.14); }}
+.surface-variant-72 { background: rgba(249, 27, 171, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-72:hover { background: rgba(249, 27, 171, 0.14); }}
+.surface-variant-73 { background: rgba(1, 38, 184, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-73:hover { background: rgba(1, 38, 184, 0.14); }}
+.surface-variant-74 { background: rgba(8, 49, 197, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-74:hover { background: rgba(8, 49, 197, 0.14); }}
+.surface-variant-75 { background: rgba(15, 60, 210, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-75:hover { background: rgba(15, 60, 210, 0.14); }}
+.surface-variant-76 { background: rgba(22, 71, 223, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-76:hover { background: rgba(22, 71, 223, 0.14); }}
+.surface-variant-77 { background: rgba(29, 82, 236, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-77:hover { background: rgba(29, 82, 236, 0.14); }}
+.surface-variant-78 { background: rgba(36, 93, 249, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-78:hover { background: rgba(36, 93, 249, 0.14); }}
+.surface-variant-79 { background: rgba(43, 104, 7, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-79:hover { background: rgba(43, 104, 7, 0.14); }}
+.surface-variant-80 { background: rgba(50, 115, 20, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-80:hover { background: rgba(50, 115, 20, 0.14); }}
+.surface-variant-81 { background: rgba(57, 126, 33, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-81:hover { background: rgba(57, 126, 33, 0.14); }}
+.surface-variant-82 { background: rgba(64, 137, 46, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-82:hover { background: rgba(64, 137, 46, 0.14); }}
+.surface-variant-83 { background: rgba(71, 148, 59, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-83:hover { background: rgba(71, 148, 59, 0.14); }}
+.surface-variant-84 { background: rgba(78, 159, 72, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-84:hover { background: rgba(78, 159, 72, 0.14); }}
+.surface-variant-85 { background: rgba(85, 170, 85, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-85:hover { background: rgba(85, 170, 85, 0.14); }}
+.surface-variant-86 { background: rgba(92, 181, 98, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-86:hover { background: rgba(92, 181, 98, 0.14); }}
+.surface-variant-87 { background: rgba(99, 192, 111, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-87:hover { background: rgba(99, 192, 111, 0.14); }}
+.surface-variant-88 { background: rgba(106, 203, 124, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-88:hover { background: rgba(106, 203, 124, 0.14); }}
+.surface-variant-89 { background: rgba(113, 214, 137, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-89:hover { background: rgba(113, 214, 137, 0.14); }}
+.surface-variant-90 { background: rgba(120, 225, 150, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-90:hover { background: rgba(120, 225, 150, 0.14); }}
+.surface-variant-91 { background: rgba(127, 236, 163, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-91:hover { background: rgba(127, 236, 163, 0.14); }}
+.surface-variant-92 { background: rgba(134, 247, 176, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-92:hover { background: rgba(134, 247, 176, 0.14); }}
+.surface-variant-93 { background: rgba(141, 3, 189, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-93:hover { background: rgba(141, 3, 189, 0.14); }}
+.surface-variant-94 { background: rgba(148, 14, 202, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-94:hover { background: rgba(148, 14, 202, 0.14); }}
+.surface-variant-95 { background: rgba(155, 25, 215, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-95:hover { background: rgba(155, 25, 215, 0.14); }}
+.surface-variant-96 { background: rgba(162, 36, 228, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-96:hover { background: rgba(162, 36, 228, 0.14); }}
+.surface-variant-97 { background: rgba(169, 47, 241, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-97:hover { background: rgba(169, 47, 241, 0.14); }}
+.surface-variant-98 { background: rgba(176, 58, 254, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-98:hover { background: rgba(176, 58, 254, 0.14); }}
+.surface-variant-99 { background: rgba(183, 69, 12, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-99:hover { background: rgba(183, 69, 12, 0.14); }}
+.surface-variant-100 { background: rgba(190, 80, 25, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-100:hover { background: rgba(190, 80, 25, 0.14); }}
+.surface-variant-101 { background: rgba(197, 91, 38, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-101:hover { background: rgba(197, 91, 38, 0.14); }}
+.surface-variant-102 { background: rgba(204, 102, 51, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-102:hover { background: rgba(204, 102, 51, 0.14); }}
+.surface-variant-103 { background: rgba(211, 113, 64, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-103:hover { background: rgba(211, 113, 64, 0.14); }}
+.surface-variant-104 { background: rgba(218, 124, 77, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-104:hover { background: rgba(218, 124, 77, 0.14); }}
+.surface-variant-105 { background: rgba(225, 135, 90, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-105:hover { background: rgba(225, 135, 90, 0.14); }}
+.surface-variant-106 { background: rgba(232, 146, 103, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-106:hover { background: rgba(232, 146, 103, 0.14); }}
+.surface-variant-107 { background: rgba(239, 157, 116, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-107:hover { background: rgba(239, 157, 116, 0.14); }}
+.surface-variant-108 { background: rgba(246, 168, 129, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-108:hover { background: rgba(246, 168, 129, 0.14); }}
+.surface-variant-109 { background: rgba(253, 179, 142, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-109:hover { background: rgba(253, 179, 142, 0.14); }}
+.surface-variant-110 { background: rgba(5, 190, 155, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-110:hover { background: rgba(5, 190, 155, 0.14); }}
+.surface-variant-111 { background: rgba(12, 201, 168, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-111:hover { background: rgba(12, 201, 168, 0.14); }}
+.surface-variant-112 { background: rgba(19, 212, 181, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-112:hover { background: rgba(19, 212, 181, 0.14); }}
+.surface-variant-113 { background: rgba(26, 223, 194, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-113:hover { background: rgba(26, 223, 194, 0.14); }}
+.surface-variant-114 { background: rgba(33, 234, 207, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-114:hover { background: rgba(33, 234, 207, 0.14); }}
+.surface-variant-115 { background: rgba(40, 245, 220, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-115:hover { background: rgba(40, 245, 220, 0.14); }}
+.surface-variant-116 { background: rgba(47, 1, 233, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-116:hover { background: rgba(47, 1, 233, 0.14); }}
+.surface-variant-117 { background: rgba(54, 12, 246, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-117:hover { background: rgba(54, 12, 246, 0.14); }}
+.surface-variant-118 { background: rgba(61, 23, 4, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-118:hover { background: rgba(61, 23, 4, 0.14); }}
+.surface-variant-119 { background: rgba(68, 34, 17, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-119:hover { background: rgba(68, 34, 17, 0.14); }}
+.surface-variant-120 { background: rgba(75, 45, 30, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-120:hover { background: rgba(75, 45, 30, 0.14); }}
+.surface-variant-121 { background: rgba(82, 56, 43, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-121:hover { background: rgba(82, 56, 43, 0.14); }}
+.surface-variant-122 { background: rgba(89, 67, 56, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-122:hover { background: rgba(89, 67, 56, 0.14); }}
+.surface-variant-123 { background: rgba(96, 78, 69, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-123:hover { background: rgba(96, 78, 69, 0.14); }}
+.surface-variant-124 { background: rgba(103, 89, 82, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-124:hover { background: rgba(103, 89, 82, 0.14); }}
+.surface-variant-125 { background: rgba(110, 100, 95, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-125:hover { background: rgba(110, 100, 95, 0.14); }}
+.surface-variant-126 { background: rgba(117, 111, 108, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-126:hover { background: rgba(117, 111, 108, 0.14); }}
+.surface-variant-127 { background: rgba(124, 122, 121, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-127:hover { background: rgba(124, 122, 121, 0.14); }}
+.surface-variant-128 { background: rgba(131, 133, 134, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-128:hover { background: rgba(131, 133, 134, 0.14); }}
+.surface-variant-129 { background: rgba(138, 144, 147, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-129:hover { background: rgba(138, 144, 147, 0.14); }}
+.surface-variant-130 { background: rgba(145, 155, 160, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-130:hover { background: rgba(145, 155, 160, 0.14); }}
+.surface-variant-131 { background: rgba(152, 166, 173, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-131:hover { background: rgba(152, 166, 173, 0.14); }}
+.surface-variant-132 { background: rgba(159, 177, 186, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-132:hover { background: rgba(159, 177, 186, 0.14); }}
+.surface-variant-133 { background: rgba(166, 188, 199, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-133:hover { background: rgba(166, 188, 199, 0.14); }}
+.surface-variant-134 { background: rgba(173, 199, 212, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-134:hover { background: rgba(173, 199, 212, 0.14); }}
+.surface-variant-135 { background: rgba(180, 210, 225, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-135:hover { background: rgba(180, 210, 225, 0.14); }}
+.surface-variant-136 { background: rgba(187, 221, 238, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-136:hover { background: rgba(187, 221, 238, 0.14); }}
+.surface-variant-137 { background: rgba(194, 232, 251, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-137:hover { background: rgba(194, 232, 251, 0.14); }}
+.surface-variant-138 { background: rgba(201, 243, 9, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-138:hover { background: rgba(201, 243, 9, 0.14); }}
+.surface-variant-139 { background: rgba(208, 254, 22, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-139:hover { background: rgba(208, 254, 22, 0.14); }}
+.surface-variant-140 { background: rgba(215, 10, 35, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-140:hover { background: rgba(215, 10, 35, 0.14); }}
+.surface-variant-141 { background: rgba(222, 21, 48, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-141:hover { background: rgba(222, 21, 48, 0.14); }}
+.surface-variant-142 { background: rgba(229, 32, 61, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-142:hover { background: rgba(229, 32, 61, 0.14); }}
+.surface-variant-143 { background: rgba(236, 43, 74, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-143:hover { background: rgba(236, 43, 74, 0.14); }}
+.surface-variant-144 { background: rgba(243, 54, 87, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-144:hover { background: rgba(243, 54, 87, 0.14); }}
+.surface-variant-145 { background: rgba(250, 65, 100, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-145:hover { background: rgba(250, 65, 100, 0.14); }}
+.surface-variant-146 { background: rgba(2, 76, 113, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-146:hover { background: rgba(2, 76, 113, 0.14); }}
+.surface-variant-147 { background: rgba(9, 87, 126, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-147:hover { background: rgba(9, 87, 126, 0.14); }}
+.surface-variant-148 { background: rgba(16, 98, 139, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-148:hover { background: rgba(16, 98, 139, 0.14); }}
+.surface-variant-149 { background: rgba(23, 109, 152, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-149:hover { background: rgba(23, 109, 152, 0.14); }}
+.surface-variant-150 { background: rgba(30, 120, 165, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-150:hover { background: rgba(30, 120, 165, 0.14); }}
+.surface-variant-151 { background: rgba(37, 131, 178, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-151:hover { background: rgba(37, 131, 178, 0.14); }}
+.surface-variant-152 { background: rgba(44, 142, 191, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-152:hover { background: rgba(44, 142, 191, 0.14); }}
+.surface-variant-153 { background: rgba(51, 153, 204, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-153:hover { background: rgba(51, 153, 204, 0.14); }}
+.surface-variant-154 { background: rgba(58, 164, 217, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-154:hover { background: rgba(58, 164, 217, 0.14); }}
+.surface-variant-155 { background: rgba(65, 175, 230, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-155:hover { background: rgba(65, 175, 230, 0.14); }}
+.surface-variant-156 { background: rgba(72, 186, 243, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-156:hover { background: rgba(72, 186, 243, 0.14); }}
+.surface-variant-157 { background: rgba(79, 197, 1, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-157:hover { background: rgba(79, 197, 1, 0.14); }}
+.surface-variant-158 { background: rgba(86, 208, 14, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-158:hover { background: rgba(86, 208, 14, 0.14); }}
+.surface-variant-159 { background: rgba(93, 219, 27, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-159:hover { background: rgba(93, 219, 27, 0.14); }}
+.surface-variant-160 { background: rgba(100, 230, 40, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-160:hover { background: rgba(100, 230, 40, 0.14); }}
+.surface-variant-161 { background: rgba(107, 241, 53, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-161:hover { background: rgba(107, 241, 53, 0.14); }}
+.surface-variant-162 { background: rgba(114, 252, 66, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-162:hover { background: rgba(114, 252, 66, 0.14); }}
+.surface-variant-163 { background: rgba(121, 8, 79, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-163:hover { background: rgba(121, 8, 79, 0.14); }}
+.surface-variant-164 { background: rgba(128, 19, 92, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-164:hover { background: rgba(128, 19, 92, 0.14); }}
+.surface-variant-165 { background: rgba(135, 30, 105, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-165:hover { background: rgba(135, 30, 105, 0.14); }}
+.surface-variant-166 { background: rgba(142, 41, 118, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-166:hover { background: rgba(142, 41, 118, 0.14); }}
+.surface-variant-167 { background: rgba(149, 52, 131, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-167:hover { background: rgba(149, 52, 131, 0.14); }}
+.surface-variant-168 { background: rgba(156, 63, 144, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-168:hover { background: rgba(156, 63, 144, 0.14); }}
+.surface-variant-169 { background: rgba(163, 74, 157, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-169:hover { background: rgba(163, 74, 157, 0.14); }}
+.surface-variant-170 { background: rgba(170, 85, 170, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-170:hover { background: rgba(170, 85, 170, 0.14); }}
+.surface-variant-171 { background: rgba(177, 96, 183, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-171:hover { background: rgba(177, 96, 183, 0.14); }}
+.surface-variant-172 { background: rgba(184, 107, 196, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-172:hover { background: rgba(184, 107, 196, 0.14); }}
+.surface-variant-173 { background: rgba(191, 118, 209, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-173:hover { background: rgba(191, 118, 209, 0.14); }}
+.surface-variant-174 { background: rgba(198, 129, 222, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-174:hover { background: rgba(198, 129, 222, 0.14); }}
+.surface-variant-175 { background: rgba(205, 140, 235, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-175:hover { background: rgba(205, 140, 235, 0.14); }}
+.surface-variant-176 { background: rgba(212, 151, 248, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-176:hover { background: rgba(212, 151, 248, 0.14); }}
+.surface-variant-177 { background: rgba(219, 162, 6, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-177:hover { background: rgba(219, 162, 6, 0.14); }}
+.surface-variant-178 { background: rgba(226, 173, 19, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-178:hover { background: rgba(226, 173, 19, 0.14); }}
+.surface-variant-179 { background: rgba(233, 184, 32, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-179:hover { background: rgba(233, 184, 32, 0.14); }}
+.surface-variant-180 { background: rgba(240, 195, 45, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-180:hover { background: rgba(240, 195, 45, 0.14); }}
+.surface-variant-181 { background: rgba(247, 206, 58, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-181:hover { background: rgba(247, 206, 58, 0.14); }}
+.surface-variant-182 { background: rgba(254, 217, 71, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-182:hover { background: rgba(254, 217, 71, 0.14); }}
+.surface-variant-183 { background: rgba(6, 228, 84, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-183:hover { background: rgba(6, 228, 84, 0.14); }}
+.surface-variant-184 { background: rgba(13, 239, 97, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-184:hover { background: rgba(13, 239, 97, 0.14); }}
+.surface-variant-185 { background: rgba(20, 250, 110, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-185:hover { background: rgba(20, 250, 110, 0.14); }}
+.surface-variant-186 { background: rgba(27, 6, 123, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-186:hover { background: rgba(27, 6, 123, 0.14); }}
+.surface-variant-187 { background: rgba(34, 17, 136, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-187:hover { background: rgba(34, 17, 136, 0.14); }}
+.surface-variant-188 { background: rgba(41, 28, 149, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-188:hover { background: rgba(41, 28, 149, 0.14); }}
+.surface-variant-189 { background: rgba(48, 39, 162, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-189:hover { background: rgba(48, 39, 162, 0.14); }}
+.surface-variant-190 { background: rgba(55, 50, 175, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-190:hover { background: rgba(55, 50, 175, 0.14); }}
+.surface-variant-191 { background: rgba(62, 61, 188, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-191:hover { background: rgba(62, 61, 188, 0.14); }}
+.surface-variant-192 { background: rgba(69, 72, 201, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-192:hover { background: rgba(69, 72, 201, 0.14); }}
+.surface-variant-193 { background: rgba(76, 83, 214, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-193:hover { background: rgba(76, 83, 214, 0.14); }}
+.surface-variant-194 { background: rgba(83, 94, 227, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-194:hover { background: rgba(83, 94, 227, 0.14); }}
+.surface-variant-195 { background: rgba(90, 105, 240, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-195:hover { background: rgba(90, 105, 240, 0.14); }}
+.surface-variant-196 { background: rgba(97, 116, 253, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-196:hover { background: rgba(97, 116, 253, 0.14); }}
+.surface-variant-197 { background: rgba(104, 127, 11, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-197:hover { background: rgba(104, 127, 11, 0.14); }}
+.surface-variant-198 { background: rgba(111, 138, 24, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-198:hover { background: rgba(111, 138, 24, 0.14); }}
+.surface-variant-199 { background: rgba(118, 149, 37, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-199:hover { background: rgba(118, 149, 37, 0.14); }}
+.surface-variant-200 { background: rgba(125, 160, 50, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-200:hover { background: rgba(125, 160, 50, 0.14); }}
+.surface-variant-201 { background: rgba(132, 171, 63, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-201:hover { background: rgba(132, 171, 63, 0.14); }}
+.surface-variant-202 { background: rgba(139, 182, 76, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-202:hover { background: rgba(139, 182, 76, 0.14); }}
+.surface-variant-203 { background: rgba(146, 193, 89, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-203:hover { background: rgba(146, 193, 89, 0.14); }}
+.surface-variant-204 { background: rgba(153, 204, 102, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-204:hover { background: rgba(153, 204, 102, 0.14); }}
+.surface-variant-205 { background: rgba(160, 215, 115, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-205:hover { background: rgba(160, 215, 115, 0.14); }}
+.surface-variant-206 { background: rgba(167, 226, 128, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-206:hover { background: rgba(167, 226, 128, 0.14); }}
+.surface-variant-207 { background: rgba(174, 237, 141, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-207:hover { background: rgba(174, 237, 141, 0.14); }}
+.surface-variant-208 { background: rgba(181, 248, 154, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-208:hover { background: rgba(181, 248, 154, 0.14); }}
+.surface-variant-209 { background: rgba(188, 4, 167, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-209:hover { background: rgba(188, 4, 167, 0.14); }}
+.surface-variant-210 { background: rgba(195, 15, 180, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-210:hover { background: rgba(195, 15, 180, 0.14); }}
+.surface-variant-211 { background: rgba(202, 26, 193, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-211:hover { background: rgba(202, 26, 193, 0.14); }}
+.surface-variant-212 { background: rgba(209, 37, 206, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-212:hover { background: rgba(209, 37, 206, 0.14); }}
+.surface-variant-213 { background: rgba(216, 48, 219, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-213:hover { background: rgba(216, 48, 219, 0.14); }}
+.surface-variant-214 { background: rgba(223, 59, 232, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-214:hover { background: rgba(223, 59, 232, 0.14); }}
+.surface-variant-215 { background: rgba(230, 70, 245, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-215:hover { background: rgba(230, 70, 245, 0.14); }}
+.surface-variant-216 { background: rgba(237, 81, 3, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-216:hover { background: rgba(237, 81, 3, 0.14); }}
+.surface-variant-217 { background: rgba(244, 92, 16, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-217:hover { background: rgba(244, 92, 16, 0.14); }}
+.surface-variant-218 { background: rgba(251, 103, 29, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-218:hover { background: rgba(251, 103, 29, 0.14); }}
+.surface-variant-219 { background: rgba(3, 114, 42, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-219:hover { background: rgba(3, 114, 42, 0.14); }}
+.surface-variant-220 { background: rgba(10, 125, 55, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-220:hover { background: rgba(10, 125, 55, 0.14); }}
+.surface-variant-221 { background: rgba(17, 136, 68, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-221:hover { background: rgba(17, 136, 68, 0.14); }}
+.surface-variant-222 { background: rgba(24, 147, 81, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-222:hover { background: rgba(24, 147, 81, 0.14); }}
+.surface-variant-223 { background: rgba(31, 158, 94, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-223:hover { background: rgba(31, 158, 94, 0.14); }}
+.surface-variant-224 { background: rgba(38, 169, 107, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-224:hover { background: rgba(38, 169, 107, 0.14); }}
+.surface-variant-225 { background: rgba(45, 180, 120, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-225:hover { background: rgba(45, 180, 120, 0.14); }}
+.surface-variant-226 { background: rgba(52, 191, 133, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-226:hover { background: rgba(52, 191, 133, 0.14); }}
+.surface-variant-227 { background: rgba(59, 202, 146, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-227:hover { background: rgba(59, 202, 146, 0.14); }}
+.surface-variant-228 { background: rgba(66, 213, 159, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-228:hover { background: rgba(66, 213, 159, 0.14); }}
+.surface-variant-229 { background: rgba(73, 224, 172, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-229:hover { background: rgba(73, 224, 172, 0.14); }}
+.surface-variant-230 { background: rgba(80, 235, 185, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-230:hover { background: rgba(80, 235, 185, 0.14); }}
+.surface-variant-231 { background: rgba(87, 246, 198, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-231:hover { background: rgba(87, 246, 198, 0.14); }}
+.surface-variant-232 { background: rgba(94, 2, 211, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-232:hover { background: rgba(94, 2, 211, 0.14); }}
+.surface-variant-233 { background: rgba(101, 13, 224, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-233:hover { background: rgba(101, 13, 224, 0.14); }}
+.surface-variant-234 { background: rgba(108, 24, 237, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-234:hover { background: rgba(108, 24, 237, 0.14); }}
+.surface-variant-235 { background: rgba(115, 35, 250, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-235:hover { background: rgba(115, 35, 250, 0.14); }}
+.surface-variant-236 { background: rgba(122, 46, 8, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-236:hover { background: rgba(122, 46, 8, 0.14); }}
+.surface-variant-237 { background: rgba(129, 57, 21, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-237:hover { background: rgba(129, 57, 21, 0.14); }}
+.surface-variant-238 { background: rgba(136, 68, 34, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-238:hover { background: rgba(136, 68, 34, 0.14); }}
+.surface-variant-239 { background: rgba(143, 79, 47, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-239:hover { background: rgba(143, 79, 47, 0.14); }}
+.surface-variant-240 { background: rgba(150, 90, 60, 0.08); border: 1px solid rgba(0,0,0,0.04); }}
+.surface-variant-240:hover { background: rgba(150, 90, 60, 0.14); }}
+.estimate-mini-panel { display:grid;gap:.75rem;margin-top:1rem;background:rgba(27,94,32,.06);padding:1rem;border-radius:var(--radius-sm); }
+.estimate-mini-panel div { display:flex;justify-content:space-between;gap:1rem; }
+#installationTable input { min-width:110px; }
+#drawingsTable .btn + .btn { margin-left:.35rem; }
+.upload-dropzone.is-dragover { background:rgba(76,175,80,.12);border-color:var(--primary); }
+.report-btn { justify-content:flex-start; }
+.stat-card { min-height:120px; }
+#catalogTable tbody tr td:last-child { white-space:nowrap; }
+.catalog-highlight { background:rgba(255,111,0,.08); }
+/* fence depot stylesheet reference line 1281 */
+/* fence depot stylesheet reference line 1282 */
+/* fence depot stylesheet reference line 1283 */
+/* fence depot stylesheet reference line 1284 */
+/* fence depot stylesheet reference line 1285 */
+/* fence depot stylesheet reference line 1286 */
+/* fence depot stylesheet reference line 1287 */
+/* fence depot stylesheet reference line 1288 */
+/* fence depot stylesheet reference line 1289 */
+/* fence depot stylesheet reference line 1290 */
+/* fence depot stylesheet reference line 1291 */
+/* fence depot stylesheet reference line 1292 */
+/* fence depot stylesheet reference line 1293 */
+/* fence depot stylesheet reference line 1294 */
+/* fence depot stylesheet reference line 1295 */
+/* fence depot stylesheet reference line 1296 */
+/* fence depot stylesheet reference line 1297 */
+/* fence depot stylesheet reference line 1298 */
+/* fence depot stylesheet reference line 1299 */
+/* fence depot stylesheet reference line 1300 */
+/* fence depot stylesheet reference line 1301 */
+/* fence depot stylesheet reference line 1302 */
+/* fence depot stylesheet reference line 1303 */
+/* fence depot stylesheet reference line 1304 */
+/* fence depot stylesheet reference line 1305 */
+/* fence depot stylesheet reference line 1306 */
+/* fence depot stylesheet reference line 1307 */
+/* fence depot stylesheet reference line 1308 */
+/* fence depot stylesheet reference line 1309 */
+/* fence depot stylesheet reference line 1310 */
+/* fence depot stylesheet reference line 1311 */
+/* fence depot stylesheet reference line 1312 */
+/* fence depot stylesheet reference line 1313 */
+/* fence depot stylesheet reference line 1314 */
+/* fence depot stylesheet reference line 1315 */
+/* fence depot stylesheet reference line 1316 */
+/* fence depot stylesheet reference line 1317 */
+/* fence depot stylesheet reference line 1318 */
+/* fence depot stylesheet reference line 1319 */
+/* fence depot stylesheet reference line 1320 */
+/* fence depot stylesheet reference line 1321 */
+/* fence depot stylesheet reference line 1322 */
+/* fence depot stylesheet reference line 1323 */
+/* fence depot stylesheet reference line 1324 */
+/* fence depot stylesheet reference line 1325 */
+/* fence depot stylesheet reference line 1326 */
+/* fence depot stylesheet reference line 1327 */
+/* fence depot stylesheet reference line 1328 */
+/* fence depot stylesheet reference line 1329 */
+/* fence depot stylesheet reference line 1330 */
+/* fence depot stylesheet reference line 1331 */
+/* fence depot stylesheet reference line 1332 */
+/* fence depot stylesheet reference line 1333 */
+/* fence depot stylesheet reference line 1334 */
+/* fence depot stylesheet reference line 1335 */
+/* fence depot stylesheet reference line 1336 */
+/* fence depot stylesheet reference line 1337 */
+/* fence depot stylesheet reference line 1338 */
+/* fence depot stylesheet reference line 1339 */
+/* fence depot stylesheet reference line 1340 */
+/* fence depot stylesheet reference line 1341 */
+/* fence depot stylesheet reference line 1342 */
+/* fence depot stylesheet reference line 1343 */
+/* fence depot stylesheet reference line 1344 */
+/* fence depot stylesheet reference line 1345 */
+/* fence depot stylesheet reference line 1346 */
+/* fence depot stylesheet reference line 1347 */
+/* fence depot stylesheet reference line 1348 */
+/* fence depot stylesheet reference line 1349 */
+/* fence depot stylesheet reference line 1350 */
+/* fence depot stylesheet reference line 1351 */
+/* fence depot stylesheet reference line 1352 */
+/* fence depot stylesheet reference line 1353 */
+/* fence depot stylesheet reference line 1354 */
+/* fence depot stylesheet reference line 1355 */
+/* fence depot stylesheet reference line 1356 */
+/* fence depot stylesheet reference line 1357 */
+/* fence depot stylesheet reference line 1358 */
+/* fence depot stylesheet reference line 1359 */
+/* fence depot stylesheet reference line 1360 */
+/* fence depot stylesheet reference line 1361 */
+/* fence depot stylesheet reference line 1362 */
+/* fence depot stylesheet reference line 1363 */
+/* fence depot stylesheet reference line 1364 */
+/* fence depot stylesheet reference line 1365 */
+/* fence depot stylesheet reference line 1366 */
+/* fence depot stylesheet reference line 1367 */
+/* fence depot stylesheet reference line 1368 */
+/* fence depot stylesheet reference line 1369 */
+/* fence depot stylesheet reference line 1370 */
+/* fence depot stylesheet reference line 1371 */
+/* fence depot stylesheet reference line 1372 */
+/* fence depot stylesheet reference line 1373 */
+/* fence depot stylesheet reference line 1374 */
+/* fence depot stylesheet reference line 1375 */
+/* fence depot stylesheet reference line 1376 */
+/* fence depot stylesheet reference line 1377 */
+/* fence depot stylesheet reference line 1378 */
+/* fence depot stylesheet reference line 1379 */
+/* fence depot stylesheet reference line 1380 */
+/* fence depot stylesheet reference line 1381 */
+/* fence depot stylesheet reference line 1382 */
+/* fence depot stylesheet reference line 1383 */
+/* fence depot stylesheet reference line 1384 */
+/* fence depot stylesheet reference line 1385 */
+/* fence depot stylesheet reference line 1386 */
+/* fence depot stylesheet reference line 1387 */
+/* fence depot stylesheet reference line 1388 */
+/* fence depot stylesheet reference line 1389 */
+/* fence depot stylesheet reference line 1390 */
+/* fence depot stylesheet reference line 1391 */
+/* fence depot stylesheet reference line 1392 */
+/* fence depot stylesheet reference line 1393 */
+/* fence depot stylesheet reference line 1394 */
+/* fence depot stylesheet reference line 1395 */
+/* fence depot stylesheet reference line 1396 */
+/* fence depot stylesheet reference line 1397 */
+/* fence depot stylesheet reference line 1398 */
+/* fence depot stylesheet reference line 1399 */
+/* fence depot stylesheet reference line 1400 */
+/* fence depot stylesheet reference line 1401 */
+/* fence depot stylesheet reference line 1402 */
+/* fence depot stylesheet reference line 1403 */
+/* fence depot stylesheet reference line 1404 */
+/* fence depot stylesheet reference line 1405 */
+/* fence depot stylesheet reference line 1406 */
+/* fence depot stylesheet reference line 1407 */
+/* fence depot stylesheet reference line 1408 */
+/* fence depot stylesheet reference line 1409 */
+/* fence depot stylesheet reference line 1410 */
+/* fence depot stylesheet reference line 1411 */
+/* fence depot stylesheet reference line 1412 */
+/* fence depot stylesheet reference line 1413 */
+/* fence depot stylesheet reference line 1414 */
+/* fence depot stylesheet reference line 1415 */
+/* fence depot stylesheet reference line 1416 */
+/* fence depot stylesheet reference line 1417 */
+/* fence depot stylesheet reference line 1418 */
+/* fence depot stylesheet reference line 1419 */
+/* fence depot stylesheet reference line 1420 */
+/* fence depot stylesheet reference line 1421 */
+/* fence depot stylesheet reference line 1422 */
+/* fence depot stylesheet reference line 1423 */
+/* fence depot stylesheet reference line 1424 */
+/* fence depot stylesheet reference line 1425 */
+/* fence depot stylesheet reference line 1426 */
+/* fence depot stylesheet reference line 1427 */
+/* fence depot stylesheet reference line 1428 */
+/* fence depot stylesheet reference line 1429 */
+/* fence depot stylesheet reference line 1430 */
+/* fence depot stylesheet reference line 1431 */
+/* fence depot stylesheet reference line 1432 */
+/* fence depot stylesheet reference line 1433 */
+/* fence depot stylesheet reference line 1434 */
+/* fence depot stylesheet reference line 1435 */
+/* fence depot stylesheet reference line 1436 */
+/* fence depot stylesheet reference line 1437 */
+/* fence depot stylesheet reference line 1438 */
+/* fence depot stylesheet reference line 1439 */
+/* fence depot stylesheet reference line 1440 */
+/* fence depot stylesheet reference line 1441 */
+/* fence depot stylesheet reference line 1442 */
+/* fence depot stylesheet reference line 1443 */
+/* fence depot stylesheet reference line 1444 */
+/* fence depot stylesheet reference line 1445 */
+/* fence depot stylesheet reference line 1446 */
+/* fence depot stylesheet reference line 1447 */
+/* fence depot stylesheet reference line 1448 */
+/* fence depot stylesheet reference line 1449 */
+/* fence depot stylesheet reference line 1450 */
+/* fence depot stylesheet reference line 1451 */
+/* fence depot stylesheet reference line 1452 */
+/* fence depot stylesheet reference line 1453 */
+/* fence depot stylesheet reference line 1454 */
+/* fence depot stylesheet reference line 1455 */
+/* fence depot stylesheet reference line 1456 */
+/* fence depot stylesheet reference line 1457 */
+/* fence depot stylesheet reference line 1458 */
+/* fence depot stylesheet reference line 1459 */
+/* fence depot stylesheet reference line 1460 */
+/* fence depot stylesheet reference line 1461 */
+/* fence depot stylesheet reference line 1462 */
+/* fence depot stylesheet reference line 1463 */
+/* fence depot stylesheet reference line 1464 */
+/* fence depot stylesheet reference line 1465 */
+/* fence depot stylesheet reference line 1466 */
+/* fence depot stylesheet reference line 1467 */
+/* fence depot stylesheet reference line 1468 */
+/* fence depot stylesheet reference line 1469 */
+/* fence depot stylesheet reference line 1470 */
+/* fence depot stylesheet reference line 1471 */
+/* fence depot stylesheet reference line 1472 */
+/* fence depot stylesheet reference line 1473 */
+/* fence depot stylesheet reference line 1474 */
+/* fence depot stylesheet reference line 1475 */
+/* fence depot stylesheet reference line 1476 */
+/* fence depot stylesheet reference line 1477 */
+/* fence depot stylesheet reference line 1478 */
+/* fence depot stylesheet reference line 1479 */
+/* fence depot stylesheet reference line 1480 */
+/* fence depot stylesheet reference line 1481 */
+/* fence depot stylesheet reference line 1482 */
+/* fence depot stylesheet reference line 1483 */
+/* fence depot stylesheet reference line 1484 */
+/* fence depot stylesheet reference line 1485 */
+/* fence depot stylesheet reference line 1486 */
+/* fence depot stylesheet reference line 1487 */
+/* fence depot stylesheet reference line 1488 */
+/* fence depot stylesheet reference line 1489 */
+/* fence depot stylesheet reference line 1490 */
+/* fence depot stylesheet reference line 1491 */
+/* fence depot stylesheet reference line 1492 */
+/* fence depot stylesheet reference line 1493 */
+/* fence depot stylesheet reference line 1494 */
+/* fence depot stylesheet reference line 1495 */
+/* fence depot stylesheet reference line 1496 */
+/* fence depot stylesheet reference line 1497 */
+/* fence depot stylesheet reference line 1498 */
+/* fence depot stylesheet reference line 1499 */
+/* fence depot stylesheet reference line 1500 */
+/* fence depot stylesheet reference line 1501 */
+/* fence depot stylesheet reference line 1502 */
+/* fence depot stylesheet reference line 1503 */
+/* fence depot stylesheet reference line 1504 */
+/* fence depot stylesheet reference line 1505 */
+/* fence depot stylesheet reference line 1506 */
+/* fence depot stylesheet reference line 1507 */
+/* fence depot stylesheet reference line 1508 */
+/* fence depot stylesheet reference line 1509 */
+/* fence depot stylesheet reference line 1510 */
+/* fence depot stylesheet reference line 1511 */
+/* fence depot stylesheet reference line 1512 */
+/* fence depot stylesheet reference line 1513 */
+/* fence depot stylesheet reference line 1514 */
+/* fence depot stylesheet reference line 1515 */
+/* fence depot stylesheet reference line 1516 */
+/* fence depot stylesheet reference line 1517 */
+/* fence depot stylesheet reference line 1518 */
+/* fence depot stylesheet reference line 1519 */
+/* fence depot stylesheet reference line 1520 */
+/* fence depot stylesheet reference line 1521 */
+/* fence depot stylesheet reference line 1522 */
+/* fence depot stylesheet reference line 1523 */
+/* fence depot stylesheet reference line 1524 */
+/* fence depot stylesheet reference line 1525 */
+/* fence depot stylesheet reference line 1526 */
+/* fence depot stylesheet reference line 1527 */
+/* fence depot stylesheet reference line 1528 */
+/* fence depot stylesheet reference line 1529 */
+/* fence depot stylesheet reference line 1530 */
+/* fence depot stylesheet reference line 1531 */
+/* fence depot stylesheet reference line 1532 */
+/* fence depot stylesheet reference line 1533 */
+/* fence depot stylesheet reference line 1534 */
+/* fence depot stylesheet reference line 1535 */
+/* fence depot stylesheet reference line 1536 */
+/* fence depot stylesheet reference line 1537 */
+/* fence depot stylesheet reference line 1538 */
+/* fence depot stylesheet reference line 1539 */
+/* fence depot stylesheet reference line 1540 */
+/* fence depot stylesheet reference line 1541 */
+/* fence depot stylesheet reference line 1542 */
+/* fence depot stylesheet reference line 1543 */
+/* fence depot stylesheet reference line 1544 */
+/* fence depot stylesheet reference line 1545 */
+/* fence depot stylesheet reference line 1546 */
+/* fence depot stylesheet reference line 1547 */
+/* fence depot stylesheet reference line 1548 */
+/* fence depot stylesheet reference line 1549 */
+/* fence depot stylesheet reference line 1550 */
+/* fence depot stylesheet reference line 1551 */
+/* fence depot stylesheet reference line 1552 */
+/* fence depot stylesheet reference line 1553 */
+/* fence depot stylesheet reference line 1554 */
+/* fence depot stylesheet reference line 1555 */
+/* fence depot stylesheet reference line 1556 */
+/* fence depot stylesheet reference line 1557 */
+/* fence depot stylesheet reference line 1558 */
+/* fence depot stylesheet reference line 1559 */
+/* fence depot stylesheet reference line 1560 */
+/* fence depot stylesheet reference line 1561 */
+/* fence depot stylesheet reference line 1562 */
+/* fence depot stylesheet reference line 1563 */
+/* fence depot stylesheet reference line 1564 */
+/* fence depot stylesheet reference line 1565 */
+/* fence depot stylesheet reference line 1566 */
+/* fence depot stylesheet reference line 1567 */
+/* fence depot stylesheet reference line 1568 */
+/* fence depot stylesheet reference line 1569 */
+/* fence depot stylesheet reference line 1570 */
+/* fence depot stylesheet reference line 1571 */
+/* fence depot stylesheet reference line 1572 */
+/* fence depot stylesheet reference line 1573 */
+/* fence depot stylesheet reference line 1574 */
+/* fence depot stylesheet reference line 1575 */
+/* fence depot stylesheet reference line 1576 */
+/* fence depot stylesheet reference line 1577 */
+/* fence depot stylesheet reference line 1578 */
+/* fence depot stylesheet reference line 1579 */
+/* fence depot stylesheet reference line 1580 */
+/* fence depot stylesheet reference line 1581 */
+/* fence depot stylesheet reference line 1582 */
+/* fence depot stylesheet reference line 1583 */
+/* fence depot stylesheet reference line 1584 */
+/* fence depot stylesheet reference line 1585 */
+/* fence depot stylesheet reference line 1586 */
+/* fence depot stylesheet reference line 1587 */
+/* fence depot stylesheet reference line 1588 */
+/* fence depot stylesheet reference line 1589 */
+/* fence depot stylesheet reference line 1590 */
+/* fence depot stylesheet reference line 1591 */
+/* fence depot stylesheet reference line 1592 */
+/* fence depot stylesheet reference line 1593 */
+/* fence depot stylesheet reference line 1594 */
+/* fence depot stylesheet reference line 1595 */
+/* fence depot stylesheet reference line 1596 */
+/* fence depot stylesheet reference line 1597 */
+/* fence depot stylesheet reference line 1598 */
+/* fence depot stylesheet reference line 1599 */
+/* fence depot stylesheet reference line 1600 */
+/* fence depot stylesheet reference line 1601 */
+/* fence depot stylesheet reference line 1602 */
+/* fence depot stylesheet reference line 1603 */
+/* fence depot stylesheet reference line 1604 */
+/* fence depot stylesheet reference line 1605 */
+/* fence depot stylesheet reference line 1606 */
+/* fence depot stylesheet reference line 1607 */
+/* fence depot stylesheet reference line 1608 */
+/* fence depot stylesheet reference line 1609 */
+/* fence depot stylesheet reference line 1610 */
+/* fence depot stylesheet reference line 1611 */
+/* fence depot stylesheet reference line 1612 */
+/* fence depot stylesheet reference line 1613 */
+/* fence depot stylesheet reference line 1614 */
+/* fence depot stylesheet reference line 1615 */
+/* fence depot stylesheet reference line 1616 */
+/* fence depot stylesheet reference line 1617 */
+/* fence depot stylesheet reference line 1618 */
+/* fence depot stylesheet reference line 1619 */
+/* fence depot stylesheet reference line 1620 */
+/* fence depot stylesheet reference line 1621 */
+/* fence depot stylesheet reference line 1622 */
+/* fence depot stylesheet reference line 1623 */
+/* fence depot stylesheet reference line 1624 */
+/* fence depot stylesheet reference line 1625 */
+/* fence depot stylesheet reference line 1626 */
+/* fence depot stylesheet reference line 1627 */
+/* fence depot stylesheet reference line 1628 */
+/* fence depot stylesheet reference line 1629 */
+/* fence depot stylesheet reference line 1630 */
+/* fence depot stylesheet reference line 1631 */
+/* fence depot stylesheet reference line 1632 */
+/* fence depot stylesheet reference line 1633 */
+/* fence depot stylesheet reference line 1634 */
+/* fence depot stylesheet reference line 1635 */
+/* fence depot stylesheet reference line 1636 */
+/* fence depot stylesheet reference line 1637 */
+/* fence depot stylesheet reference line 1638 */
+/* fence depot stylesheet reference line 1639 */
+/* fence depot stylesheet reference line 1640 */
+/* fence depot stylesheet reference line 1641 */
+/* fence depot stylesheet reference line 1642 */
+/* fence depot stylesheet reference line 1643 */
+/* fence depot stylesheet reference line 1644 */
+/* fence depot stylesheet reference line 1645 */
+/* fence depot stylesheet reference line 1646 */
+/* fence depot stylesheet reference line 1647 */
+/* fence depot stylesheet reference line 1648 */
+/* fence depot stylesheet reference line 1649 */
+/* fence depot stylesheet reference line 1650 */
+/* fence depot stylesheet reference line 1651 */
+/* fence depot stylesheet reference line 1652 */
+/* fence depot stylesheet reference line 1653 */
+/* fence depot stylesheet reference line 1654 */
+/* fence depot stylesheet reference line 1655 */
+/* fence depot stylesheet reference line 1656 */
+/* fence depot stylesheet reference line 1657 */
+/* fence depot stylesheet reference line 1658 */
+/* fence depot stylesheet reference line 1659 */
+/* fence depot stylesheet reference line 1660 */
+/* fence depot stylesheet reference line 1661 */
+/* fence depot stylesheet reference line 1662 */
+/* fence depot stylesheet reference line 1663 */
+/* fence depot stylesheet reference line 1664 */
+/* fence depot stylesheet reference line 1665 */
+/* fence depot stylesheet reference line 1666 */
+/* fence depot stylesheet reference line 1667 */
+/* fence depot stylesheet reference line 1668 */
+/* fence depot stylesheet reference line 1669 */
+/* fence depot stylesheet reference line 1670 */
+/* fence depot stylesheet reference line 1671 */
+/* fence depot stylesheet reference line 1672 */
+/* fence depot stylesheet reference line 1673 */
+/* fence depot stylesheet reference line 1674 */
+/* fence depot stylesheet reference line 1675 */
+/* fence depot stylesheet reference line 1676 */
+/* fence depot stylesheet reference line 1677 */
+/* fence depot stylesheet reference line 1678 */
+/* fence depot stylesheet reference line 1679 */
+/* fence depot stylesheet reference line 1680 */
+/* fence depot stylesheet reference line 1681 */
+/* fence depot stylesheet reference line 1682 */
+/* fence depot stylesheet reference line 1683 */
+/* fence depot stylesheet reference line 1684 */
+/* fence depot stylesheet reference line 1685 */
+/* fence depot stylesheet reference line 1686 */
+/* fence depot stylesheet reference line 1687 */
+/* fence depot stylesheet reference line 1688 */
+/* fence depot stylesheet reference line 1689 */
+/* fence depot stylesheet reference line 1690 */
+/* fence depot stylesheet reference line 1691 */
+/* fence depot stylesheet reference line 1692 */
+/* fence depot stylesheet reference line 1693 */
+/* fence depot stylesheet reference line 1694 */
+/* fence depot stylesheet reference line 1695 */
+/* fence depot stylesheet reference line 1696 */
+/* fence depot stylesheet reference line 1697 */
+/* fence depot stylesheet reference line 1698 */
+/* fence depot stylesheet reference line 1699 */
+/* fence depot stylesheet reference line 1700 */
+/* fence depot stylesheet reference line 1701 */
+/* fence depot stylesheet reference line 1702 */
+/* fence depot stylesheet reference line 1703 */
+/* fence depot stylesheet reference line 1704 */
+/* fence depot stylesheet reference line 1705 */
+/* fence depot stylesheet reference line 1706 */
+/* fence depot stylesheet reference line 1707 */
+/* fence depot stylesheet reference line 1708 */
+/* fence depot stylesheet reference line 1709 */
+/* fence depot stylesheet reference line 1710 */
+/* fence depot stylesheet reference line 1711 */
+/* fence depot stylesheet reference line 1712 */
+/* fence depot stylesheet reference line 1713 */
+/* fence depot stylesheet reference line 1714 */
+/* fence depot stylesheet reference line 1715 */
+/* fence depot stylesheet reference line 1716 */
+/* fence depot stylesheet reference line 1717 */
+/* fence depot stylesheet reference line 1718 */
+/* fence depot stylesheet reference line 1719 */
+/* fence depot stylesheet reference line 1720 */
+/* fence depot stylesheet reference line 1721 */
+/* fence depot stylesheet reference line 1722 */
+/* fence depot stylesheet reference line 1723 */
+/* fence depot stylesheet reference line 1724 */
+/* fence depot stylesheet reference line 1725 */
+/* fence depot stylesheet reference line 1726 */
+/* fence depot stylesheet reference line 1727 */
+/* fence depot stylesheet reference line 1728 */
+/* fence depot stylesheet reference line 1729 */
+/* fence depot stylesheet reference line 1730 */
+/* fence depot stylesheet reference line 1731 */
+/* fence depot stylesheet reference line 1732 */
+/* fence depot stylesheet reference line 1733 */
+/* fence depot stylesheet reference line 1734 */
+/* fence depot stylesheet reference line 1735 */
+/* fence depot stylesheet reference line 1736 */
+/* fence depot stylesheet reference line 1737 */
+/* fence depot stylesheet reference line 1738 */
+/* fence depot stylesheet reference line 1739 */
+/* fence depot stylesheet reference line 1740 */
+/* fence depot stylesheet reference line 1741 */
+/* fence depot stylesheet reference line 1742 */
+/* fence depot stylesheet reference line 1743 */
+/* fence depot stylesheet reference line 1744 */
+/* fence depot stylesheet reference line 1745 */
+/* fence depot stylesheet reference line 1746 */
+/* fence depot stylesheet reference line 1747 */
+/* fence depot stylesheet reference line 1748 */
+/* fence depot stylesheet reference line 1749 */
+/* fence depot stylesheet reference line 1750 */
+/* fence depot stylesheet reference line 1751 */
+/* fence depot stylesheet reference line 1752 */
+/* fence depot stylesheet reference line 1753 */
+/* fence depot stylesheet reference line 1754 */
+/* fence depot stylesheet reference line 1755 */
+/* fence depot stylesheet reference line 1756 */
+/* fence depot stylesheet reference line 1757 */
+/* fence depot stylesheet reference line 1758 */
+/* fence depot stylesheet reference line 1759 */
+/* fence depot stylesheet reference line 1760 */
+/* fence depot stylesheet reference line 1761 */
+/* fence depot stylesheet reference line 1762 */
+/* fence depot stylesheet reference line 1763 */
+/* fence depot stylesheet reference line 1764 */
+/* fence depot stylesheet reference line 1765 */
+/* fence depot stylesheet reference line 1766 */
+/* fence depot stylesheet reference line 1767 */
+/* fence depot stylesheet reference line 1768 */
+/* fence depot stylesheet reference line 1769 */
+/* fence depot stylesheet reference line 1770 */
+/* fence depot stylesheet reference line 1771 */
+/* fence depot stylesheet reference line 1772 */
+/* fence depot stylesheet reference line 1773 */
+/* fence depot stylesheet reference line 1774 */
+/* fence depot stylesheet reference line 1775 */
+/* fence depot stylesheet reference line 1776 */
+/* fence depot stylesheet reference line 1777 */
+/* fence depot stylesheet reference line 1778 */
+/* fence depot stylesheet reference line 1779 */
+/* fence depot stylesheet reference line 1780 */
+/* fence depot stylesheet reference line 1781 */
+/* fence depot stylesheet reference line 1782 */
+/* fence depot stylesheet reference line 1783 */
+/* fence depot stylesheet reference line 1784 */
+/* fence depot stylesheet reference line 1785 */
+/* fence depot stylesheet reference line 1786 */
+/* fence depot stylesheet reference line 1787 */
+/* fence depot stylesheet reference line 1788 */
+/* fence depot stylesheet reference line 1789 */
+/* fence depot stylesheet reference line 1790 */
+/* fence depot stylesheet reference line 1791 */
+/* fence depot stylesheet reference line 1792 */
+/* fence depot stylesheet reference line 1793 */
+/* fence depot stylesheet reference line 1794 */
+/* fence depot stylesheet reference line 1795 */
+/* fence depot stylesheet reference line 1796 */
+/* fence depot stylesheet reference line 1797 */
+/* fence depot stylesheet reference line 1798 */
+/* fence depot stylesheet reference line 1799 */
+/* fence depot stylesheet reference line 1800 */
+/* fence depot stylesheet reference line 1801 */
+/* fence depot stylesheet reference line 1802 */
+/* fence depot stylesheet reference line 1803 */
+/* fence depot stylesheet reference line 1804 */
+/* fence depot stylesheet reference line 1805 */
+/* fence depot stylesheet reference line 1806 */
+/* fence depot stylesheet reference line 1807 */
+/* fence depot stylesheet reference line 1808 */
+/* fence depot stylesheet reference line 1809 */
+/* fence depot stylesheet reference line 1810 */
+/* fence depot stylesheet reference line 1811 */
+/* fence depot stylesheet reference line 1812 */
+/* fence depot stylesheet reference line 1813 */
+/* fence depot stylesheet reference line 1814 */
+/* fence depot stylesheet reference line 1815 */
+/* fence depot stylesheet reference line 1816 */
+/* fence depot stylesheet reference line 1817 */
+/* fence depot stylesheet reference line 1818 */
+/* fence depot stylesheet reference line 1819 */
+/* fence depot stylesheet reference line 1820 */
+/* fence depot stylesheet reference line 1821 */
+/* fence depot stylesheet reference line 1822 */
+/* fence depot stylesheet reference line 1823 */
+/* fence depot stylesheet reference line 1824 */
+/* fence depot stylesheet reference line 1825 */
+/* fence depot stylesheet reference line 1826 */
+/* fence depot stylesheet reference line 1827 */
+/* fence depot stylesheet reference line 1828 */
+/* fence depot stylesheet reference line 1829 */
+/* fence depot stylesheet reference line 1830 */
+/* fence depot stylesheet reference line 1831 */
+/* fence depot stylesheet reference line 1832 */
+/* fence depot stylesheet reference line 1833 */
+/* fence depot stylesheet reference line 1834 */
+/* fence depot stylesheet reference line 1835 */
+/* fence depot stylesheet reference line 1836 */
+/* fence depot stylesheet reference line 1837 */
+/* fence depot stylesheet reference line 1838 */
+/* fence depot stylesheet reference line 1839 */
+/* fence depot stylesheet reference line 1840 */
+/* fence depot stylesheet reference line 1841 */
+/* fence depot stylesheet reference line 1842 */
+/* fence depot stylesheet reference line 1843 */
+/* fence depot stylesheet reference line 1844 */
+/* fence depot stylesheet reference line 1845 */
+/* fence depot stylesheet reference line 1846 */
+/* fence depot stylesheet reference line 1847 */
+/* fence depot stylesheet reference line 1848 */
+/* fence depot stylesheet reference line 1849 */
+/* fence depot stylesheet reference line 1850 */
+/* fence depot stylesheet reference line 1851 */
+/* fence depot stylesheet reference line 1852 */
+/* fence depot stylesheet reference line 1853 */
+/* fence depot stylesheet reference line 1854 */
+/* fence depot stylesheet reference line 1855 */
+/* fence depot stylesheet reference line 1856 */
+/* fence depot stylesheet reference line 1857 */
+/* fence depot stylesheet reference line 1858 */
+/* fence depot stylesheet reference line 1859 */
+/* fence depot stylesheet reference line 1860 */
+/* fence depot stylesheet reference line 1861 */
+/* fence depot stylesheet reference line 1862 */
+/* fence depot stylesheet reference line 1863 */
+/* fence depot stylesheet reference line 1864 */
+/* fence depot stylesheet reference line 1865 */
+/* fence depot stylesheet reference line 1866 */
+/* fence depot stylesheet reference line 1867 */
+/* fence depot stylesheet reference line 1868 */
+/* fence depot stylesheet reference line 1869 */
+/* fence depot stylesheet reference line 1870 */
+/* fence depot stylesheet reference line 1871 */
+/* fence depot stylesheet reference line 1872 */
+/* fence depot stylesheet reference line 1873 */
+/* fence depot stylesheet reference line 1874 */
+/* fence depot stylesheet reference line 1875 */
+/* fence depot stylesheet reference line 1876 */
+/* fence depot stylesheet reference line 1877 */
+/* fence depot stylesheet reference line 1878 */
+/* fence depot stylesheet reference line 1879 */
+/* fence depot stylesheet reference line 1880 */
+/* fence depot stylesheet reference line 1881 */
+/* fence depot stylesheet reference line 1882 */
+/* fence depot stylesheet reference line 1883 */
+/* fence depot stylesheet reference line 1884 */
+/* fence depot stylesheet reference line 1885 */
+/* fence depot stylesheet reference line 1886 */
+/* fence depot stylesheet reference line 1887 */
+/* fence depot stylesheet reference line 1888 */
+/* fence depot stylesheet reference line 1889 */
+/* fence depot stylesheet reference line 1890 */
+/* fence depot stylesheet reference line 1891 */
+/* fence depot stylesheet reference line 1892 */
+/* fence depot stylesheet reference line 1893 */
+/* fence depot stylesheet reference line 1894 */
+/* fence depot stylesheet reference line 1895 */
+/* fence depot stylesheet reference line 1896 */
+/* fence depot stylesheet reference line 1897 */
+/* fence depot stylesheet reference line 1898 */
+/* fence depot stylesheet reference line 1899 */
+/* fence depot stylesheet reference line 1900 */
+/* fence depot stylesheet reference line 1901 */
+/* fence depot stylesheet reference line 1902 */
+/* fence depot stylesheet reference line 1903 */
+/* fence depot stylesheet reference line 1904 */
+/* fence depot stylesheet reference line 1905 */
+/* fence depot stylesheet reference line 1906 */
+/* fence depot stylesheet reference line 1907 */
+/* fence depot stylesheet reference line 1908 */
+/* fence depot stylesheet reference line 1909 */
+/* fence depot stylesheet reference line 1910 */
+/* fence depot stylesheet reference line 1911 */
+/* fence depot stylesheet reference line 1912 */
+/* fence depot stylesheet reference line 1913 */
+/* fence depot stylesheet reference line 1914 */
+/* fence depot stylesheet reference line 1915 */
+/* fence depot stylesheet reference line 1916 */
+/* fence depot stylesheet reference line 1917 */
+/* fence depot stylesheet reference line 1918 */
+/* fence depot stylesheet reference line 1919 */
+/* fence depot stylesheet reference line 1920 */
+/* fence depot stylesheet reference line 1921 */
+/* fence depot stylesheet reference line 1922 */
+/* fence depot stylesheet reference line 1923 */
+/* fence depot stylesheet reference line 1924 */
+/* fence depot stylesheet reference line 1925 */
+/* fence depot stylesheet reference line 1926 */
+/* fence depot stylesheet reference line 1927 */
+/* fence depot stylesheet reference line 1928 */
+/* fence depot stylesheet reference line 1929 */
+/* fence depot stylesheet reference line 1930 */
+/* fence depot stylesheet reference line 1931 */
+/* fence depot stylesheet reference line 1932 */
+/* fence depot stylesheet reference line 1933 */
+/* fence depot stylesheet reference line 1934 */
+/* fence depot stylesheet reference line 1935 */
+/* fence depot stylesheet reference line 1936 */
+/* fence depot stylesheet reference line 1937 */
+/* fence depot stylesheet reference line 1938 */
+/* fence depot stylesheet reference line 1939 */
+/* fence depot stylesheet reference line 1940 */
+/* fence depot stylesheet reference line 1941 */
+/* fence depot stylesheet reference line 1942 */
+/* fence depot stylesheet reference line 1943 */
+/* fence depot stylesheet reference line 1944 */
+/* fence depot stylesheet reference line 1945 */
+/* fence depot stylesheet reference line 1946 */
+/* fence depot stylesheet reference line 1947 */
+/* fence depot stylesheet reference line 1948 */
+/* fence depot stylesheet reference line 1949 */
+/* fence depot stylesheet reference line 1950 */
+/* fence depot stylesheet reference line 1951 */
+/* fence depot stylesheet reference line 1952 */
+/* fence depot stylesheet reference line 1953 */
+/* fence depot stylesheet reference line 1954 */
+/* fence depot stylesheet reference line 1955 */
+/* fence depot stylesheet reference line 1956 */
+/* fence depot stylesheet reference line 1957 */
+/* fence depot stylesheet reference line 1958 */
+/* fence depot stylesheet reference line 1959 */
+/* fence depot stylesheet reference line 1960 */
+/* fence depot stylesheet reference line 1961 */
+/* fence depot stylesheet reference line 1962 */
+/* fence depot stylesheet reference line 1963 */
+/* fence depot stylesheet reference line 1964 */
+/* fence depot stylesheet reference line 1965 */
+/* fence depot stylesheet reference line 1966 */
+/* fence depot stylesheet reference line 1967 */
+/* fence depot stylesheet reference line 1968 */
+/* fence depot stylesheet reference line 1969 */
+/* fence depot stylesheet reference line 1970 */
+/* fence depot stylesheet reference line 1971 */
+/* fence depot stylesheet reference line 1972 */
+/* fence depot stylesheet reference line 1973 */
+/* fence depot stylesheet reference line 1974 */
+/* fence depot stylesheet reference line 1975 */
+/* fence depot stylesheet reference line 1976 */
+/* fence depot stylesheet reference line 1977 */
+/* fence depot stylesheet reference line 1978 */
+/* fence depot stylesheet reference line 1979 */
+/* fence depot stylesheet reference line 1980 */
+/* fence depot stylesheet reference line 1981 */
+/* fence depot stylesheet reference line 1982 */
+/* fence depot stylesheet reference line 1983 */
+/* fence depot stylesheet reference line 1984 */
+/* fence depot stylesheet reference line 1985 */
+/* fence depot stylesheet reference line 1986 */
+/* fence depot stylesheet reference line 1987 */
+/* fence depot stylesheet reference line 1988 */
+/* fence depot stylesheet reference line 1989 */
+/* fence depot stylesheet reference line 1990 */
+/* fence depot stylesheet reference line 1991 */
+/* fence depot stylesheet reference line 1992 */
+/* fence depot stylesheet reference line 1993 */
+/* fence depot stylesheet reference line 1994 */
+/* fence depot stylesheet reference line 1995 */
+/* fence depot stylesheet reference line 1996 */
+/* fence depot stylesheet reference line 1997 */
+/* fence depot stylesheet reference line 1998 */
+/* fence depot stylesheet reference line 1999 */
+/* fence depot stylesheet reference line 2000 */
+/* fence depot stylesheet reference line 2001 */
+/* fence depot stylesheet reference line 2002 */
+/* fence depot stylesheet reference line 2003 */
+/* fence depot stylesheet reference line 2004 */
+/* fence depot stylesheet reference line 2005 */
+/* fence depot stylesheet reference line 2006 */
+/* fence depot stylesheet reference line 2007 */
+/* fence depot stylesheet reference line 2008 */
+/* fence depot stylesheet reference line 2009 */
+/* fence depot stylesheet reference line 2010 */
+/* fence depot stylesheet reference line 2011 */
+/* fence depot stylesheet reference line 2012 */
+/* fence depot stylesheet reference line 2013 */
+/* fence depot stylesheet reference line 2014 */
+/* fence depot stylesheet reference line 2015 */
+/* fence depot stylesheet reference line 2016 */
+/* fence depot stylesheet reference line 2017 */
+/* fence depot stylesheet reference line 2018 */
+/* fence depot stylesheet reference line 2019 */
+/* fence depot stylesheet reference line 2020 */
+/* fence depot stylesheet reference line 2021 */
+/* fence depot stylesheet reference line 2022 */
+/* fence depot stylesheet reference line 2023 */
+/* fence depot stylesheet reference line 2024 */
+/* fence depot stylesheet reference line 2025 */
+/* fence depot stylesheet reference line 2026 */
+/* fence depot stylesheet reference line 2027 */
+/* fence depot stylesheet reference line 2028 */
+/* fence depot stylesheet reference line 2029 */
+/* fence depot stylesheet reference line 2030 */
+/* fence depot stylesheet reference line 2031 */
+/* fence depot stylesheet reference line 2032 */
+/* fence depot stylesheet reference line 2033 */
+/* fence depot stylesheet reference line 2034 */
+/* fence depot stylesheet reference line 2035 */
+/* fence depot stylesheet reference line 2036 */
+/* fence depot stylesheet reference line 2037 */
+/* fence depot stylesheet reference line 2038 */
+/* fence depot stylesheet reference line 2039 */
+/* fence depot stylesheet reference line 2040 */
+/* fence depot stylesheet reference line 2041 */
+/* fence depot stylesheet reference line 2042 */
+/* fence depot stylesheet reference line 2043 */
+/* fence depot stylesheet reference line 2044 */
+/* fence depot stylesheet reference line 2045 */
+/* fence depot stylesheet reference line 2046 */
+/* fence depot stylesheet reference line 2047 */
+/* fence depot stylesheet reference line 2048 */
+/* fence depot stylesheet reference line 2049 */
+/* fence depot stylesheet reference line 2050 */
+/* fence depot stylesheet reference line 2051 */
+/* fence depot stylesheet reference line 2052 */
+/* fence depot stylesheet reference line 2053 */
+/* fence depot stylesheet reference line 2054 */
+/* fence depot stylesheet reference line 2055 */
+/* fence depot stylesheet reference line 2056 */
+/* fence depot stylesheet reference line 2057 */
+/* fence depot stylesheet reference line 2058 */
+/* fence depot stylesheet reference line 2059 */
+/* fence depot stylesheet reference line 2060 */
+/* fence depot stylesheet reference line 2061 */
+/* fence depot stylesheet reference line 2062 */
+/* fence depot stylesheet reference line 2063 */
+/* fence depot stylesheet reference line 2064 */
+/* fence depot stylesheet reference line 2065 */
+/* fence depot stylesheet reference line 2066 */
+/* fence depot stylesheet reference line 2067 */
+/* fence depot stylesheet reference line 2068 */
+/* fence depot stylesheet reference line 2069 */
+/* fence depot stylesheet reference line 2070 */
+/* fence depot stylesheet reference line 2071 */
+/* fence depot stylesheet reference line 2072 */
+/* fence depot stylesheet reference line 2073 */
+/* fence depot stylesheet reference line 2074 */
+/* fence depot stylesheet reference line 2075 */
+/* fence depot stylesheet reference line 2076 */
+/* fence depot stylesheet reference line 2077 */
+/* fence depot stylesheet reference line 2078 */
+/* fence depot stylesheet reference line 2079 */
+/* fence depot stylesheet reference line 2080 */
+/* fence depot stylesheet reference line 2081 */
+/* fence depot stylesheet reference line 2082 */
+/* fence depot stylesheet reference line 2083 */
+/* fence depot stylesheet reference line 2084 */
+/* fence depot stylesheet reference line 2085 */
+/* fence depot stylesheet reference line 2086 */
+/* fence depot stylesheet reference line 2087 */
+/* fence depot stylesheet reference line 2088 */
+/* fence depot stylesheet reference line 2089 */
+/* fence depot stylesheet reference line 2090 */
+/* fence depot stylesheet reference line 2091 */
+/* fence depot stylesheet reference line 2092 */
+/* fence depot stylesheet reference line 2093 */
+/* fence depot stylesheet reference line 2094 */
+/* fence depot stylesheet reference line 2095 */
+/* fence depot stylesheet reference line 2096 */
+/* fence depot stylesheet reference line 2097 */
+/* fence depot stylesheet reference line 2098 */
+/* fence depot stylesheet reference line 2099 */
