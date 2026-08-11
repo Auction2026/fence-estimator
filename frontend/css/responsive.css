@@ -1,0 +1,97 @@
+@media (max-width: 768px) {
+  .app-header,
+  .panel-header,
+  .status-bar,
+  .layout-workspace,
+  .contract-grid,
+  .metric-grid,
+  .summary-strip,
+  .grid-form.two-column,
+  .grid-form.three-column,
+  .grid-form.four-column {
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-header,
+  .status-bar {
+    display: grid;
+  }
+
+  .header-actions,
+  .drawing-toolbar,
+  .stack-actions {
+    width: 100%;
+  }
+
+  .header-actions .btn,
+  .header-actions .file-label,
+  .stack-actions .btn,
+  .drawing-toolbar .btn {
+    flex: 1 1 100%;
+  }
+
+  .tab-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-width: 100%;
+  }
+
+  .tab-button {
+    width: 100%;
+    text-align: left;
+  }
+
+  .app-shell {
+    padding: 1rem;
+  }
+
+  .form-span-2,
+  .form-span-full {
+    grid-column: auto;
+  }
+
+  .notification-root {
+    left: 1rem;
+    right: 1rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .status-bar,
+  .summary-strip,
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-form.three-column,
+  .grid-form.four-column {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .layout-workspace,
+  .contract-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-shell {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+}
+
+@media print {
+  .tab-panel {
+    page-break-inside: avoid;
+  }
+
+  table {
+    font-size: 11pt;
+  }
+
+  th,
+  td {
+    padding: 0.45rem;
+  }
+}
