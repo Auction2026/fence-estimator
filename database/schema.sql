@@ -1,6 +1,9 @@
 -- ============================================================
 -- FENCE DEPOT FENCE ESTIMATOR - DATABASE SCHEMA
--- Complete PostgreSQL / MySQL Compatible Schema
+-- MySQL-Only Schema (requires MySQL 8.0+)
+-- Note: Uses MySQL-specific syntax (InnoDB, TINYINT, AUTO_INCREMENT,
+--       FULLTEXT INDEX, CREATE INDEX IF NOT EXISTS).
+--       Not compatible with PostgreSQL without modification.
 -- Version: 1.0.0
 -- ============================================================
 

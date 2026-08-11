@@ -155,7 +155,7 @@ DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=fence_estimator
 DB_USER=fence_app
-DB_PASSWORD=changeme_fence2024
+DB_PASSWORD=<your-strong-database-password>
 
 # JWT Secret (change this to something random!)
 JWT_SECRET=your-super-secret-key-change-this-now-12345
@@ -282,7 +282,7 @@ Every time you want to use the estimator, do this:
 - Backend uses **Express.js** with MongoDB/Mongoose schemas
 - To switch from MongoDB to MySQL: replace the Mongoose models with Sequelize or raw MySQL2 queries
 - Frontend is a standalone SPA (single HTML file) — no build step needed
-- All 17 tabs are implemented in index.html
+- All 8 tabs are implemented in index.html
 - API base URL is configured in the frontend's `API_BASE` constant
 
 ---

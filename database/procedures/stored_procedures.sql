@@ -72,8 +72,8 @@ END$$
 CREATE PROCEDURE IF NOT EXISTS sp_maintenance_cleanup()
 BEGIN
     -- Remove orphaned line items
-    DELETE FROM estimate_line_items
-    WHERE estimate_id NOT IN (SELECT id FROM estimates);
+    DELETE FROM estimate_line_items eli
+    WHERE NOT EXISTS (SELECT 1 FROM estimates e WHERE e.id = eli.estimate_id);
 
     -- Remove draft estimates older than 90 days
     DELETE FROM estimates

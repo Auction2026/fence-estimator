@@ -72,12 +72,17 @@ Then open: http://localhost:3000
 
 ## DEFAULT LOGIN
 
-| Username | Password | Role |
-|----------|----------|------|
-| admin | FenceDepot2024! | Admin |
-| estimator | FenceDepot2024! | Estimator |
+After running the database seed, log in with the seeded `admin` or `estimator` usernames.
 
-⚠️ **Change these passwords immediately after first login!**
+⚠️ **The seed file uses temporary bcrypt hashes. Set your own passwords immediately:**
+
+```sql
+-- In MySQL, generate a bcrypt hash for your chosen password using:
+--   node -e "const b=require('bcryptjs'); b.hash('YourNewPassword',10).then(console.log)"
+-- Then update:
+UPDATE users SET password_hash='<your_bcrypt_hash>' WHERE username='admin';
+UPDATE users SET password_hash='<your_bcrypt_hash>' WHERE username='estimator';
+```
 
 ---
 

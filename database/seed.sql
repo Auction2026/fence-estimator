@@ -8,11 +8,14 @@ USE fence_estimator;
 
 -- ============================================================
 -- SEED: Default Admin User
--- Password: FenceDepot2024! (change immediately after setup)
+-- IMPORTANT: These are temporary setup passwords.
+--            Change both passwords immediately after first login.
+--            Use the app's user settings or run:
+--            UPDATE users SET password_hash=<new_bcrypt_hash> WHERE username='admin';
 -- ============================================================
 INSERT INTO users (username, email, password_hash, role, first_name, last_name, company) VALUES
-('admin',    'admin@fencedepot.ca',    '$2b$10$XKp8OqzxKx3j7n9s1eO0.eKnkZXqDYqsQ5LQF3bEt0nU4K2dS5T6i', 'admin',     'Admin',   'User',    'Fence Depot'),
-('estimator','estimator@fencedepot.ca','$2b$10$XKp8OqzxKx3j7n9s1eO0.eKnkZXqDYqsQ5LQF3bEt0nU4K2dS5T6i', 'estimator', 'John',    'Smith',   'Fence Depot');
+('admin',     'admin@fencedepot.ca',     '$2b$10$.fwp3jXiowX/6skP/STMPeKfKgJdhlZnaTB2MDEtC3AU2zqcl62TK', 'admin',     'Admin', 'User',  'Fence Depot'),
+('estimator', 'estimator@fencedepot.ca', '$2b$10$firNIznUcisQ01iHhQkGOOpJ2ki7AUp6XqSHz6EzC4ia4vc0YqDtm', 'estimator', 'John',  'Smith', 'Fence Depot');
 
 -- ============================================================
 -- SEED: inventory_products - PART 1: CHAIN LINK FABRIC
