@@ -105,6 +105,7 @@ const ExportTool = {
      * Export estimate as CSV
      */
     exportCSV(estimate) {
+        const escapeCSV = val => `"${String(val == null ? '' : val).replace(/"/g, '""')}"`;
         const rows = [
             ['Description', 'Qty', 'Unit', 'Unit Price', 'Total'],
             ...(estimate.materials || []).map(m => [
@@ -113,7 +114,7 @@ const ExportTool = {
                 (m.total || 0).toFixed(2)
             ])
         ];
-        const csv = rows.map(r => r.join(',')).join('\n');
+        const csv = rows.map(r => r.map(escapeCSV).join(',')).join('\n');
         const blob = new Blob([csv], { type: 'text/csv' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);

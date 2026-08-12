@@ -50,9 +50,9 @@ const Calculations = {
         const posts = panels + 1;
         const postCaps = posts;
         const rails = panels * (height >= 6 ? 3 : 2);
-        const postSleves = posts;
+        const postSleeves = posts;
 
-        return { panels, posts, postCaps, rails, postSleves };
+        return { panels, posts, postCaps, rails, postSleeves };
     },
 
     /**

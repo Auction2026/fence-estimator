@@ -3,7 +3,7 @@
  * Fence Depot Estimator
  */
 
-const Tab03Chain-linkModule = {
+const Tab03ChainLinkModule = {
     init() {
         console.log('chain-link tab initialized');
     },

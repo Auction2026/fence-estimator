@@ -31,7 +31,7 @@
             }
         }
 
-        function switchTab(tabName) {
+        function switchTab(tabName, event) {
             // Hide all tabs
             const tabs = document.querySelectorAll('[id$="-tab"]');
             tabs.forEach(tab => tab.style.display = 'none');
