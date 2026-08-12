@@ -14,6 +14,7 @@ const PDFDocument = require('pdfkit');
 const nodemailer = require('nodemailer');
 const path = require('path');
 const fs = require('fs');
+const estimateMath = require('./services/estimateMath');
 
 // Load environment variables
 dotenv.config();
@@ -636,6 +637,21 @@ const notesSchema = new mongoose.Schema({
 
 const Notes = mongoose.model('Notes', notesSchema);
 
+app.locals.models = {
+  User,
+  Project,
+  FenceSpecs,
+  Estimate,
+  Contract,
+  ChangeOrder,
+  SignOff,
+  Notes,
+};
+
+app.locals.services = {
+  estimateMath,
+};
+
 // ============================================
 // AUTHENTICATION MIDDLEWARE
 // ============================================
@@ -1230,6 +1246,9 @@ const startServer = async () => {
   }
 };
 
-startServer();
+if (require.main === module) {
+  startServer();
+}
 
 module.exports = app;
+module.exports.startServer = startServer;

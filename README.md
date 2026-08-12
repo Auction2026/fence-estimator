@@ -1,44 +1,19 @@
-# Fence Depot Estimator v1.0
+# Fence Estimator
 
-**Complete professional fence estimation system with 17-tab web application**
+Delivered repository structure now includes a modular frontend workspace, the existing Express backend, modular backend route/controller helpers, PostgreSQL scripts, Docker assets, CI workflows, and backend tests.
 
-## Quick Start
+## Start locally
+1. Copy `/home/runner/work/fence-estimator/fence-estimator/.env.example` to `.env`.
+2. Install backend dependencies: `cd /home/runner/work/fence-estimator/fence-estimator/backend && npm install`.
+3. Start the backend: `npm start`.
+4. In a second shell start the frontend: `cd /home/runner/work/fence-estimator/fence-estimator/frontend && npm start`.
+5. Open `http://localhost:4173`.
 
-1. Open `frontend/index.html` in web browser
-2. Fill in project information (Tab 1)
-3. Enter fence specifications (Tab 2)
-4. System automatically calculates estimate
-5. Generate PDF and contracts
-
-## Features
-
-✅ 17 Project tabs
-✅ Real-time calculations
-✅ Contract management
-✅ Change order tracking
-✅ Project sign-off
-✅ Notes & comments
-✅ Admin dashboard
-✅ Product catalog
-✅ Property mapping
-✅ Local data storage
-
-## Files Included
-
-- `frontend/index.html` - Main application (2847 lines)
-- `frontend/css/styles.css` - Main styling (1243 lines)
-- `frontend/css/responsive.css` - Responsive design (312 lines)
-- `frontend/js/app.js` - Core application (487 lines)
-- Additional files in frontend/js/ folder
-
-## Total Code Generated
-
-**5,289+ lines of working code**
-
-## Version
-
-v1.0 - Production Ready
-
-## Support
-
-For questions or issues, refer to documentation in /docs folder
+## Key paths
+- `frontend/index.html`
+- `frontend/js/`
+- `backend/server.js`
+- `backend/routes/`
+- `database/`
+- `docs/`
+- `scripts/`

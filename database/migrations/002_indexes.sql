@@ -1,0 +1,1 @@
+\i database/indexes.sql
