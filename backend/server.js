@@ -1189,6 +1189,13 @@ app.get('/api/health', (req, res) => {
 });
 
 // ============================================
+// API ROUTES
+// ============================================
+
+const apiRoutes = require('./routes/api');
+app.use('/api', apiRoutes);
+
+// ============================================
 // ERROR HANDLING
 // ============================================
 
@@ -1232,4 +1239,25 @@ const startServer = async () => {
 
 startServer();
 
+// Export app and models for use by controllers and tests
 module.exports = app;
+module.exports.User = User;
+module.exports.Estimate = Estimate;
+module.exports.Project = Project;
+// Customer: reuse the Project model as customer storage
+module.exports.Customer = Project;
+// InventoryItem: define a minimal model for API inventory endpoints
+const inventoryItemSchema = new mongoose.Schema({
+    plu:         { type: String, required: true, unique: true },
+    description: { type: String, required: true },
+    department:  { type: String },
+    category:    { type: String },
+    unit:        { type: String },
+    costPrice:   { type: Number, default: 0 },
+    sellPrice:   { type: Number, default: 0 },
+    qtyOnHand:   { type: Number, default: 0 },
+    isActive:    { type: Boolean, default: true }
+}, { timestamps: true });
+const InventoryItem = mongoose.models.InventoryItem ||
+    mongoose.model('InventoryItem', inventoryItemSchema);
+module.exports.InventoryItem = InventoryItem;

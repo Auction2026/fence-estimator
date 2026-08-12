@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fence Depot Estimator - Professional Fencing Solutions</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- LANDING PAGE -->
+    <div class="landing-page" id="landingPage">
+        <div class="landing-header">
+            <div class="landing-logo">🏗️</div>
+            <h1 class="landing-title">Fence Depot Estimator</h1>
+            <p class="landing-subtitle">Professional Fencing & Gate Solutions</p>
+        </div>
+
+        <div class="landing-features">
+            <div class="feature-box">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">Fast Estimates</div>
+                <div class="feature-description">Create professional quotes in minutes</div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">💰</div>
+                <div class="feature-title">Profit Management</div>
+                <div class="feature-description">Real-time profit calculations and margins</div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">🛠️</div>
+                <div class="feature-title">Complete Materials</div>
+                <div class="feature-description">All suppliers and product catalogs integrated</div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Analytics</div>
+                <div class="feature-description">Track projects and performance metrics</div>
+            </div>
+        </div>
+
+        <div class="landing-cta">
+            <button class="btn btn-primary" onclick="goToLogin()">LOGIN →</button>
+            <button class="btn btn-secondary" onclick="demoMode()">TRY DEMO</button>
+        </div>
+    </div>
+
+    <!-- LOGIN PAGE -->
+    <div class="login-screen" id="loginScreen" style="display: none;">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">🏗️</div>
+                <h1 class="login-title">Fence Depot</h1>
+                <p class="login-subtitle">Professional Estimating System</p>
+            </div>
+
+            <form onsubmit="loginUser(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" placeholder="your@email.com" value="john@fencedepot.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn btn-login">LOGIN</button>
+            </form>
+
+            <button class="btn btn-demo" onclick="demoMode()">DEMO MODE (No Password)</button>
+            <button class="btn btn-demo" onclick="goToLanding()" style="margin-top: 10px; background: var(--neutral-light); color: var(--text-dark);">← Back to Home</button>
+        </div>
+    </div>
+
+    <!-- DASHBOARD PAGE -->
+    <div class="dashboard-screen" id="dashboardScreen">
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <h1>📊 Fence Depot Estimator</h1>
+                <p>Professional Fencing & Gate Solutions</p>
+            </div>
+            <div class="user-info">
+                <div class="user-details">
+                    <div class="user-name">👤 John Smith</div>
+                    <div class="user-role">Estimator</div>
+                </div>
+                <div class="avatar">JD</div>
+                <button class="btn btn-logout" onclick="logout()">LOGOUT</button>
+            </div>
+        </div>
+
+        <div class="tab-navigation">
+            <button class="tab-item active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+            <button class="tab-item" onclick="switchTab('new-estimate')">📝 New Estimate</button>
+            <button class="tab-item" onclick="switchTab('projects')">📋 Projects</button>
+            <button class="tab-item" onclick="switchTab('materials')">🛠️ Materials & Costs</button>
+            <button class="tab-item" onclick="switchTab('suppliers')">🏢 Suppliers</button>
+            <button class="tab-item" onclick="switchTab('analytics')">📈 Analytics</button>
+            <button class="tab-item" onclick="switchTab('settings')">⚙️ Settings</button>
+        </div>
+
+        <div class="dashboard-content">
+            <!-- DASHBOARD TAB -->
+            <div id="dashboard-tab">
+                <div class="section-header">
+                    <h2 class="section-title">Dashboard Overview</h2>
+                    <p class="section-subtitle">July 2026 • Quick statistics and recent projects</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-label">This Month</div>
+                        <div class="stat-value">23</div>
+                        <div class="stat-change">✓ Estimates Created</div>
+                    </div>
+
+                    <div class="stat-card success">
+                        <div class="stat-label">Revenue</div>
+                        <div class="stat-value">$47.4K</div>
+                        <div class="stat-change">↑ 12% vs last month</div>
+                    </div>
+
+                    <div class="stat-card accent">
+                        <div class="stat-label">Close Rate</div>
+                        <div class="stat-value">65%</div>
+                        <div class="stat-change">→ 15 Contracts</div>
+                    </div>
+                </div>
+
+                <div class="section-header" style="margin-top: 40px;">
+                    <h2 class="section-title">Recent Estimates</h2>
+                </div>
+
+                <div class="table-section">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Customer</th>
+                                    <th>Project Type</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>001</strong></td>
+                                    <td>John Smith</td>
+                                    <td>100' Residential Chain Link</td>
+                                    <td><strong>$4,092.28</strong></td>
+                                    <td><span class="status-badge status-contract">✓ Contract</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn action-view" onclick="viewEstimate()">View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>002</strong></td>
+                                    <td>Mary Johnson</td>
+                                    <td>150' Commercial Gate</td>
+                                    <td><strong>$8,250.00</strong></td>
+                                    <td><span class="status-badge status-pending">⏳ Pending</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn action-view" onclick="viewEstimate()">View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>003</strong></td>
+                                    <td>Bob Wilson</td>
+                                    <td>200' Mixed Fence</td>
+                                    <td><strong>$12,450.00</strong></td>
+                                    <td><span class="status-badge status-contract">✓ Contract</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn action-view" onclick="viewEstimate()">View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW ESTIMATE TAB -->
+            <div id="new-estimate-tab" style="display: none;">
+                <div class="estimate-wizard">
+                    <div class="wizard-header">
+                        <div class="wizard-title">📝 CREATE NEW ESTIMATE</div>
+                        <div class="progress-container">
+                            <div class="progress-step active">
+                                <div class="progress-number">1</div>
+                                <div class="progress-label">Customer Info</div>
+                            </div>
+                            <div class="progress-connector"></div>
+                            <div class="progress-step">
+                                <div class="progress-number">2</div>
+                                <div class="progress-label">Specifications</div>
+                            </div>
+                            <div class="progress-connector"></div>
+                            <div class="progress-step">
+                                <div class="progress-number">3</div>
+                                <div class="progress-label">Measurements</div>
+                            </div>
+                            <div class="progress-connector"></div>
+                            <div class="progress-step">
+                                <div class="progress-number">4</div>
+                                <div class="progress-label">Review</div>
+                            </div>
+                            <div class="progress-connector"></div>
+                            <div class="progress-step">
+                                <div class="progress-number">5</div>
+                                <div class="progress-label">Generate</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wizard-content">
+                        <!-- STEP 1 -->
+                        <div class="form-section active" id="step1">
+                            <h2>Step 1: Customer Information</h2>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>First Name *</label>
+                                    <input type="text" placeholder="John" value="John">
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name *</label>
+                                    <input type="text" placeholder="Smith" value="Smith">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Email Address *</label>
+                                    <input type="email" placeholder="john@email.com" value="john@email.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number *</label>
+                                    <input type="tel" placeholder="(555) 123-4567" value="(555) 123-4567">
+                                </div>
+                            </div>
+
+                            <div class="form-row form-group-full">
+                                <div class="form-group">
+                                    <label>Street Address *</label>
+                                    <input type="text" placeholder="123 Main Street" value="123 Main St">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>City *</label>
+                                    <input type="text" placeholder="Cornwall" value="Cornwall">
+                                </div>
+                                <div class="form-group">
+                                    <label>Province *</label>
+                                    <input type="text" placeholder="ON" value="ON">
+                                </div>
+                                <div class="form-group">
+                                    <label>Postal Code *</label>
+                                    <input type="text" placeholder="K6H 1A1" value="K6H 1A1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 2 -->
+                        <div class="form-section" id="step2">
+                            <h2>Step 2: Fence Specifications</h2>
+
+                            <div class="form-group-full">
+                                <label style="display: block; margin: 20px 0; font-weight: 600;">Fence Type:</label>
+                                <div class="select-options">
+                                    <button type="button" class="option-btn selected" onclick="selectOption(this, 'fenceType', 'residential')">Residential</button>
+                                    <button type="button" class="option-btn" onclick="selectOption(this, 'fenceType', 'commercial')">Commercial</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group-full">
+                                <label style="display: block; margin: 20px 0; font-weight: 600;">Fence Style:</label>
+                                <div class="select-options">
+                                    <button type="button" class="option-btn selected" onclick="selectOption(this, 'fenceStyle', 'chainlink')">Chain Link</button>
+                                    <button type="button" class="option-btn" onclick="selectOption(this, 'fenceStyle', 'wood')">Wood</button>
+                                    <button type="button" class="option-btn" onclick="selectOption(this, 'fenceStyle', 'vinyl')">Vinyl</button>
+                                    <button type="button" class="option-btn" onclick="selectOption(this, 'fenceStyle', 'ornamental')">Ornamental</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group-full">
+                                <label style="display: block; margin: 20px 0; font-weight: 600;">Height:</label>
+                                <div class="select-options">
+                                    <button type="button" class="option-btn" onclick="selectOption(this, 'height', '3')">3'</button>
+                                    <button type="button" class="option-btn" onclick="selectOption(this, 'height', '4')">4'</button>
+                                    <button type="button" class="option-btn selected" onclick="selectOption(this, 'height', '5')">5'</button>
+                                    <button type="button" class="option-btn" onclick="selectOption(this, 'height', '6')">6'</button>
+                                    <button type="button" class="option-btn" onclick="selectOption(this, 'height', '8')">8'</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group-full">
+                                <label style="display: block; margin: 20px 0; font-weight: 600;">Color:</label>
+                                <div class="select-options">
+                                    <button type="button" class="option-btn selected" onclick="selectOption(this, 'color', 'black')">⬛ Black</button>
+                                    <button type="button" class="option-btn" onclick="selectOption(this, 'color', 'white')">⚪ White</button>
+                                    <button type="button" class="option-btn" onclick="selectOption(this, 'color', 'brown')">🟤 Brown</button>
+                                    <button type="button" class="option-btn" onclick="selectOption(this, 'color', 'green')">🟢 Green</button>
+                                </div>
+                            </div>
+
+                            <div class="form-row" style="margin-top: 30px;">
+                                <div class="form-group">
+                                    <label style="display: flex; align-items: center; gap: 10px;">
+                                        <input type="checkbox" checked style="width: 20px; height: 20px; cursor: pointer;">
+                                        <span>Include Professional Installation</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 3 -->
+                        <div class="form-section" id="step3">
+                            <h2>Step 3: Measurements</h2>
+
+                            <div class="form-row form-group-full">
+                                <div class="form-group">
+                                    <label>Total Linear Footage *</label>
+                                    <input type="number" placeholder="100" value="100">
+                                </div>
+                            </div>
+
+                            <div class="form-row form-group-full">
+                                <div class="form-group">
+                                    <label>Post Spacing (Feet):</label>
+                                    <select style="width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px;">
+                                        <option>4 feet</option>
+                                        <option selected>6 feet</option>
+                                        <option>8 feet</option>
+                                        <option>10 feet</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="summary-card">
+                                <div class="summary-row">
+                                    <span class="summary-label">Posts Needed:</span>
+                                    <span class="summary-value"><strong>17</strong></span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Sections:</span>
+                                    <span class="summary-value"><strong>10</strong></span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Estimated Concrete:</span>
+                                    <span class="summary-value"><strong>30 Bags</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 4 -->
+                        <div class="form-section" id="step4">
+                            <h2>Step 4: Materials Review</h2>
+
+                            <div class="summary-card">
+                                <div class="summary-row">
+                                    <span class="summary-label">Chain Link 5' Black (PLU 387):</span>
+                                    <span class="summary-value">100 FT @ $5.03 = <strong>$503.00</strong></span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Top Rail 1.25" Black (PLU 956):</span>
+                                    <span class="summary-value">10 EA @ $21.07 = <strong>$210.70</strong></span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Tension Bar 5' Black (PLU 927):</span>
+                                    <span class="summary-value">10 EA @ $5.65 = <strong>$56.50</strong></span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Tension Band 1.875" Black (PLU 900):</span>
+                                    <span class="summary-value">100 EA @ $1.58 = <strong>$158.00</strong></span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Posts 1.875" Black (PLU 1009):</span>
+                                    <span class="summary-value">127 FT @ $2.81 = <strong>$356.87</strong></span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Concrete 80lb Bags (50 bags):</span>
+                                    <span class="summary-value">50 EA @ $8.50 = <strong>$425.00</strong></span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Labour (51 hours):</span>
+                                    <span class="summary-value">51 HRS @ $30 = <strong>$1,530.00</strong></span>
+                                </div>
+                                <div class="summary-row total">
+                                    <span class="summary-label">SUBTOTAL:</span>
+                                    <span class="summary-value">$3,621.49</span>
+                                </div>
+                                <div class="summary-row total">
+                                    <span class="summary-label">TAX (13%):</span>
+                                    <span class="summary-value">$470.79</span>
+                                </div>
+                                <div class="summary-row total" style="color: var(--success); font-size: 18px;">
+                                    <span class="summary-label">TOTAL:</span>
+                                    <span class="summary-value">$4,092.28</span>
+                                </div>
+                            </div>
+
+                            <div class="profit-card">
+                                <div class="profit-label">YOUR PROFIT:</div>
+                                <div class="profit-value">$1,437.49</div>
+                                <div class="profit-details">
+                                    <span>Margin: 35%</span>
+                                    <span>Per Hour: $251</span>
+                                    <span>Per Foot: $20.11</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 5 -->
+                        <div class="form-section" id="step5">
+                            <h2>Step 5: Generate & Send</h2>
+
+                            <div class="summary-card" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border: none; border-left: 4px solid white;">
+                                <div class="summary-row" style="color: white; border-bottom-color: rgba(255, 255, 255, 0.2);">
+                                    <span class="summary-label" style="color: white;">Estimate #:</span>
+                                    <span class="summary-value" style="color: white;">001-2026</span>
+                                </div>
+                                <div class="summary-row" style="color: white; border-bottom-color: rgba(255, 255, 255, 0.2);">
+                                    <span class="summary-label" style="color: white;">Valid Until:</span>
+                                    <span class="summary-value" style="color: white;">August 14, 2026</span>
+                                </div>
+                                <div class="summary-row" style="color: white;">
+                                    <span class="summary-label" style="color: white;">Price Lock:</span>
+                                    <span class="summary-value" style="color: white;">✓ 30 Days Guaranteed</span>
+                                </div>
+                            </div>
+
+                            <h3 style="margin: 30px 0 20px; color: var(--text-dark); font-size: 18px; font-weight: 700;">Customer Summary:</h3>
+                            <div class="summary-card">
+                                <div class="summary-row">
+                                    <span class="summary-label"><strong>John Smith</strong></span>
+                                    <span class="summary-value">(555) 123-4567</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">123 Main St, Cornwall ON K6H 1A1</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">100 Linear Feet • Chain Link • 5' Height</span>
+                                </div>
+                                <div class="summary-row total">
+                                    <span class="summary-label">TOTAL ESTIMATE:</span>
+                                    <span class="summary-value" style="color: var(--primary); font-size: 18px;">$4,092.28</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" onclick="generatePDF()" style="width: 100%; margin-top: 30px; padding: 16px; font-size: 16px;">
+                                📄 Generate & Email PDF
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="wizard-footer">
+                        <button class="btn btn-back" onclick="previousStep()" id="btnBack">← Back</button>
+                        <span class="step-counter" id="stepCounter">Step 1 of 5</span>
+                        <button class="btn btn-next" onclick="nextStep()" id="btnNext" style="width: auto;">Next →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECTS TAB -->
+            <div id="projects-tab" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">All Projects & Contracts</h2>
+                    <p class="section-subtitle">Manage and track all your fence projects</p>
+                </div>
+
+                <div class="table-section">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Customer</th>
+                                    <th>Project Type</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>001</strong></td>
+                                    <td>John Smith</td>
+                                    <td>100' Residential Chain Link</td>
+                                    <td><strong>$4,092.28</strong></td>
+                                    <td><span class="status-badge status-contract">✓ Contract</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn action-view">View</button>
+                                            <button class="action-btn action-edit">Edit</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>002</strong></td>
+                                    <td>Mary Johnson</td>
+                                    <td>150' Commercial Gate</td>
+                                    <td><strong>$8,250.00</strong></td>
+                                    <td><span class="status-badge status-pending">⏳ Pending</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn action-view">View</button>
+                                            <button class="action-btn action-edit">Edit</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>003</strong></td>
+                                    <td>Bob Wilson</td>
+                                    <td>200' Mixed Fence</td>
+                                    <td><strong>$12,450.00</strong></td>
+                                    <td><span class="status-badge status-contract">✓ Contract</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn action-view">View</button>
+                                            <button class="action-btn action-edit">Edit</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MATERIALS TAB -->
+            <div id="materials-tab" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">Materials & Costs Management</h2>
+                    <p class="section-subtitle">Manage material costs and pricing</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-label">Total Suppliers</div>
+                        <div class="stat-value">6</div>
+                        <div class="stat-change">→ Master Halco, Cloutier Direct, More</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-label">Products Cataloged</div>
+                        <div class="stat-value">2,847</div>
+                        <div class="stat-change">→ All fence types</div>
+                    </div>
+                    <div class="stat-card accent">
+                        <div class="stat-label">Average Margin</div>
+                        <div class="stat-value">35%</div>
+                        <div class="stat-change">→ Per project</div>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h3 style="margin-bottom: 20px; color: var(--text-dark); font-weight: 700;">Cost Management Features:</h3>
+                    <div class="summary-row">
+                        <span class="summary-label">✓ Multi-supplier pricing</span>
+                        <span class="summary-value">Compare costs across suppliers</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">✓ Bulk discount tracking</span>
+                        <span class="summary-value">Volume pricing optimization</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">✓ Labour rate management</span>
+                        <span class="summary-value">Task-based labour calculations</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">✓ Profit calculations</span>
+                        <span class="summary-value">Real-time margin tracking</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUPPLIERS TAB -->
+            <div id="suppliers-tab" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">Supplier Management</h2>
+                    <p class="section-subtitle">Integrated supplier catalogs and pricing</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-label">🟣 Homeland Vinyl</div>
+                        <div class="stat-value">Gorilla Fence</div>
+                        <div class="stat-change">Premium vinyl products</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-label">🔵 Master Halco</div>
+                        <div class="stat-value">Complete Line</div>
+                        <div class="stat-change">All fence materials</div>
+                    </div>
+                    <div class="stat-card accent">
+                        <div class="stat-label">🟢 Canadian Fence</div>
+                        <div class="stat-value">Local Supplier</div>
+                        <div class="stat-change">Fast shipping</div>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h3 style="margin-bottom: 20px; color: var(--text-dark); font-weight: 700;">Integrated Suppliers:</h3>
+                    <div class="summary-row">
+                        <span class="summary-label">🟠 Cloutier Direct Inc</span>
+                        <span class="summary-value">Eastern Canada distributor</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">🔴 Chamberlain Group</span>
+                        <span class="summary-value">Motorized gate operators</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">⚪ Ameristar</span>
+                        <span class="summary-value">Commercial gate frames</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANALYTICS TAB -->
+            <div id="analytics-tab" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">Analytics & Reports</h2>
+                    <p class="section-subtitle">July 2026 • Performance metrics and insights</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-label">Total Revenue</div>
+                        <div class="stat-value">$47.4K</div>
+                        <div class="stat-change">→ 15 Contracts Closed</div>
+                    </div>
+
+                    <div class="stat-card success">
+                        <div class="stat-label">Close Rate</div>
+                        <div class="stat-value">65%</div>
+                        <div class="stat-change">→ 23 Estimates Created</div>
+                    </div>
+
+                    <div class="stat-card accent">
+                        <div class="stat-label">Avg Profit</div>
+                        <div class="stat-value">$2,008</div>
+                        <div class="stat-change">→ Per Project</div>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h3 style="margin-bottom: 20px; color: var(--text-dark); font-weight: 700;">Revenue by Type:</h3>
+                    <div class="summary-row">
+                        <span class="summary-label">Chain Link:</span>
+                        <span class="summary-value">████████░░ 45% ($13,556)</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Vinyl:</span>
+                        <span class="summary-value">██████░░░░ 28% ($8,435)</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Wood:</span>
+                        <span class="summary-value">█████░░░░░ 18% ($5,422)</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Commercial:</span>
+                        <span class="summary-value">██░░░░░░░░ 9% ($2,711)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SETTINGS TAB -->
+            <div id="settings-tab" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">System Settings</h2>
+                    <p class="section-subtitle">Configure system options and preferences</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3 style="margin-bottom: 20px; color: var(--text-dark); font-weight: 700;">Labour Rates:</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Standard Rate (per hour):</label>
+                            <input type="text" value="$30.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Labour Markup:</label>
+                            <input type="text" value="50%">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h3 style="margin-bottom: 20px; color: var(--text-dark); font-weight: 700;">Measurement System:</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Default Units:</label>
+                            <select style="width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px;">
+                                <option selected>Imperial (Feet, Inches)</option>
+                                <option>Metric (Meters, Millimeters)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h3 style="margin-bottom: 20px; color: var(--text-dark); font-weight: 700;">Tax & Pricing:</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tax Rate:</label>
+                            <input type="text" value="13%">
+                        </div>
+                        <div class="form-group">
+                            <label>Default Profit Margin:</label>
+                            <input type="text" value="35%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/calculations.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
