@@ -101,7 +101,7 @@
       surface.innerHTML = [
         '<div class="fallback-map">',
         '  <p><strong>Fallback map view</strong></p>',
-        '  <p>Address: ' + this.currentLocation.address + '</p>',
+        '  <p>Address: ' + this.escape(this.currentLocation.address) + '</p>',
         '  <p>Coordinates: ' + this.currentLocation.lat + ', ' + this.currentLocation.lng + '</p>',
         '  <p>Markers: ' + this.markers.length + '</p>',
         '</div>'
@@ -209,14 +209,27 @@
       var host = this.container.querySelector('[data-role="meta"]');
       host.innerHTML = [
         '<h3>Map Details</h3>',
-        '<p><strong>Address:</strong> ' + this.currentLocation.address + '</p>',
+        '<p><strong>Address:</strong> ' + this.escape(this.currentLocation.address) + '</p>',
         '<p><strong>Coordinates:</strong> ' + this.currentLocation.lat + ', ' + this.currentLocation.lng + '</p>',
         '<p><strong>Markers:</strong> ' + this.markers.length + '</p>',
         '<p><strong>Measurement:</strong> ' + (this.measurement === null ? 'Add two markers' : this.measurement + ' m') + '</p>',
         '<ol>' + this.markers.map(function (marker) {
-          return '<li>' + marker.label + ' — ' + marker.lat + ', ' + marker.lng + '</li>';
-        }).join("") + '</ol>'
+          return '<li>' + this.escape(marker.label) + ' — ' + marker.lat + ', ' + marker.lng + '</li>';
+        }, this).join("") + '</ol>'
       ].join("");
+    }
+
+    /**
+     * @param {string} value
+     * @returns {string}
+     */
+    escape(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
     }
 
     /**

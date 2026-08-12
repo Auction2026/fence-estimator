@@ -235,7 +235,7 @@
      * @param {number} amount
      * @returns {string}
      */
-    static formatMoney(amount) {
+    static formatMoneyDefault(amount) {
       return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(Number(amount) || 0);
     }
   }

@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Lock files (generated automatically)
+package-lock.json
+*/package-lock.json
+yarn.lock
+
+# Environment files (contain secrets)
+.env
+backend/.env
+*.env.local
+
+# Build output
+dist/
+build/
+.cache/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Uploads & generated files
+uploads/
+pdfs/
+backups/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
