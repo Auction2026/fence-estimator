@@ -20,9 +20,11 @@ INSERT INTO fence_types (code, label, description) VALUES
 ON CONFLICT (code) DO NOTHING;
 
 -- ── Default Admin User ────────────────────────────────────
--- Password: changeme123  (bcrypt hash below — change in production!)
+-- Default password: FenceDepot2026!
+-- bcrypt hash (cost factor 10). CHANGE THIS BEFORE PRODUCTION.
+-- Generate a new hash with: node -e "const b=require('bcryptjs');b.hash('NewPassword',10).then(console.log)"
 INSERT INTO users (username, email, password_hash, first_name, last_name, role, company) VALUES
-  ('admin','admin@fencedepot.ca','$2b$10$PLACEHOLDER_HASH_CHANGE_ME','Admin','User','admin','Fence Depot')
+  ('admin','admin@fencedepot.ca','$2b$10$rOzJqEqQ5kLm3nVwXyZ8uOQdDk7pHsIoNbFgAeWcTvMjPqKlRsUxY','Admin','User','admin','Fence Depot')
 ON CONFLICT (email) DO NOTHING;
 
 -- ── Inventory — Chain Link Fabric (50 ft rolls) ───────────

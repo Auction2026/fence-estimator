@@ -162,13 +162,23 @@ psql -U postgres -d fence_estimator -f database/seed.sql
 Copy `backend/.env.example` to `backend/.env` and set:
 
 ```
+# Database — the backend/server.js uses MongoDB (mongoose).
+# The database/schema.sql is for a PostgreSQL companion store (optional, for reporting).
 MONGO_URI=mongodb://localhost:27017/fence-estimator
+
+# PostgreSQL (optional — for schema.sql + seed.sql)
+# DATABASE_URL=******localhost:5432/fence_estimator
+
 JWT_SECRET=your-secret-key-here
 PORT=5000
 SMTP_HOST=smtp.gmail.com
 SMTP_USER=your@email.com
 SMTP_PASS=your-app-password
 ```
+
+> **Note:** `backend/server.js` uses **MongoDB** (via Mongoose).
+> `database/schema.sql` is a **PostgreSQL** schema for a relational companion store (reporting, raw SQL queries).
+> You can use either or both depending on your hosting setup.
 
 ---
 

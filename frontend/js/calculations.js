@@ -349,11 +349,12 @@ const Calculations = (() => {
   // ============================================================
   // TOTALS SUMMARY
   // ============================================================
-  function summarize(items) {
+  function summarize(items, taxRate) {
+    const rate     = (taxRate !== undefined && taxRate !== null) ? taxRate : (typeof AppConfig !== 'undefined' ? AppConfig.taxRate : 0.05);
     const subtotal = items.reduce((sum, i) => sum + (i.totalPrice || 0), 0);
-    const tax      = subtotal * AppConfig.taxRate;
+    const tax      = subtotal * rate;
     const total    = subtotal + tax;
-    return { subtotal, tax, total, taxRate: AppConfig.taxRate };
+    return { subtotal, tax, total, taxRate: rate };
   }
 
   // ============================================================
@@ -367,6 +368,7 @@ const Calculations = (() => {
    *   footage:   Number,   // linear feet
    *   heightFt:  Number,
    *   color:     String,
+   *   taxRate:   Number,   // optional, defaults to AppConfig.taxRate
    *   gates:     [{ width: Number }],
    * }
    */
@@ -380,7 +382,7 @@ const Calculations = (() => {
       default:
         console.warn('Unknown fence type:', state.fenceType);
     }
-    const totals = summarize(items);
+    const totals = summarize(items, state.taxRate);
     return { items, ...totals };
   }
 

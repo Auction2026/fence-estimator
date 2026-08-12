@@ -218,7 +218,7 @@ const UI = (() => {
         return `<td${align}>${val}</td>`;
       }).join('')}</tr>`
     ).join('')}</tbody>`;
-    return `<table class="data-table"><thead>${thead}</thead>${tbody}</table>`;
+    return `<table class="data-table">${thead}${tbody}</table>`;
   }
 
   // ============================================================

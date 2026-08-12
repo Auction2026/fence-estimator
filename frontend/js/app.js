@@ -134,10 +134,14 @@ function bindGlobalEvents() {
   });
 
   // Landing "Start" button
+  // NOTE: Demo mode — shows a simple credential prompt.
+  // In production: replace with a proper login form / auth flow
+  // and remove or gate this demo bypass behind a feature flag.
   const startBtn = document.getElementById('btnGetStarted');
   if (startBtn) startBtn.addEventListener('click', () => {
-    // Demo mode — skip login for now
-    handleLogin({ name: 'Demo User', role: 'estimator' });
+    const username = window.prompt('Username (demo: press OK to continue):');
+    if (username === null) return; // cancelled
+    handleLogin({ name: username || 'Demo User', role: 'estimator' });
   });
 
   // Logout button

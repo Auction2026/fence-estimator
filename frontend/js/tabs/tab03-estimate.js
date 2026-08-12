@@ -284,15 +284,16 @@ const TabEstimate = (() => {
         estimateState.heightFt = Number(v('est_height')) || 6;
         estimateState.color    = v('est_color');
         break;
-      case 3:
+      case 3: {
         estimateState.footage       = Number(v('est_footage')) || 0;
         estimateState.laborIncluded = v('est_labor') === 'yes';
         estimateState.gates = [];
         const gateCount = Number(v('est_gateCount')) || 0;
         for (let i = 0; i < gateCount; i++) {
-          estimateState.gates.push({ width: Number(v(`gateWidth_${i}`)) || 4 });
+          estimateState.gates.push({ width: Number(v('gateWidth_' + i)) || 4 });
         }
         break;
+      }
       case 5:
         estimateState.notes = v('est_notes');
         break;
@@ -376,10 +377,13 @@ const TabEstimate = (() => {
   function renderSummary(result) {
     const el = document.getElementById('estimateSummary');
     if (!el) return;
-    const p   = estimateState;
-    const labour = Calculations.calcLabour(p.footage, p.fenceType);
-    const labourAmt = p.laborIncluded ? labour.labour : 0;
-    const grandTotal = result.total + labourAmt;
+    const p          = estimateState;
+    const taxRate    = result.taxRate || 0.05;
+    const labour     = Calculations.calcLabour(p.footage, p.fenceType);
+    const labourAmt  = p.laborIncluded ? labour.labour : 0;
+    const labourTax  = labourAmt * taxRate;
+    const totalTax   = result.tax + labourTax;
+    const grandTotal = result.subtotal + labourAmt + totalTax;
     el.innerHTML = `
       <div class="estimate-doc" style="margin:0;padding:30px">
         <div class="doc-header">
@@ -394,7 +398,7 @@ const TabEstimate = (() => {
           <tbody>
             <tr><td>Materials — ${UI.escapeHtml(p.fenceType)} fence (${p.footage} linear ft)</td><td class="td-right">${formatCurrency(result.subtotal)}</td></tr>
             ${p.laborIncluded?`<tr><td>Labour — Installation (${labour.crewHours} crew hours estimated)</td><td class="td-right">${formatCurrency(labourAmt)}</td></tr>`:''}
-            <tr><td>GST/HST</td><td class="td-right">${formatCurrency(result.tax)}</td></tr>
+            <tr><td>GST/HST (${(taxRate*100).toFixed(0)}%)</td><td class="td-right">${formatCurrency(totalTax)}</td></tr>
           </tbody>
           <tfoot><tr><td class="td-right text-bold" style="font-size:18px">TOTAL</td><td class="td-right text-bold" style="font-size:18px;color:var(--primary)">${formatCurrency(grandTotal)}</td></tr></tfoot>
         </table>
