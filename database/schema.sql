@@ -1,0 +1,39 @@
+CREATE TABLE IF NOT EXISTS projects (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  project_id TEXT UNIQUE NOT NULL,
+  customer_name TEXT NOT NULL,
+  customer_email TEXT NOT NULL,
+  customer_phone TEXT,
+  address TEXT,
+  city TEXT,
+  province TEXT,
+  postal_code TEXT,
+  status TEXT NOT NULL DEFAULT 'draft',
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS estimates (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  project_id TEXT NOT NULL,
+  materials REAL NOT NULL DEFAULT 0,
+  labor REAL NOT NULL DEFAULT 0,
+  equipment REAL NOT NULL DEFAULT 0,
+  permits REAL NOT NULL DEFAULT 0,
+  extras REAL NOT NULL DEFAULT 0,
+  subtotal REAL NOT NULL DEFAULT 0,
+  tax REAL NOT NULL DEFAULT 0,
+  total REAL NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS contracts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  contract_number TEXT UNIQUE NOT NULL,
+  project_id TEXT NOT NULL,
+  customer_name TEXT NOT NULL,
+  total REAL NOT NULL,
+  status TEXT NOT NULL DEFAULT 'draft',
+  signed_at TEXT,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
