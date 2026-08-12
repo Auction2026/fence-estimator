@@ -1189,6 +1189,13 @@ app.get('/api/health', (req, res) => {
 });
 
 // ============================================
+// API ROUTES
+// ============================================
+
+const apiRoutes = require('./routes/api');
+app.use('/api', apiRoutes);
+
+// ============================================
 // ERROR HANDLING
 // ============================================
 
@@ -1232,4 +1239,10 @@ const startServer = async () => {
 
 startServer();
 
+// Export app and models for use by controllers and tests
 module.exports = app;
+module.exports.User = User;
+module.exports.Estimate = Estimate;
+module.exports.Project = Project;
+module.exports.Customer = null; // Customer model uses Project; alias for controllers
+module.exports.InventoryItem = null; // Inventory managed via seed.sql / separate model

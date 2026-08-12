@@ -1,0 +1,127 @@
+/* ===== RESPONSIVE CSS - Fence Depot Estimator ===== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .landing-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .dashboard-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .landing-title {
+        font-size: 32px;
+    }
+
+    .landing-subtitle {
+        font-size: 18px;
+    }
+
+    .landing-features {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .step-indicator {
+        flex-wrap: wrap;
+    }
+
+    .step {
+        flex: 0 0 calc(50% - 10px);
+    }
+
+    .option-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .summary-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .tab-bar {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .tab-item {
+        display: inline-block;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        width: 100%;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .landing-logo {
+        font-size: 40px;
+    }
+
+    .landing-title {
+        font-size: 24px;
+    }
+
+    .option-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .stat-value {
+        font-size: 24px;
+    }
+}
+
+/* Print */
+@media print {
+    .sidebar,
+    .tab-bar,
+    .btn,
+    .landing-page,
+    .login-screen {
+        display: none !important;
+    }
+
+    .main-content {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .summary-card {
+        break-inside: avoid;
+    }
+}
