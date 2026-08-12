@@ -14,6 +14,15 @@ const appState = {
 
 let drawingSession = null;
 
+function escapeHtml(value) {
+  return String(value || '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initializeApp();
   loadSavedData();
@@ -107,6 +116,7 @@ function saveSpecs(event) {
 
 function calculateEstimate() {
   const specs = appState.specsData;
+  if (!window.calcEngine) return;
   if (!specs || !specs.linearFeet) {
     appState.estimate.materials = 0;
     appState.estimate.labor = 0;
@@ -155,7 +165,16 @@ function saveAppState() {
 }
 
 function loadSavedData() {
-  const saved = window.fenceStorage?.loadState ? window.fenceStorage.loadState() : JSON.parse(localStorage.getItem('fenceEstimatorState') || 'null');
+  let saved = null;
+  if (window.fenceStorage?.loadState) {
+    saved = window.fenceStorage.loadState();
+  } else {
+    try {
+      saved = JSON.parse(localStorage.getItem('fenceEstimatorState') || 'null');
+    } catch {
+      saved = null;
+    }
+  }
   if (!saved) {
     updateEstimateDisplay();
     return;
@@ -194,7 +213,8 @@ function uploadDrawing(event) {
 
 function savePermits(event) {
   event.preventDefault();
-  appState.estimate.permits = 75;
+  const permitCostField = document.getElementById('permitCost');
+  appState.estimate.permits = permitCostField ? Number(permitCostField.value || 0) : 75;
   appState.permits = {
     number: document.getElementById('permitNumber').value,
     status: document.getElementById('permitStatus').value,
@@ -221,8 +241,10 @@ function lockPrice() {
 }
 
 function signContract() {
-  document.getElementById('contractCustomer').textContent = appState.projectData.name || '---';
-  document.getElementById('contractPrice').textContent = `$${Number(appState.estimate.total || 0).toFixed(2)}`;
+  const contractCustomer = document.getElementById('contractCustomer');
+  const contractPrice = document.getElementById('contractPrice');
+  if (contractCustomer) contractCustomer.textContent = appState.projectData.name || '---';
+  if (contractPrice) contractPrice.textContent = `$${Number(appState.estimate.total || 0).toFixed(2)}`;
   alert('Contract signature recorded.');
 }
 
@@ -243,7 +265,7 @@ function renderExtras() {
   const tbody = document.getElementById('extrasTableBody');
   if (!tbody) return;
   tbody.innerHTML = appState.extras
-    .map((row, idx) => `<tr><td>${row.item}</td><td>$${Number(row.cost).toFixed(2)}</td><td><button type="button" onclick="removeExtra(${idx})">Remove</button></td></tr>`)
+    .map((row, idx) => `<tr><td>${escapeHtml(row.item)}</td><td>$${Number(row.cost).toFixed(2)}</td><td><button type="button" onclick="removeExtra(${idx})">Remove</button></td></tr>`)
     .join('');
 }
 
@@ -269,7 +291,7 @@ function addCrewMember(event) {
 function renderCrew() {
   const tbody = document.getElementById('crewTableBody');
   if (!tbody) return;
-  tbody.innerHTML = appState.crew.map((row) => `<tr><td>${row.name}</td><td>${row.role}</td><td>-</td></tr>`).join('');
+  tbody.innerHTML = appState.crew.map((row) => `<tr><td>${escapeHtml(row.name)}</td><td>${escapeHtml(row.role)}</td><td>-</td></tr>`).join('');
 }
 
 function addChangeOrder(event) {
@@ -287,7 +309,7 @@ function renderChanges() {
   const host = document.getElementById('changeOrdersList');
   if (!host) return;
   host.innerHTML = appState.changeOrders
-    .map((c) => `<div><strong>${c.description}</strong> — $${Number(c.cost).toFixed(2)}</div>`)
+    .map((c) => `<div><strong>${escapeHtml(c.description)}</strong> — $${Number(c.cost).toFixed(2)}</div>`)
     .join('');
 }
 
@@ -309,7 +331,7 @@ function addNote(event) {
 function renderNotes() {
   const host = document.getElementById('notesList');
   if (!host) return;
-  host.innerHTML = appState.notes.map((n) => `<div>${n.note}</div>`).join('');
+  host.innerHTML = appState.notes.map((n) => `<div>${escapeHtml(n.note)}</div>`).join('');
 }
 
 function showHome() {
@@ -319,7 +341,7 @@ function showHome() {
 function logout() {
   if (confirm('Logout?')) {
     window.fenceStorage?.clearState?.();
-    localStorage.clear();
+    localStorage.removeItem('fenceEstimatorState');
     window.location.reload();
   }
 }

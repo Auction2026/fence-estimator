@@ -9,7 +9,8 @@ const validators = {
     return /^[0-9+()\-\s]{7,20}$/.test(String(value || ''));
   },
   postal(value) {
-    return String(value || '').trim().length >= 5;
+    const text = String(value || '').trim();
+    return /^[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d$/.test(text) || /^\\d{5}(-\\d{4})?$/.test(text);
   },
 };
 
@@ -24,9 +25,11 @@ function validateProjectData(data) {
 
 function validateSpecsData(data) {
   const errors = {};
+  const linearFeet = Number(data.linearFeet);
+  const posts = Number(data.numberOfPosts);
   if (!validators.required(data.fenceType)) errors.fenceType = 'Fence type is required';
-  if (Number(data.linearFeet) <= 0) errors.linearFeet = 'Linear feet must be greater than 0';
-  if (Number(data.numberOfPosts) < 0) errors.numberOfPosts = 'Post count cannot be negative';
+  if (!Number.isFinite(linearFeet) || linearFeet <= 0) errors.linearFeet = 'Linear feet must be greater than 0';
+  if (!Number.isFinite(posts) || posts < 0) errors.numberOfPosts = 'Post count cannot be negative';
   return { valid: Object.keys(errors).length === 0, errors };
 }
 

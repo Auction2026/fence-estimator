@@ -24,7 +24,12 @@ function saveDraft(id, payload) {
 
 function loadDraft(id) {
   const raw = localStorage.getItem(`fenceDraft:${id}`);
-  return raw ? JSON.parse(raw) : null;
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
 }
 
 window.fenceStorage = { saveState, loadState, clearState, saveDraft, loadDraft };

@@ -5,6 +5,7 @@ const materialRates = {
   wroughtiron: 50,
   aluminum: 30,
 };
+const TAX_RATE = 0.13;
 
 function safeNumber(value, fallback = 0) {
   const n = Number(value);
@@ -32,7 +33,7 @@ function calculateEquipment(specs) {
 
 function calculateTotals(estimate) {
   const subtotal = safeNumber(estimate.materials) + safeNumber(estimate.labor) + safeNumber(estimate.equipment) + safeNumber(estimate.permits) + safeNumber(estimate.extras);
-  const tax = subtotal * 0.13;
+  const tax = subtotal * TAX_RATE;
   return {
     subtotal: Math.round(subtotal * 100) / 100,
     tax: Math.round(tax * 100) / 100,

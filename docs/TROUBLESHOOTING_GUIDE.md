@@ -9,7 +9,7 @@
 - Run `npm install` in `/backend`.
 
 ## API 401 errors
-- Include `Authorization: ****** for protected endpoints.
+- Include the Authorization header with a valid JWT token for protected endpoints.
 
 ## Data not saved
 - Confirm browser localStorage is enabled.
