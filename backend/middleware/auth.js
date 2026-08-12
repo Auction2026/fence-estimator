@@ -7,7 +7,11 @@
 
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET  = process.env.JWT_SECRET || 'fence-depot-secret-key-change-in-production';
+const JWT_SECRET  = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET environment variable is not set. Set it in your .env file before starting the server.');
+  process.exit(1);
+}
 const JWT_EXPIRES = process.env.JWT_EXPIRES || '24h';
 
 // ---- Generate token ----

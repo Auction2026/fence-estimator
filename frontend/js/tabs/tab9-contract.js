@@ -91,6 +91,7 @@ var Tab9Contract = (function () {
   function lockContract() {
     if (!window.confirm('Lock contract? Prices will be frozen and cannot be changed.')) return;
     isLocked = true;
+    FenceApp.project.contract = FenceApp.project.contract || {};
     FenceApp.project.contract.locked   = true;
     FenceApp.project.contract.lockedAt = new Date().toISOString();
     FenceApp.project.contract.lockedTotal = (FenceApp.project.estimate || {}).grandTotal || 0;

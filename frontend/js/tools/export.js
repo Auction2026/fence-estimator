@@ -89,7 +89,7 @@ var ExportTool = (function () {
     Storage.exportProjectJSON(FenceApp.currentProject);
   }
 
-  // ---- Excel-compatible CSV (tab-delimited) ----
+  // ---- Excel-compatible CSV (comma-delimited — opens in Excel) ----
   function exportExcel() {
     exportEstimateCSV(); // CSV opens in Excel
   }

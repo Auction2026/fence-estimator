@@ -134,7 +134,7 @@ var Calculations = (function () {
   function calculateExtras(extras) {
     if (!Array.isArray(extras)) return { subtotal: 0, items: [] };
     var total = extras.reduce(function (sum, item) {
-      return sum + (parseFloat(item.cost) || 0) * (parseInt(item.qty, 10) || 1);
+      return sum + (parseFloat(item.rate) || 0) * (parseFloat(item.qty) || 0);
     }, 0);
     return { subtotal: round(total), items: extras };
   }

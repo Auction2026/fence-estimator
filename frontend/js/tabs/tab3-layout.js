@@ -162,5 +162,4 @@ var Tab3Layout = (function () {
 
 })();
 
-window.Tab3Layout    = Tab3Layout;
-window.DrawingTool   = Tab3Layout; // alias used in app.js
+window.Tab3Layout = Tab3Layout;

@@ -109,7 +109,7 @@ function switchTab(tabNum) {
 
 function triggerTabInit(tabNum) {
   switch (tabNum) {
-    case 3:  if (typeof DrawingTool !== 'undefined')  DrawingTool.init();  break;
+    case 3:  if (typeof Tab3Layout !== 'undefined')   Tab3Layout.init();   break;
     case 8:  if (typeof Tab8Estimate !== 'undefined') Tab8Estimate.refresh(); break;
     case 15: if (typeof Tab15Admin !== 'undefined')   Tab15Admin.refresh();  break;
     case 17: if (typeof MappingTool !== 'undefined')  MappingTool.init();    break;
