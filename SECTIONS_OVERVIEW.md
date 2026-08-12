@@ -64,7 +64,7 @@
 
 | Category | Sections | Status |
 |---------|---------|--------|
-| HTML (Sections 1–3) | 3 sections | ✅ All Ready |
+| HTML & CSS (Sections 1–3) | 3 sections | ✅ All Ready |
 | Core JavaScript (Sections 4–10) | 7 sections | ✅ All Ready |
 | Tab Files (Sections 11–27) | 17 sections | ✅ All Ready |
 | Tools (Sections 28–30) | 3 sections | ✅ All Ready |

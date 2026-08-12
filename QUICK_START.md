@@ -101,7 +101,7 @@ After you're up and running:
 2. Fill in **Tab 1 — Project Info** with customer details
 3. Move to **Tab 2 — Fence Specs** and select fence type, height, color, footage
 4. Click **Tab 8 — Estimate** to see the auto-calculated material list with prices
-5. Print or export the estimate from **Tab 10 — Extras / Print**
+5. Print or export the estimate using the **Print & Export tool** (Section 30)
 
 ---
 
