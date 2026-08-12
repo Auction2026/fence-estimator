@@ -1,0 +1,24 @@
+{
+  "name": "fence-estimator-frontend",
+  "version": "1.0.0",
+  "description": "Fence Depot Fence Estimator Frontend",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve . -p 8080",
+    "dev": "npx live-server --port=8080 --open=index.html",
+    "build": "echo 'No build step required for vanilla JS frontend'",
+    "lint": "npx eslint js/**/*.js",
+    "format": "npx prettier --write css/**/*.css js/**/*.js index.html"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.0",
+    "live-server": "^1.2.2",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  },
+  "keywords": ["fence", "estimator", "construction", "contractor"],
+  "author": "Fence Depot",
+  "license": "UNLICENSED",
+  "private": true
+}

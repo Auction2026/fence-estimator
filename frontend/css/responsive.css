@@ -1,0 +1,139 @@
+/* =============================================================
+   FENCE DEPOT ESTIMATOR - Responsive Stylesheet
+   Version 1.0 | responsive.css
+   ============================================================= */
+
+/* ===== MOBILE FIRST - Base (320px+) already in styles.css ===== */
+
+/* ===== SMALL PHONES (max 480px) ===== */
+@media (max-width: 480px) {
+  .landing-title   { font-size: 32px; }
+  .landing-subtitle{ font-size: 16px; }
+  .landing-logo    { font-size: 48px; }
+  .landing-features{ grid-template-columns: 1fr; gap: 16px; }
+
+  .app-header      { padding: 0 14px; height: 56px; }
+  .app-logo-text   { font-size: 16px; }
+  .app-logo-sub    { display: none; }
+  .header-actions .project-info { display: none; }
+
+  .tabs-nav        { padding: 0 8px; }
+  .tab-btn         { padding: 10px 12px; font-size: 12px; }
+
+  .tab-panel       { padding: 16px 12px; }
+  .card            { padding: 16px; }
+
+  .stats-grid      { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-value      { font-size: 22px; }
+
+  .form-row        { grid-template-columns: 1fr; }
+  .form-inline     { flex-direction: column; align-items: flex-start; }
+
+  .btn-lg          { padding: 12px 24px; font-size: 15px; }
+  .price-large     { font-size: 34px; }
+  .price-display   { font-size: 24px; }
+
+  table th, table td { padding: 8px 10px; font-size: 12px; }
+
+  .modal           { max-height: 95vh; }
+  .modal-body      { padding: 16px; }
+
+  #layout-canvas   { height: 250px; }
+  #map-container   { height: 280px; }
+  #signature-canvas{ height: 120px; }
+
+  .catalog-grid    { grid-template-columns: 1fr; }
+  .drawing-toolbar { gap: 6px; }
+  .tool-btn        { padding: 6px 10px; font-size: 12px; }
+}
+
+/* ===== TABLETS - PORTRAIT (481px - 767px) ===== */
+@media (min-width: 481px) and (max-width: 767px) {
+  .landing-title   { font-size: 40px; }
+  .landing-features{ grid-template-columns: repeat(2, 1fr); }
+
+  .app-logo-sub    { display: none; }
+  .tab-btn         { padding: 12px 14px; font-size: 13px; }
+  .tab-panel       { padding: 20px 16px; }
+
+  .stats-grid      { grid-template-columns: repeat(2, 1fr); }
+  .form-row        { grid-template-columns: repeat(2, 1fr); }
+
+  .price-large     { font-size: 40px; }
+  #layout-canvas   { height: 320px; }
+  #map-container   { height: 340px; }
+  .catalog-grid    { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ===== TABLETS - LANDSCAPE (768px - 1023px) ===== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .landing-title   { font-size: 46px; }
+  .landing-features{ grid-template-columns: repeat(3, 1fr); }
+
+  .tab-btn         { padding: 13px 16px; }
+  .tab-panel       { padding: 24px 20px; }
+
+  .stats-grid      { grid-template-columns: repeat(3, 1fr); }
+  .form-row        { grid-template-columns: repeat(2, 1fr); }
+
+  #layout-canvas   { height: 380px; }
+  #map-container   { height: 400px; }
+  .catalog-grid    { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ===== SMALL DESKTOP (1024px - 1279px) ===== */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .landing-features{ grid-template-columns: repeat(4, 1fr); }
+  .stats-grid      { grid-template-columns: repeat(4, 1fr); }
+  .form-row        { grid-template-columns: repeat(3, 1fr); }
+  #layout-canvas   { height: 450px; }
+  #map-container   { height: 450px; }
+  .catalog-grid    { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ===== LARGE DESKTOP (1280px+) ===== */
+@media (min-width: 1280px) {
+  .landing-title   { font-size: 56px; }
+  .stats-grid      { grid-template-columns: repeat(5, 1fr); }
+  .form-row        { grid-template-columns: repeat(4, 1fr); }
+  #layout-canvas   { height: 500px; }
+  #map-container   { height: 500px; }
+  .catalog-grid    { grid-template-columns: repeat(5, 1fr); }
+}
+
+/* ===== WIDE / ULTRA DESKTOP (1600px+) ===== */
+@media (min-width: 1600px) {
+  .tab-panel { padding: 32px 40px; }
+  .stats-grid{ grid-template-columns: repeat(6, 1fr); }
+}
+
+/* ===== TOUCH DEVICES ===== */
+@media (hover: none) and (pointer: coarse) {
+  .btn:hover          { transform: none; }
+  .feature-box:hover  { transform: none; }
+  .catalog-card:hover { transform: none; box-shadow: var(--shadow-sm); }
+  .btn { padding: 14px 28px; }   /* slightly bigger tap targets */
+}
+
+/* ===== HIGH DPI SCREENS ===== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .app-header { box-shadow: 0 2px 12px rgba(0,0,0,.15); }
+}
+
+/* ===== DARK MODE (future enhancement) ===== */
+@media (prefers-color-scheme: dark) {
+  /* Placeholder - light theme is default */
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* ===== LANDSCAPE PHONES ===== */
+@media (max-height: 480px) and (orientation: landscape) {
+  .landing-page { padding: 20px; justify-content: flex-start; overflow-y: auto; }
+  .landing-logo { font-size: 40px; margin-bottom: 10px; }
+  .landing-title { font-size: 28px; margin-bottom: 8px; }
+  .landing-features { gap: 12px; margin: 20px auto; }
+}
