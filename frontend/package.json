@@ -1,0 +1,14 @@
+{
+  "name": "fence-depot-estimator-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Fence Depot Estimator — vanilla JS, no framework",
+  "scripts": {
+    "serve": "npx serve . -l 3000",
+    "lint":  "npx eslint js/**/*.js",
+    "build": "echo 'No build step — pure HTML/CSS/JS'"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "serve":  "^14.0.0"
+  }
+}
