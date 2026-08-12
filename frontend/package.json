@@ -1,0 +1,20 @@
+{
+  "name": "fence-estimator-frontend",
+  "version": "1.0.0",
+  "description": "Professional Fence Estimation Software",
+  "main": "app.js",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "open http://localhost:8000",
+    "build": "npm run lint",
+    "test": "jest",
+    "lint": "eslint *.js js/**/*.js"
+  },
+  "keywords": ["fence", "estimator", "construction"],
+  "author": "Auction2026",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "eslint": "^8.0.0"
+  }
+}
