@@ -1,1 +1,683 @@
-@media (max-width:480px){.header-container{flex-direction:column;gap:10px}.logo h1{font-size:20px}.tab-btn{padding:8px 10px;font-size:12px}.form-row{grid-template-columns:1fr;gap:15px}.btn{width:100%;margin-bottom:10px}.data-table{font-size:12px}}@media (min-width:481px) and (max-width:768px){.form-row{grid-template-columns:1fr;gap:15px}.btn{width:100%;margin-bottom:10px}}@media (min-width:769px) and (max-width:1024px){.form-row{grid-template-columns:1fr;gap:15px}}@media print{.tab-navigation,.nav-menu,.app-header,.app-footer{display:none}.btn{display:none}}
+/* =========================================
+   Fence Estimator Responsive Styles
+   Mobile-first enhancements
+   ========================================= */
+
+/* ---------- Base mobile refinements ---------- */
+html {
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.main-container {
+    width: min(100% - 1rem, var(--container-max));
+    padding-block: var(--space-4) var(--space-6);
+}
+
+.header-container {
+    width: min(100% - 1rem, var(--container-max));
+}
+
+.app-header {
+    position: sticky;
+}
+
+.logo h1 {
+    font-size: clamp(1.45rem, 4vw, 1.85rem);
+}
+
+.logo p {
+    font-size: var(--text-sm);
+}
+
+.nav-menu {
+    width: 100%;
+    justify-content: stretch;
+}
+
+.nav-menu .nav-btn,
+.nav-menu .btn {
+    flex: 1 1 8rem;
+}
+
+.tab-navigation {
+    top: calc(var(--header-height) + 0.4rem);
+    gap: 0.45rem;
+    padding: 0.7rem;
+    border-radius: var(--radius-lg);
+    scroll-padding-inline: 0.75rem;
+}
+
+.tab-btn {
+    min-height: 2.75rem;
+    padding: 0.75rem 0.95rem;
+    font-size: 0.78rem;
+}
+
+.tab-content-area {
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+}
+
+.tab-content h2 {
+    margin-bottom: var(--space-4);
+}
+
+.form-row,
+.form-grid,
+.form-grid-2,
+.form-grid-3,
+.form-grid.two-column,
+.form-grid.three-column,
+.gate-config-grid,
+.card-grid,
+.panel-grid,
+.stat-grid,
+.material-list {
+    grid-template-columns: 1fr;
+}
+
+.form-actions,
+.action-row,
+.layout-tools,
+.search-bar,
+.filter-bar,
+.inline-fields {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.form-actions .btn,
+.action-row .btn,
+.layout-tools .btn,
+.search-bar .btn,
+.filter-bar .btn {
+    width: 100%;
+}
+
+input,
+select,
+textarea,
+.btn,
+.nav-btn,
+.tab-btn {
+    font-size: 16px;
+}
+
+.btn,
+.nav-btn {
+    min-height: 3rem;
+}
+
+.checkbox-group label,
+.radio-group label,
+.choice {
+    padding: 0.9rem;
+}
+
+.summary-panel,
+.estimate-display,
+.contract-display,
+.admin-section,
+.card,
+.panel,
+.modal-content {
+    padding: 1rem;
+}
+
+.summary-header,
+.section-title,
+.panel-header,
+.card-header,
+.list-item__header,
+.note-item__header,
+.change-order-item__header,
+.gate-card__header,
+.modal-header,
+.modal-footer {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.estimate-line-item,
+.summary-line {
+    gap: var(--space-2);
+}
+
+.material-item {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+}
+
+.material-item > * {
+    min-width: 0;
+}
+
+.gate-card__metrics {
+    grid-template-columns: 1fr 1fr;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.data-table,
+.table {
+    min-width: 36rem;
+}
+
+.data-table th,
+.data-table td,
+.table th,
+.table td {
+    padding: 0.8rem 0.85rem;
+}
+
+.toast-container {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: auto;
+}
+
+.toast {
+    grid-template-columns: auto 1fr auto;
+}
+
+.modal {
+    align-items: flex-end;
+    padding: 0;
+}
+
+.modal-dialog,
+.modal-content {
+    width: 100%;
+    max-width: 100%;
+    max-height: 92vh;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.loading-card {
+    min-width: 10rem;
+    width: calc(100vw - 2rem);
+}
+
+#layoutCanvas,
+#mapContainer {
+    min-height: 18rem;
+}
+
+#signatureCanvas {
+    min-height: 6rem;
+}
+
+/* ---------- Up to 479px ---------- */
+@media (max-width: 479.98px) {
+    :root {
+        --header-height: 5.5rem;
+    }
+
+    .header-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-3);
+    }
+
+    .logo {
+        text-align: center;
+    }
+
+    .nav-menu {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.65rem;
+    }
+
+    .tab-navigation {
+        margin-bottom: var(--space-4);
+    }
+
+    .tab-btn {
+        min-width: max-content;
+    }
+
+    .tab-content-area {
+        min-height: auto;
+    }
+
+    .estimate-total span,
+    .summary-total span {
+        font-size: 1rem;
+    }
+
+    .toast {
+        padding: 0.9rem;
+        gap: 0.65rem;
+    }
+
+    .toast__message {
+        font-size: var(--text-xs);
+    }
+
+    .badge,
+    .status-badge,
+    .payment-badge {
+        min-height: 1.65rem;
+        padding-inline: 0.55rem;
+    }
+
+    .table-responsive {
+        margin-inline: -0.25rem;
+    }
+
+    .data-table,
+    .table {
+        min-width: 32rem;
+    }
+
+    .data-table th,
+    .data-table td,
+    .table th,
+    .table td {
+        white-space: nowrap;
+    }
+
+    .gate-card__metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        padding: 1rem 0.9rem 1.2rem;
+    }
+}
+
+/* ---------- 480px and up ---------- */
+@media (min-width: 480px) {
+    .main-container {
+        width: min(100% - 1.25rem, var(--container-max));
+    }
+
+    .header-container {
+        width: min(100% - 1.25rem, var(--container-max));
+    }
+
+    .nav-menu {
+        width: auto;
+        justify-content: flex-end;
+    }
+
+    .nav-menu .nav-btn,
+    .nav-menu .btn {
+        flex: 0 0 auto;
+    }
+
+    .form-row,
+    .form-grid,
+    .form-grid-2,
+    .form-grid.two-column {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .search-bar,
+    .filter-bar {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .search-bar .btn,
+    .filter-bar .btn {
+        width: auto;
+    }
+
+    .form-actions,
+    .action-row,
+    .layout-tools {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .form-actions .btn,
+    .action-row .btn,
+    .layout-tools .btn {
+        width: auto;
+    }
+
+    .modal {
+        padding: 1rem;
+        align-items: center;
+    }
+
+    .modal-dialog,
+    .modal-content {
+        width: min(100%, 34rem);
+        max-width: 34rem;
+        border-radius: var(--radius-xl);
+    }
+}
+
+/* ---------- 768px and up ---------- */
+@media (min-width: 768px) {
+    :root {
+        --header-height: 5rem;
+    }
+
+    .main-container {
+        width: min(100% - 2rem, var(--container-max));
+        padding-block: var(--space-6) var(--space-8);
+    }
+
+    .header-container {
+        width: min(100% - 2rem, var(--container-max));
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .logo {
+        text-align: left;
+    }
+
+    .logo p {
+        font-size: var(--text-base);
+    }
+
+    .nav-menu {
+        justify-content: flex-end;
+        gap: var(--space-3);
+    }
+
+    .tab-navigation {
+        gap: var(--space-2);
+        padding: 0.85rem;
+        border-radius: var(--radius-xl);
+    }
+
+    .tab-btn {
+        font-size: var(--text-sm);
+        min-height: 2.875rem;
+    }
+
+    .tab-content-area {
+        padding: 1.5rem;
+    }
+
+    .form-grid-3,
+    .form-grid.three-column,
+    .gate-config-grid,
+    .stat-grid,
+    .card-grid,
+    .panel-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .summary-panel {
+        max-width: 32rem;
+    }
+
+    .material-item {
+        grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+        align-items: center;
+    }
+
+    .table-responsive {
+        margin-inline: 0;
+    }
+
+    .data-table,
+    .table {
+        min-width: 100%;
+    }
+
+    .data-table th,
+    .table th {
+        white-space: normal;
+    }
+
+    .summary-header,
+    .section-title,
+    .panel-header,
+    .card-header,
+    .list-item__header,
+    .note-item__header,
+    .change-order-item__header,
+    .gate-card__header,
+    .modal-header,
+    .modal-footer {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .modal-dialog,
+    .modal-content {
+        width: min(100%, 40rem);
+        max-width: 40rem;
+    }
+
+    .loading-card {
+        width: auto;
+    }
+}
+
+/* ---------- 1024px and up ---------- */
+@media (min-width: 1024px) {
+    .main-container {
+        padding-block: var(--space-6) var(--space-10);
+    }
+
+    .tab-navigation {
+        top: calc(var(--header-height) + 0.75rem);
+    }
+
+    .tab-content-area {
+        padding: 2rem;
+        min-height: 40rem;
+    }
+
+    .form-grid-3,
+    .form-grid.three-column,
+    .gate-config-grid,
+    .card-grid,
+    .panel-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .form-row,
+    .form-grid-2,
+    .form-grid.two-column {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .stat-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .summary-panel {
+        position: sticky;
+        top: calc(var(--header-height) + 6rem);
+    }
+
+    .modal-dialog,
+    .modal-content {
+        width: min(100%, 44rem);
+        max-width: 44rem;
+    }
+
+    .btn,
+    .nav-btn {
+        min-height: 2.875rem;
+    }
+
+    .tab-btn {
+        min-height: 2.875rem;
+    }
+}
+
+/* ---------- 1280px and up ---------- */
+@media (min-width: 1280px) {
+    .main-container,
+    .header-container {
+        width: min(100% - 3rem, var(--container-max));
+    }
+
+    .tab-navigation {
+        gap: 0.75rem;
+    }
+
+    .tab-content-area {
+        padding: 2.25rem;
+    }
+
+    .panel-grid.four-column,
+    .card-grid.four-column {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .modal-dialog,
+    .modal-content {
+        width: min(100%, 48rem);
+        max-width: 48rem;
+    }
+
+    .toast-container {
+        right: 1.25rem;
+        bottom: 1.25rem;
+        width: min(24rem, calc(100vw - 2.5rem));
+    }
+}
+
+/* ---------- Responsive tables as cards on very small screens ---------- */
+@media (max-width: 767.98px) {
+    .table-stack {
+        border: 0;
+        overflow: visible;
+        background: transparent;
+    }
+
+    .table-stack .data-table,
+    .table-stack .table {
+        min-width: 100%;
+        border: 0;
+        background: transparent;
+    }
+
+    .table-stack thead {
+        display: none;
+    }
+
+    .table-stack tbody,
+    .table-stack tr,
+    .table-stack td {
+        display: block;
+        width: 100%;
+    }
+
+    .table-stack tr {
+        margin-bottom: var(--space-3);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        background: var(--white);
+        overflow: hidden;
+    }
+
+    .table-stack td {
+        display: grid;
+        grid-template-columns: minmax(7rem, 40%) 1fr;
+        gap: var(--space-3);
+        padding: 0.9rem 1rem;
+        white-space: normal;
+    }
+
+    .table-stack td::before {
+        content: attr(data-label);
+        font-size: var(--text-xs);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--text-subtle);
+    }
+}
+
+/* ---------- Landscape phones and small tablets ---------- */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+    .tab-btn {
+        min-width: 8.25rem;
+    }
+
+    .gate-card__metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* ---------- Touch target enhancements ---------- */
+@media (pointer: coarse) {
+    .btn,
+    .nav-btn,
+    .tab-btn,
+    input,
+    select,
+    textarea,
+    .checkbox-group label,
+    .radio-group label,
+    .choice {
+        min-height: 3rem;
+    }
+
+    .modal-close,
+    .toast__close {
+        min-width: 2rem;
+        min-height: 2rem;
+    }
+}
+
+/* ---------- Print media ---------- */
+@media print {
+    .main-container {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .tab-content-area {
+        border-radius: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .summary-panel,
+    .estimate-display,
+    .contract-display,
+    .admin-section,
+    .card,
+    .panel {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .data-table,
+    .table,
+    .table-responsive {
+        overflow: visible !important;
+    }
+
+    .form-row,
+    .form-grid,
+    .form-grid-2,
+    .form-grid-3,
+    .form-grid.two-column,
+    .form-grid.three-column,
+    .gate-config-grid,
+    .stat-grid,
+    .card-grid,
+    .panel-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .toast-container,
+    .loading-overlay,
+    .modal {
+        display: none !important;
+    }
+}
