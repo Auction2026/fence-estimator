@@ -11,10 +11,10 @@
 1. Copy `.env.example` to `.env` and review the values.
 2. Install backend dependencies with `cd backend && npm install`.
 3. Create the database and run:
-   - `psql "$DATABASE_URL" -f /home/runner/work/fence-estimator/fence-estimator/database/schema.sql`
-   - `psql "$DATABASE_URL" -f /home/runner/work/fence-estimator/fence-estimator/database/indexes.sql`
-   - `psql "$DATABASE_URL" -f /home/runner/work/fence-estimator/fence-estimator/database/procedures.sql`
-   - `psql "$DATABASE_URL" -f /home/runner/work/fence-estimator/fence-estimator/database/seed.sql`
+   - `psql "$DATABASE_URL" -f database/schema.sql`
+   - `psql "$DATABASE_URL" -f database/indexes.sql`
+   - `psql "$DATABASE_URL" -f database/procedures.sql`
+   - `psql "$DATABASE_URL" -f database/seed.sql`
 4. Start the backend with `cd backend && npm start`.
 5. Start the frontend with `cd frontend && npm start` and open `http://localhost:4173`.
 

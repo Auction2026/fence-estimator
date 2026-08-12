@@ -1,7 +1,7 @@
 # Troubleshooting Guide
 
 ## Frontend shows blank content
-- Confirm all files under `/home/runner/work/fence-estimator/fence-estimator/frontend/js/` are being served.
+- Confirm all files under `frontend/js/` are being served.
 - Open the browser console and verify that `window.FenceEstimator` exists.
 
 ## Estimate totals stay at zero

@@ -53,7 +53,7 @@
   };
 
   FE.removeItem = function removeItem(type, id) {
-    const mapping = { extra: 'extras', crew: 'crew', change: 'changeOrders', note: 'notes', drawing: 'drawings' };
+    const mapping = { extra: 'extras', crew: 'crew', change: 'changeOrders', note: 'notes' };
     if (type === 'drawing') FE.state.drawings.files = FE.state.drawings.files.filter((entry) => entry.id !== id);
     else FE.state[mapping[type]] = FE.state[mapping[type]].filter((entry) => entry.id !== id);
     FE.persist(`${type} removed`);

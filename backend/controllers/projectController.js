@@ -53,6 +53,9 @@ async function listProjects(req, res) {
 
 async function getProject(req, res) {
   const Project = req.app.locals.models?.Project;
+  if (!Project) {
+    return res.status(503).json({ error: 'Unavailable', message: 'Project model is not configured' });
+  }
   const project = await Project.findOne({ projectId: req.params.projectId });
   if (!project) return res.status(404).json({ error: 'Not Found', message: 'Project not found' });
   return res.json({ success: true, project });
@@ -60,6 +63,9 @@ async function getProject(req, res) {
 
 async function updateProject(req, res) {
   const Project = req.app.locals.models?.Project;
+  if (!Project) {
+    return res.status(503).json({ error: 'Unavailable', message: 'Project model is not configured' });
+  }
   const payload = normalizeProjectInput(req.body);
   const project = await Project.findOneAndUpdate({ projectId: req.params.projectId }, payload, { new: true, runValidators: true });
   if (!project) return res.status(404).json({ error: 'Not Found', message: 'Project not found' });

@@ -16,6 +16,14 @@ const path = require('path');
 const fs = require('fs');
 const estimateMath = require('./services/estimateMath');
 
+const getJwtSecret = () => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret || secret === 'change-me-in-production') {
+    throw new Error('JWT_SECRET must be configured before starting the backend');
+  }
+  return secret;
+};
+
 // Load environment variables
 dotenv.config();
 
@@ -126,7 +134,7 @@ userSchema.methods.comparePassword = async function(enteredPassword) {
 userSchema.methods.generateToken = function() {
   return jwt.sign(
     { userId: this._id, role: this.role },
-    process.env.JWT_SECRET || 'fence-estimator-secret-key',
+    getJwtSecret(),
     { expiresIn: '7d' }
   );
 };
@@ -667,11 +675,17 @@ const auth = (req, res, next) => {
       });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fence-estimator-secret-key');
+    const decoded = jwt.verify(token, getJwtSecret());
     req.userId = decoded.userId;
     req.userRole = decoded.role;
     next();
   } catch (error) {
+    if (error.message.includes('JWT_SECRET must be configured')) {
+      return res.status(500).json({
+        error: 'Configuration Error',
+        message: error.message
+      });
+    }
     return res.status(401).json({ 
       error: 'Invalid token',
       message: 'Token is not valid or has expired'
@@ -1231,6 +1245,7 @@ const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
+    getJwtSecret();
     await connectDB();
     
     app.listen(PORT, () => {
