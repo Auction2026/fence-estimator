@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fence Depot Estimator - Professional Fencing Solutions</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<!-- ============================================================
+     LOADING OVERLAY
+============================================================ -->
+<div id="loading-overlay" class="loading-overlay" role="status" aria-live="polite">
+  <div class="spinner"></div>
+  <span id="loading-message">Loading...</span>
+</div>
+
+<!-- ============================================================
+     TOAST CONTAINER
+============================================================ -->
+<div id="toast-container" aria-live="assertive" aria-atomic="true"></div>
+
+<!-- ============================================================
+     APP HEADER
+============================================================ -->
+<header class="app-header no-print">
+  <div class="app-logo">
+    <span class="app-logo-icon">🌿</span>
+    <div>
+      <div class="app-logo-text">Fence Depot</div>
+      <div class="app-logo-sub">Professional Estimator v1.0</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <span class="project-info" id="header-project-name">No Project</span>
+    <button class="btn btn-sm btn-outline" id="btn-new-project">+ New Project</button>
+    <button class="btn btn-sm btn-primary" id="btn-save-project">💾 Save</button>
+    <button class="btn btn-sm btn-secondary" id="btn-print">🖨 Print</button>
+    <button class="btn btn-sm btn-success" id="btn-export-pdf">📄 PDF</button>
+    <span id="header-user" class="project-info" style="margin-left:8px"></span>
+  </div>
+</header>
+
+<!-- ============================================================
+     TAB NAVIGATION
+============================================================ -->
+<nav class="tabs-container no-print" role="navigation" aria-label="Section tabs">
+  <div class="tabs-nav">
+    <button class="tab-btn active" data-tab="1">  <span class="tab-number">1</span>  Project Info</button>
+    <button class="tab-btn"        data-tab="2">  <span class="tab-number">2</span>  Specifications</button>
+    <button class="tab-btn"        data-tab="3">  <span class="tab-number">3</span>  Layout Diagram</button>
+    <button class="tab-btn"        data-tab="4">  <span class="tab-number">4</span>  Installation</button>
+    <button class="tab-btn"        data-tab="5">  <span class="tab-number">5</span>  Shop Drawings</button>
+    <button class="tab-btn"        data-tab="6">  <span class="tab-number">6</span>  Permits</button>
+    <button class="tab-btn"        data-tab="7">  <span class="tab-number">7</span>  Utilities</button>
+    <button class="tab-btn"        data-tab="8">  <span class="tab-number">8</span>  Estimate</button>
+    <button class="tab-btn"        data-tab="9">  <span class="tab-number">9</span>  Contract</button>
+    <button class="tab-btn"        data-tab="10"> <span class="tab-number">10</span> Extras</button>
+    <button class="tab-btn"        data-tab="11"> <span class="tab-number">11</span> Crew</button>
+    <button class="tab-btn"        data-tab="12"> <span class="tab-number">12</span> Change Orders</button>
+    <button class="tab-btn"        data-tab="13"> <span class="tab-number">13</span> Sign-Off</button>
+    <button class="tab-btn"        data-tab="14"> <span class="tab-number">14</span> Notes</button>
+    <button class="tab-btn"        data-tab="15"> <span class="tab-number">15</span> Admin</button>
+    <button class="tab-btn"        data-tab="16"> <span class="tab-number">16</span> Catalog</button>
+    <button class="tab-btn"        data-tab="17"> <span class="tab-number">17</span> Mapping</button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     MAIN CONTENT
+============================================================ -->
+<main class="main-content">
+
+  <!-- TAB 1: PROJECT INFORMATION -->
+  <div id="tab-1" class="tab-content active">
+    <div class="tab-panel">
+      <div class="section-title">📋 Project Information</div>
+      <form id="form-project" novalidate>
+        <div class="card">
+          <div class="card-header"><div class="card-title">👤 Customer Details</div></div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Customer Name <span class="required">*</span></label>
+              <input type="text" class="form-control" name="customer_name" placeholder="Full name" required>
+              <div class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Company Name</label>
+              <input type="text" class="form-control" name="customer_company" placeholder="Business name (optional)">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email <span class="required">*</span></label>
+              <input type="email" class="form-control" name="customer_email" placeholder="email@example.com" required>
+              <div class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone <span class="required">*</span></label>
+              <input type="tel" class="form-control" name="customer_phone" placeholder="(555) 123-4567" required>
+              <div class="form-error"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">📍 Property Address</div></div>
+          <div class="form-row">
+            <div class="form-group" style="grid-column: span 2">
+              <label class="form-label">Street Address <span class="required">*</span></label>
+              <input type="text" class="form-control" name="customer_address" placeholder="123 Main St" required>
+              <div class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">City <span class="required">*</span></label>
+              <input type="text" class="form-control" name="customer_city" placeholder="City" required>
+              <div class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">State <span class="required">*</span></label>
+              <select class="form-control" name="customer_state" required>
+                <option value="">-- State --</option>
+                <option>AL</option><option>AK</option><option>AZ</option><option>AR</option>
+                <option>CA</option><option>CO</option><option>CT</option><option>DE</option>
+                <option>FL</option><option>GA</option><option>HI</option><option>ID</option>
+                <option>IL</option><option>IN</option><option>IA</option><option>KS</option>
+                <option>KY</option><option>LA</option><option>ME</option><option>MD</option>
+                <option>MA</option><option>MI</option><option>MN</option><option>MS</option>
+                <option>MO</option><option>MT</option><option>NE</option><option>NV</option>
+                <option>NH</option><option>NJ</option><option>NM</option><option>NY</option>
+                <option>NC</option><option>ND</option><option>OH</option><option>OK</option>
+                <option>OR</option><option>PA</option><option>RI</option><option>SC</option>
+                <option>SD</option><option>TN</option><option>TX</option><option>UT</option>
+                <option>VT</option><option>VA</option><option>WA</option><option>WV</option>
+                <option>WI</option><option>WY</option>
+              </select>
+              <div class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ZIP Code <span class="required">*</span></label>
+              <input type="text" class="form-control" name="customer_zip" placeholder="12345" required maxlength="10">
+              <div class="form-error"></div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Property Type</label>
+              <select class="form-control" name="property_type">
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="industrial">Industrial</option>
+                <option value="agricultural">Agricultural</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">📝 Job Description</div></div>
+          <div class="form-group">
+            <label class="form-label">Project Notes / Description</label>
+            <textarea class="form-control" name="job_description" rows="4" placeholder="Describe the project scope, special requirements, access notes..."></textarea>
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-save-tab1">💾 Save Project Info</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TAB 2: FENCE SPECIFICATIONS -->
+  <div id="tab-2" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">⚙️ Fence Specifications</div>
+      <form id="form-specs" novalidate>
+        <div class="card">
+          <div class="card-header"><div class="card-title">🔧 Fence Details</div></div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Fence Type <span class="required">*</span></label>
+              <select class="form-control" id="fence_type" name="fence_type" required>
+                <option value="">-- Select Type --</option>
+              </select>
+              <div class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Height <span class="required">*</span></label>
+              <select class="form-control" id="fence_height" name="fence_height" required>
+                <option value="">-- Select Height --</option>
+              </select>
+              <div class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Linear Feet <span class="required">*</span></label>
+              <input type="number" class="form-control" name="linear_feet" id="linear_feet" min="1" max="99999" step="1" placeholder="e.g. 250" required>
+              <div class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Color / Finish <span class="required">*</span></label>
+              <select class="form-control" id="material_color" name="material_color" required></select>
+              <div class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Number of Gates</label>
+              <input type="number" class="form-control" name="gates" min="0" max="99" value="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Number of Corners</label>
+              <input type="number" class="form-control" name="corners" min="0" max="99" value="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Grade</label>
+              <select class="form-control" name="grade">
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="industrial">Industrial</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">
+                <input type="checkbox" name="remove_existing"> Remove existing fence
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="form-label">
+                <input type="checkbox" name="demolition"> Demolition required
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Additional Notes</label>
+            <textarea class="form-control" name="notes" rows="3" placeholder="Terrain notes, access constraints, special requirements..."></textarea>
+          </div>
+          <div class="d-flex align-center gap-2">
+            <button type="button" class="btn btn-primary" id="btn-save-tab2">💾 Save Specifications</button>
+            <div>Estimated Total: <span id="spec-preview-total" class="fw-bold text-primary">--</span></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TAB 3: LAYOUT DIAGRAM -->
+  <div id="tab-3" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">📐 Layout Diagram</div>
+      <div class="card">
+        <div class="drawing-toolbar no-print">
+          <button class="tool-btn active" data-tool="line">📏 Line</button>
+          <button class="tool-btn" data-tool="gate">🚪 Gate</button>
+          <button class="tool-btn" id="btn-undo">↩ Undo</button>
+          <button class="btn btn-sm btn-outline" id="btn-clear-canvas">🗑 Clear</button>
+          <button class="btn btn-sm btn-primary" id="btn-save-layout">💾 Save Layout</button>
+        </div>
+        <canvas id="layout-canvas" width="800" height="500" role="img" aria-label="Fence layout drawing canvas"></canvas>
+        <p class="form-hint no-print" style="margin-top:8px">Click and drag to draw fence lines. Each segment shows length in feet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: INSTALLATION BREAKDOWN -->
+  <div id="tab-4" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">🔨 Installation Breakdown</div>
+      <div class="card">
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Task</th><th>Qty</th><th>Rate ($)</th><th>Total</th><th>Hours</th></tr></thead>
+            <tbody id="installation-tbody"><tr><td colspan="5" class="text-center text-muted">Loading...</td></tr></tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-between align-center" style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border)">
+          <div>Total Hours: <span id="installation-hours" class="fw-bold">0</span></div>
+          <div class="fw-bold" style="font-size:18px">Labor Total: <span id="installation-total" class="text-primary">$0.00</span></div>
+        </div>
+        <button class="btn btn-primary" id="btn-save-installation" style="margin-top:16px">💾 Save Installation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 5: SHOP DRAWINGS -->
+  <div id="tab-5" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">📎 Shop Drawings</div>
+      <div class="card">
+        <div id="drawing-dropzone" style="border:2px dashed var(--border);border-radius:var(--radius);padding:40px;text-align:center;cursor:pointer;margin-bottom:20px">
+          <div style="font-size:48px;margin-bottom:12px">📂</div>
+          <p class="fw-bold">Drag & drop drawings here</p>
+          <p class="text-muted" style="font-size:14px">or click to browse</p>
+          <p class="form-hint">Accepted: JPG, PNG, GIF, WebP, PDF (max 10 MB each)</p>
+          <input type="file" id="drawing-upload" multiple accept="image/*,.pdf" style="display:none">
+        </div>
+        <div id="drawing-file-list"></div>
+        <button class="btn btn-primary" id="btn-save-drawings" style="margin-top:16px">💾 Save Drawings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 6: PERMITS -->
+  <div id="tab-6" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">📋 Permits & Inspections</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Permit Status</div>
+          <span id="permit-status-badge" class="badge badge-gray">Not Required</span>
+        </div>
+        <form id="form-permits" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Permit Type</label>
+              <select class="form-control" id="permit_type" name="permit_type"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <select class="form-control" id="permit_status" name="permit_status"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Permit Number</label>
+              <input type="text" class="form-control" name="permit_number" placeholder="e.g. BP-2024-0123">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Fee Paid</label>
+              <input type="number" class="form-control" name="permit_fee" min="0" step="0.01" placeholder="0.00">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Date Applied</label>
+              <input type="date" class="form-control" name="permit_applied">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date Approved</label>
+              <input type="date" class="form-control" name="permit_approved">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Expiration Date</label>
+              <input type="date" class="form-control" name="permit_expires">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Inspection 1 Date</label>
+              <input type="date" class="form-control" name="inspection_date1">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Inspection 2 Date</label>
+              <input type="date" class="form-control" name="inspection_date2">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Final Inspection Date</label>
+              <input type="date" class="form-control" name="inspection_final">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">HOA Required?</label>
+              <select class="form-control" name="hoa_status">
+                <option value="Not Required">Not Required</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Denied">Denied</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Notes</label>
+            <textarea class="form-control" name="permit_notes" rows="3" placeholder="Additional permit notes..."></textarea>
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-save-permits">💾 Save Permit Info</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 7: UTILITIES -->
+  <div id="tab-7" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">⚡ Utilities Locate</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Utility Status</div></div>
+        <div id="utilities-checklist"></div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-header"><div class="card-title">811 Call Before You Dig</div></div>
+        <form id="form-utilities" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label"><input type="checkbox" name="call_811"> 811 Call Placed</label>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date Called</label>
+              <input type="date" class="form-control" name="call_date">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Ticket Number</label>
+              <input type="text" class="form-control" name="ticket_number" placeholder="e.g. TX20240101-1234">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Clearance Date</label>
+              <input type="date" class="form-control" name="clearance_date">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Locate Company</label>
+              <input type="text" class="form-control" name="locate_company" placeholder="Company name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Notes</label>
+            <textarea class="form-control" name="utilities_notes" rows="3" placeholder="Utility notes, conflicts, depth info..."></textarea>
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-save-utilities">💾 Save Utilities Info</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 8: ESTIMATE -->
+  <div id="tab-8" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">💰 Estimate</div>
+
+      <!-- Summary stats -->
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-value" id="est-grand-total">$0.00</div>
+          <div class="stat-label">Grand Total</div>
+        </div>
+        <div class="stat-box accent">
+          <div class="stat-value" id="est-per-lf">$0.00</div>
+          <div class="stat-label">Per Linear Foot</div>
+        </div>
+        <div class="stat-box success">
+          <div class="stat-value" id="est-fence-type">--</div>
+          <div class="stat-label">Fence Type</div>
+        </div>
+        <div class="stat-box warning">
+          <div class="stat-value" id="est-linear-feet">0 ft</div>
+          <div class="stat-label">Linear Feet</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="est-gate-count">0</div>
+          <div class="stat-label">Gates</div>
+        </div>
+      </div>
+
+      <!-- Materials -->
+      <div class="card">
+        <div class="card-header"><div class="card-title">🧱 Materials</div></div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Item</th><th class="text-right">Amount</th></tr></thead>
+            <tbody>
+              <tr><td>Base Material</td><td class="text-right" id="est-mat-base">$0.00</td></tr>
+              <tr><td>Posts</td><td class="text-right" id="est-mat-posts">$0.00</td></tr>
+              <tr><td>Gates</td><td class="text-right" id="est-mat-gates">$0.00</td></tr>
+              <tr><td>Hardware</td><td class="text-right" id="est-mat-hardware">$0.00</td></tr>
+              <tr><td>Concrete</td><td class="text-right" id="est-mat-concrete">$0.00</td></tr>
+              <tr><td>Contractor Markup (30%)</td><td class="text-right" id="est-mat-markup">$0.00</td></tr>
+              <tr><td>Sales Tax</td><td class="text-right" id="est-mat-tax">$0.00</td></tr>
+              <tr class="table-total"><td><strong>Materials Total</strong></td><td class="text-right fw-bold" id="est-mat-total">$0.00</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Labor -->
+      <div class="card">
+        <div class="card-header"><div class="card-title">👷 Labor</div></div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Task</th><th class="text-right">Amount</th></tr></thead>
+            <tbody>
+              <tr><td>Linear Foot Installation</td><td class="text-right" id="est-lab-linear">$0.00</td></tr>
+              <tr><td>Post Setting</td><td class="text-right" id="est-lab-posts">$0.00</td></tr>
+              <tr><td>Gate Installation</td><td class="text-right" id="est-lab-gates">$0.00</td></tr>
+              <tr><td>Cleanup</td><td class="text-right" id="est-lab-cleanup">$0.00</td></tr>
+              <tr><td>Removal / Demo</td><td class="text-right" id="est-lab-removal">$0.00</td></tr>
+              <tr class="table-total"><td><strong>Labor Total</strong></td><td class="text-right fw-bold" id="est-lab-total">$0.00</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Equipment + Extras + CO + Grand Total -->
+      <div class="card">
+        <div class="table-wrapper">
+          <table>
+            <tbody>
+              <tr><td>Equipment</td><td class="text-right" id="est-equip-total">$0.00</td></tr>
+              <tr><td>Extras / Add-ons</td><td class="text-right" id="est-extras-total">$0.00</td></tr>
+              <tr><td>Change Orders (Approved)</td><td class="text-right" id="est-co-total">$0.00</td></tr>
+              <tr class="table-total"><td>Subtotal Before Tax</td><td class="text-right" id="est-before-tax">$0.00</td></tr>
+              <tr><td>Total Tax</td><td class="text-right" id="est-tax">$0.00</td></tr>
+              <tr class="table-grand-total"><td><strong>GRAND TOTAL</strong></td><td class="text-right price-display" id="est-grand-total-2">$0.00</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top:20px">
+          <div class="form-group" style="max-width:200px">
+            <label class="form-label">Tax Rate (%)</label>
+            <input type="number" class="form-control" id="est-tax-rate" value="8" min="0" max="25" step="0.1">
+          </div>
+        </div>
+
+        <div class="d-flex gap-2" style="margin-top:16px;flex-wrap:wrap">
+          <button class="btn btn-primary"   id="btn-recalculate">🔄 Recalculate</button>
+          <button class="btn btn-success"   id="btn-save-estimate">💾 Save Estimate</button>
+          <button class="btn btn-secondary" id="btn-estimate-pdf">📄 Generate PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 9: CONTRACT -->
+  <div id="tab-9" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">📝 Contract</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Contract Summary</div>
+          <span id="contract-lock-badge" class="badge badge-warning">UNLOCKED</span>
+        </div>
+        <div class="form-row">
+          <div><div class="form-label">Customer</div><div id="contract-customer-name" class="fw-bold">--</div></div>
+          <div><div class="form-label">Address</div><div id="contract-customer-addr">--</div></div>
+          <div><div class="form-label">Total Amount</div><div id="contract-total" class="price-large">$0.00</div></div>
+          <div><div class="form-label">Date</div><div id="contract-date">--</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">✍ Customer Signature</div></div>
+        <canvas id="signature-canvas" width="600" height="150" style="touch-action:none" role="img" aria-label="Customer signature pad"></canvas>
+        <div class="d-flex gap-2" style="margin-top:12px;flex-wrap:wrap">
+          <button class="btn btn-outline btn-sm" id="btn-clear-sig">🗑 Clear Signature</button>
+          <button class="btn btn-warning" id="btn-lock-contract">🔒 Lock Contract</button>
+          <button class="btn btn-success" id="btn-save-contract">💾 Save Contract</button>
+          <button class="btn btn-secondary" id="btn-print-contract">🖨 Print Contract</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 10: EXTRAS -->
+  <div id="tab-10" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">➕ Extras / Add-Ons</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Quick Add Presets</div>
+        </div>
+        <div id="extras-presets" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px"></div>
+        <div class="d-flex align-center gap-2" style="margin-bottom:16px">
+          <button class="btn btn-primary" id="btn-add-extra">+ Add Custom Item</button>
+          <span class="text-muted" id="extras-count">0 items</span>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Description</th><th>Qty</th><th>Unit</th><th>Rate ($)</th><th>Total</th><th></th></tr></thead>
+            <tbody id="extras-tbody"></tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-between" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+          <button class="btn btn-success" id="btn-save-extras">💾 Save Extras</button>
+          <div class="fw-bold" style="font-size:18px">Extras Total: <span id="extras-total" class="text-primary">$0.00</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 11: CREW -->
+  <div id="tab-11" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">👷 Crew Breakdown</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Team Members</div>
+          <span id="crew-count" class="text-muted">0 members</span>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Name</th><th>Role</th><th>Hours</th><th>Rate ($/hr)</th><th>Total</th><th></th></tr></thead>
+            <tbody id="crew-tbody"></tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-between align-center" style="margin-top:12px;flex-wrap:wrap;gap:10px">
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary" id="btn-add-crew">+ Add Member</button>
+            <button class="btn btn-success" id="btn-save-crew">💾 Save Crew</button>
+          </div>
+          <div>
+            <span class="text-muted" id="crew-total-hours">0 hrs</span> &nbsp;&nbsp;
+            Crew Cost: <span id="crew-total-cost" class="fw-bold text-primary">$0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 12: CHANGE ORDERS -->
+  <div id="tab-12" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">🔄 Change Orders</div>
+      <div class="d-flex gap-2 align-center" style="margin-bottom:20px;flex-wrap:wrap">
+        <button class="btn btn-primary" id="btn-new-co">+ New Change Order</button>
+        <span class="text-muted" id="co-count">0 orders</span>
+        <span class="text-muted">|</span>
+        <span id="co-approved-count" class="text-success">0 approved</span>
+        <span class="ml-auto fw-bold">Approved Total: <span id="co-approved-total" class="text-primary">$0.00</span></span>
+      </div>
+      <div id="change-orders-list"></div>
+      <button class="btn btn-success" id="btn-save-co" style="margin-top:12px">💾 Save Change Orders</button>
+    </div>
+  </div>
+
+  <!-- TAB 13: SIGN-OFF -->
+  <div id="tab-13" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">✅ Sign-Off / Completion</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Completion Checklist</div></div>
+        <div id="signoff-checklist"></div>
+        <div style="margin-top:16px">
+          <div class="progress-bar-wrapper"><div class="progress-bar-fill" id="signoff-progress"></div></div>
+          <div class="text-muted" id="signoff-progress-text" style="font-size:13px;margin-top:4px">0 / 10 complete</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Completion Details</div></div>
+        <form id="form-signoff">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Completion Date</label>
+              <input type="date" class="form-control" name="completion_date">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Foreman Name</label>
+              <input type="text" class="form-control" name="foreman_name" placeholder="Foreman's name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Warranty (months)</label>
+              <input type="number" class="form-control" name="warranty_months" min="0" max="120" value="12">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Punch List Notes</label>
+            <textarea class="form-control" name="punch_list" rows="3" placeholder="Items still to be completed..."></textarea>
+          </div>
+        </form>
+        <div class="card-header" style="margin-top:16px"><div class="card-title">✍ Customer Sign-Off Signature</div></div>
+        <canvas id="signoff-signature" width="600" height="150" style="touch-action:none;border:2px dashed var(--border);border-radius:var(--radius);display:block;width:100%;max-width:600px;height:150px" role="img" aria-label="Customer sign-off signature pad"></canvas>
+        <div class="d-flex gap-2" style="margin-top:12px">
+          <button class="btn btn-outline btn-sm" id="btn-clear-signoff-sig">🗑 Clear</button>
+          <button class="btn btn-success" id="btn-save-signoff">💾 Save Sign-Off</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 14: NOTES -->
+  <div id="tab-14" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">📌 Notes Hub</div>
+      <div class="d-flex gap-2 align-center" style="margin-bottom:20px;flex-wrap:wrap">
+        <button class="btn btn-primary" id="btn-new-note">+ New Note</button>
+        <select class="form-control" id="notes-category-filter" style="max-width:200px"></select>
+        <button class="btn btn-outline btn-sm" id="btn-save-notes">💾 Save All</button>
+      </div>
+      <div id="notes-container"></div>
+    </div>
+  </div>
+
+  <!-- TAB 15: ADMIN -->
+  <div id="tab-15" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">⚙️ Admin Dashboard</div>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-value" id="admin-project-count">0</div>
+          <div class="stat-label">Saved Projects</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="admin-storage-used">0 KB</div>
+          <div class="stat-label">Storage Used</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="admin-version">1.0.0</div>
+          <div class="stat-label">App Version</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Saved Projects</div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-primary" id="btn-import-project">📥 Import</button>
+            <button class="btn btn-sm btn-outline" id="btn-export-all">📤 Export All</button>
+            <input type="file" id="import-file-input" accept=".json" style="display:none">
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Project ID</th><th>Customer</th><th>Last Updated</th><th>Estimate</th><th>Actions</th></tr></thead>
+            <tbody id="admin-projects-tbody"><tr><td colspan="5" class="text-center text-muted" style="padding:20px">No projects</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Company Settings</div></div>
+        <form id="form-admin-settings">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Company Name</label>
+              <input type="text" class="form-control" name="admin_company" placeholder="Fence Depot">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <input type="tel" class="form-control" name="admin_phone" placeholder="(555) 123-4567">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" name="admin_email" placeholder="office@company.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">License Number</label>
+              <input type="text" class="form-control" name="admin_license" placeholder="LIC-12345">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Default Tax Rate (%)</label>
+              <input type="number" class="form-control" name="admin_tax_rate" min="0" max="25" step="0.1" value="8">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Material Markup (%)</label>
+              <input type="number" class="form-control" name="admin_markup" min="0" max="100" step="1" value="30">
+            </div>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-primary" id="btn-save-admin-settings">💾 Save Settings</button>
+            <button type="button" class="btn btn-danger" id="btn-clear-all-data">🗑 Clear All Data</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 16: CATALOG -->
+  <div id="tab-16" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">📦 Product Catalog</div>
+      <div class="d-flex gap-2 align-center" style="margin-bottom:16px;flex-wrap:wrap">
+        <input type="search" class="form-control" id="catalog-search" placeholder="Search products, SKU..." style="max-width:300px">
+      </div>
+      <div id="catalog-dept-filter" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px"></div>
+      <div id="catalog-grid" class="catalog-grid"></div>
+    </div>
+  </div>
+
+  <!-- TAB 17: MAPPING -->
+  <div id="tab-17" class="tab-content">
+    <div class="tab-panel">
+      <div class="section-title">🗺️ Property Mapping</div>
+      <div class="card">
+        <div class="d-flex gap-2 align-center" style="margin-bottom:12px;flex-wrap:wrap">
+          <button class="btn btn-primary" id="btn-geocode-address">📍 Find Property</button>
+          <button class="btn btn-success" id="btn-save-map">💾 Save Map Data</button>
+        </div>
+        <div id="map-container" aria-label="Property map"></div>
+        <div id="map-markers-list" style="margin-top:12px">
+          <p class="text-muted" style="font-size:13px">Click the map to add markers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ============================================================
+     MODALS
+============================================================ -->
+
+<!-- Change Order Modal -->
+<div id="modal-change-order" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-co-title">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-co-title">New Change Order</div>
+      <button class="modal-close" onclick="UI.closeModal('modal-change-order')" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="form-change-order" novalidate>
+        <div class="form-group">
+          <label class="form-label">Description <span class="required">*</span></label>
+          <input type="text" class="form-control" name="co_description" placeholder="Describe the change...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Amount ($) <span class="required">*</span></label>
+          <input type="number" class="form-control" name="co_amount" min="0" step="0.01" placeholder="0.00">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Reason</label>
+          <textarea class="form-control" name="co_reason" rows="3" placeholder="Why is this change being made?"></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="UI.closeModal('modal-change-order')">Cancel</button>
+      <button class="btn btn-primary" id="btn-submit-co">Submit Change Order</button>
+    </div>
+  </div>
+</div>
+
+<!-- Note Modal -->
+<div id="modal-note" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-note-title">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-note-title">Add Note</div>
+      <button class="modal-close" onclick="UI.closeModal('modal-note')" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="form-note" novalidate>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-control" id="note_category" name="note_category"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Title</label>
+          <input type="text" class="form-control" name="note_title" placeholder="Note title (optional)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Note <span class="required">*</span></label>
+          <textarea class="form-control" name="note_body" rows="6" placeholder="Write your note here..."></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="UI.closeModal('modal-note')">Cancel</button>
+      <button class="btn btn-primary" id="btn-submit-note">Add Note</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT - LOAD ORDER MATTERS
+============================================================ -->
+<!-- Core utilities (must load before tab files) -->
+<script src="js/calculations.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/api.js"></script>
+
+<!-- Drawing & mapping tools -->
+<script src="js/tools/drawing.js"></script>
+<script src="js/tools/mapping.js"></script>
+<script src="js/tools/printing.js"></script>
+<script src="js/tools/export.js"></script>
+
+<!-- Tab modules -->
+<script src="js/tabs/tab1-project.js"></script>
+<script src="js/tabs/tab2-specs.js"></script>
+<script src="js/tabs/tab3-layout.js"></script>
+<script src="js/tabs/tab4-installation.js"></script>
+<script src="js/tabs/tab5-drawings.js"></script>
+<script src="js/tabs/tab6-permits.js"></script>
+<script src="js/tabs/tab7-utilities.js"></script>
+<script src="js/tabs/tab8-estimate.js"></script>
+<script src="js/tabs/tab9-contract.js"></script>
+<script src="js/tabs/tab10-extras.js"></script>
+<script src="js/tabs/tab11-crew.js"></script>
+<script src="js/tabs/tab12-changeorder.js"></script>
+<script src="js/tabs/tab13-signoff.js"></script>
+<script src="js/tabs/tab14-notes.js"></script>
+<script src="js/tabs/tab15-admin.js"></script>
+<script src="js/tabs/tab16-catalog.js"></script>
+<script src="js/tabs/tab17-mapping.js"></script>
+
+<!-- App init (must be last) -->
+<script src="js/app.js"></script>
+
+<!-- Initialize each tab on first load -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Initialize all tab modules after app.js runs
+    setTimeout(function () {
+      [Tab1Project, Tab2Specs, Tab4Installation, Tab5Drawings, Tab6Permits,
+       Tab7Utilities, Tab8Estimate, Tab9Contract, Tab10Extras, Tab11Crew,
+       Tab12ChangeOrder, Tab13Signoff, Tab14Notes, Tab15Admin, Tab16Catalog
+      ].forEach(function (mod) { if (mod && typeof mod.init === 'function') mod.init(); });
+    }, 0);
+  });
+</script>
+
+<!-- Optional: Google Maps (add your API key) -->
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=Tab17Mapping.init" async defer></script> -->
+
+</body>
+</html>
