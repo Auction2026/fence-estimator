@@ -1,9 +1,16 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const { authenticateRequest } = require('../middleware/auth');
 
 const router = express.Router();
+const protectedRateLimit = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 120,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+});
 
-router.post('/', authenticateRequest, async (req, res) => {
+router.post('/', protectedRateLimit, authenticateRequest, async (req, res) => {
   try {
     const { Contract, Estimate, Project } = req.app.locals.models || {};
     if (!Contract || !Estimate || !Project) {
@@ -38,7 +45,7 @@ router.post('/', authenticateRequest, async (req, res) => {
   }
 });
 
-router.get('/:projectId', authenticateRequest, async (req, res) => {
+router.get('/:projectId', protectedRateLimit, authenticateRequest, async (req, res) => {
   try {
     const { Contract } = req.app.locals.models || {};
     if (!Contract) return res.status(503).json({ error: 'Unavailable', message: 'Contract model is not configured' });

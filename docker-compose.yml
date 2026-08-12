@@ -19,5 +19,10 @@ services:
       - '4173:4173'
   mongo:
     image: mongo:7
+    volumes:
+      - mongo_data:/data/db
     ports:
       - '27017:27017'
+
+volumes:
+  mongo_data:

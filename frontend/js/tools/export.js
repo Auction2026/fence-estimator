@@ -9,7 +9,7 @@
       link.href = url;
       link.download = `contract-${FE.state.project.customerName || 'draft'}.txt`;
       link.click();
-      URL.revokeObjectURL(url);
+      setTimeout(() => URL.revokeObjectURL(url), 0);
     },
   });
 })(window);

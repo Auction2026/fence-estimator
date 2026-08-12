@@ -34,6 +34,7 @@
     mapping: { address: '', lat: '', lng: '', width: 0, depth: 0 },
     audit: { lastSavedAt: '' },
     catalogQuery: '',
+    catalog: CATALOG,
   };
 
   FE.catalogFilter = function catalogFilter(query) {
@@ -103,7 +104,6 @@
       FE.persist('Workspace reset');
       global.location.reload();
     });
-    byId('refreshEstimateBtn').addEventListener('click', () => FE.persist('Estimate refreshed'));
     byId('recalculateBtn').addEventListener('click', () => FE.persist('Estimate recalculated'));
     byId('printEstimateBtn').addEventListener('click', () => FE.modules.tools.printing.printEstimate());
     byId('downloadContractBtn').addEventListener('click', () => FE.modules.tools.export.downloadContract());

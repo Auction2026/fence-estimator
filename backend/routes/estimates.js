@@ -1,9 +1,16 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const { authenticateRequest } = require('../middleware/auth');
 
 const router = express.Router();
+const protectedRateLimit = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 120,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+});
 
-router.post('/', authenticateRequest, async (req, res) => {
+router.post('/', protectedRateLimit, authenticateRequest, async (req, res) => {
   try {
     const { Estimate, Project } = req.app.locals.models || {};
     const estimateMath = req.app.locals.services?.estimateMath;
@@ -45,7 +52,7 @@ router.post('/', authenticateRequest, async (req, res) => {
   }
 });
 
-router.get('/:projectId', authenticateRequest, async (req, res) => {
+router.get('/:projectId', protectedRateLimit, authenticateRequest, async (req, res) => {
   try {
     const { Estimate } = req.app.locals.models || {};
     if (!Estimate) return res.status(503).json({ error: 'Unavailable', message: 'Estimate model is not configured' });

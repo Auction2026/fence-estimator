@@ -1,7 +1,9 @@
 # Architecture Diagrams
 
 ## Runtime overview
-`frontend/index.html` -> browser state + autosave -> optional `/api/*` sync -> MongoDB backend today / PostgreSQL schema scripts for future structured persistence.
+`frontend/index.html` -> browser state + autosave -> optional `/api/*` sync -> current Express + MongoDB runtime.
+
+Parallel to the current runtime, `database/` ships PostgreSQL schema, seed, trigger, index, and migration assets so the repository also has a structured SQL persistence layer ready for teams that prefer PostgreSQL-backed reporting or a future backend migration.
 
 ## Frontend modules
 - `api.js`: namespace bootstrap and network calls.

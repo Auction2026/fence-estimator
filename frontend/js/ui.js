@@ -100,12 +100,14 @@
     },
     renderMapping() {
       const map = FE.state.mapping;
+      const hasDimensions = Number(map.width || 0) > 0 || Number(map.depth || 0) > 0;
+      const perimeter = hasDimensions ? (Number(map.width || 0) * 2) + (Number(map.depth || 0) * 2) : '—';
       byId('mappingSummary').innerHTML = `
         <h3>Site summary</h3>
         <p><strong>Address:</strong> ${escapeHtml(map.address || FE.state.project.address || 'Pending address')}</p>
         <p><strong>Coordinates:</strong> ${escapeHtml(map.lat || '—')}, ${escapeHtml(map.lng || '—')}</p>
-        <p><strong>Lot:</strong> ${escapeHtml(map.width || 0)} × ${escapeHtml(map.depth || 0)} ft</p>
-        <p><strong>Perimeter capacity:</strong> ${escapeHtml((Number(map.width || 0) * 2) + (Number(map.depth || 0) * 2))} lf</p>`;
+        <p><strong>Lot:</strong> ${escapeHtml(hasDimensions ? map.width || '—' : '—')} × ${escapeHtml(hasDimensions ? map.depth || '—' : '—')} ft</p>
+        <p><strong>Perimeter capacity:</strong> ${escapeHtml(perimeter)}${perimeter === '—' ? '' : ' lf'}</p>`;
     },
     renderContract() {
       byId('contractPreview').textContent = FE.Calculations.createContractPreview(FE.state);

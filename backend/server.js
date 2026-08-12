@@ -12,6 +12,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const PDFDocument = require('pdfkit');
 const nodemailer = require('nodemailer');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 const fs = require('fs');
 const { getJwtSecret } = require('./middleware/auth');
@@ -686,6 +687,13 @@ const auth = (req, res, next) => {
   }
 };
 
+const protectedRouteLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 120,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+});
+
 // Role-based authorization
 const authorizeRole = (...roles) => {
   return (req, res, next) => {
@@ -900,7 +908,7 @@ app.post('/api/auth/login', async (req, res) => {
 });
 
 // Get Current User
-app.get('/api/auth/me', auth, async (req, res) => {
+app.get('/api/auth/me', protectedRouteLimiter, auth, async (req, res) => {
   try {
     const user = await User.findById(req.userId).select('-password');
     res.json({
@@ -919,7 +927,7 @@ app.get('/api/auth/me', auth, async (req, res) => {
 // API ROUTES - PROJECTS (TAB 1)
 // ============================================
 
-app.post('/api/projects', auth, async (req, res) => {
+app.post('/api/projects', protectedRouteLimiter, auth, async (req, res) => {
   try {
     const { customerName, customerEmail, customerPhone, address, city, province, postalCode, propertySize, projectNotes } = req.body;
 
@@ -960,7 +968,7 @@ app.post('/api/projects', auth, async (req, res) => {
   }
 });
 
-app.get('/api/projects', auth, async (req, res) => {
+app.get('/api/projects', protectedRouteLimiter, auth, async (req, res) => {
   try {
     const projects = await Project.find({ estimator: req.userId })
       .populate('estimator', 'username email company')
@@ -979,7 +987,7 @@ app.get('/api/projects', auth, async (req, res) => {
   }
 });
 
-app.get('/api/projects/:projectId', auth, async (req, res) => {
+app.get('/api/projects/:projectId', protectedRouteLimiter, auth, async (req, res) => {
   try {
     const project = await Project.findOne({ projectId: req.params.projectId })
       .populate('estimator', 'username email company');
@@ -1003,7 +1011,7 @@ app.get('/api/projects/:projectId', auth, async (req, res) => {
   }
 });
 
-app.put('/api/projects/:projectId', auth, async (req, res) => {
+app.put('/api/projects/:projectId', protectedRouteLimiter, auth, async (req, res) => {
   try {
     const project = await Project.findOneAndUpdate(
       { projectId: req.params.projectId },
@@ -1035,7 +1043,7 @@ app.put('/api/projects/:projectId', auth, async (req, res) => {
 // API ROUTES - ESTIMATES (TAB 8)
 // ============================================
 
-app.post('/api/estimates', auth, async (req, res) => {
+app.post('/api/estimates', protectedRouteLimiter, auth, async (req, res) => {
   try {
     const { projectId, customerName, fenceType, linearFeet, height, barchedWire, installationType, laborRate, permitCost, utilityCost, contingency, notes } = req.body;
 
@@ -1105,7 +1113,7 @@ app.post('/api/estimates', auth, async (req, res) => {
   }
 });
 
-app.get('/api/estimates/:projectId', auth, async (req, res) => {
+app.get('/api/estimates/:projectId', protectedRouteLimiter, auth, async (req, res) => {
   try {
     const estimates = await Estimate.find({ projectId: req.params.projectId })
       .populate('estimator', 'username email')
@@ -1128,7 +1136,7 @@ app.get('/api/estimates/:projectId', auth, async (req, res) => {
 // API ROUTES - CONTRACTS (TAB 9)
 // ============================================
 
-app.post('/api/contracts', auth, async (req, res) => {
+app.post('/api/contracts', protectedRouteLimiter, auth, async (req, res) => {
   try {
     const { estimateNumber, projectId, customerName, scopeOfWork, depositAmount, warranty, terms } = req.body;
 
@@ -1181,7 +1189,7 @@ app.post('/api/contracts', auth, async (req, res) => {
   }
 });
 
-app.get('/api/contracts/:projectId', auth, async (req, res) => {
+app.get('/api/contracts/:projectId', protectedRouteLimiter, auth, async (req, res) => {
   try {
     const contracts = await Contract.find({ projectId: req.params.projectId })
       .sort({ createdAt: -1 });

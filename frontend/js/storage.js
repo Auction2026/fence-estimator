@@ -1,10 +1,28 @@
 (function attachStorage(global) {
   const FE = global.FenceEstimator;
+  function deepMerge(defaultValue, savedValue) {
+    if (Array.isArray(defaultValue)) {
+      return Array.isArray(savedValue) ? savedValue : FE.utils.clone(defaultValue);
+    }
+    if (defaultValue && typeof defaultValue === 'object') {
+      const result = {};
+      const source = savedValue && typeof savedValue === 'object' ? savedValue : {};
+      Object.keys(defaultValue).forEach((key) => {
+        result[key] = deepMerge(defaultValue[key], source[key]);
+      });
+      Object.keys(source).forEach((key) => {
+        if (!(key in result)) result[key] = source[key];
+      });
+      return result;
+    }
+    return savedValue === undefined ? defaultValue : savedValue;
+  }
+
   FE.Storage = {
     load(defaultState) {
       try {
         const raw = localStorage.getItem(FE.config.storageKey);
-        return raw ? Object.assign({}, defaultState, JSON.parse(raw)) : FE.utils.clone(defaultState);
+        return raw ? deepMerge(defaultState, JSON.parse(raw)) : FE.utils.clone(defaultState);
       } catch (error) {
         return FE.utils.clone(defaultState);
       }
@@ -24,7 +42,7 @@
       link.href = url;
       link.download = `fence-estimator-${new Date().toISOString().slice(0, 10)}.json`;
       link.click();
-      URL.revokeObjectURL(url);
+      setTimeout(() => URL.revokeObjectURL(url), 0);
     },
     async importFile(file) {
       try {
