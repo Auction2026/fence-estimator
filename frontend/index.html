@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fence Depot Estimator</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div id="app">
+        <header class="app-header">
+            <div class="header-container">
+                <div class="logo">
+                    <h1>🏗️ Fence Depot Estimator v1.0</h1>
+                    <p>Professional Estimation System</p>
+                </div>
+                <nav class="nav-menu">
+                    <button class="nav-btn" onclick="showHome()">Home</button>
+                    <button class="nav-btn" onclick="logout()">Logout</button>
+                </nav>
+            </div>
+        </header>
+        <main class="main-container">
+            <div class="tab-navigation">
+                <button class="tab-btn active" data-tab="tab1" onclick="switchTab('tab1')">1. Project</button>
+                <button class="tab-btn" data-tab="tab2" onclick="switchTab('tab2')">2. Specs</button>
+                <button class="tab-btn" data-tab="tab3" onclick="switchTab('tab3')">3. Layout</button>
+                <button class="tab-btn" data-tab="tab4" onclick="switchTab('tab4')">4. Install</button>
+                <button class="tab-btn" data-tab="tab5" onclick="switchTab('tab5')">5. Drawings</button>
+                <button class="tab-btn" data-tab="tab6" onclick="switchTab('tab6')">6. Permits</button>
+                <button class="tab-btn" data-tab="tab7" onclick="switchTab('tab7')">7. Utilities</button>
+                <button class="tab-btn" data-tab="tab8" onclick="switchTab('tab8')">8. Estimate</button>
+                <button class="tab-btn" data-tab="tab9" onclick="switchTab('tab9')">9. Contract</button>
+                <button class="tab-btn" data-tab="tab10" onclick="switchTab('tab10')">10. Extras</button>
+                <button class="tab-btn" data-tab="tab11" onclick="switchTab('tab11')">11. Crew</button>
+                <button class="tab-btn" data-tab="tab12" onclick="switchTab('tab12')">12. Changes</button>
+                <button class="tab-btn" data-tab="tab13" onclick="switchTab('tab13')">13. SignOff</button>
+                <button class="tab-btn" data-tab="tab14" onclick="switchTab('tab14')">14. Notes</button>
+                <button class="tab-btn" data-tab="tab15" onclick="switchTab('tab15')">15. Admin</button>
+                <button class="tab-btn" data-tab="tab16" onclick="switchTab('tab16')">16. Catalog</button>
+                <button class="tab-btn" data-tab="tab17" onclick="switchTab('tab17')">17. Mapping</button>
+            </div>
+            <div class="tab-content-area">
+                <div id="tab-tab1" class="tab-content active">
+                    <h2>Project Information</h2>
+                    <form id="projectForm" onsubmit="saveProject(event)">
+                        <div class="form-row">
+                            <div class="form-group"><label>Customer Name:</label><input type="text" id="customerName" required></div>
+                            <div class="form-group"><label>Email:</label><input type="email" id="customerEmail" required></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Phone:</label><input type="tel" id="customerPhone" required></div>
+                            <div class="form-group"><label>Date Created:</label><input type="date" id="projectDate" required></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Address:</label><input type="text" id="customerAddress" required></div>
+                            <div class="form-group"><label>City:</label><input type="text" id="customerCity" required></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Province:</label><input type="text" id="customerProvince" required></div>
+                            <div class="form-group"><label>Postal Code:</label><input type="text" id="customerPostal" required></div>
+                        </div>
+                        <div class="form-group"><label>Property Size (sq ft):</label><input type="number" id="propertySize" min="0" required></div>
+                        <button type="submit" class="btn btn-primary">Save Project Info</button>
+                    </form>
+                </div>
+                <div id="tab-tab2" class="tab-content"><h2>Fence Specifications</h2><form id="specsForm" onsubmit="saveSpecs(event)"><div class="form-row"><div class="form-group"><label>Fence Type:</label><select id="fenceType" required><option value="">Select Type</option><option value="chainlink">Chain Link</option><option value="wood">Wood</option><option value="vinyl">Vinyl</option><option value="wroughtiron">Wrought Iron</option></select></div><div class="form-group"><label>Height (feet):</label><input type="number" id="fenceHeight" min="3" max="8" step="0.5" required></div></div><div class="form-row"><div class="form-group"><label>Color:</label><input type="text" id="fenceColor" required></div><div class="form-group"><label>Material Grade:</label><select id="materialGrade"><option value="standard">Standard</option><option value="premium">Premium</option><option value="commercial">Commercial</option></select></div></div><div class="form-row"><div class="form-group"><label>Linear Feet:</label><input type="number" id="linearFeet" min="0" required></div><div class="form-group"><label>Number of Posts:</label><input type="number" id="numberOfPosts" min="0" required></div></div><div class="form-row"><div class="form-group"><label>Number of Gates:</label><input type="number" id="numberOfGates" value="0" min="0"></div><div class="form-group"><label>Gate Width (feet):</label><input type="number" id="gateWidth" value="0" min="0" step="0.5"></div></div><button type="submit" class="btn btn-primary">Save Specifications</button></form></div>
+                <div id="tab-tab3" class="tab-content"><h2>Layout Diagram</h2><div class="layout-tools"><button class="btn btn-secondary" onclick="startDrawing()">Draw Layout</button><button class="btn btn-secondary" onclick="clearCanvas()">Clear Canvas</button><button class="btn btn-secondary" onclick="saveDrawing()">Save Drawing</button></div><canvas id="layoutCanvas" width="800" height="600" style="border: 2px solid #333; margin-top: 20px;"></canvas></div>
+                <div id="tab-tab4" class="tab-content"><h2>Installation Breakdown</h2><table class="data-table"><thead><tr><th>Task</th><th>Duration (Hours)</th><th>Labor Rate</th><th>Total Cost</th></tr></thead><tbody><tr><td>Site Preparation</td><td>4</td><td>$50/hr</td><td>$200</td></tr><tr><td>Digging & Posts</td><td>8</td><td>$50/hr</td><td>$400</td></tr><tr><td>Fence Installation</td><td>16</td><td>$50/hr</td><td>$800</td></tr><tr><td>Gate Installation</td><td>4</td><td>$50/hr</td><td>$200</td></tr><tr><td>Cleanup & Finishing</td><td>4</td><td>$50/hr</td><td>$200</td></tr></tbody></table></div>
+                <div id="tab-tab5" class="tab-content"><h2>Shop Drawings</h2><form onsubmit="uploadDrawing(event)"><div class="form-group"><label>Upload Drawing:</label><input type="file" id="drawingFile" accept=".pdf,.jpg,.png"></div><button type="submit" class="btn btn-primary">Upload Drawing</button></form></div>
+                <div id="tab-tab6" class="tab-content"><h2>Permits</h2><form id="permitsForm" onsubmit="savePermits(event)"><div class="form-row"><div class="form-group"><label>Permit Number:</label><input type="text" id="permitNumber"></div><div class="form-group"><label>Permit Status:</label><select id="permitStatus"><option value="pending">Pending</option><option value="approved">Approved</option><option value="denied">Denied</option></select></div></div><button type="submit" class="btn btn-primary">Save Permit Info</button></form></div>
+                <div id="tab-tab7" class="tab-content"><h2>Utilities Locate</h2><form id="utilitiesForm" onsubmit="saveUtilities(event)"><div class="checkbox-group"><label><input type="checkbox" name="utility" value="hydro"> Hydro</label><label><input type="checkbox" name="utility" value="gas"> Gas</label><label><input type="checkbox" name="utility" value="water"> Water</label><label><input type="checkbox" name="utility" value="sewer"> Sewer</label></div><button type="submit" class="btn btn-primary">Save Utilities Info</button></form></div>
+                <div id="tab-tab8" class="tab-content"><h2>Estimate</h2><div class="estimate-display"><div class="estimate-line-item"><span>Materials:</span><span id="estimateMaterials">$0.00</span></div><div class="estimate-line-item"><span>Labor:</span><span id="estimateLabor">$0.00</span></div><div class="estimate-line-item"><span>Equipment:</span><span id="estimateEquipment">$0.00</span></div><div class="estimate-line-item"><span>Permits:</span><span id="estimatePermits">$0.00</span></div><div class="estimate-line-item"><span>Extras:</span><span id="estimateExtras">$0.00</span></div><div class="estimate-line-item estimate-subtotal"><span>Subtotal:</span><span id="estimateSubtotal">$0.00</span></div><div class="estimate-line-item estimate-tax"><span>Tax (13%):</span><span id="estimateTax">$0.00</span></div><div class="estimate-line-item estimate-total"><span>TOTAL:</span><span id="estimateTotal">$0.00</span></div><button class="btn btn-primary" onclick="generatePDF()">Generate PDF</button><button class="btn btn-secondary" onclick="lockPrice()">Lock Price</button></div></div>
+                <div id="tab-tab9" class="tab-content"><h2>Contract</h2><div class="contract-display"><p><strong>Customer:</strong> <span id="contractCustomer">---</span></p><p><strong>Price:</strong> <span id="contractPrice">$0.00</span></p><canvas id="signatureCanvas" width="400" height="100" style="border: 1px solid #ccc;"></canvas><button class="btn btn-primary" onclick="signContract()">Sign Contract</button></div></div>
+                <div id="tab-tab10" class="tab-content"><h2>Extras</h2><form onsubmit="addExtra(event)"><div class="form-group"><label>Extra Item:</label><input type="text" id="extraItem"></div><div class="form-group"><label>Cost:</label><input type="number" id="extraCost" min="0" step="0.01"></div><button type="submit" class="btn btn-secondary">Add Extra</button></form><table class="data-table"><thead><tr><th>Item</th><th>Cost</th><th>Action</th></tr></thead><tbody id="extrasTableBody"></tbody></table></div>
+                <div id="tab-tab11" class="tab-content"><h2>Crew</h2><form onsubmit="addCrewMember(event)"><div class="form-group"><label>Name:</label><input type="text" id="crewName"></div><div class="form-group"><label>Role:</label><select id="crewRole"><option>Foreman</option><option>Laborer</option><option>Specialist</option></select></div><button type="submit" class="btn btn-secondary">Add Crew</button></form><table class="data-table"><thead><tr><th>Name</th><th>Role</th><th>Action</th></tr></thead><tbody id="crewTableBody"></tbody></table></div>
+                <div id="tab-tab12" class="tab-content"><h2>Change Orders</h2><form onsubmit="addChangeOrder(event)"><div class="form-group"><label>Description:</label><textarea id="changeDescription" rows="3"></textarea></div><div class="form-group"><label>Cost Change:</label><input type="number" id="changeCost" step="0.01"></div><button type="submit" class="btn btn-secondary">Create Change Order</button></form><div id="changeOrdersList"></div></div>
+                <div id="tab-tab13" class="tab-content"><h2>Project Sign-Off</h2><form onsubmit="signOffProject(event)"><div class="form-group"><label>Completion Date:</label><input type="date" id="completionDate"></div><div class="checkbox-group"><label><input type="checkbox" name="inspection"> All work completed</label><label><input type="checkbox" name="inspection"> Property cleaned</label><label><input type="checkbox" name="inspection"> Quality check passed</label></div><button type="submit" class="btn btn-primary">Sign Off Project</button></form></div>
+                <div id="tab-tab14" class="tab-content"><h2>Notes</h2><form onsubmit="addNote(event)"><div class="form-group"><label>Note:</label><textarea id="noteContent" rows="3"></textarea></div><button type="submit" class="btn btn-secondary">Add Note</button></form><div id="notesList"></div></div>
+                <div id="tab-tab15" class="tab-content"><h2>Admin</h2><div class="admin-section"><p>Total Projects: <span id="totalProjects">0</span></p><p>Total Revenue: <span id="totalRevenue">$0.00</span></p></div></div>
+                <div id="tab-tab16" class="tab-content"><h2>Catalog</h2><input type="text" id="productSearch" placeholder="Search products..."><table class="data-table"><thead><tr><th>SKU</th><th>Name</th><th>Price</th><th>Stock</th></tr></thead><tbody id="productTableBody"></tbody></table></div>
+                <div id="tab-tab17" class="tab-content"><h2>Mapping</h2><div id="mapContainer" style="width: 100%; height: 500px; border: 1px solid #ccc; margin-top: 20px;"></div></div>
+            </div>
+        </main>
+        <footer class="app-footer"><p>&copy; 2024 Fence Depot Estimator v1.0</p></footer>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>
