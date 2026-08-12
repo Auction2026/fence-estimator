@@ -28,48 +28,64 @@ function validateProjectPayload(project) {
 }
 
 async function createProject(req, res) {
-  const Project = req.app.locals.models?.Project;
-  if (!Project) {
-    return res.status(503).json({ error: 'Unavailable', message: 'Project model is not configured' });
+  try {
+    const Project = req.app.locals.models?.Project;
+    if (!Project) {
+      return res.status(503).json({ error: 'Unavailable', message: 'Project model is not configured' });
+    }
+    const payload = normalizeProjectInput(req.body);
+    const errors = validateProjectPayload(payload);
+    if (errors.length) {
+      return res.status(400).json({ error: 'Validation Error', message: errors.join(', ') });
+    }
+    const project = new Project(Object.assign({ projectId: buildProjectId(), estimator: req.userId }, payload));
+    await project.save();
+    return res.status(201).json({ success: true, project });
+  } catch (error) {
+    return res.status(500).json({ error: 'Server Error', message: error.message });
   }
-  const payload = normalizeProjectInput(req.body);
-  const errors = validateProjectPayload(payload);
-  if (errors.length) {
-    return res.status(400).json({ error: 'Validation Error', message: errors.join(', ') });
-  }
-  const project = new Project(Object.assign({ projectId: buildProjectId(), estimator: req.userId }, payload));
-  await project.save();
-  return res.status(201).json({ success: true, project });
 }
 
 async function listProjects(req, res) {
-  const Project = req.app.locals.models?.Project;
-  if (!Project) {
-    return res.status(503).json({ error: 'Unavailable', message: 'Project model is not configured' });
+  try {
+    const Project = req.app.locals.models?.Project;
+    if (!Project) {
+      return res.status(503).json({ error: 'Unavailable', message: 'Project model is not configured' });
+    }
+    const projects = await Project.find(req.userRole === 'admin' ? {} : { estimator: req.userId }).sort({ createdAt: -1 });
+    return res.json({ success: true, count: projects.length, projects });
+  } catch (error) {
+    return res.status(500).json({ error: 'Server Error', message: error.message });
   }
-  const projects = await Project.find(req.userRole === 'admin' ? {} : { estimator: req.userId }).sort({ createdAt: -1 });
-  return res.json({ success: true, count: projects.length, projects });
 }
 
 async function getProject(req, res) {
-  const Project = req.app.locals.models?.Project;
-  if (!Project) {
-    return res.status(503).json({ error: 'Unavailable', message: 'Project model is not configured' });
+  try {
+    const Project = req.app.locals.models?.Project;
+    if (!Project) {
+      return res.status(503).json({ error: 'Unavailable', message: 'Project model is not configured' });
+    }
+    const project = await Project.findOne({ projectId: req.params.projectId });
+    if (!project) return res.status(404).json({ error: 'Not Found', message: 'Project not found' });
+    return res.json({ success: true, project });
+  } catch (error) {
+    return res.status(500).json({ error: 'Server Error', message: error.message });
   }
-  const project = await Project.findOne({ projectId: req.params.projectId });
-  if (!project) return res.status(404).json({ error: 'Not Found', message: 'Project not found' });
-  return res.json({ success: true, project });
 }
 
 async function updateProject(req, res) {
-  const Project = req.app.locals.models?.Project;
-  if (!Project) {
-    return res.status(503).json({ error: 'Unavailable', message: 'Project model is not configured' });
+  try {
+    const Project = req.app.locals.models?.Project;
+    if (!Project) {
+      return res.status(503).json({ error: 'Unavailable', message: 'Project model is not configured' });
+    }
+    const payload = normalizeProjectInput(req.body);
+    const project = await Project.findOneAndUpdate({ projectId: req.params.projectId }, payload, { new: true, runValidators: true });
+    if (!project) return res.status(404).json({ error: 'Not Found', message: 'Project not found' });
+    return res.json({ success: true, project });
+  } catch (error) {
+    return res.status(500).json({ error: 'Server Error', message: error.message });
   }
-  const payload = normalizeProjectInput(req.body);
-  const project = await Project.findOneAndUpdate({ projectId: req.params.projectId }, payload, { new: true, runValidators: true });
-  if (!project) return res.status(404).json({ error: 'Not Found', message: 'Project not found' });
-  return res.json({ success: true, project });
 }
 
 module.exports = { buildProjectId, normalizeProjectInput, validateProjectPayload, createProject, listProjects, getProject, updateProject };

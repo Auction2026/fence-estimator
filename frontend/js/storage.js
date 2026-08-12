@@ -27,8 +27,12 @@
       URL.revokeObjectURL(url);
     },
     async importFile(file) {
-      const text = await file.text();
-      return JSON.parse(text);
+      try {
+        const text = await file.text();
+        return JSON.parse(text);
+      } catch (error) {
+        throw new Error('Imported file is not valid JSON');
+      }
     },
     getToken() {
       return localStorage.getItem('fence-estimator-token') || '';

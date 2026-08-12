@@ -13,6 +13,13 @@
   utils.today = () => new Date().toISOString().slice(0, 10);
   utils.pickForm = (form) => Object.fromEntries(new FormData(form).entries());
   utils.byId = (id) => document.getElementById(id);
+  utils.escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[character]));
   const FE = global.FenceEstimator = Object.assign(existing, {
     config: Object.assign({
       storageKey: 'fence-estimator-state-v2',

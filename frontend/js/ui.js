@@ -1,6 +1,6 @@
 (function attachUI(global) {
   const FE = global.FenceEstimator;
-  const { byId, formatCurrency } = FE.utils;
+  const { byId, formatCurrency, escapeHtml } = FE.utils;
 
   FE.UI = {
     switchTab(tabId) {
@@ -24,7 +24,7 @@
         ['Email', project.customerEmail || '—'],
         ['Address', project.address || '—'],
         ['Status', project.status || 'draft'],
-      ].map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join('');
+      ].map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('');
     },
     renderEstimateSnapshot() {
       const estimate = FE.state.estimate;
@@ -38,10 +38,10 @@
         ['Tax', estimate.tax],
         ['Total', estimate.total, 'total'],
       ];
-      const html = rows.map(([label, value, extraClass]) => `<div class="total-row ${extraClass || ''}"><span>${label}</span><strong>${formatCurrency(value)}</strong></div>`).join('');
+      const html = rows.map(([label, value, extraClass]) => `<div class="total-row ${extraClass || ''}"><span>${escapeHtml(label)}</span><strong>${formatCurrency(value)}</strong></div>`).join('');
       byId('estimateSnapshot').innerHTML = html;
       byId('estimateBreakdown').innerHTML = html;
-      byId('scopeSummary').innerHTML = (estimate.scopeSummary || []).map((item) => `<li>${item}</li>`).join('');
+      byId('scopeSummary').innerHTML = (estimate.scopeSummary || []).map((item) => `<li>${escapeHtml(item)}</li>`).join('');
     },
     renderStatus() {
       const state = FE.state;
@@ -53,7 +53,7 @@
         `Change orders: ${state.changeOrders.length}`,
         `Notes: ${state.notes.length}`,
       ];
-      byId('statusList').innerHTML = statuses.map((item) => `<li>${item}</li>`).join('');
+      byId('statusList').innerHTML = statuses.map((item) => `<li>${escapeHtml(item)}</li>`).join('');
     },
     renderTable(targetId, columns, rows) {
       const target = byId(targetId);
@@ -61,7 +61,10 @@
         target.innerHTML = '<p class="muted">No records yet.</p>';
         return;
       }
-      target.innerHTML = `<table><thead><tr>${columns.map((column) => `<th>${column.label}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column) => `<td>${row[column.key] ?? ''}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+      target.innerHTML = `<table><thead><tr>${columns.map((column) => `<th>${escapeHtml(column.label)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column) => {
+        const cellValue = row[column.key] ?? '';
+        return `<td>${column.isHtml ? cellValue : escapeHtml(cellValue)}</td>`;
+      }).join('')}</tr>`).join('')}</tbody></table>`;
     },
     renderCards(targetId, entries, type) {
       const target = byId(targetId);
@@ -72,7 +75,7 @@
       target.innerHTML = entries.map((entry) => {
         const title = entry.title || entry.description || entry.name || entry.fileName;
         const body = entry.content || entry.reason || entry.category || '';
-        return `<article class="${type}-card"><div class="inline-actions"><strong>${title}</strong><button type="button" class="secondary" data-remove-type="${type}" data-remove-id="${entry.id}">Remove</button></div><p>${body}</p></article>`;
+        return `<article class="${escapeHtml(type)}-card"><div class="inline-actions"><strong>${escapeHtml(title)}</strong><button type="button" class="secondary" data-remove-type="${escapeHtml(type)}" data-remove-id="${escapeHtml(entry.id)}">Remove</button></div><p>${escapeHtml(body)}</p></article>`;
       }).join('');
     },
     renderAdmin() {
@@ -83,8 +86,8 @@
         { label: 'Crew count', value: String(FE.state.crew.length) },
         { label: 'Notes logged', value: String(FE.state.notes.length) },
       ];
-      byId('adminMetrics').innerHTML = metrics.map((metric) => `<article class="metric-card"><p class="muted">${metric.label}</p><strong>${metric.value}</strong></article>`).join('');
-      byId('auditLog').innerHTML = `<h3>Audit</h3><p class="muted">Last saved at ${FE.state.audit.lastSavedAt || 'not yet saved'}.</p>`;
+      byId('adminMetrics').innerHTML = metrics.map((metric) => `<article class="metric-card"><p class="muted">${escapeHtml(metric.label)}</p><strong>${escapeHtml(metric.value)}</strong></article>`).join('');
+      byId('auditLog').innerHTML = `<h3>Audit</h3><p class="muted">Last saved at ${escapeHtml(FE.state.audit.lastSavedAt || 'not yet saved')}.</p>`;
     },
     renderCatalog(rows) {
       this.renderTable('catalogTable', [
@@ -99,10 +102,10 @@
       const map = FE.state.mapping;
       byId('mappingSummary').innerHTML = `
         <h3>Site summary</h3>
-        <p><strong>Address:</strong> ${map.address || FE.state.project.address || 'Pending address'}</p>
-        <p><strong>Coordinates:</strong> ${map.lat || '—'}, ${map.lng || '—'}</p>
-        <p><strong>Lot:</strong> ${map.width || 0} × ${map.depth || 0} ft</p>
-        <p><strong>Perimeter capacity:</strong> ${(Number(map.width || 0) * 2) + (Number(map.depth || 0) * 2)} lf</p>`;
+        <p><strong>Address:</strong> ${escapeHtml(map.address || FE.state.project.address || 'Pending address')}</p>
+        <p><strong>Coordinates:</strong> ${escapeHtml(map.lat || '—')}, ${escapeHtml(map.lng || '—')}</p>
+        <p><strong>Lot:</strong> ${escapeHtml(map.width || 0)} × ${escapeHtml(map.depth || 0)} ft</p>
+        <p><strong>Perimeter capacity:</strong> ${escapeHtml((Number(map.width || 0) * 2) + (Number(map.depth || 0) * 2))} lf</p>`;
     },
     renderContract() {
       byId('contractPreview').textContent = FE.Calculations.createContractPreview(FE.state);
@@ -121,7 +124,7 @@
         { label: 'Description', key: 'description' },
         { label: 'Category', key: 'category' },
         { label: 'Cost', key: 'formattedCost' },
-        { label: 'Action', key: 'action' },
+        { label: 'Action', key: 'action', isHtml: true },
       ], FE.state.extras.map((item) => Object.assign({}, item, {
         formattedCost: formatCurrency(item.cost),
         action: `<button type="button" class="secondary" data-remove-type="extra" data-remove-id="${item.id}">Remove</button>`,
@@ -130,7 +133,7 @@
         { label: 'Name', key: 'name' },
         { label: 'Role', key: 'role' },
         { label: 'Rate', key: 'formattedRate' },
-        { label: 'Action', key: 'action' },
+        { label: 'Action', key: 'action', isHtml: true },
       ], FE.state.crew.map((item) => Object.assign({}, item, {
         formattedRate: formatCurrency(item.rate),
         action: `<button type="button" class="secondary" data-remove-type="crew" data-remove-id="${item.id}">Remove</button>`,

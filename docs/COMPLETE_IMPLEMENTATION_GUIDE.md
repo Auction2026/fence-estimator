@@ -11,10 +11,10 @@
 1. Copy `.env.example` to `.env` and review the values.
 2. Install backend dependencies with `cd backend && npm install`.
 3. Create the database and run:
-   - `psql "$DATABASE_URL" -f database/schema.sql`
-   - `psql "$DATABASE_URL" -f database/indexes.sql`
-   - `psql "$DATABASE_URL" -f database/procedures.sql`
-   - `psql "$DATABASE_URL" -f database/seed.sql`
+   - `PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" "$DB_NAME" -f database/schema.sql`
+   - `PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" "$DB_NAME" -f database/indexes.sql`
+   - `PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" "$DB_NAME" -f database/procedures.sql`
+   - `PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" "$DB_NAME" -f database/seed.sql`
 4. Start the backend with `cd backend && npm start`.
 5. Start the frontend with `cd frontend && npm start` and open `http://localhost:4173`.
 

@@ -14,15 +14,8 @@ const PDFDocument = require('pdfkit');
 const nodemailer = require('nodemailer');
 const path = require('path');
 const fs = require('fs');
+const { getJwtSecret } = require('./middleware/auth');
 const estimateMath = require('./services/estimateMath');
-
-const getJwtSecret = () => {
-  const secret = process.env.JWT_SECRET;
-  if (!secret || secret === 'change-me-in-production') {
-    throw new Error('JWT_SECRET must be configured before starting the backend');
-  }
-  return secret;
-};
 
 // Load environment variables
 dotenv.config();

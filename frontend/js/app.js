@@ -86,10 +86,16 @@
     byId('importStateInput').addEventListener('change', async (event) => {
       const [file] = event.target.files || [];
       if (!file) return;
-      FE.state = Object.assign({}, defaultState, await FE.Storage.importFile(file));
-      syncFieldsFromState();
-      FE.persist('Imported saved workspace');
-      FE.modules.tools.drawing?.init();
+      try {
+        FE.state = Object.assign({}, defaultState, await FE.Storage.importFile(file));
+        syncFieldsFromState();
+        FE.persist('Imported saved workspace');
+        FE.modules.tools.drawing?.init();
+      } catch (error) {
+        FE.UI.message(error.message);
+      } finally {
+        event.target.value = '';
+      }
     });
     byId('resetStateBtn').addEventListener('click', () => {
       FE.state = FE.Storage.reset(defaultState);
