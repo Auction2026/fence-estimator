@@ -1,0 +1,1 @@
+function initTab17(){const mapContainer=document.getElementById('mapContainer');if(mapContainer){mapContainer.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#eee;color:#666;">Google Maps / Leaflet Integration Placeholder</div>'}}document.addEventListener('DOMContentLoaded',()=>{initTab17()});

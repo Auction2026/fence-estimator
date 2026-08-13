@@ -1,0 +1,1 @@
+function initTab15(){}function loadTab15Data(){document.getElementById('totalProjects').textContent=Math.floor(Math.random()*50)+10;document.getElementById('totalRevenue').textContent='$'+(Math.random()*100000+50000).toFixed(2)}document.addEventListener('DOMContentLoaded',()=>{initTab15();loadTab15Data()});window.loadTab15Data=loadTab15Data;
