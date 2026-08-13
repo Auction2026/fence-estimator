@@ -7,4 +7,4 @@ echo Opening the Fence Estimator in your browser...
 start "" "%~dp0index.html"
 echo.
 echo Done! You can close this window.
-timeout /t 5
+timeout /t 5 /nobreak
