@@ -53,7 +53,7 @@ const connectDB = async () => {
     return conn;
   } catch (error) {
     console.error(`❌ Database connection failed: ${error.message}`);
-    setTimeout(connectDB, 5000); // Retry after 5 seconds
+    throw error;
   }
 };
 
