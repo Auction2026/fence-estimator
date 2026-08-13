@@ -8,6 +8,10 @@
 
 This link opens the program right in your browser — nothing to install.
 
+**Desktop shortcut:** copy the file **`Open-Fence-Estimator.url`** onto your desktop — then just double-click it any time.
+
+**For your programmer:** send them **`PROGRAMMER_HANDOFF.md`** and this ZIP of the whole project: https://github.com/Auction2026/fence-estimator/archive/refs/heads/main.zip
+
 Or, if you have the files on your computer:
 
 - **Windows:** Double-click **`Start-Fence-Estimator.bat`**
