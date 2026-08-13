@@ -2,6 +2,13 @@
 
 **Complete professional fence estimation system with 17-tab web application**
 
+## Easiest Way to Start (Just Click!)
+
+- **Windows:** Double-click **`Start-Fence-Estimator.bat`**
+- **Mac:** Double-click **`Start-Fence-Estimator.command`**
+
+That's it — the Fence Estimator opens in your browser, ready to use. No database or server needed.
+
 ## Quick Start
 
 1. Open `frontend/index.html` in web browser
