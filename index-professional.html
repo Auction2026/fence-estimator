@@ -1427,8 +1427,8 @@
                         <button class="btn btn-primary" onclick="generateContract()">
                             <i class="fas fa-file-pdf"></i> Generate Contract
                         </button>
-                        <button class="btn btn-secondary" onclick="sendContractToCustomer()">
-                            <i class="fas fa-envelope"></i> Send to Customer
+                        <button class="btn btn-secondary" onclick="prepareContractForDownload()">
+                            <i class="fas fa-download"></i> Prepare for Download
                         </button>
                         <button class="btn btn-success" onclick="markContractSigned()">
                             <i class="fas fa-check-circle"></i> Mark as Signed
@@ -2155,8 +2155,8 @@
             showAlert('Contract generated and ready to download', 'success');
         }
 
-        function sendContractToCustomer() {
-            showAlert('Contract sent to customer email', 'success');
+        function prepareContractForDownload() {
+            showAlert('Contract ready to download and share manually. Email delivery is currently disabled.', 'success');
         }
 
         function markContractSigned() {
