@@ -4,6 +4,12 @@
 
 ## Easiest Way to Start (Just Click!)
 
+### 👉 [CLICK HERE TO OPEN THE FENCE ESTIMATOR](https://html-preview.github.io/?url=https://github.com/Auction2026/fence-estimator/blob/main/index.html) 👈
+
+This link opens the program right in your browser — nothing to install.
+
+Or, if you have the files on your computer:
+
 - **Windows:** Double-click **`Start-Fence-Estimator.bat`**
 - **Mac:** Double-click **`Start-Fence-Estimator.command`**
 
