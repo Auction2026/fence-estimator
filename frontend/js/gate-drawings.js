@@ -51,6 +51,33 @@ const GATE_SPECS = {
   }
 };
 
+/* --- tiny SVG helpers --- */
+function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function rect(x, y, w, h, fill, stroke, sw) {
+  return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + (fill || 'none') + '"' + (stroke ? ' stroke="' + stroke + '" stroke-width="' + (sw || 1) + '"' : '') + '/>';
+}
+function line(x1, y1, x2, y2, stroke, sw) {
+  if (stroke === 'none') return '';
+  return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + stroke + '" stroke-width="' + (sw || 1) + '"/>';
+}
+function poly(pts, fill) {
+  return '<polygon points="' + pts.map(p => p.join(',')).join(' ') + '" fill="' + fill + '"/>';
+}
+function text(x, y, s, size, weight) {
+  return '<text x="' + x + '" y="' + y + '" font-family="Arial" font-size="' + (size || 12) + '"' + (weight ? ' font-weight="' + weight + '"' : '') + ' fill="#1B2D4D">' + esc(s) + '</text>';
+}
+function dim(x1, y1, x2, y2, label, vertical) {
+  let s = line(x1, y1, x2, y2, '#c0392b', 1.5);
+  if (vertical) {
+    s += line(x1 - 5, y1, x1 + 5, y1, '#c0392b', 1.5) + line(x2 - 5, y2, x2 + 5, y2, '#c0392b', 1.5);
+    s += '<text x="' + (x1 + 10) + '" y="' + ((y1 + y2) / 2) + '" font-family="Arial" font-size="13" fill="#c0392b" transform="rotate(90 ' + (x1 + 10) + ' ' + ((y1 + y2) / 2) + ')">' + esc(label) + '</text>';
+  } else {
+    s += line(x1, y1 - 5, x1, y1 + 5, '#c0392b', 1.5) + line(x2, y2 - 5, x2, y2 + 5, '#c0392b', 1.5);
+    s += '<text x="' + ((x1 + x2) / 2 - 34) + '" y="' + (y1 + 18) + '" font-family="Arial" font-size="13" fill="#c0392b">' + esc(label) + '</text>';
+  }
+  return s;
+}
+
 function drawGateShopDrawing() {
   const type = document.getElementById('gateType');
   const widthIn = document.getElementById('gateWidthFt');
@@ -153,33 +180,6 @@ function drawGateShopDrawing() {
     table.appendChild(tbody);
     partsHost.appendChild(table);
   }
-
-  // --- tiny SVG helpers ---
-  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-  function rect(x, y, w, h, fill, stroke, sw) {
-    return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + (fill || 'none') + '"' + (stroke ? ' stroke="' + stroke + '" stroke-width="' + (sw || 1) + '"' : '') + '/>';
-  }
-  function line(x1, y1, x2, y2, stroke, sw) {
-    if (stroke === 'none') return '';
-    return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + stroke + '" stroke-width="' + (sw || 1) + '"/>';
-  }
-  function poly(pts, fill) {
-    return '<polygon points="' + pts.map(p => p.join(',')).join(' ') + '" fill="' + fill + '"/>';
-  }
-  function text(x, y, s, size, weight) {
-    return '<text x="' + x + '" y="' + y + '" font-family="Arial" font-size="' + (size || 12) + '"' + (weight ? ' font-weight="' + weight + '"' : '') + ' fill="#1B2D4D">' + esc(s) + '</text>';
-  }
-  function dim(x1, y1, x2, y2, label, vertical) {
-    let s = line(x1, y1, x2, y2, '#c0392b', 1.5);
-    if (vertical) {
-      s += line(x1 - 5, y1, x1 + 5, y1, '#c0392b', 1.5) + line(x2 - 5, y2, x2 + 5, y2, '#c0392b', 1.5);
-      s += '<text x="' + (x1 + 10) + '" y="' + ((y1 + y2) / 2) + '" font-family="Arial" font-size="13" fill="#c0392b" transform="rotate(90 ' + (x1 + 10) + ' ' + ((y1 + y2) / 2) + ')">' + esc(label) + '</text>';
-    } else {
-      s += line(x1, y1 - 5, x1, y1 + 5, '#c0392b', 1.5) + line(x2, y2 - 5, x2, y2 + 5, '#c0392b', 1.5);
-      s += '<text x="' + ((x1 + x2) / 2 - 34) + '" y="' + (y1 + 18) + '" font-family="Arial" font-size="13" fill="#c0392b">' + esc(label) + '</text>';
-    }
-    return s;
-  }
 }
 
 function printGateDrawing() {
@@ -205,7 +205,7 @@ function saveGateDrawingToProject() {
       name: 'Gate Shop Drawing — ' + (type ? type.value : 'gate') + ' ' + (w ? w.value : '?') + "'x" + (h ? h.value : '?') + "'",
       type: 'image/svg+xml',
       size: svgHost.innerHTML.length,
-      data: 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgHost.innerHTML))),
+      data: 'data:image/svg+xml;base64,' + btoa(Array.from(new TextEncoder().encode(svgHost.innerHTML), b => String.fromCharCode(b)).join('')),
       date: new Date().toISOString()
     });
     if (typeof saveAppState === 'function') saveAppState();
